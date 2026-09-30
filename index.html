@@ -112,7 +112,7 @@
   /* before / after */
   .ba { position: relative; aspect-ratio: 16 / 9; max-width: 100%; overflow: hidden; background: var(--panel); user-select: none; }
   .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .ba .after { clip-path: inset(0 0 0 var(--cut, 50%)); }
+  .ba .after { clip-path: inset(0 calc(100% - var(--cut, 50%)) 0 0); }  /* final wipes in from the left as the handle moves right */
   .ba .handle { position: absolute; top: 0; bottom: 0; left: var(--cut, 50%); width: 2px; background: var(--accent); pointer-events: none; }
   .ba .tag { position: absolute; top: 10px; }
   .ba .tag.l { left: 10px; } .ba .tag.r { right: 10px; }
@@ -543,6 +543,55 @@
   .cta:hover, .cta:focus-visible { background: #ff6320; box-shadow: 0 8px 22px rgba(254, 80, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .28); transform: translateY(-1px); }
   .cta:active { transform: translateY(0); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2); }
   @media (prefers-reduced-motion: reduce) { .cta { transition: none; } .cta:hover, .cta:focus-visible { transform: none; } }
+
+  /* ---------- Selected work: collapsible cases ---------- */
+  .cases { gap: 0; border-bottom: 1px solid var(--line); }
+  details.cs { display: block; border-top: 1px solid var(--line); }
+  details.cs > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 18px; align-items: center; padding: 22px 4px; outline-offset: 4px; transition: background .2s; }
+  details.cs > summary::-webkit-details-marker { display: none; }
+  details.cs > summary:hover { background: rgba(255, 255, 255, .035); }
+  details.cs > summary h3 { transition: color .2s; }
+  details.cs .cs-count { color: var(--sub); }
+  .cs-mark { position: relative; width: 16px; height: 16px; color: var(--text); transition: color .2s, transform .3s; }
+  .cs-mark::before, .cs-mark::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1.5px solid currentColor; transition: transform .3s; }
+  .cs-mark::after { transform: rotate(90deg); }
+  details.cs[open] .cs-mark::after { transform: rotate(0deg); }
+  details.cs > summary:hover .cs-mark, details.cs > summary:focus-visible .cs-mark { color: var(--tab); }
+  .cs-body { display: grid; gap: 22px; padding: 4px 0 56px; }
+  @media (max-width: 620px) { details.cs > summary { padding: 18px 2px; gap: 12px; } details.cs .cs-count { display: none; } .cs-body { padding-bottom: 40px; } }
+  @media (prefers-reduced-motion: reduce) { .cs-mark, .cs-mark::before, .cs-mark::after { transition: none; } }
+
+  /* ---------- Round 1 -> Final control ---------- */
+  .ba { cursor: ew-resize; }
+  .ba-ctl .mono { color: var(--text); white-space: nowrap; }
+
+  /* ---------- moving rows: client logos and the logo-system wall ---------- */
+  .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+  .marquee .mq-track { display: flex; gap: 8px; width: max-content; animation: mq var(--mq-dur, 60s) linear infinite; }
+  .marquee.rev .mq-track { animation-direction: reverse; }
+  .marquee:hover .mq-track, .marquee:focus-within .mq-track { animation-play-state: paused; }
+  @keyframes mq { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 4px)); } }
+  .clients.marquee { display: block; }
+  .clients.marquee .mq-track > div { flex: 0 0 176px; display: grid; place-items: center; min-height: 78px; padding: 4px 8px; background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16); }
+  .logo-rows.live { display: grid; gap: 8px; cursor: zoom-in; }
+  .logo-rows .lm { flex: 0 0 214px; height: 96px; background-color: #ededed; background-repeat: no-repeat; background-blend-mode: multiply; }
+  @media (max-width: 620px) { .clients.marquee .mq-track > div { flex-basis: 150px; } .logo-rows .lm { flex-basis: 170px; height: 76px; } }
+
+  /* ---------- click to enlarge ---------- */
+  .zoomable { cursor: zoom-in; }
+  .zoomable:focus-visible { outline: 2px solid var(--tab); outline-offset: 2px; }
+  .lb { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 56px clamp(16px, 5vw, 72px) 28px; background: rgba(14, 14, 14, .86); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  .lb[hidden] { display: none; }
+  .lb-stage { margin: 0; display: grid; gap: 12px; justify-items: center; max-width: 100%; }
+  .lb-media { display: grid; place-items: center; }
+  .lb-media > * { display: block; height: auto; width: min(92vw, 1400px, calc((100vh - 150px) * var(--ar, 1.7778))); background: none; box-shadow: 0 24px 70px rgba(0, 0, 0, .55); }  /* as large as the window allows, in the piece's own proportions */
+  .lb-stage figcaption { display: flex; gap: 18px; color: #d4d4d4; }
+  .lb-stage figcaption .n { color: #8f8f8f; }
+  .lb .car-nav { position: fixed; top: 50%; opacity: .9; }
+  .lb .car-nav.prev { left: clamp(10px, 2vw, 28px); } .lb .car-nav.next { right: clamp(10px, 2vw, 28px); }
+  .lb-close { position: fixed; top: 14px; right: clamp(10px, 2vw, 28px); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0; -webkit-appearance: none; appearance: none; color: #fff; cursor: pointer; border: 1px solid rgba(255, 255, 255, .24); background: rgba(24, 24, 24, .45); transition: color .2s, border-color .2s; }
+  .lb-close:hover, .lb-close:focus-visible { color: var(--tab); border-color: var(--tab); }
+  .lb-close svg { width: 13px; height: 13px; overflow: visible; } .lb-close svg * { stroke: currentColor; stroke-width: 1.3; fill: none; }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -627,9 +676,8 @@
           <img src="media/kv-round1.jpg" alt="Program key visual, round 1">
           <img class="after" src="media/kv-final.jpg" alt="Program key visual, final">
           <div class="handle"></div>
-          <span class="chip tag l">Round 1</span><span class="chip tag r">Final</span>
         </div>
-        <div class="ba-ctl"><label class="mono" for="baRange">Drag</label><input type="range" id="baRange" min="0" max="100" value="50" aria-label="Compare round 1 and final"></div>
+        <div class="ba-ctl"><span class="mono" aria-hidden="true">Round 1</span><input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag from round 1 to final"><span class="mono" aria-hidden="true">Final</span></div>
         <p class="muted">A program key visual from round 1 to the final V9, with every revision made through comments on the board.</p>
       </div>
     </div>
@@ -702,8 +750,9 @@
   <section id="work">
     <div class="sec-head"><span class="folder">Work</span><h2>Selected work</h2></div>
     <div class="body-col cases">
-    <article class="cs">
-      <h3>Events, end to end</h3>
+    <details class="cs" open>
+      <summary><h3>Events, end to end</h3><span class="mono cs-count">12 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
       <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-london-recap.jpg" data-src="media/smart-london-recap.mp4"></video><figcaption>Recap reel</figcaption></figure></div>
       <div class="cs-sub">
@@ -711,34 +760,46 @@
         <p>And the apparel to go with it: socks, hats, hoodies, jackets and tees for kickoffs and conferences, designed in-house by our textile specialist.</p>
       </div>
       <div class="gallery"><figure><img src="media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>A new brand, carried into everything</h3>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>A new brand, carried into everything</h3><span class="mono cs-count">8 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools.</p>
       <div class="gallery land"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-logo-stings-poster.jpg" data-src="media/hi-logo-stings.mp4"></video><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption>Data story</figcaption></figure><figure><img src="media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption>Competitive video</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>A premium program launch</h3>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>A premium program launch</h3><span class="mono cs-count">6 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p>
       <div class="gallery"><figure class="g2"><img src="media/nkv-dark.jpg" alt="Key visual" loading="lazy"><figcaption>Key visual</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption>Launch film</figcaption></figure><figure><img src="media/nexp-01.jpg" alt="Proposal cover" loading="lazy"><figcaption>Proposal cover</figcaption></figure><figure><img src="media/nexp-02.jpg" alt="Proposal spread" loading="lazy"><figcaption>Proposal spread</figcaption></figure><figure><img src="media/nexp-04.jpg" alt="Program pillars" loading="lazy"><figcaption>Program pillars</figcaption></figure><figure><img src="media/nexp-07.jpg" alt="Feature page" loading="lazy"><figcaption>Feature page</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>Partner marketing</h3>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>Partner marketing</h3><span class="mono cs-count">6 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.</p>
       <div class="gallery screens"><figure class="g2"><img src="media/pb-00.jpg" alt="Playbook" loading="lazy"><figcaption>Playbook</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/norton-social-mosaic.jpg" data-src="media/norton-social-mosaic.mp4"></video><figcaption>Social program</figcaption></figure><figure><img src="media/pb-09.jpg" alt="Onboarding" loading="lazy"><figcaption>Onboarding</figcaption></figure><figure><img src="media/pb-12.jpg" alt="Use cases" loading="lazy"><figcaption>Use cases</figcaption></figure><figure><img src="media/pb-17.jpg" alt="Email journeys" loading="lazy"><figcaption>Email journeys</figcaption></figure><figure><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption>App walkthrough</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>Product, UX and interactive</h3>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>Product, UX and interactive</h3><span class="mono cs-count">2 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">Design systems, product flows and prototypes in Figma, and the product video that launches them.</p>
       <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption>Product video</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption>Sales video</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>Logo systems</h3>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>Logo systems</h3><span class="mono cs-count">47 logos</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">A family of about 50 company logos brought into one system, with a self-serve site where each company downloads its own files.</p>
-      <div class="gallery"><figure class="g4"><img src="media/air-logo-wall.jpg" alt="Logo family" loading="lazy"><figcaption>Logo family</figcaption></figure></div>
-    </article>
-    <article class="cs">
-      <h3>More motion</h3>
+      <div class="logo-rows" id="logoRows" data-sprite="media/air-logo-wall.jpg" data-cols="6" data-rows="8" data-count="47"><div class="gallery"><figure class="g4"><img src="media/air-logo-wall.jpg" alt="A family of about 50 company logos" loading="lazy"><figcaption>Logo family</figcaption></figure></div></div>
+      </div>
+    </details>
+    <details class="cs">
+      <summary><h3>More motion</h3><span class="mono cs-count">18 loops</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
       <p class="lede">A cross-section of the last twelve months: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p>
       <div class="wall more">
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
@@ -763,7 +824,8 @@
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
       </div>
       <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
-    </article>
+      </div>
+    </details>
     </div>
   </section>
 
@@ -1307,6 +1369,87 @@
           }, 460);
         }, 9000);
       }, idx * 3000);
+    });
+  })();
+
+  // Team review (Andrew): moving logo rows, and click any piece of work to see it large.
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // A row that scrolls forever: its items are doubled and the track slides by half its width.
+    function marquee(box, perItem, rev) {
+      var items = Array.prototype.slice.call(box.children), track = document.createElement('div');
+      track.className = 'mq-track';
+      items.forEach(function (el) { track.appendChild(el); });
+      items.forEach(function (el) { var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.removeAttribute('role'); track.appendChild(c); });
+      box.appendChild(track); box.classList.add('marquee'); if (rev) box.classList.add('rev');
+      track.style.setProperty('--mq-dur', (items.length * perItem) + 's');
+    }
+    if (!reduce) {
+      Array.prototype.forEach.call(document.querySelectorAll('.clients'), function (box, i) { marquee(box, 5.5, i % 2 === 1); });
+      var lr = document.getElementById('logoRows');
+      if (lr) {
+        var cols = +lr.dataset.cols, rows = +lr.dataset.rows, n = +lr.dataset.count, sprite = lr.dataset.sprite, per = Math.ceil(n / 3);
+        lr.innerHTML = ''; lr.classList.add('live'); lr.setAttribute('role', 'img'); lr.setAttribute('aria-label', 'A family of about 50 company logos, shown as three moving rows');
+        lr.setAttribute('tabindex', '0');
+        for (var r = 0; r < 3; r++) {
+          var row = document.createElement('div');
+          for (var k = r * per; k < Math.min(n, (r + 1) * per); k++) {
+            var t = document.createElement('div'); t.className = 'lm';
+            t.style.backgroundImage = 'url(' + sprite + ')';
+            t.style.backgroundSize = (cols * 100) + '% ' + (rows * 100) + '%';
+            t.style.backgroundPosition = ((k % cols) / (cols - 1) * 100) + '% ' + (Math.floor(k / cols) / (rows - 1) * 100) + '%';
+            row.appendChild(t);
+          }
+          lr.appendChild(row); marquee(row, 4.2, r % 2 === 1);
+        }
+      }
+    }
+
+    // Lightbox
+    var lb = document.createElement('div'); lb.className = 'lb'; lb.hidden = true; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'Enlarged view');
+    var tri = function (pts) { return '<svg viewBox="0 0 14 14" aria-hidden="true"><polygon points="' + pts + '"/></svg>'; };
+    lb.innerHTML = '<button type="button" class="lb-close" aria-label="Close"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11"/></svg></button>' +
+      '<button type="button" class="car-nav prev" aria-label="Previous">' + tri('11,1.5 11,12.5 2,7') + '</button>' +
+      '<button type="button" class="car-nav next" aria-label="Next">' + tri('3,1.5 3,12.5 12,7') + '</button>' +
+      '<figure class="lb-stage"><div class="lb-media"></div><figcaption class="mono"><span class="t"></span><span class="n"></span></figcaption></figure>';
+    document.body.appendChild(lb);
+    var media = lb.querySelector('.lb-media'), capT = lb.querySelector('.t'), capN = lb.querySelector('.n'), group = [], at = 0, last = null;
+    function show(i) {
+      at = (i + group.length) % group.length; var fig = group[at], v = fig.querySelector('video'), im = fig.querySelector('img'), el;
+      if (v) { el = document.createElement('video'); el.src = v.dataset.src || v.currentSrc; el.poster = v.poster; el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = !reduce; el.controls = true;
+        if (v.videoWidth) el.style.setProperty('--ar', v.videoWidth / v.videoHeight);
+        el.addEventListener('loadedmetadata', function () { if (el.videoWidth) el.style.setProperty('--ar', el.videoWidth / el.videoHeight); }); }
+      else { el = document.createElement('img'); el.src = im.currentSrc || im.src; el.alt = im.alt;
+        if (im.naturalWidth) el.style.setProperty('--ar', im.naturalWidth / im.naturalHeight);
+        el.addEventListener('load', function () { el.style.setProperty('--ar', el.naturalWidth / el.naturalHeight); }); }
+      media.innerHTML = ''; media.appendChild(el);
+      var fc = fig.querySelector('figcaption');
+      capT.textContent = fc ? Array.prototype.map.call(fc.children.length ? fc.children : [fc], function (s) { return s.textContent; }).join(' \u00b7 ') : '';
+      capN.textContent = group.length > 1 ? (at + 1) + ' / ' + group.length : '';
+      lb.querySelector('.prev').style.display = lb.querySelector('.next').style.display = group.length > 1 ? '' : 'none';
+    }
+    function open(fig) {
+      var host = fig.parentElement; group = Array.prototype.filter.call(host.children, function (c) { return c.tagName === 'FIGURE'; });
+      last = fig; lb.hidden = false; document.documentElement.style.overflow = 'hidden'; show(group.indexOf(fig)); lb.querySelector('.lb-close').focus();
+    }
+    function close() { lb.hidden = true; media.innerHTML = ''; document.documentElement.style.overflow = ''; if (last && last.focus) last.focus({ preventScroll: true }); }
+    var sel = '.gallery figure, .carousel .track figure, .wall figure';
+    Array.prototype.forEach.call(document.querySelectorAll(sel), function (f) { f.classList.add('zoomable'); f.setAttribute('tabindex', '0'); f.setAttribute('role', 'button'); f.setAttribute('aria-label', 'Enlarge: ' + ((f.querySelector('figcaption') || {}).textContent || 'work sample')); });
+    document.addEventListener('click', function (e) {
+      var fig = e.target.closest && e.target.closest('.zoomable'); if (fig) { open(fig); return; }
+      var wall = e.target.closest && e.target.closest('#logoRows.live');
+      if (wall) { var f = document.createElement('figure'), i = document.createElement('img'); i.src = wall.dataset.sprite; i.alt = 'A family of about 50 company logos'; f.appendChild(i); var holder = document.createElement('div'); holder.appendChild(f); last = wall; group = [f]; lb.hidden = false; document.documentElement.style.overflow = 'hidden'; show(0); capT.textContent = 'Logo family'; lb.querySelector('.lb-close').focus(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && (e.target.classList.contains('zoomable') || e.target.id === 'logoRows')) { e.preventDefault(); e.target.click(); } return; }
+      if (e.key === 'Escape') close(); else if (e.key === 'ArrowRight') show(at + 1); else if (e.key === 'ArrowLeft') show(at - 1);
+      else if (e.key === 'Tab') { var f = lb.querySelectorAll('button'); var vis = Array.prototype.filter.call(f, function (b) { return b.style.display !== 'none'; }); var ix = vis.indexOf(document.activeElement); e.preventDefault(); vis[(ix + (e.shiftKey ? -1 : 1) + vis.length) % vis.length].focus(); }
+    });
+    lb.addEventListener('click', function (e) {
+      if (e.target.closest('.lb-close')) close(); else if (e.target.closest('.prev')) show(at - 1); else if (e.target.closest('.next')) show(at + 1);
+      else if (!e.target.closest('.lb-media > *')) close();
+      e.stopPropagation();
     });
   })();
 </script>
