@@ -80,7 +80,8 @@
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--line); border: 1px solid var(--line); }
   .split > div { background: var(--panel); padding: 26px; display: grid; gap: 14px; align-content: start; }
   .split ul { margin: 0; padding-left: 18px; display: grid; gap: 10px; }
-  .split li::marker { color: #666666; }
+  .split li::marker { color: #d4d4d4; }
+  section.light .split li::marker { color: #555555; }
   .split li, .move p { line-height: 1.4; }
   @media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
 
