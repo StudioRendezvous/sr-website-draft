@@ -425,8 +425,8 @@
   footer.site-foot .sf-close::before { left: -6px; } footer.site-foot .sf-close::after { right: -6px; }
   footer.site-foot .sf-say { display: grid; gap: 20px; min-width: 0; }
   footer.site-foot .sf-say .mono { color: var(--sub); }
-  footer.site-foot .sf-say h2 { font-size: clamp(36px, 4.6vw, 58px); font-weight: 800; }
-  footer.site-foot .sf-say h2 em { font-style: normal; color: var(--accent); }
+  footer.site-foot .sf-say h2 { font-size: clamp(32px, 3.9vw, 50px); font-weight: 800; }
+  footer.site-foot .sf-say h2 em { font-style: normal; color: var(--accent); display: block; }
   footer.site-foot .sf-say .lede { max-width: 42ch; color: var(--sub); }
   footer.site-foot .sf-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
   footer.site-foot .sf-cta .btn-ghost { text-transform: none; letter-spacing: .02em; font-size: 14px; }
@@ -436,7 +436,8 @@
   footer.site-foot .sf-shape { position: relative; display: grid; gap: 10px; margin: 0; min-width: 0; text-decoration: none; color: var(--muted); outline: none; }
   footer.site-foot .sf-win { position: relative; aspect-ratio: 1 / 1; overflow: visible; }
   footer.site-foot .sf-mask { position: absolute; inset: 0; overflow: hidden; background: var(--panel); clip-path: var(--clip); }
-  footer.site-foot .sf-mask video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); }
+  footer.site-foot .sf-mask video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.06); transition: opacity .45s; }
+  footer.site-foot .sf-mask video.swap { opacity: 0; }
   footer.site-foot .sf-shape.c .sf-mask { --clip: circle(50% at 50% 50%); }
   footer.site-foot .sf-shape.s .sf-mask { --clip: inset(0); }
   footer.site-foot .sf-shape.t .sf-mask { --clip: polygon(50% 0, 100% 100%, 0 100%); }
@@ -814,8 +815,8 @@
     <div class="sf-close">
       <div class="sf-say">
         <span class="mono">Next · Your job</span>
-        <h2>Let&rsquo;s get <em>to work.</em></h2>
-        <p class="lede">Put the first job on the board and we take it from there. Design and motion, on brand and on deadline.</p>
+        <h2>Add your first job to the board, <em>we&rsquo;re on it.</em></h2>
+        <p class="lede">Design and motion, on brand and on deadline, from urgent turnarounds to full campaigns.</p>
         <div class="sf-cta">
           <a class="cta" href="#contact">Start a job</a>
           <a class="btn-ghost" href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a>
@@ -823,24 +824,24 @@
       </div>
 
       <div class="sf-shapes" id="sfShapes" aria-label="Three recent loops, seen through the shapes of our mark">
-        <a class="sf-shape c" href="#work" aria-label="Stage loop, events. See the work">
+        <a class="sf-shape c" data-clips="smart-innovate-pillar|Stage loop|Events;smart-london-recap|Recap reel|Events;norton-craft-beer|Social animation|Social" href="#work" aria-label="Stage loop, events. See the work">
           <span class="sf-win">
             <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><circle pathLength="1" cx="50" cy="50" r="54.5"/></svg>
+            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
           </span>
           <span class="sf-cap"><span>Stage loop</span><span>Events</span></span>
         </a>
-        <a class="sf-shape s" href="#work" aria-label="Product video, UX. See the work">
+        <a class="sf-shape s" data-clips="marchex-nada|Product video|UX;norton-currys|App walkthrough|UX;hi-flyby|Data story|Motion" href="#work" aria-label="Product video, UX. See the work">
           <span class="sf-win">
             <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><rect pathLength="1" x="-4.5" y="-4.5" width="109" height="109"/></svg>
+            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
           </span>
           <span class="sf-cap"><span>Product video</span><span>UX</span></span>
         </a>
-        <a class="sf-shape t" href="#work" aria-label="Video series. See the work">
+        <a class="sf-shape t" data-clips="norton-4p-identity|Video series|Video;norton-a1-case|Case study video|Video;norton-hrtech-booth|Booth film|Events" href="#work" aria-label="Video series. See the work">
           <span class="sf-win">
             <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/norton-4p-identity.jpg" data-src="media/norton-4p-identity.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points="50,-6.5 105,103.5 -5,103.5"/></svg>
+            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
           </span>
           <span class="sf-cap"><span>Video series</span><span>Video</span></span>
         </a>
@@ -1169,5 +1170,64 @@
     }
     var top = document.getElementById('sfTop');
     if (top) top.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  })();
+
+  // Footer refinements: each window morphs to the next shape of the mark on hover (circle > square > triangle > circle),
+  // and quietly rotates through a few loops while the footer is on screen.
+  (function () {
+    var box = document.getElementById('sfShapes'); if (!box) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var N = 72;
+    function along(corners, counts) {            // points along a closed polyline, corners kept exact
+      var out = [];
+      for (var i = 0; i < corners.length; i++) {
+        var a = corners[i], b = corners[(i + 1) % corners.length];
+        for (var k = 0; k < counts[i]; k++) out.push([a[0] + (b[0] - a[0]) * k / counts[i], a[1] + (b[1] - a[1]) * k / counts[i]]);
+      }
+      return out;
+    }
+    function circle(r) { var o = []; for (var i = 0; i < N; i++) { var t = i / N * Math.PI * 2; o.push([50 + r * Math.sin(t), 50 - r * Math.cos(t)]); } return o; }
+    function square(d) { var a = -d, b = 100 + d; return along([[50, a], [b, a], [b, b], [a, b], [a, a]], [9, 18, 18, 18, 9]); }
+    function tri(top, side, base) { return along([[50, top], [100 + side, base], [-side, base]], [25, 22, 25]); }
+    var mask = { c: circle(50), s: square(0), t: tri(0, 0, 100) };
+    var line = { c: circle(54.5), s: square(4.5), t: tri(-6.5, 5, 103.5) };
+    var next = { c: 's', s: 't', t: 'c' };
+    function mix(A, B, t) { return A.map(function (p, i) { return [p[0] + (B[i][0] - p[0]) * t, p[1] + (B[i][1] - p[1]) * t]; }); }
+    Array.prototype.forEach.call(box.querySelectorAll('.sf-shape'), function (el, idx) {
+      var key = el.classList.contains('c') ? 'c' : el.classList.contains('s') ? 's' : 't';
+      var poly = el.querySelector('.sf-line polygon'), m = el.querySelector('.sf-mask'), v = el.querySelector('video'), cap = el.querySelectorAll('.sf-cap span');
+      var t = 0, goal = 0, raf = 0;
+      function draw() {
+        var e = t * t * (3 - 2 * t);
+        poly.setAttribute('points', mix(line[key], line[next[key]], e).map(function (p) { return p[0].toFixed(2) + ',' + p[1].toFixed(2); }).join(' '));
+        var cp = 'polygon(' + mix(mask[key], mask[next[key]], e).map(function (p) { return p[0].toFixed(2) + '% ' + p[1].toFixed(2) + '%'; }).join(',') + ')';
+        m.style.webkitClipPath = cp; m.style.clipPath = cp;
+      }
+      function step() { t += (goal > t ? 1 : -1) * 0.055; if ((goal > t ? goal - t : t - goal) < 0.055) t = goal; draw(); raf = t === goal ? 0 : requestAnimationFrame(step); }
+      function to(g) { if (reduce) return; goal = g; if (!raf) raf = requestAnimationFrame(step); }
+      draw();
+      el.addEventListener('pointerenter', function () { to(1); }); el.addEventListener('pointerleave', function () { to(0); });
+      el.addEventListener('focus', function () { to(1); }); el.addEventListener('blur', function () { to(0); });
+
+      // loop rotation
+      var clips = (el.getAttribute('data-clips') || '').split(';').map(function (s) { return s.split('|'); }).filter(function (c) { return c.length === 3; });
+      if (reduce || clips.length < 2) return;
+      var at = 0;
+      setTimeout(function () {
+        setInterval(function () {
+          if (!box.classList.contains('in') || document.hidden || !v.src) return;
+          var r = box.getBoundingClientRect(); if (r.bottom < 0 || r.top > window.innerHeight) return;
+          at = (at + 1) % clips.length; var c = clips[at];
+          v.classList.add('swap');
+          setTimeout(function () {
+            v.poster = 'media/' + c[0] + '.jpg'; v.dataset.src = 'media/' + c[0] + '.mp4'; v.src = v.dataset.src;
+            cap[0].textContent = c[1]; cap[1].textContent = c[2]; el.setAttribute('aria-label', c[1] + ', ' + c[2].toLowerCase() + '. See the work');
+            var pl = v.play(); if (pl && pl.catch) pl.catch(function () {});
+            var show = function () { v.classList.remove('swap'); v.removeEventListener('loadeddata', show); };
+            v.addEventListener('loadeddata', show); setTimeout(show, 900);
+          }, 460);
+        }, 9000);
+      }, idx * 3000);
+    });
   })();
 </script>
