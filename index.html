@@ -537,6 +537,12 @@
   .car-nav.prev:hover svg { transform: translateX(-2px); } .car-nav.next:hover svg { transform: translateX(2px); }
   @media (hover: none) { .car-nav { opacity: .9; width: 34px; height: 34px; margin-top: -17px; } }
   @media (prefers-reduced-motion: reduce) { .car-nav, .car-nav svg { transition: none; } }
+
+  /* Start a job / Say hello: a quiet lift and glow on rollover; the text stays white on orange */
+  .cta { transition: background-color .2s, box-shadow .25s, transform .2s; }
+  .cta:hover, .cta:focus-visible { background: #ff6320; box-shadow: 0 8px 22px rgba(254, 80, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .28); transform: translateY(-1px); }
+  .cta:active { transform: translateY(0); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2); }
+  @media (prefers-reduced-motion: reduce) { .cta { transition: none; } .cta:hover, .cta:focus-visible { transform: none; } }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
