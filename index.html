@@ -598,7 +598,7 @@
 
   /* ---------- section folds (What we make, Good fit): closed by default ---------- */
   details.fold { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  details.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 18px 4px; transition: background .2s; }
+  details.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 18px; align-items: center; padding: 18px 4px; transition: background .2s; }
   details.fold > summary::-webkit-details-marker { display: none; }
   details.fold > summary:hover { background: rgba(0, 0, 0, .12); }
   details.fold > summary:hover .cs-mark, details.fold > summary:focus-visible .cs-mark { color: var(--tab); }
@@ -607,7 +607,10 @@
   .fold-h { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(19px, 1.8vw, 23px); line-height: 1; }
   .fold-list { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); }
   details.fold[open] .fold-list { display: none; }
-  details.fold[open] .fold-h::after { content: " · show less"; font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .06em; color: var(--sub); }
+  .fold-cue { color: var(--text); transition: color .2s; }
+  .fold-cue .c-close, details.fold[open] .fold-cue .c-open { display: none; }
+  details.fold[open] .fold-cue .c-close { display: inline; }
+  details.fold > summary:hover .fold-cue, details.fold > summary:focus-visible .fold-cue { color: var(--tab); }
   .fold-body { display: grid; gap: 28px; padding: 6px 0 28px; }
   .fold-body > .index { border-top: 0; }
 </style>
@@ -701,7 +704,7 @@
     <div class="sec-head"><span class="folder">What we make</span><h2>Virtually anything marketing needs.</h2></div>
     <div class="body-col">
       <details class="fold">
-        <summary><span class="fold-t"><span class="fold-h">See everything we make</span><span class="fold-list">Digital · Print · Events · Apparel · Video · Social · UX · Brand · Sales · Voice</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <summary><span class="fold-t"><span class="fold-h">What we make</span><span class="fold-list">Digital · Print · Events · Apparel · Video · Social · UX · Brand · Sales · Voice</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
         <ol class="index">
           <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Landing pages, banners, email templates and website graphics.</p></li>
@@ -715,24 +718,24 @@
           <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
           <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="24"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="16"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="8" class="o"/></svg></span></span><span class="cat">Voice</span><h3>Your brand, kept</h3><p>We learn your brand once and keep it: fonts, colors, tone and the unwritten rules.</p></li>
         </ol>
-        </div>
-      </details>
-      <div class="partner">
-        <span class="mono">Partner · Content and strategy</span>
-        <div class="partner-body">
-          <h3 class="partner-q">Need <span>content and strategy</span> too?</h3>
-          <div class="partner-copy">
-            <p>Many of our clients do. For 15 years we’ve worked as one team with Content Matterz, a B2B content marketing agency. They write it and we make it: they bring the strategy, research and writing, plus fractional content leadership, and we bring the design and motion. One brief, one board, one team.</p>
-            <a class="btn-ghost" href="https://contentmatterz.com/" target="_blank" rel="noopener">Visit Content Matterz</a>
+        <div class="partner">
+          <span class="mono">Partner · Content and strategy</span>
+          <div class="partner-body">
+            <h3 class="partner-q">Need <span>content and strategy</span> too?</h3>
+            <div class="partner-copy">
+              <p>Many of our clients do. For 15 years we’ve worked as one team with Content Matterz, a B2B content marketing agency. They write it and we make it: they bring the strategy, research and writing, plus fractional content leadership, and we bring the design and motion. One brief, one board, one team.</p>
+              <a class="btn-ghost" href="https://contentmatterz.com/" target="_blank" rel="noopener">Visit Content Matterz</a>
+            </div>
+          </div>
+          <div class="lockup">
+            <img src="media/sr-logo.svg" alt="Studio Rendezvous">
+            <span class="plus" aria-hidden="true">+</span>
+            <img src="media/logos/content-matterz-duo.png" alt="Content Matterz" width="360" height="37">
+            <span class="since mono">15 years together · 10,000+ deliverables</span>
           </div>
         </div>
-        <div class="lockup">
-          <img src="media/sr-logo.svg" alt="Studio Rendezvous">
-          <span class="plus" aria-hidden="true">+</span>
-          <img src="media/logos/content-matterz-duo.png" alt="Content Matterz" width="360" height="37">
-          <span class="since mono">15 years together · 10,000+ deliverables</span>
         </div>
-      </div>
+      </details>
     </div>
   </section>
 
@@ -904,7 +907,7 @@
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
       </figure>
       <details class="fold">
-        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Retainer or hourly · Source files · Revisions</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Retainer or hourly · Source files · Revisions</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
         <div class="split">
           <div>
