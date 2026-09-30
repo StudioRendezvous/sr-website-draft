@@ -595,6 +595,21 @@
   .lb-close { position: fixed; top: 14px; right: clamp(10px, 2vw, 28px); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; padding: 0; -webkit-appearance: none; appearance: none; color: #fff; cursor: pointer; border: 1px solid rgba(255, 255, 255, .24); background: rgba(24, 24, 24, .45); transition: color .2s, border-color .2s; }
   .lb-close:hover, .lb-close:focus-visible { color: var(--tab); border-color: var(--tab); }
   .lb-close svg { width: 13px; height: 13px; overflow: visible; } .lb-close svg * { stroke: currentColor; stroke-width: 1.3; fill: none; }
+
+  /* ---------- section folds (What we make, Good fit): closed by default ---------- */
+  details.fold { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  details.fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 18px 4px; transition: background .2s; }
+  details.fold > summary::-webkit-details-marker { display: none; }
+  details.fold > summary:hover { background: rgba(0, 0, 0, .12); }
+  details.fold > summary:hover .cs-mark, details.fold > summary:focus-visible .cs-mark { color: var(--tab); }
+  details.fold[open] .cs-mark::after { transform: rotate(0deg); }
+  .fold-t { display: grid; gap: 4px; }
+  .fold-h { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(19px, 1.8vw, 23px); line-height: 1; }
+  .fold-list { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); }
+  details.fold[open] .fold-list { display: none; }
+  details.fold[open] .fold-h::after { content: " · show less"; font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: .06em; color: var(--sub); }
+  .fold-body { display: grid; gap: 28px; padding: 6px 0 28px; }
+  .fold-body > .index { border-top: 0; }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -685,18 +700,23 @@
   <section class="mid" id="make">
     <div class="sec-head"><span class="folder">What we make</span><h2>Virtually anything marketing needs.</h2></div>
     <div class="body-col">
-      <ol class="index">
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Landing pages, banners, email templates and website graphics.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="14" width="30" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="20" y="8" width="30" height="36"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="50,8 50,20 38,8" class="o"/></svg></span></span><span class="cat">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><polygon pathLength="1" points="30,10 52,50 8,50"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="34" r="7" class="o"/></svg></span></span><span class="cat">Events</span><h3>Trade shows and stages</h3><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts of every kind, designed by our in-house textile specialist.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="21"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="25,21 25,39 40,30" class="o"/></svg></span></span><span class="cat">Video</span><h3>Motion and video</h3><p>Explainers, product and training videos, campaign and social video, and trade show booth loops, finished with professional voiceover, music and sound.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="17" cy="40" r="7"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="16" r="7"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="43" cy="40" r="7" class="o"/></svg></span></span><span class="cat">Social</span><h3>Social programs</h3><p>Static and animated posts, campaign kits and monthly programs.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>Product UI, prototypes and design systems built in Figma.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
-        <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="24"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="16"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="8" class="o"/></svg></span></span><span class="cat">Voice</span><h3>Your brand, kept</h3><p>We learn your brand once and keep it: fonts, colors, tone and the unwritten rules.</p></li>
-      </ol>
+      <details class="fold">
+        <summary><span class="fold-t"><span class="fold-h">See everything we make</span><span class="fold-list">Digital · Print · Events · Apparel · Video · Social · UX · Brand · Sales · Voice</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <div class="fold-body">
+        <ol class="index">
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Landing pages, banners, email templates and website graphics.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="14" width="30" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="20" y="8" width="30" height="36"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="50,8 50,20 38,8" class="o"/></svg></span></span><span class="cat">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><polygon pathLength="1" points="30,10 52,50 8,50"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="34" r="7" class="o"/></svg></span></span><span class="cat">Events</span><h3>Trade shows and stages</h3><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts of every kind, designed by our in-house textile specialist.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="21"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="25,21 25,39 40,30" class="o"/></svg></span></span><span class="cat">Video</span><h3>Motion and video</h3><p>Explainers, product and training videos, campaign and social video, and trade show booth loops, finished with professional voiceover, music and sound.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="17" cy="40" r="7"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="16" r="7"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="43" cy="40" r="7" class="o"/></svg></span></span><span class="cat">Social</span><h3>Social programs</h3><p>Static and animated posts, campaign kits and monthly programs.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>Product UI, prototypes and design systems built in Figma.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
+          <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="24"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="16"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="8" class="o"/></svg></span></span><span class="cat">Voice</span><h3>Your brand, kept</h3><p>We learn your brand once and keep it: fonts, colors, tone and the unwritten rules.</p></li>
+        </ol>
+        </div>
+      </details>
       <div class="partner">
         <span class="mono">Partner · Content and strategy</span>
         <div class="partner-body">
@@ -852,13 +872,6 @@
   </section>
 
   <!-- ================================================================ numbers -->
-  <div class="trusted past-group">
-    <div class="client-group">
-      <span class="mono">Trusted by, over the years</span>
-      <p class="muted">Previous long-term customers, with thousands of projects delivered between them.</p>
-      <div class="clients past" role="list" aria-label="Past long-term clients"><div role="listitem"><img src="media/logos/vertafore.png" alt="Vertafore" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/microsoft.png" alt="Microsoft" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/nike.png" alt="Nike" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/sap.png" alt="SAP" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/homestreet.png" alt="HomeStreet Bank" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/payscale.png" alt="Payscale" width="1417" height="667" loading="lazy"></div><div role="listitem" class="wordmark">Jetson</div></div>
-    </div>
-  </div>
 
   <section id="numbers">
     <div class="sec-head"><span class="folder">By the numbers</span><h2>A year of output</h2></div>
@@ -874,6 +887,14 @@
   </section>
 
   <!-- ================================================================ fit -->
+  <div class="trusted past-group">
+    <div class="client-group">
+      <span class="mono">Trusted by, over the years</span>
+      <p class="muted">Previous long-term customers, with thousands of projects delivered between them.</p>
+      <div class="clients past" role="list" aria-label="Past long-term clients"><div role="listitem"><img src="media/logos/vertafore.png" alt="Vertafore" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/microsoft.png" alt="Microsoft" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/nike.png" alt="Nike" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/sap.png" alt="SAP" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/homestreet.png" alt="HomeStreet Bank" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/payscale.png" alt="Payscale" width="1417" height="667" loading="lazy"></div><div role="listitem" class="wordmark">Jetson</div></div>
+    </div>
+  </div>
+
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
@@ -882,31 +903,36 @@
         <div class="range-track"><div class="range-fill" style="left:16%;width:64%"><span>40–200 hours a month</span></div></div>
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
       </figure>
-      <div class="split">
-        <div>
-          <span class="chip">A great fit</span>
-          <ul>
-            <li>Marketing teams with a steady flow of work, month after month.</li>
-            <li>Launches, campaigns, events and sales support running at the same time.</li>
-            <li>Tight timelines and a brand that has to look right every time.</li>
-            <li>Teams that want the same people on their brand every week.</li>
-            <li>Creative directors and in-house design teams who brief the work and need more hands. We work as an extension of your team, in your files and your process.</li>
-          </ul>
+      <details class="fold">
+        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Retainer or hourly · Source files · Revisions</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <div class="fold-body">
+        <div class="split">
+          <div>
+            <span class="chip">A great fit</span>
+            <ul>
+              <li>Marketing teams with a steady flow of work, month after month.</li>
+              <li>Launches, campaigns, events and sales support running at the same time.</li>
+              <li>Tight timelines and a brand that has to look right every time.</li>
+              <li>Teams that want the same people on their brand every week.</li>
+              <li>Creative directors and in-house design teams who brief the work and need more hands. We work as an extension of your team, in your files and your process.</li>
+            </ul>
+          </div>
+          <div>
+            <span class="chip quiet">Usually not a fit</span>
+            <ul>
+              <li>One-off projects with no ongoing work behind them.</li>
+              <li>We make an exception when a first project is the start of a longer partnership.</li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <span class="chip quiet">Usually not a fit</span>
-          <ul>
-            <li>One-off projects with no ongoing work behind them.</li>
-            <li>We make an exception when a first project is the start of a longer partnership.</li>
-          </ul>
+        <div class="moves four">
+          <div class="move"><span class="mono">Retainer</span><h3>Our best rate</h3><p>A set block of hours each month at our best rate. Unused hours roll over to the following month.</p></div>
+          <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. A higher rate for more flexibility, and we deliver either way.</p></div>
+          <div class="move"><span class="mono">Your files</span><h3>Source files on request</h3><p>Every job’s source files are yours whenever you want them.</p></div>
+          <div class="move"><span class="mono">Revisions</span><h3>Speed and positivity</h3><p>Revisions are part of the job, handled quickly and happily until it’s right.</p></div>
         </div>
-      </div>
-      <div class="moves four">
-        <div class="move"><span class="mono">Retainer</span><h3>Our best rate</h3><p>A set block of hours each month at our best rate. Unused hours roll over to the following month.</p></div>
-        <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. A higher rate for more flexibility, and we deliver either way.</p></div>
-        <div class="move"><span class="mono">Your files</span><h3>Source files on request</h3><p>Every job’s source files are yours whenever you want them.</p></div>
-        <div class="move"><span class="mono">Revisions</span><h3>Speed and positivity</h3><p>Revisions are part of the job, handled quickly and happily until it’s right.</p></div>
-      </div>
+        </div>
+      </details>
     </div>
   </section>
 
