@@ -270,7 +270,7 @@
   /* ---------- site draft additions ---------- */
   .nav { display: flex; gap: 22px; flex-wrap: wrap; }
   .nav a { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-  .nav a:hover { color: var(--accent-text); }
+  .nav a:hover { color: var(--tab); }
   @media (max-width: 720px) { .nav { display: none; } }
   .trusted { padding-block: 44px 0; display: grid; gap: 34px; }
   .client-group { display: grid; gap: 12px; }
@@ -455,7 +455,7 @@
   footer.site-foot .sf-cap { display: flex; justify-content: space-between; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; transition: color .25s; }
   footer.site-foot .sf-cap span:last-child { color: var(--sub); }
   footer.site-foot .sf-shape:hover .sf-cap, footer.site-foot .sf-shape:focus-visible .sf-cap { color: var(--text); }
-  footer.site-foot .sf-shape:hover .sf-line *, footer.site-foot .sf-shape:focus-visible .sf-line * { stroke: var(--accent); opacity: 1; }
+  footer.site-foot .sf-shape:hover .sf-line *, footer.site-foot .sf-shape:focus-visible .sf-line * { stroke: var(--tab); opacity: 1; }
   footer.site-foot .sf-shape:focus-visible .sf-win { outline: 2px solid var(--accent); outline-offset: 6px; }
 
   /* reveal: windows rise in with a stagger while their outlines draw on */
@@ -478,7 +478,7 @@
   footer.site-foot .sf-col .mono { color: var(--sub); margin-bottom: 4px; }
   footer.site-foot .sf-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
   footer.site-foot .sf-col a { color: var(--text); text-decoration: none; font-size: 16px; line-height: 1.35; }
-  footer.site-foot .sf-col a:hover { color: var(--accent); }
+  footer.site-foot .sf-col a:hover { color: var(--tab); }
   footer.site-foot .sf-col a.email { font-size: 14px; }
   footer.site-foot .sf-col p { font-size: 15.5px; color: var(--muted); max-width: 30ch; }
   footer.site-foot .sf-brand img { height: 20px; width: auto; display: block; margin-bottom: 4px; }
@@ -490,7 +490,7 @@
   footer.site-foot .sf-top { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); text-decoration: none; }
   footer.site-foot .sf-top svg { width: 14px; height: 14px; overflow: visible; }
   footer.site-foot .sf-top svg * { fill: none; stroke: currentColor; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
-  footer.site-foot .sf-top:hover { color: var(--accent); }
+  footer.site-foot .sf-top:hover { color: var(--tab); }
   footer.site-foot .sf-top:hover svg { transform: translateY(-2px); }
   footer.site-foot .sf-top svg { transition: transform .25s; }
 
@@ -519,6 +519,11 @@
     footer.site-foot .sf-shapes.in .sf-mask video { animation: none; }
     footer.site-foot .sf-top svg { transition: none; }
   }
+
+  /* Link rollovers are yellow. On light bands yellow text would vanish, so the link gets a yellow highlight instead. */
+  p a:hover, .alt-contact a:hover { color: var(--tab); text-decoration-color: var(--tab); }
+  section.light p a:hover, section.light .alt-contact a:hover { color: var(--tab-ink); background: var(--tab); text-decoration-color: transparent; }
+  .home { display: inline-flex; line-height: 0; }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -529,7 +534,7 @@
 
 <div class="wrap">
   <header class="bar">
-    <img src="media/sr-logo.svg" alt="Studio Rendezvous">
+    <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><img src="media/sr-logo.svg" alt="Studio Rendezvous"></a>
     <nav class="nav" aria-label="Sections"><a href="#how">How it works</a><a href="#make">What we make</a><a href="#work">Work</a><a href="#fit">Good fit</a><a href="#contact">Contact</a></nav>
   </header>
 
@@ -657,11 +662,15 @@
         <figure class="tile" style="margin:0"><img src="media/fresh-mbaks.jpg" alt="Housing toolkit" loading="lazy"><figcaption><span>Housing toolkit</span><span>Print</span></figcaption></figure>
         <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-explainer.jpg" data-src="media/arx-explainer.mp4"></video><figcaption><span>Explainer video</span><span>Video</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-n-hrtech.jpg" alt="Trade show booth" loading="lazy"><figcaption><span>Trade show booth</span><span>Events</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>Video</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-gw.jpg" alt="Brand library" loading="lazy"><figcaption><span>Brand library</span><span>Brand</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption><span>Stage loops</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-smart-info.jpg" alt="Infographic" loading="lazy"><figcaption><span>Infographic</span><span>Digital</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth video</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-air-ad.jpg" alt="Full-page ad" loading="lazy"><figcaption><span>Full-page ad</span><span>Print</span></figcaption></figure>
-        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Booth video</span><span>Events</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show video</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-hi-ukg.jpg" alt="Booth graphics" loading="lazy"><figcaption><span>Booth graphics</span><span>Events</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-money-workplace-poster.jpg" data-src="media/norton-money-workplace.mp4"></video><figcaption><span>Onboarding video</span><span>Video</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-inn-emea.jpg" alt="Event signage" loading="lazy"><figcaption><span>Event signage</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-hi-peo.jpg" alt="One-pager" loading="lazy"><figcaption><span>One-pager</span><span>Print</span></figcaption></figure>
       </div>
@@ -880,7 +889,7 @@
 
     <div class="sf-dir">
       <div class="sf-col sf-brand">
-        <img src="media/sr-logo.svg" alt="Studio Rendezvous">
+        <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><img src="media/sr-logo.svg" alt="Studio Rendezvous"></a>
         <p>Design and motion, on demand. An extension of your marketing and creative team.</p>
         </div>
       <nav class="sf-col" aria-label="Footer sections">
@@ -1146,7 +1155,7 @@
     });
   })();
 
-  // Top carousel: every ~3.8s the row slides one tile left and the first tile moves to the end.
+  // Carousels: every 5s the row glides one tile left over 2.5s, then the first tile moves to the end.
   (function () {
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     Array.prototype.forEach.call(document.querySelectorAll('.carousel'), function (box, ci) {
@@ -1165,19 +1174,19 @@
       if (paused || busy || document.hidden) return;
       var first = track.children[0], stepPx = first.getBoundingClientRect().width + 6;
       busy = true;
-      track.style.transition = 'transform 1.2s cubic-bezier(.6, 0, .2, 1)';
+      track.style.transition = 'transform 2.5s cubic-bezier(.45, 0, .2, 1)';
       track.style.transform = 'translateX(' + (-stepPx) + 'px)';
       setTimeout(function () {
         track.style.transition = 'none';
         track.appendChild(first);
         track.style.transform = 'translateX(0)';
         busy = false; syncVideos();
-      }, 1220);
+      }, 2520);
     }
     ['mouseenter', 'focusin'].forEach(function (e) { box.addEventListener(e, function () { paused = true; }); });
     ['mouseleave', 'focusout'].forEach(function (e) { box.addEventListener(e, function () { paused = false; }); });
     syncVideos();
-    if (!reduce) setTimeout(function () { setInterval(step, 3800); }, ci * 1900);
+    if (!reduce) setTimeout(function () { setInterval(step, 5000); }, ci * 2500);
     });
   })();
 
@@ -1200,7 +1209,8 @@
       io.observe(box);
     }
     var top = document.getElementById('sfTop');
-    if (top) top.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+    var tops = Array.prototype.slice.call(document.querySelectorAll('a.home')); if (top) tops.push(top);
+    tops.forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); }); });
   })();
 
   // Footer refinements: each window morphs to the next shape of the mark on hover (circle > square > triangle > circle),
