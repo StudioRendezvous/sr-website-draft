@@ -573,10 +573,11 @@
   .clients.marquee { display: block; }
   /* the moving track inherited the old tile styling (.clients > div); strip it so only the logo tiles show */
   .clients.marquee > .mq-track { display: flex; min-height: 0; padding: 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .clients.marquee .mq-track > div { flex: 0 0 176px; display: grid; place-items: center; min-height: 78px; padding: 4px 8px; background: linear-gradient(135deg, rgba(58, 58, 58, .92), rgba(40, 40, 40, .9)); border: 1px solid rgba(255, 255, 255, .12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%); }
+  .clients.marquee .mq-track > div { flex: none; box-sizing: border-box; width: 176px; min-width: 0; height: 78px; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 4px 12px; background: linear-gradient(135deg, rgba(58, 58, 58, .92), rgba(40, 40, 40, .9)); border: 1px solid rgba(255, 255, 255, .12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%); }
   .logo-rows.live { display: grid; gap: 8px; cursor: zoom-in; }
-  .logo-rows .lm { flex: 0 0 214px; height: 96px; background-color: #ededed; background-repeat: no-repeat; background-blend-mode: multiply; }
-  @media (max-width: 620px) { .clients.marquee .mq-track > div { flex-basis: 150px; } .logo-rows .lm { flex-basis: 170px; height: 76px; } }
+  .logo-rows .lm { flex: none; box-sizing: border-box; width: 214px; height: 96px; background-color: #ededed; background-repeat: no-repeat; background-blend-mode: multiply; }
+  .clients.marquee .mq-track img { width: 100%; max-width: 150px; min-width: 0; height: auto; }
+  @media (max-width: 620px) { .clients.marquee .mq-track > div { width: 150px; height: 70px; } .clients.marquee .mq-track img { max-width: 126px; } .logo-rows .lm { width: 170px; height: 76px; } }
 
   /* ---------- click to enlarge ---------- */
   .zoomable { cursor: zoom-in; }
@@ -1385,7 +1386,10 @@
       items.forEach(function (el) { var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.removeAttribute('role'); track.appendChild(c); });
       box.appendChild(track); box.classList.add('marquee'); if (rev) box.classList.add('rev');
       track.style.setProperty('--mq-dur', (items.length * perItem) + 's');
+      tracks.push(track);
     }
+    var tracks = [];
+    function retime() { tracks.forEach(function (t) { var half = t.scrollWidth / 2; if (half > 0) t.style.setProperty('--mq-dur', (half / SPEED).toFixed(2) + 's'); }); }
     // Every row travels at the same speed: seconds per item = (tile width + 8px gap) / SPEED.
     var SPEED = 42, narrow = window.matchMedia('(max-width: 620px)').matches;
     var secs = function (tileW) { return (tileW + 8) / SPEED; };
@@ -1408,6 +1412,9 @@
           lr.appendChild(row); marquee(row, secs(narrow ? 170 : 214), r % 2 === 1);
         }
       }
+      retime();
+      window.addEventListener('load', retime); window.addEventListener('resize', retime);
+      Array.prototype.forEach.call(document.querySelectorAll('details.cs'), function (d) { d.addEventListener('toggle', function () { if (d.open) retime(); }); });
     }
 
     // Lightbox
