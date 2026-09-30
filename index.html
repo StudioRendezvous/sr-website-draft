@@ -350,7 +350,7 @@
   /* This month: pieces keep their own proportions, set on a frosted matte like sheets on a board */
   .carousel.fresh { padding-block: 22px 0; }
   .carousel.fresh .tile { flex-basis: calc((100% - 18px) / 4); aspect-ratio: 4 / 5; padding: 22px 22px 40px; background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-lit); -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%); }
-  .carousel.fresh .tile img { object-fit: contain; filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .45)); }
+  .carousel.fresh .tile img, .carousel.fresh .tile video { object-fit: contain; filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .45)); }
   .carousel.fresh .tile figcaption { opacity: 1; background: none; border-top: 1px solid var(--glass-edge); -webkit-backdrop-filter: none; backdrop-filter: none; color: var(--sub); }
   #fresh { padding-bottom: 0; }
   #fresh + section { padding-top: 84px; }
@@ -655,10 +655,12 @@
     <div class="carousel fresh" id="freshWall" aria-label="Work delivered this month" tabindex="0">
       <div class="track">
         <figure class="tile" style="margin:0"><img src="media/fresh-mbaks.jpg" alt="Housing toolkit" loading="lazy"><figcaption><span>Housing toolkit</span><span>Print</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-explainer.jpg" data-src="media/arx-explainer.mp4"></video><figcaption><span>Explainer video</span><span>Video</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-n-hrtech.jpg" alt="Trade show booth" loading="lazy"><figcaption><span>Trade show booth</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-gw.jpg" alt="Brand library" loading="lazy"><figcaption><span>Brand library</span><span>Brand</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-smart-info.jpg" alt="Infographic" loading="lazy"><figcaption><span>Infographic</span><span>Digital</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-air-ad.jpg" alt="Full-page ad" loading="lazy"><figcaption><span>Full-page ad</span><span>Print</span></figcaption></figure>
+        <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Booth video</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-hi-ukg.jpg" alt="Booth graphics" loading="lazy"><figcaption><span>Booth graphics</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-inn-emea.jpg" alt="Event signage" loading="lazy"><figcaption><span>Event signage</span><span>Events</span></figcaption></figure>
         <figure class="tile" style="margin:0"><img src="media/fresh-hi-peo.jpg" alt="One-pager" loading="lazy"><figcaption><span>One-pager</span><span>Print</span></figcaption></figure>
