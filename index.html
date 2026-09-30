@@ -613,6 +613,13 @@
   details.fold > summary:hover .fold-cue, details.fold > summary:focus-visible .fold-cue { color: var(--tab); }
   .fold-body { display: grid; gap: 28px; padding: 6px 0 28px; }
   .fold-body > .index { border-top: 0; }
+  /* on the light band yellow text would vanish: the cue gets a yellow tab instead, the mark stays charcoal */
+  section.light details.fold > summary:hover { background: rgba(0, 0, 0, .05); }
+  section.light details.fold > summary:hover .fold-cue, section.light details.fold > summary:focus-visible .fold-cue { color: var(--tab-ink); background: var(--tab); }
+  section.light details.fold > summary:hover .cs-mark, section.light details.fold > summary:focus-visible .cs-mark { color: var(--text); }
+  .fold-cue { padding: 3px 7px 2px; }
+  section.light .fold-body { padding-top: 28px; }
+  section.light .fold-list { color: var(--muted); }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -667,35 +674,40 @@
     <div class="sec-head"><span class="folder">How it works</span><h2>Put a job on the board. We’ve got it.</h2></div>
     <div class="body-col">
       <p class="lede">Every client gets a shared monday.com board. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox.</p>
-      <ol class="steps">
-        <li><span class="n">1</span><b>Add a job</b><p>A brief, any files and the deadline. Tight timelines welcome.</p></li>
-        <li><span class="n">2</span><b>We get notified</b><p>Reviewed first thing and assigned to the right senior creative.</p></li>
-        <li><span class="n">3</span><b><span class="hq">“</span>We’re on it”</b><p>You see who has it and when to expect a first look.</p></li>
-        <li><span class="n">4</span><b>Review cycle</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
-        <li><span class="n">5</span><b>Delivered on time</b><p>Final files, ready to use, with source files on request.</p></li>
-        <li><span class="n">6</span><b>Repeat</b><p>The next job lands and we already know your brand. Each one moves faster than the last.</p></li>
-      </ol>
+      <details class="fold">
+        <summary><span class="fold-t"><span class="fold-h">The six steps</span><span class="fold-list">Add a job · We get notified · We’re on it · Review · Delivered · Repeat</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <div class="fold-body">
+        <ol class="steps">
+          <li><span class="n">1</span><b>Add a job</b><p>A brief, any files and the deadline. Tight timelines welcome.</p></li>
+          <li><span class="n">2</span><b>We get notified</b><p>Reviewed first thing and assigned to the right senior creative.</p></li>
+          <li><span class="n">3</span><b><span class="hq">“</span>We’re on it”</b><p>You see who has it and when to expect a first look.</p></li>
+          <li><span class="n">4</span><b>Review cycle</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
+          <li><span class="n">5</span><b>Delivered on time</b><p>Final files, ready to use, with source files on request.</p></li>
+          <li><span class="n">6</span><b>Repeat</b><p>The next job lands and we already know your brand. Each one moves faster than the last.</p></li>
+        </ol>
 
-      <figure class="quote">
-        <p><span class="hq">“</span>Every morning starts with new projects on the board. I review each one, assign it to the right senior creative and let the client know we’re on it.”</p>
-        <cite>Shane French, Creative Director</cite>
-      </figure>
+        <figure class="quote">
+          <p><span class="hq">“</span>Every morning starts with new projects on the board. I review each one, assign it to the right senior creative and let the client know we’re on it.”</p>
+          <cite>Shane French, Creative Director</cite>
+        </figure>
 
-      <div class="moves">
-        <div class="move"><span class="mono">Same day</span><h3>Urgent jobs</h3><p>A fix before the meeting, a banner by five. Tight timelines are part of the routine.</p></div>
-        <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with more than one designer on it when the schedule calls for it.</p></div>
-        <div class="move"><span class="mono">Start to finish</span><h3>Full campaigns</h3><p>One idea carried across digital, print, social, video and the event floor, kept consistent from the first asset to the last.</p></div>
-      </div>
-
-      <div style="display:grid;gap:14px">
-        <div class="ba" id="ba">
-          <img src="media/kv-round1.jpg" alt="Program key visual, round 1">
-          <img class="after" src="media/kv-final.jpg" alt="Program key visual, final">
-          <div class="handle"></div>
+        <div class="moves">
+          <div class="move"><span class="mono">Same day</span><h3>Urgent jobs</h3><p>A fix before the meeting, a banner by five. Tight timelines are part of the routine.</p></div>
+          <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with more than one designer on it when the schedule calls for it.</p></div>
+          <div class="move"><span class="mono">Start to finish</span><h3>Full campaigns</h3><p>One idea carried across digital, print, social, video and the event floor, kept consistent from the first asset to the last.</p></div>
         </div>
-        <div class="ba-ctl"><span class="mono" aria-hidden="true">Round 1</span><input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag from round 1 to final"><span class="mono" aria-hidden="true">Final</span></div>
-        <p class="muted">A program key visual from round 1 to the final V9, with every revision made through comments on the board.</p>
-      </div>
+
+        <div style="display:grid;gap:14px">
+          <div class="ba" id="ba">
+            <img src="media/kv-round1.jpg" alt="Program key visual, round 1">
+            <img class="after" src="media/kv-final.jpg" alt="Program key visual, final">
+            <div class="handle"></div>
+          </div>
+          <div class="ba-ctl"><span class="mono" aria-hidden="true">Round 1</span><input type="range" id="baRange" min="0" max="100" value="50" aria-label="Drag from round 1 to final"><span class="mono" aria-hidden="true">Final</span></div>
+          <p class="muted">A program key visual from round 1 to the final V9, with every revision made through comments on the board.</p>
+        </div>        </div>
+      </details>
+
     </div>
   </section>
 
