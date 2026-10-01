@@ -678,7 +678,7 @@
   <div class="trusted">
     <div class="client-group">
       <span class="mono">Current clients · on the board every week</span>
-      <div class="clients" role="list" aria-label="Current clients"><div role="listitem"><img src="media/logos/norton.png" alt="Norton" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/gen.png" alt="Gen" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/smart-communications.png" alt="Smart Communications" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/human-interest.png" alt="Human Interest" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/guidewire.png" alt="Guidewire" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/marchex.png" alt="Marchex" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/satori-reader.png" alt="Satori Reader" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/master-builders.png" alt="Master Builders Association" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/air-control.png" alt="AIR Control Concepts" width="1417" height="667" loading="lazy"></div></div>
+      <div class="clients" role="list" aria-label="Current clients"><div role="listitem"><img src="media/logos/norton.png" alt="Norton" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/gen.png" alt="Gen" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/smart-communications.png" alt="Smart Communications" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/human-interest.png" alt="Human Interest" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/guidewire.png" alt="Guidewire" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/marchex.png" alt="Marchex" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/satori-reader.png" alt="Satori Reader" width="1417" height="667" loading="lazy"></div><div role="listitem" class="wordmark">Human Japanese</div><div role="listitem"><img src="media/logos/master-builders.png" alt="Master Builders Association" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/air-control.png" alt="AIR Control Concepts" width="1417" height="667" loading="lazy"></div></div>
     </div>
   </div>
 
@@ -879,14 +879,14 @@
   <section class="light" id="together">
     <div class="sec-head"><span class="folder">Partnership</span><h2>Clients stay for years.</h2></div>
     <div class="body-col">
-      <p class="lede">We have clients who’ve worked with us every month for more than 15 years. Several have passed ten, and most have been with us five years or more. They stay because we bring value, efficiency and professionalism to every job, and they see the results. Thousands of projects later, they keep coming back.</p>
+      <p class="lede">One current client has been with us for 20 years, and two more for 15 years or longer. Several have passed ten, and most have been with us five years or more. They stay because we bring value, efficiency and professionalism to every job, and they see the results. Thousands of projects later, they keep coming back.</p>
       <figure class="tenure">
         <span class="mono tag">Current clients · years with us</span>
         <div id="chTenure"></div>
         <figcaption class="mono">Each row is a current client, sorted by years working with us.</figcaption>
       </figure>
       <div class="totals three">
-        <div class="total"><span class="src">Longest-running</span><b>15+ yrs</b><span>current clients working with us every month</span></div>
+        <div class="total"><span class="src">Longest-running</span><b>20 yrs</b><span>with a current client, and counting</span></div>
         <div class="total"><span class="src">Most clients</span><b>5+ yrs</b><span>with the same team on their brand</span></div>
         <div class="total"><span class="src">Projects</span><b>1,000s</b><span>delivered, with every source file kept</span></div>
       </div>
@@ -1226,11 +1226,11 @@
   // value labelled at the end, a dashed reference at 5 years, and a bare axis with a tick per year.
   (function () {
     var el = document.getElementById('chTenure'); if (!el) return;
-    var clients = [15.6, 15, 12, 11, 10, 9, 7.7, 4, 4];   // estimated years working with us, current clients, sorted (Content Matterz 15 yrs; Human Interest since Jan 2019, from Dropbox)
+    var clients = [20, 15.6, 15, 12, 11, 10, 9, 7.7, 4, 4];   // estimated years working with us, current clients, sorted (Human Japanese 20 yrs; Content Matterz 15; Human Interest since Jan 2019)
     function draw() {
     var narrow = el.clientWidth < 620;
     var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 34, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 8;
-    var x = function (y) { return L + (W - L - R) * Math.min(y, 16) / 16; };
+    var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; };
     var out = [];
     var past5 = clients.filter(function (y) { return y >= 5; }).length;
     // reference line at 5 years
@@ -1241,17 +1241,17 @@
       out.push('<text x="' + (L - 12) + '" y="' + (cy + 4) + '" text-anchor="end" font-size="12">' + String(i + 1).padStart(2, '0') + '</text>');
       out.push('<line x1="' + x(0) + '" x2="' + xe + '" y1="' + cy + '" y2="' + cy + '" stroke="var(--text)" stroke-width="1.5"/>');
       out.push('<rect x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10" fill="var(--accent)"/>');
-      out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + (y > 15 ? '15+ yrs' : Math.round(y) + ' yrs') + '</text>');
+      out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + (y >= 19.5 || y <= 15 ? Math.round(y) + ' yrs' : '15+ yrs') + '</text>');
     });
-    // axis: range frame from 0 to 15+, a tick every year
-    out.push('<line x1="' + x(0) + '" x2="' + x(16) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
-    for (var yr = 0; yr <= 16; yr++) {
-      var major = (yr % 5 === 0 && yr < 15) || yr === 16;
+    // axis: range frame from 0 to 20, a tick every year
+    out.push('<line x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
+    for (var yr = 0; yr <= 20; yr++) {
+      var major = yr % 5 === 0;
       out.push('<line x1="' + x(yr) + '" x2="' + x(yr) + '" y1="' + axisY + '" y2="' + (axisY + (major ? 8 : 4)) + '" stroke="var(--text)" stroke-width="1"/>');
-      if (major) out.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + (yr === 16 ? '15+' : yr) + '</text>');
+      if (major) out.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + yr + '</text>');
     }
     out.push('<text x="' + x(0) + '" y="' + (axisY + 46) + '" font-size="12" class="axis">YEARS WORKING WITH US</text>');
-    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + (axisY + 56) + '" role="img" aria-label="Current clients by years working with us: ' + clients.map(function (y) { return y > 15 ? '15+' : Math.round(y); }).join(', ') + ' years">' + out.join('') + '</svg>';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + (axisY + 56) + '" role="img" aria-label="Current clients by years working with us: ' + clients.map(function (y) { return y >= 19.5 || y <= 15 ? Math.round(y) : '15+'; }).join(', ') + ' years">' + out.join('') + '</svg>';
     return narrow;
     }
     var was = draw();
