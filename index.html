@@ -275,8 +275,9 @@
   @media (max-width: 720px) { .nav { display: none; } }
   .trusted { padding-block: 44px 0; display: grid; gap: 34px; }
   .client-group { display: grid; gap: 12px; }
-  .trusted.past-group { padding-block: 72px 28px; margin-left: calc(180px + 24px); }
-  @media (max-width: 720px) { .trusted.past-group { margin-left: 0; } }
+  .trusted.past-group { padding-block: 72px 28px; }
+  .trusted.past-group .client-group > .mono { margin-left: calc(180px + 24px); }  /* label sits on the body column; the logo row runs full width like the top row */
+  @media (max-width: 720px) { .trusted.past-group .client-group > .mono { margin-left: 0; } }
   .clients.past span { color: var(--muted); }
   /* Logo wall: tiles hold wordmark placeholders until the real logo files go in (each as an <img> with the brand in its alt text, for SEO). */
   .clients { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
@@ -628,6 +629,7 @@
   .subband { position: relative; display: grid; gap: 28px; padding: 52px 0 64px; margin: 20px 0 -64px; }
   .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .26); border-top: 1px solid rgba(255, 255, 255, .45); z-index: -1; }
   #together .tenure { margin-bottom: 16px; }
+  .subband .moves { column-gap: clamp(28px, 4vw, 56px); }
   .subband-eyebrow { color: var(--text); font-size: 13px; margin-bottom: -6px; }
 
   /* footer: the right half is an open stage for the line field's last figure (no video) */
