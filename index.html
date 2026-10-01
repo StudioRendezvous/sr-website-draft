@@ -429,7 +429,7 @@
   /* Base: override the page's generic footer rule (flex) with a stacked grid. */
   footer.site-foot { position: relative; isolation: isolate; display: grid; gap: 0; margin-top: 64px; padding-block: 0 76px; border-top: 0; color: var(--text); }
   /* Full-bleed dark plate: frosts the line field so the shapes read cleanly. Glass is fine here, it is a dark area. */
-  footer.site-foot::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: linear-gradient(180deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, .42)); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); z-index: -1; }
+  footer.site-foot::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: linear-gradient(90deg, rgba(20, 20, 20, .72) 0%, rgba(20, 20, 20, .35) 42%, rgba(20, 20, 20, 0) 62%), linear-gradient(180deg, rgba(0, 0, 0, 0) 44%, rgba(16, 16, 16, .78) 62%, rgba(16, 16, 16, .86)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); z-index: -1; }
 
   /* ---- closing block: statement left, the mark's three windows right ---- */
   footer.site-foot .sf-close { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 40px clamp(32px, 5vw, 72px); align-items: center; padding-block: 64px 56px; border-top: 1px solid var(--line); }
@@ -629,6 +629,10 @@
   .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .26); border-top: 1px solid rgba(255, 255, 255, .45); z-index: -1; }
   #together .tenure { margin-bottom: 16px; }
   .subband-eyebrow { color: var(--text); font-size: 13px; margin-bottom: -6px; }
+
+  /* footer: the right half is an open stage for the line field's last figure (no video) */
+  footer.site-foot .sf-stage { min-height: 380px; pointer-events: none; }
+  @media (max-width: 900px) { footer.site-foot .sf-stage { min-height: 0; display: none; } }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -1004,29 +1008,7 @@
         </div>
       </div>
 
-      <div class="sf-shapes" id="sfShapes" aria-label="Three recent loops, seen through the shapes of our mark">
-        <a class="sf-shape c" data-clips="smart-innovate-pillar|Stage loop|Events;smart-london-recap|Recap reel|Events;norton-craft-beer|Social animation|Social" href="#work" aria-label="Stage loop, events. See the work">
-          <span class="sf-win">
-            <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
-          </span>
-          <span class="sf-cap"><span>Stage loop</span><span>Events</span></span>
-        </a>
-        <a class="sf-shape s" data-clips="marchex-nada|Product video|UX;norton-currys|App walkthrough|UX;hi-flyby|Data story|Motion" href="#work" aria-label="Product video, UX. See the work">
-          <span class="sf-win">
-            <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
-          </span>
-          <span class="sf-cap"><span>Product video</span><span>UX</span></span>
-        </a>
-        <a class="sf-shape t" data-clips="norton-4p-identity|Video series|Video;norton-a1-case|Case study video|Video;norton-hrtech-booth|Booth film|Events" href="#work" aria-label="Video series. See the work">
-          <span class="sf-win">
-            <span class="sf-mask"><video muted loop playsinline preload="none" poster="media/norton-4p-identity.jpg" data-src="media/norton-4p-identity.mp4" aria-hidden="true"></video></span>
-            <svg class="sf-line" viewBox="0 0 100 100" aria-hidden="true"><polygon pathLength="1" points=""/></svg>
-          </span>
-          <span class="sf-cap"><span>Video series</span><span>Video</span></span>
-        </a>
-      </div>
+      <div class="sf-stage" aria-hidden="true"></div>
     </div>
 
     <div class="sf-dir">
@@ -1125,9 +1107,10 @@
         var q = poly(4, u, r * 0.085), k = 0.25 + 3.3 * (r / 51);
         return rotX([q[0] * k, q[1] * k, (r / 51 - 0.5) * 1.2], 0.35);
       },
-      function (r, u) { // construction plate: concentric circles, squares, triangles
-        var g = setOf(r), q = poly(SIDES[g[0]], u, ROT[g[0]]), k = SIZE[g[0]] * (0.12 + 0.88 * (g[1] + 1) / g[2]);
-        return rotX([[-3.0, 0, 3.0][g[0]] + q[0] * k, q[1] * k, 0], 0.3);
+      function (r, u) { // the mark in depth: a circle, square and triangle tunnel nested inside one another
+        var g = setOf(r), d = g[1] / (g[2] - 1) - 0.5, tw = [0, 0.035, -0.05][g[0]] * g[1];
+        var q = poly(SIDES[g[0]], u, ROT[g[0]] + tw), k = [2.55, 2.2, 1.55][g[0]], depth = [3.4, 2.4, 1.5][g[0]];
+        return [q[0] * k, q[1] * k, d * depth];
       }
     ];
     var shapes = forms.map(function (fn) {
@@ -1163,7 +1146,7 @@
       ['Fig. 3 \u00b7 Twisted pyramid', '52 squares, one per week, stacked and turned.'],
       ['Fig. 4 \u00b7 Loop', 'A triangle swept around a circle.'],
       ['Fig. 5 \u00b7 Square spiral', '52 squares, each turned a few degrees from the last.'],
-      ['Fig. 6 \u00b7 Construction plate', 'Circle, square and triangle flattened into a plan. Next: your job.']
+      ['Fig. 6 \u00b7 The mark, in depth', 'Circle, square and triangle nested as tunnels. Move your cursor to turn them.']
     ];
     var hudFig = document.getElementById('hudFig'), hudDesc = document.getElementById('hudDesc'), hudIdx = document.getElementById('hudIdx'), hudBar = document.getElementById('hudBar');
     var anchors = ['top', 'how', 'make', 'work', 'numbers', 'contact'].map(function (id) { return document.getElementById(id); });
@@ -1192,8 +1175,9 @@
       pos.needsUpdate = true;
       px += (tx - px) * 0.05; py += (ty - py) * 0.05;
       var t = reduce ? 0 : (now - t0) / 1000;
-      group.rotation.y = -0.5 + t * 0.045 + px * 0.35;
-      group.rotation.x = 0.18 + py * 0.14;
+      var fin = Math.max(0, Math.min(1, cur - 4));          // 0 until the last figure, then 1
+      group.rotation.y = -0.5 + t * (0.045 - 0.02 * fin) + px * (0.35 + 0.95 * fin);
+      group.rotation.x = 0.18 + py * (0.14 + 0.55 * fin);
       var n = Math.round(cur);
       if (n !== shown) { shown = n; hudFig.textContent = labels[n][0]; hudDesc.textContent = labels[n][1]; hudIdx.textContent = (n + 1) + ' / 6'; }
       hudBar.style.setProperty('--p', (cur / 5 * 100).toFixed(1) + '%');
