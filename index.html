@@ -620,6 +620,11 @@
   .fold-cue { padding: 3px 7px 2px; }
   section.light .fold-body { padding-top: 28px; }
   section.light .fold-list { color: var(--muted); }
+
+  /* Partnership: the "why it lasts" cards sit on a slightly lighter strip, so the chart + stats read as one unit */
+  .subband { position: relative; display: grid; gap: 28px; padding: 52px 0 64px; margin: 20px 0 -64px; }
+  .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .26); border-top: 1px solid rgba(255, 255, 255, .45); z-index: -1; }
+  #together .tenure { margin-bottom: 16px; }
 </style>
 
 <canvas id="field" aria-hidden="true"></canvas>
@@ -877,12 +882,14 @@
         <div class="total"><span class="src">Most clients</span><b>5+ yrs</b><span>with the same team on their brand</span></div>
         <div class="total"><span class="src">Projects</span><b>1,000s</b><span>delivered, with every source file kept</span></div>
       </div>
-      <div class="moves">
-        <div class="move"><span class="mono">Familiarity</span><h3>Your brand, second nature</h3><p>After hundreds of projects, we know your brand the way your own team does: the voice, the templates and the rules nobody wrote down.</p></div>
-        <div class="move"><span class="mono">Efficiency</span><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
-        <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>Most jobs start the same day they land. When you want a number first, like the cost of a set of videos, you get a quick estimate and we keep moving.</p></div>
+      <div class="subband">
+        <div class="moves">
+          <div class="move"><span class="mono">Familiarity</span><h3>Your brand, second nature</h3><p>After hundreds of projects, we know your brand the way your own team does: the voice, the templates and the rules nobody wrote down.</p></div>
+          <div class="move"><span class="mono">Efficiency</span><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
+          <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>Most jobs start the same day they land. When you want a number first, like the cost of a set of videos, you get a quick estimate and we keep moving.</p></div>
+        </div>
+        <p class="lede">And we’re a pleasure to work with. Every job is delivered on time, with a smile and a real stake in how it performs.</p>
       </div>
-      <p class="lede">And we’re a pleasure to work with. Every job is delivered on time, with a smile and a real stake in how it performs.</p>
     </div>
   </section>
 
