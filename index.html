@@ -645,7 +645,8 @@
   /* avatars: initials now; swap in a photo with style="background-image:url(media/team/name.jpg)" and empty text */
   .team .avatar { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 8px; background: #c4c4c4 center / cover no-repeat; color: #1c1c1c; font: 500 13px/1 var(--mono); letter-spacing: .06em; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08); }
 
-  .mono .hi { color: #ffffff; }
+  .mono.eb { color: #ffffff; }  /* lead words white, the rest light gray */
+  .mono.eb .hi { color: var(--sub); }
   .hero > .mono .hi { margin-left: .9em; }
 </style>
 
@@ -662,7 +663,7 @@
   </header>
 
   <div class="hero" id="top">
-    <span class="mono">Studio Rendezvous, Inc. <span class="hi">Design and motion studio</span></span>
+    <span class="mono eb">Studio Rendezvous, Inc. <span class="hi">Design and motion studio</span></span>
     <h1>Design and motion, <em>on demand.</em></h1>
     <div class="hero-row">
       <div class="hero-copy">
@@ -691,7 +692,7 @@
 
   <div class="trusted">
     <div class="client-group">
-      <span class="mono">Current clients · <span class="hi">on the board every week</span></span>
+      <span class="mono eb">Current clients · <span class="hi">on the board every week</span></span>
       <div class="clients" role="list" aria-label="Current clients"><div role="listitem"><img src="media/logos/norton.png" alt="Norton" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/gen.png" alt="Gen" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/smart-communications.png" alt="Smart Communications" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/human-interest.png" alt="Human Interest" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/guidewire.png" alt="Guidewire" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/marchex.png" alt="Marchex" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/satori-reader.png" alt="Satori Reader" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/human-japanese.png" alt="Human Japanese" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/master-builders.png" alt="Master Builders Association" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/air-control.png" alt="AIR Control Concepts" width="1417" height="667" loading="lazy"></div></div>
     </div>
   </div>
