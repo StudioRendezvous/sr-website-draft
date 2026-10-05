@@ -301,6 +301,10 @@
   .pill.on { background: var(--accent); color: var(--on-accent); }
   .pill.review { background: #595959; color: #ffffff; }
   .pill.done { border: 1px solid var(--line); color: var(--muted); }
+  .engage-eyebrow, .team-eyebrow { display: block; color: var(--text); font-size: 13px; margin: 8px 0 18px; }
+  .team-eyebrow { margin-top: 40px; }
+  .engage { margin-bottom: 28px; }
+  .team-lede { margin: -6px 0 22px; max-width: 60ch; color: var(--muted); }
   .team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
   @media (max-width: 900px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -544,7 +548,7 @@
   @media (hover: none) { .car-nav { opacity: .9; width: 34px; height: 34px; margin-top: -17px; } }
   @media (prefers-reduced-motion: reduce) { .car-nav, .car-nav svg { transition: none; } }
 
-  /* Start a job / Say hello: a quiet lift and glow on rollover; the text stays white on orange */
+  /* Start a job buttons: a quiet lift and glow on rollover; the text stays white on orange */
   .cta { transition: background-color .2s, box-shadow .25s, transform .2s; }
   .cta:hover, .cta:focus-visible { background: #ff6320; box-shadow: 0 8px 22px rgba(254, 80, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .28); transform: translateY(-1px); }
   .cta:active { transform: translateY(0); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2); }
@@ -930,13 +934,20 @@
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
-      <p class="lede">We work best as an ongoing partner. Most of our clients are marketing teams; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 200 hours of design and motion a month.</p>
+      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are marketing teams; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 200 hours of design and motion a month.</p>
       <figure class="range" aria-label="Monthly hours scale: our clients need 40 to 200 hours a month">
         <div class="range-track"><div class="range-fill" style="left:16%;width:64%"><span>40–200 hours a month</span></div></div>
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
       </figure>
+      <span class="mono engage-eyebrow">How we work together</span>
+      <div class="moves four engage">
+        <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>Put a job or two on the board at our hourly rate. Most of our retainer clients started exactly this way.</p></div>
+        <div class="move"><span class="mono">Retainer</span><h3>A year at a time</h3><p>A set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over, source files come with every job, and each year we review hours and rates together.</p></div>
+        <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. Invoiced at the end of the month for the hours used, at a higher rate in exchange for the flexibility.</p></div>
+        <div class="move"><span class="mono">Your board</span><h3>Free to join</h3><p>We invite you to your own board on monday.com. No seat to buy and nothing extra to pay.</p></div>
+      </div>
       <details class="fold">
-        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Retainer or hourly · Your board · Revisions</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Revisions</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
         <div class="split">
           <div>
@@ -953,15 +964,12 @@
             <span class="chip quiet">Usually not a fit</span>
             <ul>
               <li>One-off projects with no ongoing work behind them.</li>
-              <li>We make an exception when a first project is the start of a longer partnership.</li>
+              <li>A first job or two to try us out is always welcome.</li>
             </ul>
           </div>
         </div>
-        <div class="moves four">
-          <div class="move"><span class="mono">Retainer</span><h3>Our best rate</h3><p>A set block of hours each month, invoiced at the start of the month. Unused hours roll over, and source files come with every job.</p></div>
-          <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. Invoiced at the end of the month for the hours used, at a higher rate in exchange for the flexibility.</p></div>
-          <div class="move"><span class="mono">Your board</span><h3>Free to join</h3><p>We invite you to your own board on monday.com. No seat to buy and nothing extra to pay.</p></div>
-          <div class="move"><span class="mono">Revisions</span><h3>Speed and positivity</h3><p>Revisions are part of the job, handled quickly and happily until it’s right.</p></div>
+        <div class="moves">
+          <div class="move"><span class="mono">Revisions</span><h3>Speed and positivity</h3><p>Revisions are part of the job, handled quickly until it’s right.</p></div>
         </div>
         </div>
       </details>
@@ -972,21 +980,25 @@
   <section class="light" id="contact">
     <div class="sec-head"><span class="folder">Contact</span><h2>Put us on your board.</h2></div>
     <div class="body-col">
-      <p class="lede">Tell us a little about your team, so we can take that first job off your plate.</p>
+      <p class="lede">Ask for an estimate, get more information, or put a first job on the board. Tell us a little about your team and we’ll take it from there.</p>
       <form class="hello" id="hello" novalidate>
         <div class="fields">
           <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
           <label for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
           <label for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
+          <label for="f-help">How can we help?<select id="f-help" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
+          <label for="f-budget"><span>Budget <span class="opt">(optional)</span></span><input id="f-budget" name="budget"></label>
           <label for="f-hours">Monthly design needs<select id="f-hours" name="hours"><option>Not sure yet</option><option>Around 40 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–200 hours</option><option>200+ hours</option></select></label>
-          <label class="wide" for="f-need"><span>What can we help with? <span class="opt">(optional)</span></span><textarea id="f-need" name="need" rows="3"></textarea></label>
+          <label class="wide" for="f-need"><span>Tell us about the work <span class="opt">(optional)</span></span><textarea id="f-need" name="need" rows="3"></textarea></label>
         </div>
         <div class="hello-foot">
-          <button class="cta" type="submit">Say hello</button>
-          <p class="hello-note" id="helloNote" role="status">This lands on our job board, and Shane is notified the moment you send it. Next we invite you to your own board, free, and get started on your first job.</p>
+          <button class="cta" type="submit">Send</button>
+          <p class="hello-note" id="helloNote" role="status">This lands on our job board, and Shane replies the same day, with an estimate, answers, or an invite to your own board, free.</p>
         </div>
       </form>
       <p class="muted alt-contact">Prefer email? <span class="email">hello@studiorendezvous.net</span> · or message Shane on <a href="https://www.linkedin.com/in/shane-french-3859a93/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+      <span class="mono team-eyebrow">The people on your board</span>
+      <p class="team-lede">Every client gets the whole team, with Shane leading as your creative director. No account managers, no junior pool, no rotation.</p>
       <div class="team">
         <div><span class="avatar" aria-hidden="true">SF</span><b>Shane French</b><p>Creative Director</p></div>
         <div><span class="avatar" aria-hidden="true">TL</span><b>Tom Larsen</b><p>Senior Designer</p></div>
