@@ -369,7 +369,7 @@
   .hello.sent .fields, .hello.sent button { display: none; }
   .hello.sent .hello-note { font-size: 18px; color: var(--text); }
   .alt-contact a { color: var(--text); }
-  .privacy-note { font-size: 14px; margin: 14px 0 0; }
+  .privacy-note { font-size: 14px; margin: 0; } .hello.sent .privacy-note { display: none; }
   @media (max-width: 620px) { .hello .fields { grid-template-columns: 1fr; } }
   .hero-row { grid-template-columns: minmax(0, 1fr); }
   .carousel { overflow: hidden; padding-block: 10px 8px; outline: none; }
@@ -1021,11 +1021,11 @@
         </div>
         <div class="hello-foot">
           <button class="cta" type="submit">Send</button>
-          <p class="hello-note" id="helloNote" role="status">This lands on our job board, and Shane replies the same day, with an estimate, answers, or an invite to your own board, free.</p>
+          <p class="hello-note" id="helloNote" role="status"></p>
+          <p class="muted privacy-note">We use your details only to reply to you, and we never share them.</p>
         </div>
       </form>
-      <p class="muted privacy-note">We use your details only to reply to you, and we never share them.</p>
-      <p class="muted alt-contact">Prefer email? <span class="email">hello@studiorendezvous.net</span> · or message Shane on <a href="https://www.linkedin.com/in/shane-french-3859a93/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+      <p class="muted alt-contact">Prefer email? <span class="email">hello@studiorendezvous.net</span></p>
       <span class="mono team-eyebrow">The people on your board</span>
       <p class="team-lede">Every client gets the whole team, with Shane leading as your creative director.</p>
       <div class="team">
@@ -1072,7 +1072,6 @@
         <span class="mono">Contact</span>
         <ul>
           <li><a class="email" href="mailto:hello@studiorendezvous.net">hello@<wbr>studiorendezvous.net</a></li>
-          <li><a href="https://www.linkedin.com/in/shane-french-3859a93/" target="_blank" rel="noopener">Shane French on LinkedIn</a></li>
           <li><a href="#contact">Start a job</a></li>
         </ul>
       </div>
