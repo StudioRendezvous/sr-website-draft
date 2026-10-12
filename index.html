@@ -243,7 +243,7 @@
   section.light .index li:hover { background: none; }
 
   /* ---------- the year in files ---------- */
-  .totals { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .totals { display: grid; grid-template-columns: repeat(3, 1fr); }
   .total { padding: 16px 18px 18px; display: grid; gap: 6px; align-content: start; }
   .total b { font-family: var(--display); font-weight: 800; font-size: clamp(40px, 4.4vw, 58px); line-height: .9; color: var(--text); font-variant-numeric: tabular-nums; }
   .total span { font-size: 16px; color: var(--muted); line-height: 1.4; }
@@ -311,6 +311,7 @@
   .team-eyebrow { margin-top: 40px; }
   .engage { margin-bottom: 28px; }
   .alt-block { margin-bottom: 36px; }
+  .partner-open { margin-top: 36px; }
   .team-lede { margin: -6px 0 22px; max-width: 60ch; color: var(--muted); }
   .team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
   @media (max-width: 900px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -714,7 +715,7 @@
   <section class="light" id="how">
     <div class="sec-head"><span class="folder">How it works</span><h2>Put a job on the board. We’ve got it.</h2></div>
     <div class="body-col">
-      <p class="lede">Every client gets a shared monday.com board. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox.</p>
+      <p class="lede">Every client gets a shared monday.com board. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Need something back today? The answer is almost always yes.</p>
       <details class="fold">
         <summary><span class="fold-t"><span class="fold-h">Project delivery steps</span><span class="fold-list">Add a job · We’re on it · Best first draft · Review · Delivered · Repeat</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
@@ -735,7 +736,7 @@
         <div class="moves four">
           <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with extra hands when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
           <div class="move"><span class="mono">Start to finish</span><h3>Full campaigns</h3><p>One idea carried across digital, print, social, video and the event floor, kept consistent from the first asset to the last.</p></div>
-          <div class="move"><span class="mono">Every day</span><h3>Day-to-day work</h3><p>Today’s priority, from a same-day fix to the next scheduled job. Need something back today? The answer is almost always yes. Small jobs, large jobs and ongoing projects each get a timeline we set, so you always see when the next draft and the final are due.</p></div>
+          <div class="move"><span class="mono">Every day</span><h3>Day-to-day work</h3><p>Today’s priority, from a same-day fix to the next scheduled job. Small jobs, large jobs and ongoing projects each get a timeline we set, so you always see when the next draft and the final are due.</p></div>
           <div class="move"><span class="mono">All year</span><h3>Annual plans</h3><p>Set the scope and the rhythm for the year, and we work through it with you month after month, with room for whatever comes up along the way.</p></div>
         </div>
         </div>
@@ -749,6 +750,7 @@
   <section class="mid" id="make">
     <div class="sec-head"><span class="folder">What we make</span><h2>What marketing teams ask us for.</h2></div>
     <div class="body-col">
+      <p class="lede">Everything a B2B marketing team ships, from a banner to a booth, made by the same five people.</p>
       <details class="fold">
         <summary><span class="fold-t"><span class="fold-h">What we make</span><span class="fold-list">Digital · Print · Events · Apparel · Video · Social · UX · Brand · Sales</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
@@ -763,7 +765,9 @@
           <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></li>
           <li><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
         </ol>
-        <div class="partner">
+        </div>
+      </details>
+        <div class="partner partner-open">
           <span class="mono">Partner · Content and strategy</span>
           <div class="partner-body">
             <h3 class="partner-q">Need <span>content and strategy</span> too?</h3>
@@ -779,17 +783,15 @@
             <span class="since mono">15 years together · 10,000+ deliverables</span>
           </div>
         </div>
-        </div>
-      </details>
         <figure class="quote pull"><p><span class="hq">“</span>Working with Studio Rendezvous is always so easy. I can just tell them what I’m trying to achieve and they produce beautiful, on-brand, effective design every time.”</p><cite>Cara McDonald, CEO, Content Matterz</cite></figure>
     </div>
   </section>
 
   <!-- ================================================================ this month -->
   <section id="fresh">
-    <div class="sec-head"><span class="folder">September 2026</span><h2>This month&rsquo;s work</h2></div>
+    <div class="sec-head"><span class="folder">Recent work</span><h2>Fresh off the board</h2></div>
     <div class="body-col">
-      <p class="lede">Fresh off the board: a few of the jobs we delivered in September.</p>
+      <p class="lede">A few of the jobs we delivered in September.</p>
     </div>
     <div class="carousel fresh" id="freshWall" aria-label="Work delivered this month" tabindex="0">
       <div class="track">
@@ -913,7 +915,7 @@
           <div class="move"><span class="mono">Familiarity</span><h3>Your brand, second nature</h3><p>After hundreds of projects, we know your brand the way your own team does: the voice, the templates and the rules nobody wrote down.</p></div>
           <div class="move"><span class="mono">Efficiency</span><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
           <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Every job is assigned and prioritized the moment it lands, so we meet your deadline, even on urgent requests with same-day turnarounds.</p></div>
-          <div class="move"><span class="mono">Ownership</span><h3>On your team</h3><p>We work as part of your team and care how the work performs. That’s how we earn your trust on tight timelines, with a smile along the way.</p></div>
+          <div class="move"><span class="mono">Ownership</span><h3>On your team</h3><p>We care how the work performs, not just how it looks. That’s how we earn your trust on tight timelines, with a smile along the way.</p></div>
         </div>
         <figure class="quote pull"><p><span class="hq">“</span>I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</p><cite>Marc Chouaniere, VP Marketing, MoxiWorks</cite></figure>
       </div>
@@ -930,7 +932,6 @@
         <div class="total"><span class="src">Design and motion</span><b>24,421</b><span>files produced</span></div>
         <div class="total"><span class="src">Video</span><b id="count">681</b><span>videos delivered</span></div>
         <div class="total"><span class="src">Figma</span><b>6,631+</b><span>design frames</span></div>
-        <div class="total"><span class="src">Clients</span><b>14</b><span>marketing teams on the board</span></div>
       </div>
     </div>
   </section>
@@ -946,7 +947,7 @@
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
-      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are marketing teams; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 200 hours of design and motion a month.</p>
+      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 200 hours of design and motion a month.</p>
       <figure class="range" aria-label="Monthly hours scale: our clients need 40 to 200 hours a month">
         <div class="range-track"><div class="range-fill" style="left:16%;width:64%"><span>40–200 hours a month</span></div></div>
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
@@ -954,7 +955,7 @@
       <span class="mono engage-eyebrow">Why a studio like ours</span>
       <div class="moves alt-block">
         <div class="move"><span class="mono">Instead of a freelancer</span><h3>A full senior team</h3><p>A freelancer brings one person’s skill set. We bring five senior specialists across design, motion, UX, print and apparel, so there’s always someone ready for the next job.</p></div>
-        <div class="move"><span class="mono">Instead of a new hire</span><h3>No ramp-up</h3><p>A hire takes months to learn your brand and covers one discipline. We know the design, delivery and print process cold, and we learn your brand once.</p></div>
+        <div class="move"><span class="mono">Instead of a new hire</span><h3>No ramp-up</h3><p>A hire takes months to ramp up, covers one discipline, and stays on payroll when the work slows. We start on the first job and flex with your month.</p></div>
         <div class="move"><span class="mono">Instead of a big agency</span><h3>Direct access</h3><p>No account managers and no junior pool. Shane, our creative director, brings 30 years in the business, and the five of us deliver on brand, fast, day after day.</p></div>
       </div>
       <span class="mono engage-eyebrow">How we work together</span>
@@ -996,9 +997,9 @@
 
   <!-- ================================================================ contact -->
   <section class="light" id="contact">
-    <div class="sec-head"><span class="folder">Contact</span><h2>Put us on your board.</h2></div>
+    <div class="sec-head"><span class="folder">Contact</span><h2>Start now with one job.</h2></div>
     <div class="body-col">
-      <p class="lede">Ask for an estimate, get more information, or put a first job on the board. Tell us a little about your team and we’ll take it from there.</p>
+      <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Tell us a little about your team and we’ll take it from there.</p>
       <form class="hello" id="hello" novalidate>
         <div class="fields">
           <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
@@ -1016,7 +1017,7 @@
       </form>
       <p class="muted alt-contact">Prefer email? <span class="email">hello@studiorendezvous.net</span> · or message Shane on <a href="https://www.linkedin.com/in/shane-french-3859a93/" target="_blank" rel="noopener">LinkedIn</a>.</p>
       <span class="mono team-eyebrow">The people on your board</span>
-      <p class="team-lede">Every client gets the whole team, with Shane leading as your creative director. No account managers, no junior pool, no rotation.</p>
+      <p class="team-lede">Every client gets the whole team, with Shane leading as your creative director.</p>
       <div class="team">
         <div><span class="avatar" aria-hidden="true">SF</span><b>Shane French</b><p>Creative Director</p></div>
         <div><span class="avatar" aria-hidden="true">TL</span><b>Tom Larsen</b><p>Senior Designer</p></div>
