@@ -1239,11 +1239,11 @@
   // value labelled at the end, a dashed reference at 5 years, and a bare axis with a tick per year.
   (function () {
     var el = document.getElementById('chTenure'); if (!el) return;
-    var clients = [20, 15.6, 15, 12, 11, 10, 9, 7.7, 4, 4];   // estimated years working with us, current clients, sorted (Human Japanese 20 yrs; Content Matterz 15; Human Interest since Jan 2019)
+    var clients = [15.6, 15, 12, 11, 10, 9, 7.7, 4, 4];   // estimated years working with us, current clients, sorted (20-yr row removed per Shane 2026-10-12; Content Matterz 15; Human Interest since Jan 2019)
     function draw() {
     var narrow = el.clientWidth < 620;
     var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 34, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 8;
-    var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; };
+    var x = function (y) { return L + (W - L - R) * Math.min(y, 16.6) / 16.6; };
     var out = [];
     var past5 = clients.filter(function (y) { return y >= 5; }).length;
     // reference line at 5 years
@@ -1254,17 +1254,17 @@
       out.push('<text x="' + (L - 12) + '" y="' + (cy + 4) + '" text-anchor="end" font-size="12">' + String(i + 1).padStart(2, '0') + '</text>');
       out.push('<line x1="' + x(0) + '" x2="' + xe + '" y1="' + cy + '" y2="' + cy + '" stroke="var(--text)" stroke-width="1.5"/>');
       out.push('<rect x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10" fill="var(--accent)"/>');
-      out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + (y >= 19.5 || y <= 15 ? Math.round(y) + ' yrs' : '15+ yrs') + '</text>');
+      out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + (y <= 15 ? Math.round(y) + ' yrs' : '15+ yrs') + '</text>');
     });
     // axis: range frame from 0 to 20, a tick every year
-    out.push('<line x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
-    for (var yr = 0; yr <= 20; yr++) {
+    out.push('<line x1="' + x(0) + '" x2="' + x(16) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
+    for (var yr = 0; yr <= 16; yr++) {
       var major = yr % 5 === 0;
       out.push('<line x1="' + x(yr) + '" x2="' + x(yr) + '" y1="' + axisY + '" y2="' + (axisY + (major ? 8 : 4)) + '" stroke="var(--text)" stroke-width="1"/>');
       if (major) out.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + yr + '</text>');
     }
     out.push('<text x="' + x(0) + '" y="' + (axisY + 46) + '" font-size="12" class="axis">YEARS WORKING WITH US</text>');
-    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + (axisY + 56) + '" role="img" aria-label="Current clients by years working with us: ' + clients.map(function (y) { return y >= 19.5 || y <= 15 ? Math.round(y) : '15+'; }).join(', ') + ' years">' + out.join('') + '</svg>';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + (axisY + 56) + '" role="img" aria-label="Current clients by years working with us: ' + clients.map(function (y) { return y <= 15 ? Math.round(y) : '15+'; }).join(', ') + ' years">' + out.join('') + '</svg>';
     return narrow;
     }
     var was = draw();
