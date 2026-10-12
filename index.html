@@ -289,7 +289,9 @@
   .quote p { font-size: clamp(22px, 2.6vw, 32px); line-height: 1.3; max-width: 34ch; color: var(--text); }
   .hq { margin-left: -.43em; } /* hanging quote: pulled out by the width of the mark in Source Sans */
   b .hq { margin-left: -.54em; }
-  .quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(28px, 4vw, 56px); row-gap: 28px; margin-top: 8px; }
+  .quote.pull { margin: 48px 0 8px; padding-left: 0; }
+  .quote.pull p { font-size: clamp(20px, 2.1vw, 27px); line-height: 1.35; max-width: 44ch; }
+  .quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(28px, 4vw, 56px); row-gap: 28px; margin-top: 8px; }
   @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; } }
   .quote.small { margin: 0; align-content: start; }
   .quote.small p { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.45; max-width: none; }
@@ -738,6 +740,7 @@
         </div>
       </details>
 
+        <figure class="quote pull"><p><span class="hq">“</span>I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</p><cite>Phil Iaccarino, Director, Product Marketing, Guidewire</cite></figure>
     </div>
   </section>
 
@@ -777,6 +780,7 @@
         </div>
         </div>
       </details>
+        <figure class="quote pull"><p><span class="hq">“</span>Working with Studio Rendezvous is always so easy. I can just tell them what I’m trying to achieve and they produce beautiful, on-brand, effective design every time.”</p><cite>Cara McDonald, CEO, Content Matterz</cite></figure>
     </div>
   </section>
 
@@ -888,6 +892,7 @@
       <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
       </div>
     </details>
+        <figure class="quote pull"><p><span class="hq">“</span>When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</p><cite>Brak Rak, CEO and Founder, Brak Software</cite></figure>
     </div>
   </section>
 
@@ -909,11 +914,7 @@
           <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Most jobs start the same day they land, urgent ones come back the same day, and with designers from the Pacific coast to Portugal, work keeps moving after your day ends.</p></div>
         </div>
         <p class="lede">And we’re a pleasure to work with. We’re a team that earns your trust on tight timelines, with a smile and a real stake in how the work performs.</p>
-        <div class="quotes">
-          <figure class="quote small"><p><span class="hq">“</span>Working with Studio Rendezvous is like adding another high-performance member to my team. I can always count on the highest quality, extreme attention to detail, and on-time delivery.”</p><cite>Dana Pruiett, Marketing Manager, Aiphone Corporation</cite></figure>
-          <figure class="quote small"><p><span class="hq">“</span>Studio Rendezvous always finds creative solutions to our marketing challenges and approaches them in a truly collaborative way. They deliver phenomenal work and make the entire process easy.”</p><cite>Maddie Heye, Senior Director of Marketing, MoxiWorks</cite></figure>
-          <figure class="quote small"><p><span class="hq">“</span>Not only do we love working with Shane and company, we consider them part of our team. How many external vendors can you truly say that about?”</p><cite>Will Rush, Founder &amp; CEO, Stack</cite></figure>
-        </div>
+        <figure class="quote pull"><p><span class="hq">“</span>I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</p><cite>Marc Chouaniere, VP Marketing, MoxiWorks</cite></figure>
       </div>
     </div>
   </section>
@@ -1020,7 +1021,7 @@
         <div><span class="avatar" aria-hidden="true">TL</span><b>Tom Larsen</b><p>Senior Designer</p></div>
         <div><span class="avatar" aria-hidden="true">AB</span><b>Andrew Baldwin</b><p>Senior UX/UI Designer</p></div>
         <div><span class="avatar" aria-hidden="true">JB</span><b>Joel Bender</b><p>Senior Designer, Apparel</p></div>
-        <div><span class="avatar" aria-hidden="true">GF</span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
+        <div><span class="avatar" aria-hidden="true" style="background-image:url(media/team/gui-freitas.png);color:transparent">GF</span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
       </div>
     </div>
   </section>
