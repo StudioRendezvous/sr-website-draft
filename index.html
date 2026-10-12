@@ -289,6 +289,10 @@
   .quote p { font-size: clamp(22px, 2.6vw, 32px); line-height: 1.3; max-width: 34ch; color: var(--text); }
   .hq { margin-left: -.43em; } /* hanging quote: pulled out by the width of the mark in Source Sans */
   b .hq { margin-left: -.54em; }
+  .quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(28px, 4vw, 56px); row-gap: 28px; margin-top: 8px; }
+  @media (max-width: 900px) { .quotes { grid-template-columns: 1fr; } }
+  .quote.small { margin: 0; align-content: start; }
+  .quote.small p { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.45; max-width: none; }
   .quote cite { font-style: normal; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .board-mock { background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(14px) saturate(120%); backdrop-filter: blur(14px) saturate(120%); overflow-x: auto; }
   .job-row { display: grid; grid-template-columns: 96px 150px minmax(0, 1fr) 120px; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--line); align-items: center; min-width: 560px; }
@@ -304,6 +308,7 @@
   .engage-eyebrow, .team-eyebrow { display: block; color: var(--text); font-size: 13px; margin: 8px 0 18px; }
   .team-eyebrow { margin-top: 40px; }
   .engage { margin-bottom: 28px; }
+  .alt-block { margin-bottom: 36px; }
   .team-lede { margin: -6px 0 22px; max-width: 60ch; color: var(--muted); }
   .team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
   @media (max-width: 900px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -673,7 +678,7 @@
     <div class="hero-row">
       <div class="hero-copy">
         <p class="lede">An extension of your marketing and creative team: senior designers and motion artists who learn your brand once and keep it. Drop a job on the board and we get straight to work, on brand and on deadline, from urgent turnarounds to full campaigns.</p>
-        <p class="mono hero-proof">Senior team · Fast first drafts · Clients stay for years</p>
+        <p class="mono hero-proof">Senior team · Same-day turnarounds · Clients stay for years</p>
         <div class="hero-cta"><a class="cta" href="#contact">Start a job</a><a class="btn-ghost" href="#work">See the work</a></div>
       </div>
     </div>
@@ -728,7 +733,7 @@
         <div class="moves">
           <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with extra hands when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
           <div class="move"><span class="mono">Start to finish</span><h3>Full campaigns</h3><p>One idea carried across digital, print, social, video and the event floor, kept consistent from the first asset to the last.</p></div>
-          <div class="move"><span class="mono">Every day</span><h3>Day-to-day work</h3><p>Today’s priority, from a same-day fix to the next scheduled job. Small jobs, large jobs and ongoing projects each get a timeline we set, so you always see when the next draft and the final are due.</p></div>
+          <div class="move"><span class="mono">Every day</span><h3>Day-to-day work</h3><p>Today’s priority, from a same-day fix to the next scheduled job. Need something back today? The answer is almost always yes. Small jobs, large jobs and ongoing projects each get a timeline we set, so you always see when the next draft and the final are due.</p></div>
         </div>
         </div>
       </details>
@@ -901,9 +906,14 @@
         <div class="moves">
           <div class="move"><span class="mono">Familiarity</span><h3>Your brand, second nature</h3><p>After hundreds of projects, we know your brand the way your own team does: the voice, the templates and the rules nobody wrote down.</p></div>
           <div class="move"><span class="mono">Efficiency</span><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
-          <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Most jobs start the same day they land, and with designers from the Pacific coast to Portugal, work keeps moving after your day ends.</p></div>
+          <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Most jobs start the same day they land, urgent ones come back the same day, and with designers from the Pacific coast to Portugal, work keeps moving after your day ends.</p></div>
         </div>
         <p class="lede">And we’re a pleasure to work with. We’re a team that earns your trust on tight timelines, with a smile and a real stake in how the work performs.</p>
+        <div class="quotes">
+          <figure class="quote small"><p><span class="hq">“</span>Working with Studio Rendezvous is like adding another high-performance member to my team. I can always count on the highest quality, extreme attention to detail, and on-time delivery.”</p><cite>Dana Pruiett, Marketing Manager, Aiphone Corporation</cite></figure>
+          <figure class="quote small"><p><span class="hq">“</span>Studio Rendezvous always finds creative solutions to our marketing challenges and approaches them in a truly collaborative way. They deliver phenomenal work and make the entire process easy.”</p><cite>Maddie Heye, Senior Director of Marketing, MoxiWorks</cite></figure>
+          <figure class="quote small"><p><span class="hq">“</span>Not only do we love working with Shane and company, we consider them part of our team. How many external vendors can you truly say that about?”</p><cite>Will Rush, Founder &amp; CEO, Stack</cite></figure>
+        </div>
       </div>
     </div>
   </section>
@@ -939,6 +949,12 @@
         <div class="range-track"><div class="range-fill" style="left:16%;width:64%"><span>40–200 hours a month</span></div></div>
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
       </figure>
+      <span class="mono engage-eyebrow">Why a studio like ours</span>
+      <div class="moves alt-block">
+        <div class="move"><span class="mono">Instead of a freelancer</span><h3>A full senior team</h3><p>A freelancer brings one person’s skill set. We bring five senior specialists across design, motion, UX, print and apparel, so there’s always someone ready for the next job.</p></div>
+        <div class="move"><span class="mono">Instead of a new hire</span><h3>No ramp-up</h3><p>A hire takes months to learn your brand and covers one discipline. We know the design, delivery and print process cold, and we learn your brand once.</p></div>
+        <div class="move"><span class="mono">Instead of a big agency</span><h3>Direct access</h3><p>No account managers and no junior pool. Shane, our creative director, brings 30 years in the business, and the five of us deliver on brand, fast, day after day.</p></div>
+      </div>
       <span class="mono engage-eyebrow">How we work together</span>
       <div class="moves four engage">
         <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>Put a job or two on the board at our hourly rate. Most of our retainer clients started exactly this way.</p></div>
