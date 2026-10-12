@@ -1259,7 +1259,7 @@
     var clients = [20, 15, 12, 10, 9, 7.7, 4, 4, 3];   // estimated years working with us, current clients, sorted (Human Japanese 20 yrs; Content Matterz 15; Human Interest since Jan 2019; People First 3 yrs)
     function draw() {
     var narrow = el.clientWidth < 620;
-    var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 6, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 8;
+    var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 6, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 18;
     var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; };
     var out = [];
     clients.forEach(function (y, i) {
