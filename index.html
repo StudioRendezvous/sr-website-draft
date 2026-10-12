@@ -217,6 +217,7 @@
   .sec-head { position: relative; }
   .sec-head::before, .sec-head::after { content: "+"; position: absolute; top: -11px; font: 300 17px/1 var(--mono); color: var(--sub); }
   .sec-head::before { left: -6px; } .sec-head::after { right: -6px; }
+  .sec-head.bare { border-top: 0; padding-top: 0; } .sec-head.bare::before, .sec-head.bare::after { content: none; }
 
   /* Dimension line under the counter. */
   .dim { display: flex; align-items: center; gap: 10px; margin-top: 16px; height: 11px; border-inline: 1px solid var(--sub); padding-inline: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); }
@@ -900,7 +901,7 @@
 
   <!-- ================================================================ partnership -->
   <section class="light" id="together">
-    <div class="sec-head"><span></span><h2>Clients stay for years.</h2></div>
+    <div class="sec-head bare"><span></span><h2>Clients stay for years.</h2></div>
     <div class="body-col">
       <figure class="tenure">
         <span class="mono tag">Current clients · years with us</span>
