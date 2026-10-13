@@ -60,7 +60,7 @@
   /* ---------- hero ---------- */
   .hero { padding-block: 40px 20px; display: grid; gap: 22px; }
   .hero .lede { max-width: 58ch; }
-  .hero-proof { margin: 18px 0 0; }
+  .hero-proof { margin: 18px 0 0; width: max-content; max-width: calc(100vw - 32px); } .hero-proof span { white-space: nowrap; }
   .hero h1 { font-size: clamp(50px, 7vw, 104px); font-weight: 900; color: var(--sub); }
   .hero h1 em { font-style: normal; color: var(--accent-text); display: block; }
   .hero-row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: end; }
@@ -694,7 +694,7 @@
     <div class="hero-row">
       <div class="hero-copy">
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing team, learn your brand once and keep it. Drop a job on the board and we get straight to work, on brand and on deadline, from urgent turnarounds and big campaigns to a whole year of marketing goals.</p>
-        <p class="mono hero-proof">Senior team · Same-day turnarounds · Clients stay for years</p>
+        <p class="mono hero-proof"><span>Senior team</span> · <span>Same-day turnarounds</span> · <span>Clients stay for years</span></p>
         <div class="hero-cta"><a class="cta" href="#contact">Start a job</a><a class="btn-ghost" href="#work">See the work</a></div>
       </div>
     </div>
