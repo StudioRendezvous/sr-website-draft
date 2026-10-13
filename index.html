@@ -375,13 +375,16 @@
   .split .chip { justify-self: start; }
   .chip.quiet { background: #d4d4d4; color: #1c1c1c; }
   .hello { display: grid; gap: 16px; padding: 22px; background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(14px) saturate(120%); backdrop-filter: blur(14px) saturate(120%); }
-  .hello .fields { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px 16px; }
+  .hello .fields { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
   .hello .fields > label { grid-column: span 2; } .hello .fields > label.half { grid-column: span 3; }
   .hello label { display: grid; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .hello .fields > label.wide { grid-column: 1 / -1; }
   .hello .opt { text-transform: none; letter-spacing: 0; }
   .hello input, .hello select, .hello textarea { font: 400 16px/1.4 var(--body); color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 0; padding: 10px 12px; width: 100%; min-width: 0; text-transform: none; letter-spacing: 0; }
   .hello textarea { resize: vertical; }
+  .hello .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hello ::placeholder { color: var(--muted); opacity: 1; }
+  .hello select:has(option[value=""]:checked) { color: var(--muted); }
   .hello input:focus, .hello select:focus, .hello textarea:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
   .hello [aria-invalid="true"] { border-color: #b3261e; }
   .hello-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -1010,13 +1013,13 @@
       </div>
       <form class="hello" id="hello" novalidate>
         <div class="fields">
-          <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
-          <label for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
-          <label for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
-          <label class="half" for="f-help">How can we help?<select id="f-help" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
-          <label class="half" for="f-hours">Monthly hours<select id="f-hours" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
+          <label for="f-name"><span class="vh">Name</span><input id="f-name" name="name" autocomplete="name" placeholder="Name" required></label>
+          <label for="f-email"><span class="vh">Work email</span><input id="f-email" name="email" type="email" autocomplete="email" placeholder="Work email" required></label>
+          <label for="f-company"><span class="vh">Company</span><input id="f-company" name="company" autocomplete="organization" placeholder="Company"></label>
+          <label class="half" for="f-help"><span class="vh">How can we help?</span><select id="f-help" name="help"><option value="" disabled selected>How can we help?</option><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
+          <label class="half" for="f-hours"><span class="vh">Monthly hours</span><select id="f-hours" name="hours"><option value="" disabled selected>Monthly hours</option><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
           <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-          <label class="wide" for="f-need"><span>Tell us about the work <span class="opt">(what it is, when it’s due, your budget)</span></span><textarea id="f-need" name="need" rows="4"></textarea></label>
+          <label class="wide" for="f-need"><span class="vh">Tell us about the work</span><textarea id="f-need" name="need" rows="4" placeholder="Tell us about the work: what it is, when it’s due, your budget"></textarea></label>
         </div>
         <div class="hello-foot">
           <button class="cta" type="submit">Send</button>
