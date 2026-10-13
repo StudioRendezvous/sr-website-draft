@@ -379,6 +379,8 @@
   .hello.sent .fields, .hello.sent button { display: none; }
   .hello.sent .hello-note { font-size: 18px; color: var(--text); }
   .alt-contact a { color: var(--text); }
+  .hello .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .hello button[disabled] { opacity: .6; cursor: wait; }
   .privacy-note { font-size: 14px; margin: 0; } .hello.sent .privacy-note { display: none; }
   @media (max-width: 620px) { .hello .fields { grid-template-columns: 1fr; } }
   .hero-row { grid-template-columns: minmax(0, 1fr); }
@@ -1002,6 +1004,7 @@
           <label for="f-budget"><span>Budget <span class="opt">(optional)</span></span><input id="f-budget" name="budget"></label>
           <label for="f-hours">Monthly hours<select id="f-hours" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
           <label for="f-due"><span>When is it due? <span class="opt">(optional)</span></span><input id="f-due" name="due"></label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
           <label class="wide" for="f-need"><span>Tell us about the work <span class="opt">(optional)</span></span><textarea id="f-need" name="need" rows="3"></textarea></label>
         </div>
         <div class="hello-foot">
@@ -1268,10 +1271,11 @@
     });
   })();
 
-  // Contact form. Draft only: the live site will send this to the studio's monday.com board.
+  // Contact form: posts to our relay, which creates an item on the monday.com "Website inquiries" board.
   (function () {
     var f = document.getElementById('hello'); if (!f) return;
-    var note = document.getElementById('helloNote');
+    var note = document.getElementById('helloNote'), btn = f.querySelector('button[type="submit"]'), t0 = Date.now();
+    var RELAY = 'https://inquiry-relay-production.up.railway.app/inquiry';
     // "Start a job" links open the form ready for a first job.
     Array.prototype.forEach.call(document.querySelectorAll('a[data-help="first"]'), function (a) {
       a.addEventListener('click', function () { f.elements.help.value = 'Start a first job'; });
@@ -1281,8 +1285,19 @@
       var name = f.elements.name, email = f.elements.email, ok = true;
       [name, email].forEach(function (el) { var bad = !el.value.trim() || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim())); el.setAttribute('aria-invalid', bad ? 'true' : 'false'); if (bad) ok = false; });
       if (!ok) { note.textContent = 'Add your name and a work email so we can reply.'; (name.value.trim() ? email : name).focus(); return; }
-      f.classList.add('sent');
-      note.textContent = 'Thanks, ' + name.value.trim().split(' ')[0] + '. We’ll get right back to you. (Draft preview: on the live site this lands on our monday.com board.)';
+      var data = { elapsed: Date.now() - t0 };
+      ['name', 'email', 'company', 'help', 'budget', 'hours', 'due', 'need', 'website'].forEach(function (k) { if (f.elements[k]) data[k] = f.elements[k].value; });
+      btn.disabled = true; btn.textContent = 'Sending…'; note.textContent = '';
+      fetch(RELAY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || r.status); }); })
+        .then(function () {
+          f.classList.add('sent');
+          note.textContent = 'Thanks, ' + name.value.trim().split(' ')[0] + '. We’ll get right back to you.';
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = 'Send';
+          note.innerHTML = 'That didn’t go through. Please try again, or email <a href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a>.';
+        });
     });
   })();
 
