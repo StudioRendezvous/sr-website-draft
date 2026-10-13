@@ -50,6 +50,7 @@
   }
   * { box-sizing: border-box; }
   html, body { overflow-x: clip; }
+  html { background: #1c1c1c; }
   body { background: var(--ink); color: var(--text); font: 400 17px/1.55 var(--body); margin: 0; }
   .wrap { max-width: 1304px; margin: 0 auto; padding-inline: clamp(20px, 5.5vw, 72px); position: relative; z-index: 1; }
   a { color: var(--text); text-decoration-color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
@@ -334,6 +335,7 @@
   .team-eyebrow { margin-top: 40px; }
   .engage { margin-bottom: 28px; }
   .alt-block { margin-bottom: 36px; }
+  .cs-note { font-size: 12px; letter-spacing: .04em; color: var(--muted); max-width: 80ch; line-height: 1.6; }
   .moves.trust { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 36px; }
   .fold .moves.trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (max-width: 900px) { .moves.trust { grid-template-columns: 1fr; } }
@@ -484,7 +486,7 @@
 
   /* ---------- footer: "Through the mark" (three loops seen through the circle, square and triangle) ---------- */
   /* Base: override the page's generic footer rule (flex) with a stacked grid. */
-  footer.site-foot { position: relative; isolation: isolate; display: grid; gap: 0; margin-top: 0; padding-block: 0 40px; border-top: 0; color: var(--text); }
+  footer.site-foot { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 0; padding-block: 0 40px; border-top: 0; color: var(--text); }
   /* Full-bleed dark plate: frosts the line field so the shapes read cleanly. Glass is fine here, it is a dark area. */
   footer.site-foot::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: linear-gradient(90deg, rgba(20, 20, 20, .62) 0%, rgba(20, 20, 20, .26) 42%, rgba(20, 20, 20, 0) 62%), linear-gradient(180deg, rgba(0, 0, 0, 0) 44%, rgba(16, 16, 16, .66) 62%, rgba(16, 16, 16, .74)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); z-index: -1; }
 
@@ -877,6 +879,12 @@
       <div class="cs-body">
       <p class="lede">When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.</p>
       <div class="gallery land"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-logo-stings-poster.jpg" data-src="media/hi-logo-stings.mp4"></video><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption>Data story</figcaption></figure><figure><img src="media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption>Competitive video</figcaption></figure></div>
+      <p class="mono cs-note">Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.</p>
+      <div class="cs-sub">
+        <span class="mono">Apparel</span>
+        <p>The brand carried onto apparel too: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p>
+      </div>
+      <div class="gallery"><figure><img src="media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
       </div>
     </details>
     <details class="cs" open>
@@ -884,11 +892,6 @@
       <div class="cs-body">
       <p class="lede">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
       <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-london-recap.jpg" data-src="media/smart-london-recap.mp4"></video><figcaption>Recap reel</figcaption></figure></div>
-      <div class="cs-sub">
-        <span class="mono">Event apparel</span>
-        <p>Plus the apparel to go with it: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p>
-      </div>
-      <div class="gallery"><figure><img src="media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
       </div>
     </details>
     <details class="cs">
@@ -974,7 +977,7 @@
       </div>
       <span class="mono engage-eyebrow">Before you sign</span>
       <div class="moves trust">
-        <div class="move"><span class="mono">Unreleased work</span><h3>Stays confidential</h3><p>Launches and unreleased products are seen only by the people on your jobs: our senior team, never outside freelancers. Send us your vendor security review and we’ll complete it before the first job.</p></div>
+        <div class="move"><span class="mono">Unreleased work</span><h3>Stays confidential</h3><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
         <div class="move"><span class="mono">Compliance review</span><h3>Built into the schedule</h3><p>Legal and compliance rounds are expected. We plan time for them from day one.</p></div>
         <div class="move"><span class="mono">Busy months</span><h3>The whole team picks it up</h3><p>When your month spikes, the whole team is on it. Share your launch calendar and we plan around it.</p></div>
       </div>
