@@ -218,7 +218,7 @@
   /* Gray bands break up the charcoal. On light gray the subheads become charcoal on a yellow tab. */
   section.light, section.mid { position: relative; isolation: isolate; color: var(--text); padding-bottom: 64px; }
   section.light::before, section.mid::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: var(--band); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: -1; }
-  section.light { --ink: #ececea; --band: rgba(236, 236, 234, .97); --panel: #ffffff; --glass: rgba(255, 255, 255, .6); --glass-edge: rgba(0, 0, 0, .08); --line: #cfcfcc; --text: #1c1c1c; --muted: #555555; color-scheme: light; margin-top: 56px; }
+  section.light { --ink: #ececea; --band: rgba(236, 236, 234, .88); --panel: #ffffff; --glass: rgba(255, 255, 255, .6); --glass-edge: rgba(0, 0, 0, .08); --line: #cfcfcc; --text: #1c1c1c; --muted: #555555; color-scheme: light; margin-top: 56px; }
   section.mid { --ink: #2e2e2e; --band: rgba(46, 46, 46, .95); --panel: #383838; --glass: rgba(255, 255, 255, .06); --glass-edge: rgba(255, 255, 255, .12); --line: #4a4a4a; --text: #ffffff; --muted: #c8c8c8; --sub: #c8c8c8; }
   section.light + section.mid { margin-top: 0; }
   section.mid + section { padding-top: 84px; }
@@ -679,7 +679,7 @@
 
   /* Partnership: the "why it lasts" cards sit on a slightly lighter strip, so the chart + stats read as one unit */
   .subband { position: relative; display: grid; gap: 28px; padding: 52px 0 64px; margin: 20px 0 -64px; }
-  .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .05); border-top: 1px solid rgba(255, 255, 255, .12); z-index: -1; }
+  .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: none; border-top: 0; z-index: -1; }
   #together .tenure { margin-bottom: 16px; }
   .subband .moves { column-gap: clamp(28px, 4vw, 56px); }
   .subband-eyebrow { color: var(--text); font-size: 13px; margin-bottom: -6px; }
