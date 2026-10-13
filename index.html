@@ -375,9 +375,10 @@
   .split .chip { justify-self: start; }
   .chip.quiet { background: #d4d4d4; color: #1c1c1c; }
   .hello { display: grid; gap: 16px; padding: 22px; background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(14px) saturate(120%); backdrop-filter: blur(14px) saturate(120%); }
-  .hello .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+  .hello .fields { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px 16px; }
+  .hello .fields > label { grid-column: span 2; } .hello .fields > label.half { grid-column: span 3; }
   .hello label { display: grid; gap: 6px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-  .hello label.wide { grid-column: 1 / -1; }
+  .hello .fields > label.wide { grid-column: 1 / -1; }
   .hello .opt { text-transform: none; letter-spacing: 0; }
   .hello input, .hello select, .hello textarea { font: 400 16px/1.4 var(--body); color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 0; padding: 10px 12px; width: 100%; min-width: 0; text-transform: none; letter-spacing: 0; }
   .hello textarea { resize: vertical; }
@@ -392,7 +393,7 @@
   .hello .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .hello button[disabled] { opacity: .6; cursor: wait; }
   .privacy-note { font-size: 14px; margin: 0; } .hello.sent .privacy-note { display: none; }
-  @media (max-width: 620px) { .hello .fields { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .hello .fields { grid-template-columns: 1fr; } .hello .fields > label, .hello .fields > label.half { grid-column: 1 / -1; } }
   .hero-row { grid-template-columns: minmax(0, 1fr); }
   .carousel { overflow: hidden; padding-block: 10px 8px; outline: none; }
   .carousel .track { display: flex; gap: 6px; will-change: transform; }
@@ -1012,12 +1013,10 @@
           <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
           <label for="f-email">Work email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
           <label for="f-company">Company<input id="f-company" name="company" autocomplete="organization"></label>
-          <label for="f-help">How can we help?<select id="f-help" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
-          <label for="f-budget"><span>Budget <span class="opt">(optional)</span></span><input id="f-budget" name="budget"></label>
-          <label for="f-hours">Monthly hours<select id="f-hours" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
-          <label for="f-due"><span>When is it due? <span class="opt">(optional)</span></span><input id="f-due" name="due"></label>
+          <label class="half" for="f-help">How can we help?<select id="f-help" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
+          <label class="half" for="f-hours">Monthly hours<select id="f-hours" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
           <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-          <label class="wide" for="f-need"><span>Tell us about the work <span class="opt">(optional)</span></span><textarea id="f-need" name="need" rows="3"></textarea></label>
+          <label class="wide" for="f-need"><span>Tell us about the work <span class="opt">(what it is, when it’s due, your budget)</span></span><textarea id="f-need" name="need" rows="4"></textarea></label>
         </div>
         <div class="hello-foot">
           <button class="cta" type="submit">Send</button>
@@ -1298,7 +1297,7 @@
       [name, email].forEach(function (el) { var bad = !el.value.trim() || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim())); el.setAttribute('aria-invalid', bad ? 'true' : 'false'); if (bad) ok = false; });
       if (!ok) { note.textContent = 'Add your name and a work email so we can reply.'; (name.value.trim() ? email : name).focus(); return; }
       var data = { elapsed: Date.now() - t0 };
-      ['name', 'email', 'company', 'help', 'budget', 'hours', 'due', 'need', 'website'].forEach(function (k) { if (f.elements[k]) data[k] = f.elements[k].value; });
+      ['name', 'email', 'company', 'help', 'hours', 'need', 'website'].forEach(function (k) { if (f.elements[k]) data[k] = f.elements[k].value; });
       btn.disabled = true; btn.textContent = 'Sending…'; note.textContent = '';
       fetch(RELAY, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || r.status); }); })
