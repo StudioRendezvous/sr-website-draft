@@ -218,8 +218,8 @@
   /* Gray bands break up the charcoal. On light gray the subheads become charcoal on a yellow tab. */
   section.light, section.mid { position: relative; isolation: isolate; color: var(--text); padding-bottom: 64px; }
   section.light::before, section.mid::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: var(--band); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: -1; }
-  section.light { --ink: #d9d9d9; --band: rgba(217, 217, 217, .8); --panel: #ffffff; --glass: rgba(255, 255, 255, .6); --glass-edge: rgba(0, 0, 0, .08); --line: #c2c2c2; --text: #1c1c1c; --muted: #555555; color-scheme: light; margin-top: 56px; }
-  section.mid { --ink: #595959; --band: rgba(89, 89, 89, .74); --panel: #636363; --glass: rgba(120, 120, 120, .38); --glass-edge: rgba(255, 255, 255, .12); --line: #707070; --text: #ffffff; --muted: #dedede; --sub: #d4d4d4; }
+  section.light { --ink: #ececea; --band: rgba(236, 236, 234, .97); --panel: #ffffff; --glass: rgba(255, 255, 255, .6); --glass-edge: rgba(0, 0, 0, .08); --line: #cfcfcc; --text: #1c1c1c; --muted: #555555; color-scheme: light; margin-top: 56px; }
+  section.mid { --ink: #2e2e2e; --band: rgba(46, 46, 46, .95); --panel: #383838; --glass: rgba(255, 255, 255, .06); --glass-edge: rgba(255, 255, 255, .12); --line: #4a4a4a; --text: #ffffff; --muted: #c8c8c8; --sub: #c8c8c8; }
   section.light + section.mid { margin-top: 0; }
   section.mid + section { padding-top: 84px; }
   section.light .sec-head .folder, section.light .move .mono, section.light .plan .mono { color: var(--tab-ink); background: var(--tab); padding: 3px 7px 2px; justify-self: start; width: fit-content; }
@@ -233,7 +233,7 @@
   .cols::before { content: ""; position: absolute; inset-block: 0; left: 50%; transform: translateX(-50%); width: min(1240px, 100%); padding-inline: clamp(16px, 4vw, 40px); background-image: linear-gradient(to right, var(--hair) 1px, transparent 1px); background-size: calc(100% / 12) 100%; background-origin: content-box; background-clip: content-box; box-shadow: inset -1px 0 0 var(--hair); }
   .hud { position: fixed; right: clamp(16px, 2vw, 28px); bottom: calc(clamp(12px, 1.6vw, 20px) + env(safe-area-inset-bottom, 0px)); z-index: 5; display: flex; gap: 14px; padding: 5px 10px 4px; background: rgba(28, 28, 28, .5); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-family: var(--mono); font-size: 12px; line-height: 1.4; letter-spacing: .06em; text-transform: uppercase; color: #a6a6a6; pointer-events: none; }
   .hud b { color: #d4d4d4; font-weight: 400; }
-  @media (max-width: 900px) { .hud { display: none; } }
+  .hud { display: none; }
 
   /* Registration marks on each section head. */
   .sec-head { position: relative; }
@@ -468,7 +468,7 @@
 
   /* ---------- glass, a touch more: a sheen, a lit top edge and a deeper blur on the dark and mid bands ---------- */
   :root { --glass: linear-gradient(135deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .03)); --glass-edge: rgba(255, 255, 255, .12); --glass-lit: inset 0 1px 0 rgba(255, 255, 255, .16), 0 14px 34px rgba(0, 0, 0, .2); }
-  section.mid { --glass: linear-gradient(135deg, rgba(255, 255, 255, .17), rgba(255, 255, 255, .07)); --glass-edge: rgba(255, 255, 255, .2); }
+  section.mid { --glass: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .03)); --glass-edge: rgba(255, 255, 255, .14); }
   .split > div, .stat, .total, .clients > div { -webkit-backdrop-filter: blur(20px) saturate(150%); backdrop-filter: blur(20px) saturate(150%); box-shadow: var(--glass-lit); }
   section.light .total { box-shadow: none; }
   .partner { background: linear-gradient(135deg, rgba(62, 62, 62, .74), rgba(40, 40, 40, .66)); border-color: rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%); box-shadow: var(--glass-lit); }
@@ -679,7 +679,7 @@
 
   /* Partnership: the "why it lasts" cards sit on a slightly lighter strip, so the chart + stats read as one unit */
   .subband { position: relative; display: grid; gap: 28px; padding: 52px 0 64px; margin: 20px 0 -64px; }
-  .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .26); border-top: 1px solid rgba(255, 255, 255, .45); z-index: -1; }
+  .subband::before { content: ""; position: absolute; inset-block: 0; left: -100vw; right: -100vw; background: rgba(255, 255, 255, .05); border-top: 1px solid rgba(255, 255, 255, .12); z-index: -1; }
   #together .tenure { margin-bottom: 16px; }
   .subband .moves { column-gap: clamp(28px, 4vw, 56px); }
   .subband-eyebrow { color: var(--text); font-size: 13px; margin-bottom: -6px; }
@@ -691,7 +691,7 @@
   .carousel.fresh .tile figcaption span:first-child { color: #8f8f8f; }
   .carousel.fresh .tile figcaption span:last-child { color: var(--sub); }
 
-  section.light .hello input, section.light .hello select, section.light .hello textarea { background: rgba(255, 255, 255, .4); border-color: rgba(0, 0, 0, .14); }
+  section.light .hello input, section.light .hello select, section.light .hello textarea { background: rgba(255, 255, 255, .55); border-color: rgba(0, 0, 0, .14); }
   section.light .hello input:focus, section.light .hello select:focus, section.light .hello textarea:focus { background: rgba(255, 255, 255, .85); }
 
   /* avatars: initials now; swap in a photo with style="background-image:url(media/team/name.jpg)" and empty text */
