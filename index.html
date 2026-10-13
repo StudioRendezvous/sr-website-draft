@@ -314,7 +314,7 @@
   .hq { margin-left: -.43em; } /* hanging quote: pulled out by the width of the mark in Source Sans */
   b .hq { margin-left: -.54em; }
   .quote p { position: relative; } .quote p .hq { position: absolute; right: 100%; margin: 0; }
-  .quote p.opt-i { text-indent: -.13em; } /* optical: a leading capital I or E carries extra left sidebearing */ /* mark hangs outside the text block in any font */
+  .quote p.opt-i { text-indent: -.13em; } .quote p.opt-i .hq { margin-right: .13em; } /* optical: a leading capital I or E carries extra left sidebearing */ /* mark hangs outside the text block in any font */
   .quote.pull { margin: 48px 0 8px; padding-left: 0; }
   .quote.pull p { font-size: clamp(21px, 2.1vw, 27px); line-height: 1.4; max-width: 46ch; }
   #how { padding-top: 40px; padding-bottom: 44px; } #how .quote.pull { margin: 12px 0 0; } #how .quote.pull p { max-width: 62ch; }
