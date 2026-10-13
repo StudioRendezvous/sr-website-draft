@@ -56,6 +56,8 @@
   .bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--glass-edge); flex-wrap: wrap; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; }
   .bar::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: rgba(28, 28, 28, .5); -webkit-backdrop-filter: blur(16px) saturate(130%); backdrop-filter: blur(16px) saturate(130%); z-index: -1; }
   .bar img { height: 24px; width: auto; }
+  .bar .nav { margin-left: auto; }
+  .bar .bar-cta { padding: 9px 14px 8px; font-size: 12px; }
 
   /* ---------- hero ---------- */
   .hero { padding-block: 40px 20px; display: grid; gap: 22px; }
@@ -322,9 +324,13 @@
   .team-eyebrow { margin-top: 40px; }
   .engage { margin-bottom: 28px; }
   .alt-block { margin-bottom: 36px; }
+  .move-link { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; justify-self: start; }
+  .move-link:hover { color: var(--accent); }
   .cs-ind { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 400; }
   #contact .team { margin-bottom: 40px; }
   .partner-open { margin-top: 36px; }
+  .partner-slot { margin-left: calc(180px + 24px); padding-bottom: 72px; } .partner-slot .partner-open { margin-top: 8px; }
+  @media (max-width: 720px) { .partner-slot { margin-left: 0; } }
   .team-lede { margin: -6px 0 22px; max-width: 60ch; color: var(--muted); }
   .team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
   @media (max-width: 900px) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -688,6 +694,7 @@
   <header class="bar">
     <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><img src="media/sr-logo.svg" alt="Studio Rendezvous"></a>
     <nav class="nav" aria-label="Sections"><a href="#how">How it works</a><a href="#make">What we make</a><a href="#work">Work</a><a href="#fit">Good fit</a><a href="#contact">Contact</a></nav>
+    <a class="cta bar-cta" href="#contact">Start a job</a>
   </header>
 
   <div class="hero" id="top">
@@ -737,14 +744,14 @@
         <ol class="steps">
           <li><span class="n">1</span><b>Add a job</b><p>A brief, any files and the deadline. Tight timelines welcome.</p></li>
           <li><span class="n">2</span><b><span class="hq">“</span>We’re on it”</b><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
-          <li><span class="n">3</span><b>Best first draft, fast</b><p>Refined by a senior designer, our creative director and our content team before it reaches you. About nine in ten go forward with light changes.</p></li>
+          <li><span class="n">3</span><b>Best first draft, fast</b><p>Refined by a senior designer and our creative director before it reaches you. About nine in ten go forward with light changes.</p></li>
           <li><span class="n">4</span><b>Review</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
           <li><span class="n">5</span><b>Delivered</b><p>Final files, ready to use, and source files on request.</p></li>
           <li><span class="n">6</span><b>Repeat</b><p>The next job lands on a team that already knows your brand.</p></li>
         </ol>
 
         <figure class="quote">
-          <p><span class="hq">“</span>Every morning starts with new projects on the board. I review each one, assign it to the right senior creative and let the client know we’re on it.”</p>
+          <p><span class="hq">“</span>Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</p>
           <cite>Shane French, Creative Director</cite>
         </figure>
 
@@ -774,7 +781,7 @@
         <div class="moves">
           <div class="move"><span class="mono">Familiarity</span><h3>Your brand, second nature</h3><p>After hundreds of projects, we know your brand the way your own team does: the voice, the templates and the rules nobody wrote down.</p></div>
           <div class="move"><span class="mono">Efficiency</span><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
-          <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Every job is assigned and prioritized the moment it lands, so we meet your deadline, even on urgent requests with same-day turnarounds.</p></div>
+          <div class="move"><span class="mono">No overhead</span><h3>Straight to work</h3><p>We move at the speed of your business. Every job is assigned and prioritized the moment it lands, so we can meet your deadline, even on urgent requests with same-day turnarounds.</p></div>
         </div>
         <figure class="quote pull"><p><span class="hq">“</span>I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</p><cite>Marc Chouaniere, VP Marketing, MoxiWorks</cite></figure>
       </div>
@@ -817,7 +824,7 @@
       <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-london-recap.jpg" data-src="media/smart-london-recap.mp4"></video><figcaption>Recap reel</figcaption></figure></div>
       <div class="cs-sub">
         <span class="mono">Event apparel</span>
-        <p>Plus the apparel to go with it, designed in-house by our textile specialist: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p>
+        <p>Plus the apparel to go with it: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p>
       </div>
       <div class="gallery"><figure><img src="media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
       </div>
@@ -844,9 +851,9 @@
       </div>
     </details>
     <details class="cs">
-      <summary><h3><span class="mono cs-ind">B2B software</span>Product, UX and interactive</h3><span class="mono cs-count">2 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <summary><h3><span class="mono cs-ind">B2B software</span>Product launches, in motion</h3><span class="mono cs-count">2 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
-      <p class="lede">Design systems, product flows and prototypes in Figma, and the product video that launches them.</p>
+      <p class="lede">Product and sales videos built from the product’s own UI.</p>
       <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption>Product video</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption>Sales video</figcaption></figure></div>
       </div>
     </details>
@@ -854,7 +861,7 @@
       <summary><h3><span class="mono cs-ind">Commercial HVAC group</span>Logo systems</h3><span class="mono cs-count">47 logos</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p>
-      <div class="logo-rows" id="logoRows" data-sprite="media/air-logo-wall.jpg" data-cols="6" data-rows="8" data-count="47"><div class="gallery"><figure class="g4"><img src="media/air-logo-wall.jpg" alt="A family of about 50 company logos" loading="lazy"><figcaption>Logo family</figcaption></figure></div></div>
+      <div class="logo-rows" id="logoRows" data-sprite="media/air-logo-wall.jpg" data-cols="6" data-rows="8" data-count="47"><div class="gallery"><figure class="g4"><img src="media/air-logo-wall.jpg" alt="A family of 47 company logos" loading="lazy"><figcaption>Logo family</figcaption></figure></div></div>
       </div>
     </details>
     <details class="cs">
@@ -899,6 +906,24 @@
       <div class="clients past" role="list" aria-label="Past long-term clients"><div role="listitem"><img src="media/logos/vertafore.png" alt="Vertafore" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/microsoft.png" alt="Microsoft" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/nike.png" alt="Nike" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/sap.png" alt="SAP" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/homestreet.png" alt="HomeStreet Bank" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/payscale.png" alt="Payscale" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/darigold.png" alt="Darigold" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/moxiworks.png" alt="MoxiWorks" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/onsolve.png" alt="OnSolve" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/syncron.png" alt="Syncron" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/aiphone.png" alt="Aiphone" width="1417" height="667" loading="lazy"></div><div role="listitem"><img src="media/logos/jetson.png" alt="Jetson" width="1417" height="667" loading="lazy"></div></div>
     </div>
   </div>
+  <div class="partner-slot">
+        <div class="partner partner-open">
+          <span class="mono">Partner · Content and strategy</span>
+          <div class="partner-body">
+            <h3 class="partner-q">Need <span>content and strategy</span> too?</h3>
+            <div class="partner-copy">
+              <p>Many of our clients do. For 15 years we’ve worked as one team with Content Matterz, a B2B content marketing agency. They write it and we make it. They bring the strategy, research and writing, plus fractional content leadership, and we bring the design and motion. One brief, one board, one team.</p>
+              <a class="btn-ghost" href="https://contentmatterz.com/" target="_blank" rel="noopener">Visit Content Matterz</a>
+            </div>
+          </div>
+          <div class="lockup">
+            <img src="media/sr-logo.svg" alt="Studio Rendezvous">
+            <span class="plus" aria-hidden="true">+</span>
+            <img src="media/logos/content-matterz-duo.png" alt="Content Matterz" width="360" height="37">
+            <span class="since mono">15 years together · 10,000+ deliverables</span>
+          </div>
+        </div>
+  </div>
 
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
@@ -917,9 +942,9 @@
       </div>
       <span class="mono engage-eyebrow">How we work together</span>
       <div class="moves four engage">
-        <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>Put a job or two on the board at our hourly rate. Most of our retainer clients started exactly this way.</p></div>
+        <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>Put a job or two on the board at our hourly rate. Ask for an estimate and you’ll know the cost before we start. Most of our retainer clients started exactly this way.</p><a class="move-link" href="#contact">Put a first job on the board</a></div>
         <div class="move"><span class="mono">Retainer</span><h3>A year at a time</h3><p>A set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over, source files are yours on request, and each year we review hours and rates together.</p></div>
-        <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. Invoiced at the end of the month for the hours used.</p></div>
+        <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For teams whose needs swing, 200 hours one month and 60 the next. Invoiced at the end of the month for the hours used. Source files on request.</p></div>
         <div class="move"><span class="mono">Your board</span><h3>Free to join</h3><p>We invite you to your own board on monday.com. No seat to buy and nothing extra to pay.</p></div>
       </div>
       <details class="fold">
@@ -952,22 +977,6 @@
         </div>
         </div>
       </details>
-        <div class="partner partner-open">
-          <span class="mono">Partner · Content and strategy</span>
-          <div class="partner-body">
-            <h3 class="partner-q">Need <span>content and strategy</span> too?</h3>
-            <div class="partner-copy">
-              <p>Many of our clients do. For 15 years we’ve worked as one team with Content Matterz, a B2B content marketing agency. They write it and we make it. They bring the strategy, research and writing, plus fractional content leadership, and we bring the design and motion. One brief, one board, one team.</p>
-              <a class="btn-ghost" href="https://contentmatterz.com/" target="_blank" rel="noopener">Visit Content Matterz</a>
-            </div>
-          </div>
-          <div class="lockup">
-            <img src="media/sr-logo.svg" alt="Studio Rendezvous">
-            <span class="plus" aria-hidden="true">+</span>
-            <img src="media/logos/content-matterz-duo.png" alt="Content Matterz" width="360" height="37">
-            <span class="since mono">15 years together · 10,000+ deliverables</span>
-          </div>
-        </div>
     </div>
   </section>
 
@@ -977,7 +986,7 @@
     <div class="body-col">
       <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Tell us a little about your team and we’ll take it from there.</p>
       <span class="mono team-eyebrow">The people on your board</span>
-      <p class="team-lede">Every client gets the whole team, with Shane leading as your creative director.</p>
+      <p class="team-lede">Every client gets the whole team. Shane leads it, or works to your creative direction when you have your own.</p>
       <div class="team">
         <div><span class="avatar" aria-hidden="true" style="background-image:url(media/team/shane-french.png);color:transparent">SF</span><b>Shane French</b><p>Creative Director</p></div>
         <div><span class="avatar" aria-hidden="true" style="background-image:url(media/team/tom-larsen.png);color:transparent">TL</span><b>Tom Larsen</b><p>Senior Designer</p></div>
@@ -1002,7 +1011,7 @@
           <p class="muted privacy-note">We’ll get right back to you. We use your details only to reply, and we never share them.</p>
         </div>
       </form>
-      <p class="muted alt-contact">Prefer email? <span class="email">hello@studiorendezvous.net</span></p>
+      <p class="muted alt-contact">Prefer email? <a class="email" href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a></p>
     </div>
   </section>
 
@@ -1270,7 +1279,7 @@
       [name, email].forEach(function (el) { var bad = !el.value.trim() || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim())); el.setAttribute('aria-invalid', bad ? 'true' : 'false'); if (bad) ok = false; });
       if (!ok) { note.textContent = 'Add your name and a work email so we can reply.'; (name.value.trim() ? email : name).focus(); return; }
       f.classList.add('sent');
-      note.textContent = 'Thanks, ' + name.value.trim().split(' ')[0] + '. We’ll be in touch soon. (Draft preview: on the live site this lands on our monday.com board.)';
+      note.textContent = 'Thanks, ' + name.value.trim().split(' ')[0] + '. We’ll get right back to you. (Draft preview: on the live site this lands on our monday.com board.)';
     });
   })();
 
@@ -1432,7 +1441,7 @@
       var lr = document.getElementById('logoRows');
       if (lr) {
         var cols = +lr.dataset.cols, rows = +lr.dataset.rows, n = +lr.dataset.count, sprite = lr.dataset.sprite, per = Math.ceil(n / 3);
-        lr.innerHTML = ''; lr.classList.add('live'); lr.setAttribute('role', 'img'); lr.setAttribute('aria-label', 'A family of about 50 company logos, shown as three moving rows');
+        lr.innerHTML = ''; lr.classList.add('live'); lr.setAttribute('role', 'img'); lr.setAttribute('aria-label', 'A family of 47 company logos, shown as three moving rows');
         lr.setAttribute('tabindex', '0');
         for (var r = 0; r < 3; r++) {
           var row = document.createElement('div');
@@ -1484,7 +1493,7 @@
     document.addEventListener('click', function (e) {
       var fig = e.target.closest && e.target.closest('.zoomable'); if (fig) { open(fig); return; }
       var wall = e.target.closest && e.target.closest('#logoRows.live');
-      if (wall) { var f = document.createElement('figure'), i = document.createElement('img'); i.src = wall.dataset.sprite; i.alt = 'A family of about 50 company logos'; f.appendChild(i); var holder = document.createElement('div'); holder.appendChild(f); last = wall; group = [f]; lb.hidden = false; document.documentElement.style.overflow = 'hidden'; show(0); capT.textContent = 'Logo family'; lb.querySelector('.lb-close').focus(); }
+      if (wall) { var f = document.createElement('figure'), i = document.createElement('img'); i.src = wall.dataset.sprite; i.alt = 'A family of 47 company logos'; f.appendChild(i); var holder = document.createElement('div'); holder.appendChild(f); last = wall; group = [f]; lb.hidden = false; document.documentElement.style.overflow = 'hidden'; show(0); capT.textContent = 'Logo family'; lb.querySelector('.lb-close').focus(); }
     });
     document.addEventListener('keydown', function (e) {
       if (lb.hidden) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && (e.target.classList.contains('zoomable') || e.target.id === 'logoRows')) { e.preventDefault(); e.target.click(); } return; }
