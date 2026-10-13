@@ -334,6 +334,8 @@
   .team-eyebrow { margin-top: 40px; }
   .engage { margin-bottom: 28px; }
   .alt-block { margin-bottom: 36px; }
+  .moves.trust { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 36px; }
+  @media (max-width: 900px) { .moves.trust { grid-template-columns: 1fr; } }
   .move-link { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; justify-self: start; }
   .move-link:hover { color: var(--accent); }
   .cs-ind { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 400; }
@@ -721,7 +723,7 @@
     <div class="hero-row">
       <div class="hero-copy">
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing team. Drop a job on the board and we get straight to work, on brand and on deadline, from urgent turnarounds and big campaigns to a whole year of marketing goals.</p>
-        <p class="mono hero-proof"><span>30 years</span> · <span>Senior team</span> · <span>Same-day turnarounds</span> · <span>Current clients average 9 years</span></p>
+        <p class="mono hero-proof"><span>30 years</span> · <span>Senior team</span> · <span>681 videos last year</span> · <span>Same-day turnarounds</span> · <span>Current clients average 9 years</span></p>
         <div class="hero-cta"><a class="cta" href="#contact" data-help="first">Start a job</a><a class="btn-ghost" href="#work">See the work</a></div>
       </div>
     </div>
@@ -755,14 +757,14 @@
   <section class="light" id="how">
     <div class="sec-head"><span class="folder">How it works</span><h2>Put a job on the board. We’ve got it.</h2></div>
     <div class="body-col">
-      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Need something back today? The answer is almost always yes.</p>
+      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Need something back today? The answer is almost always yes.</p>
       <details class="fold">
         <summary><span class="fold-t"><span class="fold-h">Project delivery steps</span><span class="fold-list">Add a job · We’re on it · Best first draft · Review · Delivered · Repeat</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
         <ol class="steps">
           <li><span class="n">1</span><b>Add a job</b><p>A brief, any files and the deadline. Tight timelines welcome.</p></li>
           <li><span class="n">2</span><b><span class="hq">“</span>We’re on it”</b><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
-          <li><span class="n">3</span><b>Best first draft, fast</b><p>Refined by a senior designer and our creative director before it reaches you. About nine in ten need only light changes.</p></li>
+          <li><span class="n">3</span><b>Best first draft, fast</b><p>Refined by a senior designer before it reaches you. Our creative director leads, or we work to yours. About nine in ten need only light changes.</p></li>
           <li><span class="n">4</span><b>Review</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
           <li><span class="n">5</span><b>Delivered</b><p>Final files, ready to use, and source files on request.</p></li>
           <li><span class="n">6</span><b>Repeat</b><p>The next job lands on a team that already knows your brand.</p></li>
@@ -774,10 +776,10 @@
         </figure>
 
         <div class="moves four">
-          <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with extra hands when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
+          <div class="move"><span class="mono">Days to weeks</span><h3>Bigger projects</h3><p>Decks, videos, booths and sites, with more of the team on it when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
           <div class="move"><span class="mono">Start to finish</span><h3>Full campaigns</h3><p>One idea carried across digital, print, social, video and the event floor, kept consistent from the first asset to the last.</p></div>
           <div class="move"><span class="mono">Every day</span><h3>Day-to-day work</h3><p>Today’s priority, from a same-day fix to the next scheduled job. Small jobs, large jobs and ongoing projects each get a clear timeline, so you always see when the next draft and the final are due.</p></div>
-          <div class="move"><span class="mono">All year</span><h3>Annual plans</h3><p>Set the scope and the rhythm for the year, and we work through it with you month after month, with room for whatever comes up along the way.</p></div>
+          <div class="move"><span class="mono">All year</span><h3>Annual plans</h3><p>Set the scope and the rhythm for the year, event season included. Send your conference dates early and we plan the booths, stage loops and recap reels around them.</p></div>
         </div>
         </div>
       </details>
@@ -836,6 +838,35 @@
     <div class="sec-head"><span class="folder">Work</span><h2>Selected work</h2></div>
     <div class="body-col cases">
     <details class="cs" open>
+      <summary><h3>Motion reel</h3><span class="mono cs-count">18 loops</span><span class="cs-mark" aria-hidden="true"></span></summary>
+      <div class="cs-body">
+      <p class="lede">We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p>
+      <div class="wall more">
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption><span>Data story</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-sko-sting.jpg" data-src="media/norton-sko-sting.mp4"></video><figcaption><span>Event sting</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-4p-digital.jpg" data-src="media/norton-4p-digital.mp4"></video><figcaption><span>Video series</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>UX</span></figcaption></figure>
+      </div>
+      <div class="wall more" id="moreMotion" hidden>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption><span>Competitive video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-hero.jpg" data-src="media/smart-hero.mp4"></video><figcaption><span>Website hero</span><span>Digital</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-endcard.jpg" data-src="media/hi-endcard.mp4"></video><figcaption><span>Brand end card</span><span>Brand</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
+      </div>
+      <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
+      </div>
+    </details>
+    <details class="cs" open>
       <summary><h3><span class="mono cs-ind">B2B software</span>Events, end to end</h3><span class="mono cs-count">12 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
@@ -880,35 +911,6 @@
       <div class="cs-body">
       <p class="lede">47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p>
       <div class="logo-rows" id="logoRows" data-sprite="media/air-logo-wall.jpg" data-cols="6" data-rows="8" data-count="47"><div class="gallery"><figure class="g4"><img src="media/air-logo-wall.jpg" alt="A family of 47 company logos" loading="lazy"><figcaption>Logo family</figcaption></figure></div></div>
-      </div>
-    </details>
-    <details class="cs">
-      <summary><h3>More motion</h3><span class="mono cs-count">18 loops</span><span class="cs-mark" aria-hidden="true"></span></summary>
-      <div class="cs-body">
-      <p class="lede">We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p>
-      <div class="wall more">
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption><span>Data story</span><span>Motion</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-sko-sting.jpg" data-src="media/norton-sko-sting.mp4"></video><figcaption><span>Event sting</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-4p-digital.jpg" data-src="media/norton-4p-digital.mp4"></video><figcaption><span>Video series</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>UX</span></figcaption></figure>
-      </div>
-      <div class="wall more" id="moreMotion" hidden>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption><span>Competitive video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-hero.jpg" data-src="media/smart-hero.mp4"></video><figcaption><span>Website hero</span><span>Digital</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-endcard.jpg" data-src="media/hi-endcard.mp4"></video><figcaption><span>Brand end card</span><span>Brand</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
-      </div>
-      <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
       </div>
     </details>
         <figure class="quote pull"><p><span class="hq">“</span>When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</p><cite>Brak Rak, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</cite></figure>
@@ -960,12 +962,17 @@
       </div>
       <span class="mono engage-eyebrow">How we work together</span>
       <div class="moves engage">
-        <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>A job or two at our hourly rate, with an estimate before we start. Most retainer clients began this way.</p><a class="move-link" href="#contact" data-help="first">Put a first job on the board</a></div>
+        <div class="move"><span class="mono">Start here</span><h3>Try us first</h3><p>A job or two at our hourly rate, with an estimate before we start. We learn your brand from your guidelines, templates and past work. Most retainer clients began this way.</p><a class="move-link" href="#contact" data-help="first">Put a first job on the board</a></div>
         <div class="move"><span class="mono">Retainer</span><h3>A year at a time</h3><p>A monthly block of hours at our best rate, invoiced up front. Unused hours roll over, and we review hours and rates each year.</p></div>
         <div class="move"><span class="mono">Hourly</span><h3>Room to flex</h3><p>For needs that swing month to month, invoiced at month end for the hours used.</p></div>
       </div>
+      <span class="mono engage-eyebrow">Unreleased and regulated work</span>
+      <div class="moves trust">
+        <div class="move"><span class="mono">Unreleased work</span><h3>Stays confidential</h3><p>Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
+        <div class="move"><span class="mono">Compliance review</span><h3>Built into the schedule</h3><p>Legal and compliance rounds are expected. We plan time for them from day one.</p></div>
+      </div>
       <details class="fold">
-        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Revisions · Compliance · Busy months</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
+        <summary><span class="fold-t"><span class="fold-h">The details</span><span class="fold-list">Who fits · Revisions · Busy months</span></span><span class="fold-cue mono" aria-hidden="true"><span class="c-open">Expand</span><span class="c-close">Collapse</span></span><span class="cs-mark" aria-hidden="true"></span></summary>
         <div class="fold-body">
         <div class="split">
           <div>
@@ -986,11 +993,9 @@
             </ul>
           </div>
         </div>
-        <div class="moves four">
+        <div class="moves trust">
           <div class="move"><span class="mono">Revisions</span><h3>Part of the job</h3><p>Billed as time like any other work, and handled quickly until it’s right.</p></div>
-          <div class="move"><span class="mono">Compliance review</span><h3>Built into the schedule</h3><p>Legal and compliance rounds are expected. We plan time for them from day one.</p></div>
           <div class="move"><span class="mono">Busy months</span><h3>The whole team picks it up</h3><p>When your month spikes, share your launch calendar and we plan around it.</p></div>
-          <div class="move"><span class="mono">Unreleased work</span><h3>Stays between us</h3><p>Unreleased products, launches and plans you share with us stay confidential.</p></div>
         </div>
         </div>
       </details>
