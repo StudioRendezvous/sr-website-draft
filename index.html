@@ -339,8 +339,10 @@
   @media (max-width: 620px) { .steps { grid-template-columns: 1fr; } .steps li { grid-template-columns: 34px 1fr; column-gap: 10px; } .steps li .n { grid-row: span 2; } }
   .range { margin: 4px 0 0; display: grid; gap: 10px; }
   .range-track { position: relative; height: 34px; border: 1px solid var(--glass-edge); background: var(--glass); background-image: linear-gradient(to right, var(--hair) 1px, transparent 1px); background-size: 10% 100%; }
-  .range-fill { position: absolute; top: -1px; bottom: -1px; background: var(--accent); display: flex; align-items: center; justify-content: center; }
-  .range-fill span { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--on-accent); white-space: nowrap; padding-inline: 8px; }
+  /* fill runs 20–200 hrs; the darker ends (20–40, 160–200) are the months that flex */
+  .range-fill { position: absolute; top: -1px; bottom: -1px; background: linear-gradient(to right, rgba(0, 0, 0, .3) 0 11.11%, transparent 11.11% 77.78%, rgba(0, 0, 0, .3) 77.78%), var(--accent); display: flex; align-items: center; justify-content: center; }
+  .range-fill span { position: absolute; left: 11.11%; right: 22.22%; text-align: center; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--on-accent); white-space: nowrap; padding-inline: 8px; }
+  @media (max-width: 620px) { .range-fill span { padding-inline: 0; letter-spacing: .02em; } }
   .range-ticks { position: relative; height: 16px; font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .range-ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
   .range-ticks span:first-child { transform: none; } .range-ticks span:last-child { transform: translateX(-100%); }
@@ -956,10 +958,10 @@
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
-      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 200 hours of design and motion a month.</p>
-      <figure class="range" aria-label="Monthly hours scale: our clients need 40 to 200 hours a month">
-        <div class="range-track"><div class="range-fill" style="left:16%;width:64%"><span>40–200 hours a month</span></div></div>
-        <div class="range-ticks"><span style="left:0%">0</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:60%">150</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
+      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Both need a helpful team to deliver 40 to 160 hours of design and motion a month, with room to flex from 20 to 200.</p>
+      <figure class="range" aria-label="Monthly hours scale: most clients need 40 to 160 hours a month, flexing from 20 to 200">
+        <div class="range-track"><div class="range-fill" style="left:8%;width:72%"><span>40–160 hours a month</span></div></div>
+        <div class="range-ticks"><span style="left:0%">0</span><span style="left:8%">20</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:64%">160</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
       </figure>
       <span class="mono engage-eyebrow">Why a studio like ours</span>
       <div class="moves alt-block">
