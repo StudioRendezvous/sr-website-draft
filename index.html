@@ -493,9 +493,12 @@
 
   /* ---------- footer: "Through the mark" (three loops seen through the circle, square and triangle) ---------- */
   /* Base: override the page's generic footer rule (flex) with a stacked grid. */
-  footer.site-foot { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 0; padding-block: 0 40px; border-top: 0; color: var(--text); }
+  footer.site-foot { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 0; padding-block: 0 150px; border-top: 0; color: var(--text); }
   /* Full-bleed dark plate: frosts the line field so the shapes read cleanly. Glass is fine here, it is a dark area. */
-  footer.site-foot::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: linear-gradient(90deg, rgba(20, 20, 20, .62) 0%, rgba(20, 20, 20, .26) 42%, rgba(20, 20, 20, 0) 62%), linear-gradient(180deg, rgba(0, 0, 0, 0) 44%, rgba(16, 16, 16, .66) 62%, rgba(16, 16, 16, .74)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); z-index: -1; }
+  footer.site-foot::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: linear-gradient(90deg, rgba(20, 20, 20, .5) 0%, rgba(20, 20, 20, .14) 45%, rgba(20, 20, 20, 0) 65%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); z-index: -1; }
+  /* Dark water: a slow generated ripple surface that fades up into the footer along an uneven edge */
+  footer.site-foot .sf-water { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; height: 100%; z-index: -2; pointer-events: none; display: block; }
+  #field { transition: opacity .5s; }
 
   /* ---- closing block: statement left, the mark's three windows right ---- */
   footer.site-foot .sf-close { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: 40px clamp(32px, 5vw, 72px); align-items: center; padding-block: 64px 56px; border-top: 1px solid var(--line); }
@@ -1054,6 +1057,7 @@
 
 
   <footer class="site-foot" id="foot">
+    <canvas class="sf-water" aria-hidden="true"></canvas>
 
     <div class="sf-dir">
       <div class="sf-col sf-brand">
@@ -1559,6 +1563,63 @@
       else if (!e.target.closest('.lb-media > *')) close();
       e.stopPropagation();
     });
+  })();
+
+  // Footer water: WebGL ripples, near-black with cool highlights and a faint warm glint.
+  (function () {
+    var foot = document.getElementById('foot'), cv = foot && foot.querySelector('.sf-water'), field = document.getElementById('field');
+    if (!cv) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+    if (!gl) { cv.remove(); return; }
+    var vs = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+    var fs = [
+      'precision mediump float;uniform vec2 uR;uniform float uT;',
+      'float h1(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+      'float nz(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h1(i),h1(i+vec2(1.,0.)),u.x),mix(h1(i+vec2(0.,1.)),h1(i+vec2(1.,1.)),u.x),u.y);}',
+      'float ht(vec2 p,float t){float h=sin(p.x*1.3+t*.35+sin(p.y*.7+t*.2)*1.2)*.35;h+=sin(p.y*2.1-t*.45+p.x*.4)*.25;',
+      'h+=(nz(p*1.7+vec2(t*.12,-t*.08))-.5)*.9;h+=(nz(p*3.9-vec2(t*.2,t*.1))-.5)*.35;return h;}',
+      'void main(){vec2 fc=gl_FragCoord.xy;vec2 uv=fc/uR;float asp=uR.x/uR.y;float t=uT;',
+      'float d=1./(1.25-uv.y*.95);vec2 p=vec2((uv.x-.5)*asp*d*.7,d*7.5);',
+      'float e=.02;float h=ht(p,t);float hx=ht(p+vec2(e,0.),t)-h;float hy=ht(p+vec2(0.,e),t)-h;',
+      'vec3 n=normalize(vec3(-hx/e*.26,-hy/e*.26,1.));vec3 L=normalize(vec3(-.35,.6,.72));vec3 V=normalize(vec3(0.,.4,1.));',
+      'vec3 H=normalize(L+V);float sp=pow(max(dot(n,H),0.),34.);float fr=pow(1.-max(dot(n,V),0.),3.);',
+      'vec3 base=vec3(.04,.046,.058);vec3 sky=vec3(.30,.34,.39);vec3 warm=vec3(.99,.31,0.);',
+      'vec3 col=base+sky*fr*.9+mix(sky,warm,.14)*sp*.9;',
+      'float edge=.66+(nz(vec2(uv.x*2.6+t*.03,t*.02))-.5)*.2+sin(uv.x*4.7+t*.08)*.035;',
+      'float a=1.-smoothstep(edge-.32,edge,uv.y);',
+      'col+=(h1(fc+fract(t))-.5)/255.;gl_FragColor=vec4(col*a,a);}'
+    ].join('');
+    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+    var pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { cv.remove(); return; }
+    gl.useProgram(pr);
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    var uR = gl.getUniformLocation(pr, 'uR'), uT = gl.getUniformLocation(pr, 'uT');
+    var SCALE = 0.6, visible = false, last = 0, t0 = performance.now();
+    function size() {
+      var w = Math.max(1, Math.round(cv.clientWidth * SCALE)), h = Math.max(1, Math.round(cv.clientHeight * SCALE));
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+    }
+    function draw(now) {
+      size(); gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, reduce ? 12 : 12 + (now - t0) / 1000);
+      gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    function loop(now) {
+      if (!visible) return;
+      if (now - last > 33) { last = now; draw(now); }   // about 30 fps
+      requestAnimationFrame(loop);
+    }
+    draw(performance.now());
+    window.addEventListener('resize', function () { draw(performance.now()); });
+    if (!('IntersectionObserver' in window)) return;
+    var steps = []; for (var i = 0; i <= 20; i++) steps.push(i / 20);
+    new IntersectionObserver(function (es) {
+      var r = es[0].intersectionRatio, was = visible; visible = es[0].isIntersecting;
+      if (field) field.style.opacity = String(Math.max(0, 1 - r * 1.6));   // line art hands off to the water
+      if (visible && !was && !reduce) requestAnimationFrame(loop);
+    }, { threshold: steps }).observe(foot);
   })();
 </script>
 </body>
