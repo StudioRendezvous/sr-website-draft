@@ -1571,36 +1571,68 @@
     if (!cv) return;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, visible = false, last = 0, t0 = performance.now();
-    var ROWS = 30, STEP = 10;
+    // A wireframe sea in true perspective: rows run across, columns run into the distance,
+    // crests catch more light and everything fades with depth.
+    var Z0 = 1.7, Z1 = 15, ROWS = 34, COLS = 0.62, STEP = 9;
     function size() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       var w = cv.clientWidth, h = cv.clientHeight;
       if (w !== W || h !== H) { W = w; H = h; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
     }
-    function wave(x, z, t) {
-      return Math.sin(x * 0.0042 + t * 0.32 + z * 2.1) * 1.0
-           + Math.sin(x * 0.0097 - t * 0.55 + z * 4.3) * 0.45
-           + Math.sin(x * 0.021 + t * 0.9 - z * 6.0) * 0.18;
+    function hgt(x, z, t) {
+      return 0.30 * Math.sin(0.55 * x + 0.85 * z - 0.55 * t)
+           + 0.17 * Math.sin(1.25 * x - 0.6 * z + 0.8 * t)
+           + 0.09 * Math.sin(2.6 * x + 1.8 * z - 1.3 * t)
+           + 0.22 * Math.sin(0.33 * z + 0.2 * x + 0.35 * t);
     }
     function draw(now) {
       size();
       var t = reduce ? 8 : (now - t0) / 1000;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-      var horizon = H * 0.16, span = H + 24 - horizon;
-      for (var r = 0; r < ROWS; r++) {
-        var z = r / (ROWS - 1);                       // 0 = nearest (bottom), 1 = farthest (top)
-        var near = 1 - z, yBase = horizon + span * Math.pow(near, 2.1);
-        var amp = 3 + 22 * Math.pow(near, 1.7);
-        var a = Math.pow(near, 1.3) * 0.42;           // rows fade out as they recede
-        var orange = r % 6 === 3;
-        ctx.strokeStyle = orange ? 'rgba(254, 80, 0,' + (a * 0.9).toFixed(3) + ')' : 'rgba(255, 255, 255,' + a.toFixed(3) + ')';
-        ctx.lineWidth = 0.6 + near * 0.6;
-        ctx.beginPath();
-        for (var x = -STEP; x <= W + STEP; x += STEP) {
-          var y = yBase + wave(x * (1 + z * 1.6), z, t) * amp;
-          if (x === -STEP) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      var f = H * 0.95, cx = W / 2, hor = H * 0.1, cam = 1.55;
+      function sy(h, z) { return hor + (cam - h) * f / z; }
+      function fog(z) { return Math.pow(1 - (z - Z0) / (Z1 - Z0), 1.35); }
+      ctx.lineCap = 'round';
+      // columns: lines running into the distance, converging on the horizon
+      var xMax = (W / 2) * Z1 / f;
+      for (var xw = -xMax; xw <= xMax; xw += COLS) {
+        var px = null, py = null;
+        for (var k = 0; k <= 40; k++) {
+          var z = Z0 + (Z1 - Z0) * Math.pow(k / 40, 1.4), h = hgt(xw, z, t);
+          var x = cx + xw * f / z, y = sy(h, z);
+          if (px !== null && x > -20 && x < W + 20) {
+            ctx.strokeStyle = 'rgba(255,255,255,' + (0.17 * fog(z)).toFixed(3) + ')'; ctx.lineWidth = 0.6;
+            ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(x, y); ctx.stroke();
+          }
+          px = x; py = y;
         }
-        ctx.stroke();
+      }
+      // rows: lines running across, brighter on the crests
+      for (var r = 0; r < ROWS; r++) {
+        var z = Z0 + (Z1 - Z0) * Math.pow(r / (ROWS - 1), 1.4), fz = fog(z), orange = r % 7 === 3;
+        var lx = null, ly = null;
+        for (var sx = -STEP; sx <= W + STEP; sx += STEP) {
+          var xw2 = (sx - cx) * z / f, h2 = hgt(xw2, z, t), y2 = sy(h2, z);
+          if (lx !== null) {
+            var crest = Math.max(0, Math.min(1, (h2 + 0.45) / 0.9));
+            var a = fz * (0.12 + 0.5 * crest * crest);
+            ctx.strokeStyle = orange ? 'rgba(254,80,0,' + (a * 0.95).toFixed(3) + ')' : 'rgba(255,255,255,' + a.toFixed(3) + ')';
+            ctx.lineWidth = 0.5 + fz * 0.9;
+            ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(sx, y2); ctx.stroke();
+          }
+          lx = sx; ly = y2;
+        }
+      }
+      // glints: small points of light riding the highest crests, on the column crossings
+      for (var r2 = 0; r2 < ROWS; r2 += 2) {
+        var z3 = Z0 + (Z1 - Z0) * Math.pow(r2 / (ROWS - 1), 1.4), f3 = fog(z3);
+        for (var xw3 = -xMax; xw3 <= xMax; xw3 += COLS) {
+          var h3 = hgt(xw3, z3, t); if (h3 < 0.42) continue;
+          var x3 = cx + xw3 * f / z3; if (x3 < 0 || x3 > W) continue;
+          var g = Math.min(1, (h3 - 0.42) / 0.25) * f3;
+          ctx.fillStyle = (r2 % 7 === 3 ? 'rgba(254,80,0,' : 'rgba(255,255,255,') + (0.85 * g).toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(x3, sy(h3, z3), 0.8 + 1.4 * f3, 0, 6.283); ctx.fill();
+        }
       }
     }
     function loop(now) {
