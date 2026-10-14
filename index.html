@@ -118,6 +118,7 @@
   /* the three moves */
   .moves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px clamp(28px, 3vw, 44px); }
   .move { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 6px; align-content: start; }
+  .move p { text-wrap: pretty; }
   .move .mono { color: var(--sub); }
   @media (max-width: 900px) { .moves { grid-template-columns: 1fr; } }
   .moves.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -982,7 +983,7 @@
       <span class="mono engage-eyebrow">How we work together</span>
       <div class="moves engage">
         <div class="move"><h3>Try us first</h3><p>A job or two at our hourly rate, with an estimate before we start. We learn your brand from your guidelines, templates and past work. Most retainer clients began this way.</p><a class="move-link" href="#contact" data-help="first">Put a first job on the board</a></div>
-        <div class="move"><h3>Annual retainer</h3><p>A team you can count on all year. Your workload is coming, so we commit to it with you: a set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over, and we review hours and rates each year.</p></div>
+        <div class="move"><h3>Annual retainer</h3><p>A team you can count on all year. Your year is already on the calendar, so we commit to it with you: a set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over and don’t expire at year end. We honor them until the balance is back to zero, and review hours and rates each year.</p></div>
         <div class="move"><h3>Hourly</h3><p>Room to flex when needs swing month to month. Invoiced at month end for the hours used.</p></div>
       </div>
       <span class="mono engage-eyebrow">Before you sign</span>
