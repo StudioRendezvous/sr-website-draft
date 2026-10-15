@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
 <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
 <script>!function(d){var h=d.documentElement,m=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);try{var s=localStorage.getItem('srMotion');if(s!==null)m=s==='1'}catch(e){}h.classList.add('js');if(!m)h.classList.add('still');else if(window.innerWidth>=900)h.classList.add('morph')}(document)</script>
-<script>addEventListener('pagereveal',function(e){if(e.viewTransition&&document.documentElement.classList.contains('still'))e.viewTransition.skipTransition()})</script>
+<script>addEventListener('pagereveal',function(e){if(e.viewTransition&&document.documentElement.classList.contains('still')){e.viewTransition.ready.catch(function(){});e.viewTransition.skipTransition()}})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Source+Sans+3:wght@200;300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
