@@ -418,7 +418,7 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
 @media (prefers-reduced-motion: reduce) { .idx-row .t, .idx-row .op, .peek, .cap { transition: none; } }
 
 /* ---------- work: mixed-size mosaic (normal vertical scroll, no pinning, no sideways scroll) ---------- */
-.reel .strip { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; scroll-snap-type: none; gap: 10px; }
+.reel .strip { grid-auto-flow: row dense; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; scroll-snap-type: none; gap: 10px; }
 .reel .clip { grid-column: span 2; aspect-ratio: 16 / 9; }
 .reel .clip:nth-child(1) { grid-column: 1 / span 4; grid-row: span 2; aspect-ratio: auto; }
 .reel .clip:nth-child(7), .reel .clip:nth-child(8) { grid-column: 1 / span 2; }
