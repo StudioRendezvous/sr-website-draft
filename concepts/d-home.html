@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#1c1c1c">
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
 <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
-<script>!function(d){var h=d.documentElement,m=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);try{var s=localStorage.getItem('srMotion');if(s!==null)m=s==='1'}catch(e){}h.classList.add('js');if(!m)h.classList.add('still');else if(window.innerWidth>=900)h.classList.add('morph')}(document)</script>
+<script>!function(d){var h=d.documentElement,m=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);try{var s=localStorage.getItem('srMotion');if(s!==null)m=s==='1'}catch(e){}h.classList.add('js');if(!m)h.classList.add('still');}(document)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Source+Sans+3:wght@200;300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -416,6 +416,30 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
 .js.still .sfw .m { clip-path: var(--to); opacity: 1; transform: none; transition: none; }
 @media (max-width: 900px) { .sf-wins { justify-self: start; max-width: 360px; } }
 @media (prefers-reduced-motion: reduce) { .idx-row .t, .idx-row .op, .peek, .cap { transition: none; } }
+
+/* ---------- work: mixed-size mosaic (normal vertical scroll, no pinning, no sideways scroll) ---------- */
+.reel .strip { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; scroll-snap-type: none; gap: 10px; }
+.reel .clip { grid-column: span 2; aspect-ratio: 16 / 9; }
+.reel .clip:nth-child(1) { grid-column: 1 / span 4; grid-row: span 2; aspect-ratio: auto; }
+.reel .clip:nth-child(7), .reel .clip:nth-child(8) { grid-column: 1 / span 2; }
+.reel .clip:nth-child(9) { grid-column: 3 / span 4; grid-row: span 2; aspect-ratio: auto; }
+.reel .reel-foot { display: none; }
+@media (max-width: 719px) {
+  .reel .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reel .clip, .reel .clip:nth-child(7), .reel .clip:nth-child(8) { grid-column: span 1; }
+  .reel .clip:nth-child(1), .reel .clip:nth-child(9) { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16 / 9; }
+  .reel .cap { font-size: 10px; padding: 18px 8px 6px; }
+  .reel .cap i { display: none; }
+}
+/* ---------- how it works: five plain steps ---------- */
+.steps5 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
+.steps5 li { display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 1px solid var(--line); position: relative; }
+.steps5 li::before { content: ""; position: absolute; top: -4px; left: 0; width: 7px; height: 7px; background: var(--accent); }
+.steps5 .n { font: 500 12px/1 var(--mono); letter-spacing: .08em; color: var(--sub); }
+.steps5 h3 { font-size: clamp(22px, 1.9vw, 27px); line-height: 1; margin: 0; }
+.steps5 p { margin: 0; color: var(--sub); font-size: 15.5px; line-height: 1.45; }
+@media (max-width: 1100px) { .steps5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 719px) { .steps5 { grid-template-columns: 1fr; gap: 20px; } }
 </style>
 </head>
 <body>
@@ -447,7 +471,7 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
       </div>
       <div class="stage" aria-hidden="true">
         <svg class="construct" viewBox="0 0 100 100" preserveAspectRatio="none"><path class="ln" d="M0 1 A99 99 0 0 1 99 100"/><path class="ln" d="M0 100 H100"/><rect class="sq" x="0" y="98.4" width="1.6" height="1.6"/></svg>
-        <div class="hw c"><div class="m"><img src="../media/smart-innovate-pillar.jpg" alt="" width="960" height="480" loading="eager" fetchpriority="high"><video class="hv" muted loop playsinline preload="none" data-src="../media/smart-innovate-pillar.mp4"></video></div><svg class="ol" viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" pathLength="1"/></svg></div>
+        <div class="hw c"><div class="m"><img src="../media/smart-narrative.jpg" alt="" width="960" height="480" loading="eager" fetchpriority="high"><video class="hv" muted loop playsinline preload="none" data-src="../media/smart-narrative.mp4"></video></div><svg class="ol" viewBox="0 0 100 100"><circle cx="50" cy="50" r="49.5" pathLength="1"/></svg></div>
         <div class="hw s"><div class="m"><img src="../media/smart-london-recap.jpg" alt="" width="960" height="540" loading="eager" fetchpriority="high"></div><svg class="ol" viewBox="0 0 100 100"><rect x=".5" y=".5" width="99" height="99" pathLength="1"/></svg></div>
         <div class="hw t"><div class="m"><img src="../media/arx-booth.jpg" alt="" width="960" height="540" loading="eager" fetchpriority="high"></div><svg class="ol" viewBox="0 0 100 100"><polygon points="50,.5 99.5,99.5 .5,99.5" pathLength="1"/></svg></div>
       </div>
@@ -467,14 +491,14 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
         <div class="sec-head"><span class="tag">Work</span><h2 id="work-h">681 videos. Twelve months.</h2></div>
         <div class="reel-meta">
           <p>We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion.</p>
-          <p class="mono ctr" aria-hidden="true"><b id="reelN">01</b> / 12</p>
+          
         </div>
       </div>
       <ol class="strip" id="strip" aria-label="Motion reel, 12 loops">
-        <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/smart-innovate-pillar.mp4" data-poster="../media/smart-innovate-pillar.jpg"></video><noscript><img src="../media/smart-innovate-pillar.jpg" alt=""></noscript></div><p class="cap"><span class="n">01</span><b>Stage loop</b><i>Events</i></p><button class="hit" type="button" aria-label="01, Stage loop, events. Play larger"></button></li>
+        <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/norton-exec-program.mp4" data-poster="../media/norton-exec-program.jpg"></video><noscript><img src="../media/norton-exec-program.jpg" alt=""></noscript></div><p class="cap"><span class="n">01</span><b>Launch film</b><i>Video</i></p><button class="hit" type="button" aria-label="04, Launch film, video. Play larger"></button></li>
         <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/smart-london-recap.mp4" data-poster="../media/smart-london-recap.jpg"></video><noscript><img src="../media/smart-london-recap.jpg" alt=""></noscript></div><p class="cap"><span class="n">02</span><b>Event recap reel</b><i>Events</i></p><button class="hit" type="button" aria-label="02, Event recap reel, events. Play larger"></button></li>
         <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/arx-booth.mp4" data-poster="../media/arx-booth.jpg"></video><noscript><img src="../media/arx-booth.jpg" alt=""></noscript></div><p class="cap"><span class="n">03</span><b>Trade show loop</b><i>Events</i></p><button class="hit" type="button" aria-label="03, Trade show loop, events. Play larger"></button></li>
-        <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/norton-exec-program.mp4" data-poster="../media/norton-exec-program.jpg"></video><noscript><img src="../media/norton-exec-program.jpg" alt=""></noscript></div><p class="cap"><span class="n">04</span><b>Launch film</b><i>Video</i></p><button class="hit" type="button" aria-label="04, Launch film, video. Play larger"></button></li>
+        <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/smart-innovate-pillar.mp4" data-poster="../media/smart-innovate-pillar.jpg"></video><noscript><img src="../media/smart-innovate-pillar.jpg" alt=""></noscript></div><p class="cap"><span class="n">04</span><b>Stage loop</b><i>Events</i></p><button class="hit" type="button" aria-label="01, Stage loop, events. Play larger"></button></li>
         <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/spareit-explainer.mp4" data-poster="../media/spareit-explainer.jpg"></video><noscript><img src="../media/spareit-explainer.jpg" alt=""></noscript></div><p class="cap"><span class="n">05</span><b>Explainer</b><i>Video</i></p><button class="hit" type="button" aria-label="05, Explainer, video. Play larger"></button></li>
         <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/marchex-aps.mp4" data-poster="../media/marchex-aps.jpg"></video><noscript><img src="../media/marchex-aps.jpg" alt=""></noscript></div><p class="cap"><span class="n">06</span><b>Product video</b><i>UX</i></p><button class="hit" type="button" aria-label="06, Product video, ux. Play larger"></button></li>
         <li class="clip"><div class="frame"><video muted loop playsinline preload="none" data-src="../media/smart-narrative.mp4" data-poster="../media/smart-narrative.jpg"></video><noscript><img src="../media/smart-narrative.jpg" alt=""></noscript></div><p class="cap"><span class="n">07</span><b>Brand narrative</b><i>Motion</i></p><button class="hit" type="button" aria-label="07, Brand narrative, motion. Play larger"></button></li>
@@ -534,17 +558,13 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
   <section class="sec" id="how" aria-labelledby="how-h">
     <div class="wrap">
       <div class="sec-head"><span class="tag">How it works</span><h2 id="how-h">Put a job on the board. We’ve got it.</h2></div>
-      <p class="vh">An example board: jobs move from Add a job, to We’re on it, to Best first draft, to Review, to Delivered.</p>
-      <div class="board-shell rv">
-        <div class="board-bar mono"><span class="dot"></span><b>Shared job board</b><span>Your team + ours</span><span class="sp"></span><span class="ev" id="boardEv" aria-hidden="true">Jobs move along as they land</span></div>
-        <div class="board" id="board">
-          <div class="col"><h3 class="col-h"><svg viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="4.4" fill="none" stroke="#a6a6a6" stroke-width="1.2"/></svg>Add a job<span class="c">2</span></h3><div class="list"><article class="jc"><div class="th"><img src="../media/smart-london-recap.jpg" alt="" loading="lazy"><span class="tg">Events</span></div><div class="mt"><span class="t">Event recap reel</span><img class="av" src="../media/team/joel-bender.png" alt="" loading="lazy"><span class="id">SR-0670</span></div><span class="st s0">New</span></article><article class="jc"><div class="th"><img src="../media/nkv-dark.jpg" alt="" loading="lazy"><span class="tg">Brand</span></div><div class="mt"><span class="t">Key visual</span><img class="av" src="../media/team/shane-french.png" alt="" loading="lazy"><span class="id">SR-0671</span></div><span class="st s0">New</span></article></div></div>
-          <div class="col"><h3 class="col-h"><svg viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="5" r="5" fill="#fe5000"/></svg>We’re on it<span class="c">2</span></h3><div class="list"><article class="jc"><div class="th"><img src="../media/norton-craft-beer.jpg" alt="" loading="lazy"><span class="tg">Social</span></div><div class="mt"><span class="t">Social animation</span><img class="av" src="../media/team/tom-larsen.png" alt="" loading="lazy"><span class="id">SR-0672</span></div><span class="st s1">On it</span></article><article class="jc"><div class="th"><img src="../media/inn-podium.jpg" alt="" loading="lazy"><span class="tg">Events</span></div><div class="mt"><span class="t">Digital podium</span><img class="av" src="../media/team/joel-bender.png" alt="" loading="lazy"><span class="id">SR-0673</span></div><span class="st s1">On it</span></article></div></div>
-          <div class="col"><h3 class="col-h"><svg viewBox="0 0 10 10" aria-hidden="true"><rect x=".6" y=".6" width="8.8" height="8.8" fill="none" stroke="#fff" stroke-width="1.2"/></svg>Best first draft<span class="c">3</span></h3><div class="list"><article class="jc"><div class="th"><img src="../media/arx-explainer.jpg" alt="" loading="lazy"><span class="tg">Video</span></div><div class="mt"><span class="t">Explainer</span><img class="av" src="../media/team/gui-freitas.png" alt="" loading="lazy"><span class="id">SR-0674</span></div><span class="st s2">Draft</span></article><article class="jc"><div class="th"><img src="../media/hi-bb-00.jpg" alt="" loading="lazy"><span class="tg">Brand</span></div><div class="mt"><span class="t">Brand book</span><img class="av" src="../media/team/shane-french.png" alt="" loading="lazy"><span class="id">SR-0675</span></div><span class="st s2">Draft</span></article><article class="jc"><div class="th"><img src="../media/smart-innovate-pillar.jpg" alt="" loading="lazy"><span class="tg">Events</span></div><div class="mt"><span class="t">Stage loop</span><img class="av" src="../media/team/joel-bender.png" alt="" loading="lazy"><span class="id">SR-0676</span></div><span class="st s2">Draft</span></article></div></div>
-          <div class="col"><h3 class="col-h"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="5,.5 9.6,9.4 .4,9.4" fill="none" stroke="#fe5000" stroke-width="1.2"/></svg>Review<span class="c">2</span></h3><div class="list"><article class="jc"><div class="th"><img src="../media/pb-00.jpg" alt="" loading="lazy"><span class="tg">Print</span></div><div class="mt"><span class="t">Partner playbook</span><img class="av" src="../media/team/tom-larsen.png" alt="" loading="lazy"><span class="id">SR-0677</span></div><span class="st s3">Review</span></article><article class="jc"><div class="th"><img src="../media/hi-flyby.jpg" alt="" loading="lazy"><span class="tg">Motion</span></div><div class="mt"><span class="t">Data story</span><img class="av" src="../media/team/gui-freitas.png" alt="" loading="lazy"><span class="id">SR-0678</span></div><span class="st s3">Review</span></article></div></div>
-          <div class="col"><h3 class="col-h"><svg viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10" fill="#6a6a6a"/></svg>Delivered<span class="c">3</span></h3><div class="list"><article class="jc"><div class="th"><img src="../media/inn-app.jpg" alt="" loading="lazy"><span class="tg">UX</span></div><div class="mt"><span class="t">Event app</span><img class="av" src="../media/team/andrew-baldwin.png" alt="" loading="lazy"><span class="id">SR-0679</span></div><span class="st s4">Delivered</span></article><article class="jc"><div class="th"><img src="../media/norton-hrtech-booth.jpg" alt="" loading="lazy"><span class="tg">Events</span></div><div class="mt"><span class="t">Booth video</span><img class="av" src="../media/team/joel-bender.png" alt="" loading="lazy"><span class="id">SR-0680</span></div><span class="st s4">Delivered</span></article><article class="jc"><div class="th"><img src="../media/marchex-nada.jpg" alt="" loading="lazy"><span class="tg">Video</span></div><div class="mt"><span class="t">Sales video</span><img class="av" src="../media/team/gui-freitas.png" alt="" loading="lazy"><span class="id">SR-0681</span></div><span class="st s4">Delivered</span></article></div></div>
-        </div>
-      </div>
+      <ol class="steps5">
+        <li><span class="n">01</span><h3>Add a job</h3><p>A brief, any files and the deadline, right on the board.</p></li>
+        <li><span class="n">02</span><h3>We’re on it</h3><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
+        <li><span class="n">03</span><h3>Best first draft</h3><p>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</p></li>
+        <li><span class="n">04</span><h3>Review</h3><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame.</p></li>
+        <li><span class="n">05</span><h3>Delivered</h3><p>Final files, ready to use, and source files on request. Then the next job.</p></li>
+      </ol>
       <div class="how-foot">
         <div>
           <p class="lede">Every client gets a shared monday.com board, free to join. Already have your own board, Figma libraries and review process? We work in yours.</p>
@@ -865,7 +885,7 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
   }
   function measure() {
     root.style.setProperty('--vw', root.clientWidth + 'px');
-    pinned = SR.motion && mqWide.matches;
+    pinned = false;   // no forced scroll: the hero windows play in place and the work is a mosaic
     root.classList.toggle('morph', pinned);
     if (!pinned) { if (lifted) lift(false); reel.style.height = ''; strip.style.transform = ''; frames.forEach(function (f) { f.style.width = f.style.height = ''; }); L.ok = false; flatUpdate(); VC.run(); return; }
     strip.style.transform = 'none';
