@@ -10,6 +10,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
 <link rel="apple-touch-icon" href="../media/apple-touch-icon.png">
 <script>!function(d){var h=d.documentElement,m=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);try{var s=localStorage.getItem('srMotion');if(s!==null)m=s==='1'}catch(e){}h.classList.add('js');if(!m)h.classList.add('still');}(document)</script>
+<script>addEventListener('pagereveal',function(e){if(e.viewTransition&&document.documentElement.classList.contains('still'))e.viewTransition.skipTransition()})</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Source+Sans+3:wght@200;300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -440,6 +441,41 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
 .steps5 p { margin: 0; color: var(--sub); font-size: 15.5px; line-height: 1.45; }
 @media (max-width: 1100px) { .steps5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 719px) { .steps5 { grid-template-columns: 1fr; gap: 20px; } }
+
+/* ---------- page to page: the new page opens through a circle (Chrome, Edge, Safari 18.2+) ---------- */
+@view-transition { navigation: auto; }
+.top { view-transition-name: site-top; }
+::view-transition-old(root) { animation: none; }
+::view-transition-new(root) { animation: srReveal .7s cubic-bezier(.2, .7, .2, 1) both; }
+::view-transition-group(site-top) { animation: none; }
+@keyframes srReveal { from { clip-path: circle(0% at 50% 42%); } to { clip-path: circle(150% at 50% 42%); } }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+
+/* ---------- job sheet grows out of the clicked work and closes back into it ---------- */
+::view-transition-group(sheet) { animation-duration: .5s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-old(sheet), ::view-transition-new(sheet) { animation-duration: .35s; height: 100%; object-fit: cover; }
+html.vt dialog.sheet[open] { animation: none; }
+/* ---------- mixed-size mosaics inside the job sheets ---------- */
+.gal.mosaic figure { grid-column: auto; grid-row: auto; aspect-ratio: auto; }
+.gal.m8 { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(110px, 12vw, 190px); }
+.gal.m6, .gal.m4 { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(130px, 15vw, 240px); }
+.gal.mosaic figure:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gal.m8 figure:nth-child(6) { grid-column: span 2; }
+.gal.m4 figure:nth-child(4) { grid-column: 1 / -1; }
+@media (max-width: 720px) {
+  .gal.m8, .gal.m6, .gal.m4 { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 34vw; }
+  .gal.mosaic figure:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gal.m6 figure:nth-child(6), .gal.m8 figure:nth-child(6), .gal.m4 figure:nth-child(4) { grid-column: span 2; }
+}
+/* ---------- clips open through the mark's circle, square and triangle as they scroll into view ---------- */
+@supports (animation-timeline: view()) {
+  html:not(.still) .reel .clip .frame, html:not(.still) .gal.mosaic figure { animation: srInC linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+  html:not(.still) .reel .clip:nth-child(3n+2) .frame, html:not(.still) .gal.mosaic figure:nth-child(3n+2) { animation-name: srInS; }
+  html:not(.still) .reel .clip:nth-child(3n) .frame, html:not(.still) .gal.mosaic figure:nth-child(3n) { animation-name: srInT; }
+}
+@keyframes srInC { from { clip-path: circle(16% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
+@keyframes srInS { from { clip-path: inset(30% 30%); } to { clip-path: inset(0); } }
+@keyframes srInT { from { clip-path: polygon(50% 18%, 50% 18%, 84% 84%, 16% 84%); } to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
 </style>
 </head>
 <body>
@@ -528,22 +564,22 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
       <article class="case" id="case-brand" data-ind="Financial services" data-count="8 pieces">
         <span class="tag ind-tag">Financial services</span><h3>A new brand, carried into everything</h3>
         <p class="lede">When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.</p>
-        <div class="gal land"><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-logo-stings.mp4" data-poster="../media/hi-logo-stings-poster.jpg"></video><noscript><img src="../media/hi-logo-stings-poster.jpg" alt=""></noscript><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-flyby.mp4" data-poster="../media/hi-flyby.jpg"></video><noscript><img src="../media/hi-flyby.jpg" alt=""></noscript><figcaption>Data story</figcaption></figure><figure><img src="../media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="../media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="../media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="../media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="../media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-betterment.mp4" data-poster="../media/hi-betterment.jpg"></video><noscript><img src="../media/hi-betterment.jpg" alt=""></noscript><figcaption>Competitive video</figcaption></figure></div><p class="note">Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.</p><div class="sub"><span class="tag">Apparel</span><p>The brand carried onto apparel too: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p></div><div class="gal"><figure><img src="../media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="../media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="../media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="../media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
+        <div class="gal land mosaic m8"><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-logo-stings.mp4" data-poster="../media/hi-logo-stings-poster.jpg"></video><noscript><img src="../media/hi-logo-stings-poster.jpg" alt=""></noscript><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-flyby.mp4" data-poster="../media/hi-flyby.jpg"></video><noscript><img src="../media/hi-flyby.jpg" alt=""></noscript><figcaption>Data story</figcaption></figure><figure><img src="../media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="../media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="../media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="../media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="../media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/hi-betterment.mp4" data-poster="../media/hi-betterment.jpg"></video><noscript><img src="../media/hi-betterment.jpg" alt=""></noscript><figcaption>Competitive video</figcaption></figure></div><p class="note">Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.</p><div class="sub"><span class="tag">Apparel</span><p>The brand carried onto apparel too: socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p></div><div class="gal mosaic m4"><figure><img src="../media/app-jacket.jpg" alt="Team jacket" loading="lazy"><figcaption>Team jacket</figcaption></figure><figure><img src="../media/app-hoodie.jpg" alt="Kickoff hoodie" loading="lazy"><figcaption>Kickoff hoodie</figcaption></figure><figure><img src="../media/app-socks.jpg" alt="Event socks" loading="lazy"><figcaption>Event socks</figcaption></figure><figure><img src="../media/app-tee.jpg" alt="Event tee" loading="lazy"><figcaption>Event tee</figcaption></figure></div>
       </article>
       <article class="case" id="case-events" data-ind="B2B software" data-count="12 pieces">
         <span class="tag ind-tag">B2B software</span><h3>Events, end to end</h3>
         <p class="lede">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
-        <div class="gal"><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/smart-innovate-pillar.mp4" data-poster="../media/smart-innovate-pillar.jpg"></video><noscript><img src="../media/smart-innovate-pillar.jpg" alt=""></noscript><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="../media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="../media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="../media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="../media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="../media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="../media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/smart-london-recap.mp4" data-poster="../media/smart-london-recap.jpg"></video><noscript><img src="../media/smart-london-recap.jpg" alt=""></noscript><figcaption>Recap reel</figcaption></figure></div>
+        <div class="gal mosaic m8"><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/smart-innovate-pillar.mp4" data-poster="../media/smart-innovate-pillar.jpg"></video><noscript><img src="../media/smart-innovate-pillar.jpg" alt=""></noscript><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="../media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="../media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="../media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="../media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="../media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="../media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/smart-london-recap.mp4" data-poster="../media/smart-london-recap.jpg"></video><noscript><img src="../media/smart-london-recap.jpg" alt=""></noscript><figcaption>Recap reel</figcaption></figure></div>
       </article>
       <article class="case" id="case-exec" data-ind="Cybersecurity" data-count="6 pieces">
         <span class="tag ind-tag">Cybersecurity</span><h3>An executive program, launched</h3>
         <p class="lede">Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p>
-        <div class="gal"><figure class="g2"><img src="../media/nkv-dark.jpg" alt="Key visual" loading="lazy"><figcaption>Key visual</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/norton-exec-program.mp4" data-poster="../media/norton-exec-program.jpg"></video><noscript><img src="../media/norton-exec-program.jpg" alt=""></noscript><figcaption>Launch film</figcaption></figure><figure><img src="../media/nexp-01.jpg" alt="Proposal cover" loading="lazy"><figcaption>Proposal cover</figcaption></figure><figure><img src="../media/nexp-02.jpg" alt="Proposal spread" loading="lazy"><figcaption>Proposal spread</figcaption></figure><figure><img src="../media/nexp-04.jpg" alt="Program pillars" loading="lazy"><figcaption>Program pillars</figcaption></figure><figure><img src="../media/nexp-07.jpg" alt="Feature page" loading="lazy"><figcaption>Feature page</figcaption></figure></div>
+        <div class="gal mosaic m6"><figure class="g2"><img src="../media/nkv-dark.jpg" alt="Key visual" loading="lazy"><figcaption>Key visual</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/norton-exec-program.mp4" data-poster="../media/norton-exec-program.jpg"></video><noscript><img src="../media/norton-exec-program.jpg" alt=""></noscript><figcaption>Launch film</figcaption></figure><figure><img src="../media/nexp-01.jpg" alt="Proposal cover" loading="lazy"><figcaption>Proposal cover</figcaption></figure><figure><img src="../media/nexp-02.jpg" alt="Proposal spread" loading="lazy"><figcaption>Proposal spread</figcaption></figure><figure><img src="../media/nexp-04.jpg" alt="Program pillars" loading="lazy"><figcaption>Program pillars</figcaption></figure><figure><img src="../media/nexp-07.jpg" alt="Feature page" loading="lazy"><figcaption>Feature page</figcaption></figure></div>
       </article>
       <article class="case" id="case-partner" data-ind="Cybersecurity" data-count="6 pieces">
         <span class="tag ind-tag">Cybersecurity</span><h3>Partner marketing</h3>
         <p class="lede">A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.</p>
-        <div class="gal screens"><figure class="g2"><img src="../media/pb-00.jpg" alt="Playbook" loading="lazy"><figcaption>Playbook</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/norton-social-mosaic.mp4" data-poster="../media/norton-social-mosaic.jpg"></video><noscript><img src="../media/norton-social-mosaic.jpg" alt=""></noscript><figcaption>Social program</figcaption></figure><figure><img src="../media/pb-09.jpg" alt="Onboarding" loading="lazy"><figcaption>Onboarding</figcaption></figure><figure><img src="../media/pb-12.jpg" alt="Use cases" loading="lazy"><figcaption>Use cases</figcaption></figure><figure><img src="../media/pb-17.jpg" alt="Email journeys" loading="lazy"><figcaption>Email journeys</figcaption></figure><figure><video muted loop playsinline preload="none" data-src="../media/norton-currys.mp4" data-poster="../media/norton-currys.jpg"></video><noscript><img src="../media/norton-currys.jpg" alt=""></noscript><figcaption>App walkthrough</figcaption></figure></div>
+        <div class="gal screens mosaic m6"><figure class="g2"><img src="../media/pb-00.jpg" alt="Playbook" loading="lazy"><figcaption>Playbook</figcaption></figure><figure class="g2"><video muted loop playsinline preload="none" data-src="../media/norton-social-mosaic.mp4" data-poster="../media/norton-social-mosaic.jpg"></video><noscript><img src="../media/norton-social-mosaic.jpg" alt=""></noscript><figcaption>Social program</figcaption></figure><figure><img src="../media/pb-09.jpg" alt="Onboarding" loading="lazy"><figcaption>Onboarding</figcaption></figure><figure><img src="../media/pb-12.jpg" alt="Use cases" loading="lazy"><figcaption>Use cases</figcaption></figure><figure><img src="../media/pb-17.jpg" alt="Email journeys" loading="lazy"><figcaption>Email journeys</figcaption></figure><figure><video muted loop playsinline preload="none" data-src="../media/norton-currys.mp4" data-poster="../media/norton-currys.jpg"></video><noscript><img src="../media/norton-currys.jpg" alt=""></noscript><figcaption>App walkthrough</figcaption></figure></div>
       </article>
       <article class="case" id="case-logos" data-ind="Commercial HVAC group" data-count="47 logos">
         <span class="tag ind-tag">Commercial HVAC group</span><h3>Logo systems</h3>
@@ -997,6 +1033,25 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
   /* ---------- the job sheet: one native dialog for the work index and the reel ---------- */
   var dlg = d.getElementById('sheet'), sIn = d.getElementById('sheetIn'), sTag = d.getElementById('sheetTag'), sMeta = d.getElementById('sheetMeta'), opener = null, clipAt = 0;
   function openDialog() { VC.setDialog(dlg); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); sIn.scrollTop = 0; }
+  // the sheet grows out of whatever was clicked and closes back into it (View Transitions; plain open and close elsewhere)
+  var vtSrc = null, canVT = !!d.startViewTransition;
+  function morphIn(src, update) {
+    vtSrc = src;
+    if (!canVT || !SR.motion || !src) { update(); return; }
+    root.classList.add('vt'); src.style.viewTransitionName = 'sheet';
+    var t = d.startViewTransition(function () { src.style.viewTransitionName = ''; dlg.style.viewTransitionName = 'sheet'; update(); });
+    t.finished.then(done, done);
+    function done() { dlg.style.viewTransitionName = ''; root.classList.remove('vt'); }
+  }
+  function closeSheet() {
+    if (!dlg.open) return;
+    var src = vtSrc && vtSrc.isConnected ? vtSrc : null;
+    if (!canVT || !SR.motion || !src || src.getBoundingClientRect().bottom < 0 || src.getBoundingClientRect().top > innerHeight) { dlg.close(); return; }
+    root.classList.add('vt'); dlg.style.viewTransitionName = 'sheet';
+    var t = d.startViewTransition(function () { dlg.style.viewTransitionName = ''; dlg.close(); src.style.viewTransitionName = 'sheet'; });
+    t.finished.then(done, done);
+    function done() { src.style.viewTransitionName = ''; root.classList.remove('vt'); }
+  }
   function clearSheet() { $$('video', sIn).forEach(function (v) { VC.remove(v); v.removeAttribute('src'); try { v.load(); } catch (e) {} }); sIn.innerHTML = ''; }
   function openCase(key, btn) {
     var src = d.getElementById('case-' + key); if (!src) return;
@@ -1009,7 +1064,6 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
     var old = $('h3', c); old.parentNode.replaceChild(h, old);
     while (c.firstChild) sIn.appendChild(c.firstChild);
     $$('video[data-src]', sIn).forEach(VC.add);
-    openDialog();
   }
   function showClip(i) {
     clipAt = (i + clips.length) % clips.length;
@@ -1025,10 +1079,11 @@ dialog.sheet::backdrop { background: rgba(12, 12, 12, .84); }
     if (SR.motion) { var p = big.play(); if (p && p.catch) p.catch(function () {}); }
   }
   sIn.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (b) { showClip(clipAt + +b.getAttribute('data-v')); var nb = $('[data-v="' + b.getAttribute('data-v') + '"]', sIn); if (nb) nb.focus(); } });
-  $$('.idx-row').forEach(function (b) { b.addEventListener('click', function () { openCase(b.getAttribute('data-case'), b); }); });
-  clips.forEach(function (li, i) { var b = $('.hit', li); b.addEventListener('click', function () { opener = b; showClip(i); openDialog(); }); });
-  d.getElementById('sheetX').addEventListener('click', function () { dlg.close(); });
-  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  $$('.idx-row').forEach(function (b) { b.addEventListener('click', function () { morphIn(b, function () { openCase(b.getAttribute('data-case'), b); openDialog(); }); }); });
+  clips.forEach(function (li, i) { var b = $('.hit', li); b.addEventListener('click', function () { opener = b; morphIn($('.frame', li), function () { showClip(i); openDialog(); }); }); });
+  d.getElementById('sheetX').addEventListener('click', closeSheet);
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) closeSheet(); });
+  dlg.addEventListener('cancel', function (e) { if (canVT && SR.motion) { e.preventDefault(); closeSheet(); } });
   dlg.addEventListener('close', function () { clearSheet(); VC.setDialog(null); if (opener) opener.focus(); });
 
   /* work index: a small preview opens from a circle beside the cursor (fine pointers, Motion on) */
