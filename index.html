@@ -73,8 +73,9 @@
   /* ---------- hero ---------- */
   .hero { padding-block: 40px 20px; display: grid; gap: 22px; }
   .hero .lede { max-width: 58ch; }
+  @media (max-width: 720px) { .hero-copy { position: relative; } .hero-copy::before { content: ""; position: absolute; inset: -18px -16px; z-index: -1; background: radial-gradient(120% 85% at 35% 50%, rgba(28, 28, 28, .9) 45%, rgba(28, 28, 28, 0) 100%); } }
   .hero-proof { margin: 18px 0 0; width: max-content; max-width: calc(100vw - 32px); } .hero-proof span { white-space: nowrap; }
-  .hero h1 { font-size: clamp(50px, 7vw, 104px); font-weight: 900; color: var(--sub); }
+  .hero h1 { font-size: clamp(50px, 7vw, 104px); font-weight: 900; color: var(--text); }
   .hero h1 em { font-style: normal; color: var(--accent-text); display: block; }
   .hero-row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: end; }
   .count { font-family: var(--display); font-weight: 900; font-size: clamp(88px, 14vw, 190px); line-height: .8; color: var(--accent-text); font-variant-numeric: tabular-nums; }
@@ -84,6 +85,7 @@
   /* ---------- the wall ---------- */
   .wall { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding-block: 10px 8px; }
   .tile { position: relative; background: var(--panel); aspect-ratio: 16 / 9; overflow: hidden; }
+  .cs .wall .tile { outline: 1px solid #3a3a3a; outline-offset: -1px; }
   .tile.big { grid-column: span 2; grid-row: span 2; }
   .tile video, .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .tile figcaption { position: absolute; left: 0; bottom: 0; right: 0; padding: 18px 10px 7px; font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.72)); display: flex; justify-content: space-between; gap: 8px; opacity: 0; transition: opacity .2s; }
@@ -95,7 +97,7 @@
   /* ---------- sections ---------- */
   section { padding-block: 64px 20px; }
   .sec-head { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; border-top: 1px solid var(--line); padding-top: 18px; margin-bottom: 18px; }
-  .sec-head .folder { font-family: var(--mono); font-size: 13px; color: var(--sub); letter-spacing: .04em; padding-top: 10px; }
+  .sec-head .folder { font-family: var(--mono); font-size: 12px; color: var(--sub); letter-spacing: .06em; text-transform: uppercase; padding-top: 10px; }
   @media (max-width: 720px) { .sec-head { grid-template-columns: 1fr; gap: 6px; } }
   .body-col { margin-left: calc(180px + 24px); display: grid; gap: 28px; }
   @media (max-width: 720px) { .body-col { margin-left: 0; } }
@@ -103,9 +105,9 @@
   /* problem / asset split */
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--line); border: 1px solid var(--line); }
   .split > div { background: var(--panel); padding: 26px; display: grid; gap: 14px; align-content: start; }
-  .split ul { margin: 0; padding-left: 18px; display: grid; gap: 10px; }
-  .split li::marker { color: #d4d4d4; }
-  section.light .split li::marker { color: #555555; }
+  .split ul { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 10px; }
+  .split li { position: relative; padding-left: 18px; }
+  .split li::before { content: ""; position: absolute; left: 0; top: .55em; width: 6px; height: 6px; background: var(--accent); }
   .split li, .move p { line-height: 1.4; }
   @media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
 
@@ -221,7 +223,7 @@
   section.light, section.mid { position: relative; isolation: isolate; color: var(--text); padding-bottom: 64px; }
   section.light::before, section.mid::before { content: ""; position: absolute; inset-block: 0; left: calc(50% - 50vw); width: 100vw; background: var(--band); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: -1; }
   section.light { --ink: #ececea; --band: rgba(236, 236, 234, .99); --panel: #ffffff; --glass: rgba(255, 255, 255, .6); --glass-edge: rgba(0, 0, 0, .08); --line: #cfcfcc; --text: #1c1c1c; --muted: #555555; color-scheme: light; margin-top: 56px; }
-  section.mid { --ink: #2e2e2e; --band: rgba(46, 46, 46, .98); --panel: #383838; --glass: rgba(255, 255, 255, .06); --glass-edge: rgba(255, 255, 255, .12); --line: #4a4a4a; --text: #ffffff; --muted: #c8c8c8; --sub: #c8c8c8; }
+  section.mid { --ink: #363636; --band: rgba(54, 54, 54, .98); --panel: #404040; --glass: rgba(255, 255, 255, .06); --glass-edge: rgba(255, 255, 255, .12); --line: #4a4a4a; --text: #ffffff; --muted: #c8c8c8; --sub: #c8c8c8; }
   section.light + section.mid { margin-top: 0; }
   section.mid + section { padding-top: 84px; }
   .sec-head .folder, section.light .move .mono, section.light .plan .mono { color: var(--tab-ink); background: var(--tab); padding: 3px 7px 2px; justify-self: start; width: fit-content; }
@@ -239,8 +241,8 @@
 
   /* Registration marks on each section head. */
   .sec-head { position: relative; }
-  .sec-head::before, .sec-head::after { content: "+"; position: absolute; top: -11px; font: 300 17px/1 var(--mono); color: var(--sub); }
-  .sec-head::before { left: -6px; } .sec-head::after { right: -6px; }
+  .sec-head::before, .sec-head::after { content: ""; position: absolute; top: -3px; width: 6px; height: 6px; background: var(--sub); }  /* the small offset square from the mark */
+  .sec-head::before { left: -3px; } .sec-head::after { right: -3px; }
   .sec-head.bare { border-top: 0; padding-top: 0; } .sec-head.bare::before, .sec-head.bare::after { content: none; }
 
   /* Dimension line under the counter. */
@@ -679,7 +681,7 @@
   details.fold > summary:hover .cs-mark, details.fold > summary:focus-visible .cs-mark { color: var(--tab); }
   details.fold[open] .cs-mark::after { transform: rotate(0deg); }
   .fold-t { display: grid; gap: 4px; }
-  .fold-h { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(19px, 1.8vw, 23px); line-height: 1; }
+  .fold-h { font-family: var(--mono); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; line-height: 1.2; }
   .fold-list { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--sub); }
   details.fold[open] .fold-list { display: none; }
   .fold-cue { color: var(--text); transition: color .2s; }
@@ -861,25 +863,25 @@
       <div class="cs-body">
       <p class="lede">We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p>
       <div class="wall more">
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
+      </div>
+      <div class="wall more" id="moreMotion" hidden>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption><span>Data story</span><span>Motion</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-sko-sting.jpg" data-src="media/norton-sko-sting.mp4"></video><figcaption><span>Event sting</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-4p-digital.jpg" data-src="media/norton-4p-digital.mp4"></video><figcaption><span>Video series</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>UX</span></figcaption></figure>
-      </div>
-      <div class="wall more" id="moreMotion" hidden>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption><span>Competitive video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-hero.jpg" data-src="media/smart-hero.mp4"></video><figcaption><span>Website hero</span><span>Digital</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-endcard.jpg" data-src="media/hi-endcard.mp4"></video><figcaption><span>Brand end card</span><span>Brand</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
       <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
       </div>
       <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
@@ -966,7 +968,7 @@
   </div>
 
   <section class="mid" id="fit">
-    <div class="sec-head"><span></span><h2>Are we a good fit?</h2></div>
+    <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
       <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Typically they need 40 to 160 hours of design and motion a month, with room to flex from 20 to 200.</p>
       <figure class="range" aria-label="Monthly hours scale: most clients need 40 to 160 hours a month, flexing from 20 to 200">
@@ -1063,7 +1065,7 @@
     <div class="sf-dir">
       <div class="sf-col sf-brand">
         <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><img src="media/sr-logo.svg" alt="Studio Rendezvous"></a>
-        <p>Design and motion, always on. Ready to start your next job.</p>
+        <p>The senior crew that keeps your brand running, every job, every frame.</p>
         </div>
       <nav class="sf-col" aria-label="Footer sections">
         <span class="mono">Sections</span>
