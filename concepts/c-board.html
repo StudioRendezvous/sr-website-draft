@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Rendezvous, Inc. | B2B Design and Motion Studio</title>
+<meta name="description" content="Senior designers and motion artists working right alongside your marketing and design teams. Put a job on the board. We've got it.">
+<link rel="icon" href="../media/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111;--ink2:#171717;--ink3:#1e1e1e;--ink4:#262626;--line:#2e2e2e;--line2:#3a3a3a;
+  --w:#fff;--mute:#a3a3a3;--dim:#6f6f6f;--y:#ffd300;--o:#fe5000;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --sans:"Archivo",system-ui,-apple-system,sans-serif;
+  --pad:clamp(16px,4vw,48px);--max:1360px;--r:10px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:var(--w);font-family:var(--sans);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+::selection{background:var(--y);color:var(--ink)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.y{color:var(--y)}
+.display{font-weight:820;font-stretch:66%;text-transform:uppercase;line-height:.9;letter-spacing:-.005em}
+:focus-visible{outline:2px solid var(--y);outline-offset:3px}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:50;background:rgba(17,17,17,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.logo img{height:22px;width:auto}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{text-decoration:none;font-size:14px;font-weight:500;padding:8px 12px;border-radius:999px;color:#ddd;transition:background .2s,color .2s}
+.nav a:hover{background:var(--ink4);color:var(--w)}
+.live{display:flex;align-items:center;gap:8px;color:var(--mute);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--y);box-shadow:0 0 0 0 rgba(255,211,0,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,211,0,.55)}70%{box-shadow:0 0 0 8px rgba(255,211,0,0)}100%{box-shadow:0 0 0 0 rgba(255,211,0,0)}}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;text-decoration:none;font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px;background:var(--y);color:var(--ink);transition:transform .2s var(--ease),box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 -1px #8a7200}
+.btn.ghost{background:transparent;color:var(--w);box-shadow:inset 0 0 0 1.5px var(--line2)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1.5px var(--y)}
+.btn .plus{font-family:var(--mono);font-weight:700}
+.top .btn{padding:9px 16px;font-size:14px}
+.menu-btn{display:none;background:none;border:1px solid var(--line2);border-radius:999px;padding:7px 14px;cursor:pointer;margin-left:auto}
+@media (max-width:980px){
+  .nav{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--ink);border-bottom:1px solid var(--line);padding:8px var(--pad) 16px}
+  .nav.open{display:flex}
+  .nav a{font-size:18px;padding:12px 0;border-radius:0;border-bottom:1px solid var(--line)}
+  .menu-btn{display:block}
+  .live{display:none}
+}
+@media (max-width:420px){.top .btn{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:28px 0 0;background-image:linear-gradient(var(--ink3) 1px,transparent 1px),linear-gradient(90deg,var(--ink3) 1px,transparent 1px);background-size:48px 48px;background-position:-1px -1px}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,17,17,0) 40%,var(--ink) 100%);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.spec{display:flex;flex-wrap:wrap;gap:8px 28px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:14px}
+.spec b{color:var(--w);font-weight:500}
+.spec .tc{color:var(--y);font-variant-numeric:tabular-nums}
+.hero h1{font-size:clamp(50px,8.7vw,148px);margin:32px 0 0}
+.hero h1 .on{color:var(--y);display:inline-flex;align-items:center;gap:.12em}
+.onpill{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:clamp(12px,1.3vw,16px);font-weight:700;letter-spacing:.08em;background:var(--y);color:var(--ink);padding:.5em .9em;border-radius:999px;vertical-align:middle;transform:translateY(-.15em)}
+.onpill i{width:9px;height:9px;border-radius:50%;background:var(--ink);animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;align-items:end;margin-top:32px}
+.lede{font-size:clamp(18px,1.6vw,21px);color:#e6e6e6;max-width:620px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--ink2)}
+.stats div{padding:16px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats div:nth-child(2n){border-right:0}
+.stats div:nth-child(n+3){border-bottom:0}
+.stats .mono{color:var(--dim);font-size:11px}
+.stats strong{display:block;font-weight:780;font-stretch:72%;font-size:clamp(26px,2.6vw,34px);line-height:1.05;text-transform:uppercase;margin-top:4px}
+.stats strong em{font-style:normal;color:var(--y)}
+@media (max-width:860px){.hero-row{grid-template-columns:1fr;gap:28px}}
+
+/* board */
+.board-shell{margin-top:44px;border:1px solid var(--line);border-radius:14px;background:var(--ink2);overflow:hidden}
+.board-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--mute)}
+.board-bar .ttl{color:var(--w);font-weight:700;font-family:var(--sans);font-size:15px;text-transform:none;letter-spacing:0}
+.board-bar .sp{flex:1}
+.board-bar .swipe{display:none}
+@media (max-width:700px){.board-bar .swipe{display:inline;color:var(--w)}.board-bar .ev{flex-basis:100%;order:9}}
+.board-bar .ev{color:var(--y);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.board{display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:0;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.col{scroll-snap-align:start;border-right:1px solid var(--line);min-height:520px;display:flex;flex-direction:column}
+.col:last-child{border-right:0}
+.col-h{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px;white-space:nowrap}
+.col-h .n{font-family:var(--mono);font-size:11px;color:var(--dim);font-weight:500}
+.col-h .c{margin-left:auto;font-family:var(--mono);font-size:11px;background:var(--ink4);border-radius:999px;padding:2px 8px;color:var(--mute);font-weight:500}
+.col-h .sw{width:10px;height:10px;border-radius:3px}
+.list{padding:12px;display:flex;flex-direction:column;gap:12px;flex:1;height:470px;overflow:hidden;position:relative}
+.col:last-child .list:after{content:"";position:absolute;left:0;right:0;bottom:0;height:80px;background:linear-gradient(transparent,var(--ink2))}
+.jc{background:var(--ink3);border:1px solid var(--line);border-radius:9px;overflow:hidden;flex:none;transition:border-color .3s,box-shadow .3s}
+.jc:hover{border-color:#555}
+.jc.flash{border-color:var(--y);box-shadow:0 0 0 3px rgba(255,211,0,.18)}
+.jc .th{aspect-ratio:16/9;background:#000;position:relative;overflow:hidden}
+.jc .th img,.jc .th video{width:100%;height:100%;object-fit:cover}
+.jc .th .tg{position:absolute;left:8px;top:8px}
+.jc .mt{padding:10px 11px 11px;display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
+.jc .t{font-weight:650;font-size:14.5px;line-height:1.25}
+.jc .id{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.04em}
+.av{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1.5px solid var(--ink3);grid-row:span 2;background:var(--ink4)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.tg{background:rgba(17,17,17,.82);color:var(--w);backdrop-filter:blur(4px);font-weight:500}
+.st{justify-self:start}
+.s0{background:transparent;color:var(--w);box-shadow:inset 0 0 0 1px #666}
+.s1{background:var(--y);color:var(--ink)}
+.s2{background:var(--w);color:var(--ink)}
+.s3{background:transparent;color:var(--w);box-shadow:inset 0 0 0 1px var(--o)}
+.s3:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--o)}
+.s4{background:#2b2600;color:var(--y);box-shadow:inset 0 0 0 1px #5c4f00}
+.tick{animation:tick .5s var(--ease)}
+@keyframes tick{0%{transform:translateY(60%);opacity:0}100%{transform:none;opacity:1}}
+@media (max-width:700px){
+  .board{grid-template-columns:repeat(5,78vw)}
+  .col{min-height:460px}.list{height:410px}
+}
+
+/* ticker */
+.ticker{background:var(--y);color:var(--ink);overflow:hidden;border-top:1px solid #000;border-bottom:1px solid #000;margin-top:56px;display:flex;align-items:stretch}
+.ticker .lab{flex:none;background:var(--ink);color:var(--y);padding:14px 18px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;z-index:2}
+.track{display:flex;width:max-content;animation:marquee 60s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.track span{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:14px 0;white-space:nowrap;display:flex;align-items:center}
+.track span:after{content:"";width:6px;height:6px;background:var(--ink);transform:rotate(45deg);margin:0 22px}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+section{padding:clamp(72px,10vw,140px) 0 0}
+.rail{display:flex;align-items:center;gap:14px;color:var(--mute);padding-bottom:28px}
+.rail .num{color:var(--ink);background:var(--y);padding:2px 7px;border-radius:4px;font-weight:700}
+.rail .ln{flex:1;height:1px;background:var(--line)}
+h2.display{font-size:clamp(44px,7vw,104px)}
+h3{font-weight:720;font-size:22px;line-height:1.2}
+.sub{color:#cfcfcf;font-size:clamp(17px,1.4vw,19px);max-width:640px}
+.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:end}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.arrive{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.arrive.in{opacity:1;transform:none}
+
+/* clients */
+.clients{padding-top:72px}
+.lg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.lg div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);aspect-ratio:2.1/1;display:flex;align-items:center;justify-content:center;padding:18px 22px;position:relative;transition:background .25s}
+.lg div:before{content:"";position:absolute;top:10px;left:10px;width:6px;height:6px;border-radius:50%;background:var(--y);opacity:.7}
+.lg div:hover{background:var(--ink2)}
+.lg img{max-height:58px;width:auto;max-width:100%;object-fit:contain;opacity:.9;transition:opacity .25s,transform .25s}
+.lg div:hover img{opacity:1;transform:scale(1.04)}
+.lg-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.lg-h h2{font-weight:720;font-size:clamp(22px,2.4vw,30px)}
+@media (max-width:760px){.lg{grid-template-columns:repeat(2,minmax(0,1fr))}.lg div{padding:14px 16px}}
+
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:56px;counter-reset:s}
+.step{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:16px;position:relative;transition:transform .3s var(--ease),border-color .3s}
+.step:hover{transform:translateY(-4px);border-color:var(--y)}
+.step .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.step .hd .mono{color:var(--dim)}
+.step h3{font-size:clamp(20px,1.7vw,24px);font-stretch:80%;text-transform:uppercase;font-weight:800;line-height:1.05;margin-bottom:10px}
+.step p{font-size:15px;color:#c8c8c8;line-height:1.5}
+.step:not(:last-child):after{content:"";position:absolute;right:-12px;top:30px;width:12px;height:2px;background:var(--y)}
+@media (max-width:1100px){.pipe{grid-template-columns:repeat(3,minmax(0,1fr))}.step:nth-child(3):after{display:none}}
+@media (max-width:640px){.pipe{grid-template-columns:1fr}.step:after{display:none!important}.step .hd{margin-bottom:14px}}
+.comment{display:grid;grid-template-columns:48px 1fr;gap:16px;margin-top:28px;background:var(--ink2);border:1px solid var(--line);border-left:3px solid var(--y);border-radius:var(--r);padding:22px;max-width:880px}
+.comment img{width:48px;height:48px;border-radius:50%}
+.comment .who{color:var(--mute)}
+.comment .who b{color:var(--w);font-weight:500}
+.comment q{display:block;font-size:clamp(18px,1.7vw,22px);line-height:1.45;margin-top:8px;quotes:"\201C" "\201D"}
+.types{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:64px}
+.type{border-top:2px solid var(--w);padding-top:16px}
+.type .sz{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.size{font-family:var(--mono);font-weight:700;font-size:12px;border:1px solid var(--line2);border-radius:6px;padding:3px 8px}
+.type h3{margin-bottom:8px}
+.type p{color:#c8c8c8;font-size:15.5px}
+@media (max-width:980px){.types{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}}
+@media (max-width:560px){.types{grid-template-columns:1fr}}
+
+/* yellow quote */
+.yq{background:var(--y);color:var(--ink);margin-top:clamp(72px,10vw,140px);padding:clamp(56px,8vw,110px) 0;position:relative;overflow:hidden}
+.yq .mono{display:flex;gap:12px;align-items:center;margin-bottom:28px}
+.yq blockquote{font-weight:760;font-stretch:78%;font-size:clamp(28px,4vw,58px);line-height:1.04;letter-spacing:-.01em;max-width:1180px;text-transform:uppercase}
+.yq cite{display:block;margin-top:28px;font-style:normal;font-family:var(--mono);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.yq .stamp{position:absolute;right:var(--pad);top:clamp(24px,4vw,48px);border:2px solid var(--ink);border-radius:8px;padding:6px 12px;transform:rotate(4deg)}
+
+/* tenure */
+.tenure{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:48px;align-items:start}
+.panel{background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:clamp(18px,2.5vw,32px)}
+.panel-h{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--mute);margin-bottom:22px}
+.bars{position:relative;display:grid;gap:9px}
+.bar{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center}
+.bar .mono{color:var(--dim);font-size:11px}
+.bar .tr{height:28px;position:relative}
+.bar .fl{height:100%;width:0;background:var(--y);border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-family:var(--mono);font-weight:700;font-size:12px;color:var(--ink);transition:width 1.2s var(--ease);white-space:nowrap;overflow:hidden}
+.bar:nth-child(n+7) .fl{background:#e9e9e9}
+.fl{position:relative}.fl b{font-weight:700}
+.fl.out{overflow:visible}.fl.out b{position:absolute;left:calc(100% + 8px);color:var(--w)}
+.avg{position:absolute;top:-6px;bottom:-6px;border-left:1.5px dashed var(--w);pointer-events:none}
+.avg span{position:absolute;bottom:100%;left:0;transform:translateX(-50%);background:var(--w);color:var(--ink);font-family:var(--mono);font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;margin-bottom:4px}
+.axis{display:flex;justify-content:space-between;margin:12px 0 0 88px;color:var(--dim);font-family:var(--mono);font-size:10.5px}
+.big{font-weight:820;font-stretch:66%;font-size:clamp(84px,10vw,150px);line-height:.85;color:var(--y)}
+.why{display:grid;gap:0}
+.why div{border-top:1px solid var(--line);padding:18px 0}
+.why h3{display:flex;gap:12px;align-items:baseline;margin-bottom:6px}
+.why h3 .mono{color:var(--y)}
+.why p{color:#c8c8c8;font-size:15.5px}
+@media (max-width:900px){.tenure{grid-template-columns:1fr}}
+@media (max-width:480px){.bar{grid-template-columns:28px 1fr}.axis{margin-left:40px}.hm{display:none}}
+
+/* spec table */
+.spec-t{margin-top:48px;border-top:1px solid var(--w)}
+.row{display:grid;grid-template-columns:90px 200px minmax(0,1fr) minmax(0,1.3fr);gap:20px;align-items:baseline;padding:20px 12px;border-bottom:1px solid var(--line);transition:background .2s,color .2s}
+.row:hover{background:var(--y);color:var(--ink)}
+.row:hover p,.row:hover .mono{color:var(--ink)}
+.row .mono{color:var(--dim)}
+.row .lane{font-weight:820;font-stretch:66%;text-transform:uppercase;font-size:clamp(30px,3vw,42px);line-height:.9}
+.row h3{font-size:19px}
+.row p{color:#c8c8c8;font-size:15.5px}
+.spec-t .hrow{color:var(--dim);padding:10px 12px;border-bottom:1px solid var(--line)}
+.spec-t .hrow:hover{background:none}
+@media (max-width:860px){.row{grid-template-columns:60px 1fr;gap:6px 14px}.row h3,.row p{grid-column:2}.spec-t .hrow{display:none}}
+
+/* work */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 20px;align-items:center}
+.filters .mono{color:var(--dim);margin-right:6px}
+.chip{background:transparent;border:1px solid var(--line2);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--w)}
+.chip[aria-pressed="true"]{background:var(--w);color:var(--ink);border-color:var(--w)}
+.wgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.wc{position:relative;text-align:left;color:inherit;background:var(--ink2);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;padding:0;transition:transform .35s var(--ease),border-color .3s,opacity .35s,filter .35s}
+.wc:hover{transform:translateY(-5px);border-color:var(--y)}
+.wc.off{opacity:.22;filter:grayscale(1);transform:scale(.985)}
+.wc .cv{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000}
+.wc .cv img,.wc .cv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease),opacity .4s}
+.wc:hover .cv img{transform:scale(1.04)}
+.wc .cv video.hv{opacity:0}
+.wc:hover .cv video.hv{opacity:1}
+.wc .tl{position:absolute;left:12px;top:12px;display:flex;gap:6px;flex-wrap:wrap}
+.wc .op{position:absolute;right:12px;bottom:12px;background:var(--y);color:var(--ink);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:20px;transform:scale(.8);opacity:0;transition:all .3s var(--ease)}
+.wc:hover .op,.wc:focus-visible .op{transform:none;opacity:1}
+.wc .bd{padding:16px 18px 18px;display:grid;gap:8px;flex:1;align-content:start}
+.wc .mt{display:flex;justify-content:space-between;color:var(--dim);gap:12px}
+.wc h3{font-size:clamp(20px,1.8vw,24px);font-weight:760}
+.wc .crew{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:6px}
+.wc .crew .avs{display:flex}
+.wc .crew .avs img{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink2);margin-left:-6px}
+.wc .crew .avs img:first-child{margin-left:0}
+.wc.feat{grid-column:span 2;grid-row:span 2}
+.wc.feat .cv{aspect-ratio:auto;flex:1;min-height:340px}
+.wc.feat .bd{flex:none}
+.wc.feat h3{font-size:clamp(28px,3vw,44px);font-stretch:70%;text-transform:uppercase;font-weight:820;line-height:.95}
+.wc.wide{grid-column:1/-1;flex-direction:row}
+.wc.wide .cv{flex:1.6;aspect-ratio:auto;min-height:280px}
+.wc.wide .bd{flex:1;align-content:center}
+@media (max-width:980px){.wgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.wc.feat{grid-row:auto}.wc.feat .cv{aspect-ratio:16/9;min-height:0}}
+@media (max-width:640px){.wgrid{grid-template-columns:1fr}.wc.feat{grid-column:auto}.wc.wide{flex-direction:column}.wc.wide .cv{aspect-ratio:16/10;min-height:0}}
+
+/* dialog */
+dialog{border:0;padding:0;background:transparent;color:var(--w);max-width:min(1240px,calc(100vw - 24px));width:100%;max-height:calc(100dvh - 24px);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.78);backdrop-filter:blur(4px)}
+dialog[open] .sheet{animation:open .45s var(--ease)}
+@keyframes open{from{opacity:0;transform:translateY(30px) scale(.97)}}
+.sheet{background:var(--ink2);border:1px solid var(--line2);border-radius:16px;overflow:hidden;max-height:calc(100dvh - 24px);display:flex;flex-direction:column}
+.sheet-bar{background:var(--y);color:var(--ink);display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap;padding:12px 16px 12px 20px;font-weight:700}
+.sheet-bar .x{margin-left:auto;background:var(--ink);color:var(--y);border:0;border-radius:999px;width:36px;height:36px;cursor:pointer;font-family:var(--mono);font-size:18px;font-weight:700}
+.sheet-in{overflow-y:auto;padding:clamp(20px,3vw,40px)}
+.sheet h2{font-size:clamp(36px,5vw,72px);margin:8px 0 16px}
+.prog{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.prog span{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:4px 9px;border-radius:999px;background:var(--ink4);color:var(--mute)}
+.prog span:last-child{background:var(--y);color:var(--ink);font-weight:700}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:28px}
+.gal figure{background:#000;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.gal figure>div{aspect-ratio:16/10;overflow:hidden}
+.gal img,.gal video{width:100%;height:100%;object-fit:cover}
+.gal.tall figure>div{aspect-ratio:3/4}
+.gal.one{grid-template-columns:1fr}
+.gal.one figure>div{aspect-ratio:auto}
+.gal.one img{height:auto}
+.gal figcaption{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;background:var(--ink3);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.note{margin-top:28px;border-left:3px solid var(--y);padding:4px 0 4px 16px;color:#ddd}
+.sheet h4{margin-top:40px;font-size:22px}
+
+/* quotes small */
+.qrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:72px;align-items:start}
+.qcard{border:1px solid var(--line);border-radius:14px;padding:clamp(22px,3vw,36px);background:var(--ink2)}
+.qcard q{display:block;font-size:clamp(20px,2vw,26px);line-height:1.38;quotes:"\201C" "\201D"}
+.qcard cite{display:block;margin-top:18px;font-style:normal;color:var(--mute)}
+.qcard cite b{color:var(--w);font-weight:500}
+.archive{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:14px}
+.archive div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);height:74px;display:flex;align-items:center;justify-content:center;padding:12px}
+.archive img{max-height:40px;width:auto;max-width:100%;opacity:.8;transition:opacity .2s}
+.archive div:hover img{opacity:1}
+@media (max-width:900px){.qrow{grid-template-columns:1fr}}
+
+/* partner */
+.partner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;border:1px solid var(--line);border-radius:16px;padding:clamp(22px,4vw,56px);background:radial-gradient(120% 140% at 100% 0%,#1d1a06 0%,var(--ink2) 55%)}
+.partner h2{font-size:clamp(36px,4.6vw,64px);margin:14px 0 18px}
+.partner p{color:#cfcfcf;max-width:560px}
+.lock{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;padding:28px 18px;border:1px dashed var(--line2);border-radius:12px}
+.lock img{height:22px;width:auto}
+.lock .plus{font-family:var(--mono);font-size:26px;color:var(--y);font-weight:700}
+.lock-s{display:grid;grid-template-columns:1fr 1fr;margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.lock-s div{padding:16px}
+.lock-s div+div{border-left:1px solid var(--line)}
+.lock-s strong{display:block;font-weight:820;font-stretch:66%;font-size:44px;line-height:1;color:var(--y)}
+.lock-s .mono{color:var(--dim)}
+@media (max-width:860px){.partner{grid-template-columns:1fr}}
+
+/* fit */
+.hours{margin-top:48px}
+.scale{position:relative;height:84px;margin:34px 6px 8px}
+.scale .base{position:absolute;left:0;right:0;top:36px;height:12px;background:var(--ink4);border-radius:6px}
+.scale .flex{position:absolute;top:30px;height:24px;border-radius:6px;background:repeating-linear-gradient(-45deg,rgba(255,211,0,.32) 0 6px,transparent 6px 12px);box-shadow:inset 0 0 0 1px rgba(255,211,0,.55)}
+.scale .core{position:absolute;top:24px;height:36px;border-radius:6px;background:var(--y);display:flex;align-items:center;justify-content:center;color:var(--ink);font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.04em}
+.scale .tk{position:absolute;top:66px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:var(--dim)}
+.scale .tk:before{content:"";position:absolute;left:50%;top:-8px;height:6px;width:1px;background:var(--line2)}
+.scale .me{position:absolute;top:0;bottom:22px;width:2px;background:var(--w);transform:translateX(-1px);transition:left .25s var(--ease)}
+.scale .me span{position:absolute;top:-6px;left:50%;transform:translate(-50%,-100%);background:var(--w);color:var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 7px;border-radius:4px;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--mute);margin-top:6px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.try{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:20px;align-items:center;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.try label{display:block;color:var(--mute);margin-bottom:10px}
+input[type=range]{width:100%;accent-color:var(--y);height:28px}
+.verdict{font-size:17px;min-height:2.9em}
+.verdict b{color:var(--y)}
+@media (max-width:700px){.try{grid-template-columns:1fr}}
+.cards4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px}
+.c4{background:var(--ink2);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:border-color .25s,transform .3s var(--ease)}
+.c4:hover{border-color:#666;transform:translateY(-3px)}
+.c4 .mono{color:var(--dim);display:block;margin-bottom:22px}
+.c4 h3{font-size:20px;margin-bottom:8px}
+.c4 p{color:#c8c8c8;font-size:15px}
+@media (max-width:1000px){.cards4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cards4{grid-template-columns:1fr}}
+.blk-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:72px;padding-bottom:4px}
+.blk-h h3{font-size:clamp(26px,2.6vw,36px);font-weight:800;font-stretch:72%;text-transform:uppercase}
+.blk-h .mono{color:var(--dim)}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.plan{border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px;background:var(--ink2)}
+.plan.hl{border-color:var(--y);box-shadow:inset 0 0 0 1px var(--y)}
+.plan .top-l{display:flex;justify-content:space-between;align-items:center}
+.plan h3{font-size:26px;font-weight:800;font-stretch:76%;text-transform:uppercase}
+.plan p{color:#cfcfcf;font-size:15.5px}
+.plan .btn{margin-top:auto;align-self:flex-start}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.checks{margin-top:20px;border-top:1px solid var(--line)}
+.ck{display:grid;grid-template-columns:34px 240px minmax(0,1fr);gap:16px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
+.ck .bx{width:24px;height:24px;border-radius:6px;background:var(--y);color:var(--ink);display:grid;place-items:center;font-weight:900;font-size:14px}
+.ck h3{font-size:19px}
+.ck p{color:#c8c8c8;font-size:15.5px}
+@media (max-width:760px){.ck{grid-template-columns:34px 1fr;gap:6px 12px}.ck p{grid-column:2}}
+details.more{margin-top:28px;border:1px solid var(--line);border-radius:12px;background:var(--ink2)}
+details.more summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:14px;padding:18px 22px;font-weight:700}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary .mono{color:var(--dim);font-weight:400}
+details.more summary:after{content:"+";margin-left:auto;font-family:var(--mono);font-size:22px;color:var(--y);transition:transform .3s}
+details.more[open] summary:after{transform:rotate(45deg)}
+.more-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding:4px 22px 26px}
+.more-in h4{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--y);margin-bottom:10px;font-weight:700}
+.more-in ul{list-style:none;display:grid;gap:8px}
+.more-in li{padding-left:20px;position:relative;color:#d4d4d4;font-size:15.5px}
+.more-in li:before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:2px;background:var(--w)}
+.more-in .no li:before{background:transparent;box-shadow:inset 0 0 0 1.5px #777}
+.more-in p{color:#d4d4d4;font-size:15.5px}
+@media (max-width:860px){.more-in{grid-template-columns:1fr}}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,72px);align-items:start}
+.crew-l{margin-top:36px;border-top:1px solid var(--line)}
+.crew-l .mono{color:var(--dim);display:block;padding:14px 0 6px}
+.person{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.person img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.person b{display:block;font-weight:650}
+.person span{color:var(--mute);font-size:14.5px}
+.person .pill{background:var(--ink4);color:var(--mute);font-weight:500}
+.mail{display:inline-block;margin-top:22px;font-weight:700;color:var(--y);text-decoration:none;border-bottom:1px solid rgba(255,211,0,.4)}
+.mail:hover{border-color:var(--y)}
+.newjob{background:var(--w);color:var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 6px rgba(255,211,0,.0);transition:box-shadow .4s}
+.newjob:focus-within{box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 6px rgba(255,211,0,.35)}
+.nj-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--y);padding:14px 20px;font-weight:800}
+.nj-bar .mono{font-weight:500}
+.nj-bar .pill{margin-left:auto}
+.nj-bar .s0{color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.nj-in{padding:22px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.f{display:grid;gap:6px}
+.f.full{grid-column:1/-1}
+.f label{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#555;font-weight:500}
+.f input,.f select,.f textarea{width:100%;background:#f3f3f3;border:1.5px solid #e2e2e2;border-radius:8px;padding:11px 12px;font-size:16px;color:var(--ink);transition:border-color .2s,background .2s}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--ink);background:#fff}
+.f textarea{min-height:120px;resize:vertical}
+.nj-foot{grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px dashed #ccc;padding-top:18px;margin-top:4px}
+.nj-foot .btn{background:var(--ink);color:var(--y)}
+.nj-foot .btn:hover{box-shadow:0 6px 0 -1px var(--y)}
+.nj-foot small{color:#555;font-size:13px;flex:1;min-width:200px}
+.sent{grid-column:1/-1;display:none;font-weight:600}
+.newjob.done .sent{display:block}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+@media (max-width:520px){.nj-in{grid-template-columns:1fr}}
+
+/* footer */
+footer{margin-top:clamp(80px,10vw,140px);border-top:1px solid var(--line);padding:56px 0 28px}
+.ft{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:32px}
+.ft .logo img{height:26px}
+.ft .line{color:var(--w);font-weight:800;font-stretch:66%;text-transform:uppercase;font-size:clamp(30px,3.4vw,48px);line-height:.95;margin-top:22px;max-width:520px}
+.ft .line em{font-style:normal;color:var(--y)}
+.ft h4{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:500;margin-bottom:12px}
+.ft ul{list-style:none;display:grid;gap:8px}
+.ft a{text-decoration:none;color:#ddd}
+.ft a:hover{color:var(--y)}
+.ft p{color:#bbb;font-size:15px}
+.legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim)}
+.legal a{text-decoration:none}
+.legal a:hover{color:var(--y)}
+@media (max-width:860px){.ft{grid-template-columns:1fr 1fr}.ft>div:first-child{grid-column:1/-1}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .arrive{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Studio Rendezvous, home"><img src="../media/sr-logo.svg" alt="Studio Rendezvous"></a>
+    <span class="live mono"><span class="dot"></span>Board live</span>
+    <nav class="nav" id="nav" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#make">What we make</a>
+      <a href="#work">Work</a>
+      <a href="#fit">Good fit</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <a class="btn" href="#contact"><span class="plus">+</span> Start a job</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero" style="padding-top:28px">
+  <div class="wrap">
+    <div class="spec mono">
+      <span>Studio Rendezvous, Inc.</span>
+      <span><b>B2B design and motion studio</b></span>
+      <span>Board <b>SR / 2026</b></span>
+      <span>TC <span class="tc" id="tc">00:00:00:00</span></span>
+    </div>
+    <h1 class="display">Design and motion,<br><span class="on">always on. <span class="onpill" aria-hidden="true"><i></i>ON</span></span></h1>
+    <div class="hero-row">
+      <div>
+        <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
+        <div class="ctas">
+          <a class="btn" href="#contact"><span class="plus">+</span> Start a job</a>
+          <a class="btn ghost" href="#work">See the work <span class="plus">&#8594;</span></a>
+        </div>
+      </div>
+      <div class="stats">
+        <div><span class="mono">Crew</span><strong>Senior team</strong></div>
+        <div><span class="mono">Last 12 months</span><strong><em>681</em> videos</strong></div>
+        <div><span class="mono">Schedule</span><strong>Built for tight deadlines</strong></div>
+        <div><span class="mono">Current clients avg</span><strong><em>9</em> years</strong></div>
+      </div>
+    </div>
+
+    <div class="board-shell" aria-label="Example production board">
+      <div class="board-bar mono">
+        <span class="dot"></span><span class="ttl">Shared job board</span>
+        <span>Your team + ours</span>
+        <span class="sp"></span>
+        <span class="ev" id="ev" aria-live="polite">Moving jobs along</span><span class="swipe">Swipe &#8594;</span>
+      </div>
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+  <div class="ticker" aria-label="Recently delivered">
+    <div class="lab"><span>&#10003;</span>Delivered</div>
+    <div class="track" id="track"></div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients">
+  <div class="wrap">
+    <div class="lg-h">
+      <h2>Clients we&#8217;re helping every month</h2>
+      <span class="mono" style="color:var(--dim)">Active accounts</span>
+    </div>
+    <div class="lg">
+      <div><img src="../media/logos/norton.png" alt="Norton" loading="lazy"></div>
+      <div><img src="../media/logos/gen.png" alt="Gen" loading="lazy"></div>
+      <div><img src="../media/logos/smart-communications.png" alt="Smart Communications" loading="lazy"></div>
+      <div><img src="../media/logos/human-interest.png" alt="Human Interest" loading="lazy"></div>
+      <div><img src="../media/logos/guidewire.png" alt="Guidewire" loading="lazy"></div>
+      <div><img src="../media/logos/marchex.png" alt="Marchex" loading="lazy"></div>
+      <div><img src="../media/logos/satori-reader.png" alt="Satori Reader" loading="lazy"></div>
+      <div><img src="../media/logos/human-japanese.png" alt="Human Japanese" loading="lazy"></div>
+      <div><img src="../media/logos/master-builders.png" alt="Master Builders Association" loading="lazy"></div>
+      <div><img src="../media/logos/air-control.png" alt="AIR Control Concepts" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">01</span>How it works<span class="ln"></span>Add a job &#8594; Delivered</div>
+    <div class="grid2">
+      <h2 class="display">Put a job on the board. <span class="y">We&#8217;ve got it.</span></h2>
+      <p class="sub">Every client gets a shared board, free to join. It&#8217;s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can&#8217;t wait, we make room.</p>
+    </div>
+
+    <div class="pipe">
+      <article class="step arrive"><div class="hd"><span class="mono">01</span><span class="pill s0">New</span></div><h3>Add a job</h3><p>A brief, any files and the deadline.</p></article>
+      <article class="step arrive"><div class="hd"><span class="mono">02</span><span class="pill s1">On it</span></div><h3>&#8220;We&#8217;re on it&#8221;</h3><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></article>
+      <article class="step arrive"><div class="hd"><span class="mono">03</span><span class="pill s2">Draft</span></div><h3>Best first draft, fast</h3><p>Refined by a senior designer before it reaches you. Our creative director leads, or we work to yours. About nine in ten need only light changes.</p></article>
+      <article class="step arrive"><div class="hd"><span class="mono">04</span><span class="pill s3">Review</span></div><h3>Review</h3><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></article>
+      <article class="step arrive"><div class="hd"><span class="mono">05</span><span class="pill s4">&#10003; Done</span></div><h3>Delivered</h3><p>Final files, ready to use, and source files on request.</p></article>
+      <article class="step arrive"><div class="hd"><span class="mono">06</span><span class="pill s0">&#8635; Next</span></div><h3>Repeat</h3><p>The next job lands on a team that already knows your brand.</p></article>
+    </div>
+
+    <div class="comment arrive">
+      <img src="../media/team/shane-french.png" alt="Shane French">
+      <div>
+        <div class="who mono"><b>Shane French</b>, Creative Director &middot; commented on &#8220;We&#8217;re on it&#8221;</div>
+        <q>Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we&#8217;re on it.</q>
+      </div>
+    </div>
+
+    <div class="types">
+      <div class="type arrive"><div class="sz"><span class="mono" style="color:var(--dim)">Job type</span><span class="size">S&#8211;M</span></div><h3>Day-to-day work</h3><p>From a quick fix to the next scheduled job. Every job gets a clear timeline, so you always see when the next draft and the final are due.</p></div>
+      <div class="type arrive"><div class="sz"><span class="mono" style="color:var(--dim)">Job type</span><span class="size">L</span></div><h3>Bigger projects</h3><p>Decks, videos, booths and sites in days to weeks, with more of the team on it when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
+      <div class="type arrive"><div class="sz"><span class="mono" style="color:var(--dim)">Job type</span><span class="size">XL</span></div><h3>Full campaigns</h3><p>One idea carried start to finish across digital, print, social, video and the event floor, consistent from the first asset to the last.</p></div>
+      <div class="type arrive"><div class="sz"><span class="mono" style="color:var(--dim)">Job type</span><span class="size">12 MO</span></div><h3>Annual plans</h3><p>Set the scope and the rhythm for the year, event season included. Send your conference dates early and we plan the booths, stage loops and recap reels around them.</p></div>
+    </div>
+  </div>
+
+  <div class="yq">
+    <div class="wrap">
+      <div class="mono"><span>Client note</span><span>&middot;</span><span>Guidewire</span></div>
+      <span class="stamp mono" aria-hidden="true">Approved</span>
+      <blockquote>&#8220;We always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.&#8221;</blockquote>
+      <cite>Phil Iaccarino &middot; Director, Product Marketing, Guidewire</cite>
+    </div>
+  </div>
+</section>
+
+<!-- TENURE -->
+<section id="tenure">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">02</span>Retention<span class="ln"></span>Data panel</div>
+    <div class="grid2">
+      <h2 class="display">Clients stay <span class="y">for years.</span></h2>
+      <p class="sub">The longer we work together, the faster it goes. That is the whole point of a board that never clears.</p>
+    </div>
+    <div class="tenure">
+      <div class="panel arrive">
+        <div class="panel-h mono"><span>Current clients &middot; years with us</span><span>n = 9</span></div>
+        <div class="bars" id="bars"></div>
+        <div class="axis"><span>0</span><span>5</span><span>10</span><span>15</span><span>20 yrs</span></div>
+      </div>
+      <div>
+        <div class="big" aria-label="Average 9 years">9<span style="font-size:.4em;color:var(--w)"> yrs avg</span></div>
+        <div class="why" style="margin-top:22px">
+          <div><h3><span class="mono">A</span>Second nature</h3><p>After hundreds of projects, we know your brand the way your own team does. Many clients now work from brand books and templates we built.</p></div>
+          <div><h3><span class="mono">B</span>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
+          <div><h3><span class="mono">C</span>Straight to work</h3><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="comment arrive" style="margin-top:40px">
+      <span style="width:48px;height:48px;border-radius:50%;background:var(--ink4);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:14px;color:var(--y)">MC</span>
+      <div>
+        <div class="who mono"><b>Marc Chouaniere</b>, VP Marketing, MoxiWorks</div>
+        <q>I have worked with Studio Rendezvous while at four companies over seven years. It&#8217;s their collaborative nature that makes them stand out from other agencies.</q>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE MAKE -->
+<section id="make">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">03</span>What we make<span class="ln"></span>Spec sheet</div>
+    <div class="grid2">
+      <h2 class="display">What marketing teams <span class="y">ask us for.</span></h2>
+      <p class="sub">Everything a B2B marketing team ships, from a banner to a booth, made by the same senior team.</p>
+    </div>
+    <div class="spec-t">
+      <div class="row hrow mono"><span>Code</span><span>Lane</span><span>Deliverable</span><span>Includes</span></div>
+      <div class="row"><span class="mono">DIG</span><span class="lane">Digital</span><h3>Web and email</h3><p>Landing pages, banners, email templates and website graphics.</p></div>
+      <div class="row"><span class="mono">PRT</span><span class="lane">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></div>
+      <div class="row"><span class="mono">EVT</span><span class="lane">Events</span><h3>Trade shows and stages</h3><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></div>
+      <div class="row"><span class="mono">VID</span><span class="lane">Video</span><h3>Motion and video</h3><p>Explainers, motion graphics, product and training videos, campaign and social video, and trade show booth loops, finished with professional voiceover, music and sound.</p></div>
+      <div class="row"><span class="mono">SOC</span><span class="lane">Social</span><h3>Social programs</h3><p>Static and animated posts, campaign kits and monthly programs.</p></div>
+      <div class="row"><span class="mono">UX</span><span class="lane">UX</span><h3>UX and interactive</h3><p>Product UI, prototypes and design systems built in Figma.</p></div>
+      <div class="row"><span class="mono">BRD</span><span class="lane">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></div>
+      <div class="row"><span class="mono">SAL</span><span class="lane">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></div>
+      <div class="row"><span class="mono">APP</span><span class="lane">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts, designed in-house for kickoffs and events.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">04</span>Selected work<span class="ln"></span>Column: Delivered</div>
+    <div class="grid2">
+      <h2 class="display">Off the board, <span class="y">out in the world.</span></h2>
+      <p class="sub">A few delivered jobs, opened up. Click any card to see the job sheet.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter work">
+      <span class="mono">Filter</span>
+      <button class="chip" aria-pressed="true" data-f="all">All</button>
+      <button class="chip" aria-pressed="false" data-f="Motion">Motion</button>
+      <button class="chip" aria-pressed="false" data-f="Brand">Brand</button>
+      <button class="chip" aria-pressed="false" data-f="Events">Events</button>
+      <button class="chip" aria-pressed="false" data-f="Sales">Sales</button>
+      <button class="chip" aria-pressed="false" data-f="UX">UX</button>
+    </div>
+    <div class="wgrid" id="wgrid">
+      <div role="button" tabindex="0" class="wc feat arrive" data-case="reel" data-tags="Motion Video Events">
+        <div class="cv"><img src="../media/smart-narrative.jpg" alt=""><video class="auto" src="../media/smart-narrative.mp4" muted loop playsinline preload="none" poster="../media/smart-narrative.jpg"></video>
+          <div class="tl"><span class="pill tg">Motion</span><span class="pill s4">&#10003; Delivered</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0681</span><span>18 loops</span></div><h3>Motion reel</h3><p style="color:#c8c8c8;font-size:15.5px">681 videos in the last twelve months. Here&#8217;s a cross-section: explainers, event loops, social, product and brand motion.</p></div>
+      </div>
+      <div role="button" tabindex="0" class="wc arrive" data-case="brand" data-tags="Brand Motion Sales">
+        <div class="cv"><img src="../media/hi-bb-00.jpg" alt="" loading="lazy"><video class="hv" src="../media/hi-logo-stings.mp4" muted loop playsinline preload="none"></video>
+          <div class="tl"><span class="pill tg">Financial services</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0544</span><span>8 pieces</span></div><h3>A new brand, carried into everything</h3></div>
+      </div>
+      <div role="button" tabindex="0" class="wc arrive" data-case="events" data-tags="Events UX Motion">
+        <div class="cv"><img src="../media/inn-pillars.jpg" alt="" loading="lazy"><video class="hv" src="../media/smart-innovate-pillar.mp4" muted loop playsinline preload="none"></video>
+          <div class="tl"><span class="pill tg">B2B software</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0602</span><span>12 pieces</span></div><h3>Events, end to end</h3></div>
+      </div>
+      <div role="button" tabindex="0" class="wc arrive" data-case="exec" data-tags="Brand Sales Motion">
+        <div class="cv"><img src="../media/nkv-dark.jpg" alt="" loading="lazy"><video class="hv" src="../media/norton-exec-program.mp4" muted loop playsinline preload="none"></video>
+          <div class="tl"><span class="pill tg">Cybersecurity</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0637</span><span>6 pieces</span></div><h3>An executive program, launched</h3></div>
+      </div>
+      <div role="button" tabindex="0" class="wc arrive" data-case="partner" data-tags="Sales UX">
+        <div class="cv"><img src="../media/pb-00.jpg" alt="" loading="lazy"><video class="hv" src="../media/norton-social-mosaic.mp4" muted loop playsinline preload="none"></video>
+          <div class="tl"><span class="pill tg">Cybersecurity</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0619</span><span>6 pieces</span></div><h3>Partner marketing</h3></div>
+      </div>
+      <div role="button" tabindex="0" class="wc arrive" data-case="launch" data-tags="Motion UX Sales">
+        <div class="cv"><img src="../media/marchex-aps.jpg" alt="" loading="lazy"><video class="hv" src="../media/marchex-aps.mp4" muted loop playsinline preload="none"></video>
+          <div class="tl"><span class="pill tg">B2B software</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0655</span><span>2 pieces</span></div><h3>Product launches, in motion</h3></div>
+      </div>
+      <div role="button" tabindex="0" class="wc wide arrive" data-case="logos" data-tags="Brand">
+        <div class="cv"><img src="../media/air-logo-wall.jpg" alt="" loading="lazy">
+          <div class="tl"><span class="pill tg">Commercial HVAC group</span></div><span class="op">+</span></div>
+        <div class="bd"><div class="mt mono"><span>SR-0590</span><span>47 logos</span></div><h3 style="font-size:clamp(28px,3vw,44px);font-stretch:70%;text-transform:uppercase;font-weight:820;line-height:.95">Logo systems</h3><p style="color:#c8c8c8;font-size:15.5px">47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p></div>
+      </div>
+    </div>
+
+    <div class="qrow">
+      <div class="qcard arrive">
+        <q>When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.</q>
+        <cite><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</cite>
+      </div>
+      <div class="arrive">
+        <div class="mono" style="color:var(--dim)">Past clients &middot; thousands of projects over the years</div>
+        <div class="archive">
+          <div><img src="../media/logos/vertafore.png" alt="Vertafore" loading="lazy"></div>
+          <div><img src="../media/logos/microsoft.png" alt="Microsoft" loading="lazy"></div>
+          <div><img src="../media/logos/nike.png" alt="Nike" loading="lazy"></div>
+          <div><img src="../media/logos/sap.png" alt="SAP" loading="lazy"></div>
+          <div><img src="../media/logos/homestreet.png" alt="HomeStreet Bank" loading="lazy"></div>
+          <div><img src="../media/logos/payscale.png" alt="Payscale" loading="lazy"></div>
+          <div><img src="../media/logos/darigold.png" alt="Darigold" loading="lazy"></div>
+          <div><img src="../media/logos/moxiworks.png" alt="MoxiWorks" loading="lazy"></div>
+          <div><img src="../media/logos/onsolve.png" alt="OnSolve" loading="lazy"></div>
+          <div><img src="../media/logos/syncron.png" alt="Syncron" loading="lazy"></div>
+          <div><img src="../media/logos/aiphone.png" alt="Aiphone" loading="lazy"></div>
+          <div><img src="../media/logos/jetson.png" alt="Jetson" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section id="partner">
+  <div class="wrap">
+    <div class="partner arrive">
+      <div>
+        <span class="mono" style="color:var(--y)">Partner &middot; Content and strategy</span>
+        <h2 class="display">Need content and strategy too?</h2>
+        <p>Many of our clients do. For 15 years we&#8217;ve worked as one team with Content Matterz, a B2B content marketing agency. They bring the strategy, research and writing, plus fractional content leadership. We bring the design and motion. One brief, one board, one team.</p>
+        <a class="btn ghost" style="margin-top:24px" href="https://contentmatterz.com/" target="_blank" rel="noopener">Visit Content Matterz <span class="plus">&#8599;</span></a>
+      </div>
+      <div>
+        <div class="lock"><img src="../media/sr-logo.svg" alt="Studio Rendezvous"><span class="plus">+</span><img src="../media/logos/content-matterz-duo.png" alt="Content Matterz"></div>
+        <div class="lock-s"><div><strong>15</strong><span class="mono">Years together</span></div><div><strong>10,000+</strong><span class="mono">Deliverables</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOOD FIT -->
+<section id="fit">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">05</span>Good fit<span class="ln"></span>Capacity panel</div>
+    <div class="grid2">
+      <h2 class="display">Are we a <span class="y">good fit?</span></h2>
+      <p class="sub">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands.</p>
+    </div>
+
+    <div class="panel hours arrive">
+      <div class="panel-h mono"><span>Design and motion hours &middot; per month</span><span class="y">Typical 40&#8211;160 &middot; Flex 20&#8211;200</span></div>
+      <div class="big" style="font-size:clamp(64px,8vw,120px)">40&#8211;160 <span style="font-size:.36em;color:var(--w)">hours a month</span></div>
+      <div class="scale" id="scale" aria-hidden="true">
+        <div class="base"></div>
+        <div class="flex" style="left:8%;width:72%"></div>
+        <div class="core" style="left:16%;width:48%">Typical</div>
+        <div class="me" id="me" style="left:32%"><span id="meL">80 hrs</span></div>
+        <span class="tk" style="left:0">0</span><span class="tk" style="left:8%">20</span><span class="tk" style="left:16%">40</span><span class="tk" style="left:40%">100</span><span class="tk" style="left:64%">160</span><span class="tk" style="left:80%">200</span><span class="tk" style="left:100%;transform:translateX(-100%)">250 hrs</span>
+      </div>
+      <div class="legend mono"><span><i style="background:var(--y)"></i>Typical month</span><span><i style="background:repeating-linear-gradient(-45deg,rgba(255,211,0,.5) 0 3px,transparent 3px 6px);box-shadow:inset 0 0 0 1px var(--y)"></i>Room to flex</span></div>
+      <div class="try">
+        <div><label class="mono" for="hrs">Your month, roughly</label><input type="range" id="hrs" min="0" max="250" step="5" value="80"></div>
+        <p class="verdict" id="verdict" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="blk-h"><h3>Why a studio like ours</h3><span class="mono">Compare</span></div>
+    <div class="cards4">
+      <div class="c4 arrive"><span class="mono">vs. Freelancer</span><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, UX, print and apparel, with someone ready for every job.</p></div>
+      <div class="c4 arrive"><span class="mono">vs. New hire</span><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, with no payroll when it slows.</p></div>
+      <div class="c4 arrive"><span class="mono">vs. Big agency</span><h3>Instead of a big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
+      <div class="c4 arrive"><span class="mono">+ Your team</span><h3>Alongside your team</h3><p>More hands, same brand. We step into your process, take the overflow and the deadline crunch, and help the brand look its best along the way.</p></div>
+    </div>
+
+    <div class="blk-h"><h3>How we work together</h3><span class="mono">Three ways in</span></div>
+    <div class="plans">
+      <div class="plan arrive"><div class="top-l"><span class="pill s0">Start here</span><span class="mono" style="color:var(--dim)">01</span></div><h3>Try us first</h3><p>A job or two at our hourly rate, with an estimate before we start. We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p><a class="btn" href="#contact"><span class="plus">+</span> Put a first job on the board</a></div>
+      <div class="plan hl arrive"><div class="top-l"><span class="pill s1">All year</span><span class="mono" style="color:var(--dim)">02</span></div><h3>Annual retainer</h3><p>A team you can count on all year. Your year is already on the calendar, so we commit to it: a set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over and stay yours until they&#8217;re used. Hours and rates are reviewed each year.</p></div>
+      <div class="plan arrive"><div class="top-l"><span class="pill s2">Flex</span><span class="mono" style="color:var(--dim)">03</span></div><h3>Hourly</h3><p>Room to flex when needs swing month to month. Invoiced at month end for the hours used.</p></div>
+    </div>
+
+    <div class="blk-h"><h3>Before you sign</h3><span class="mono">Checklist</span></div>
+    <div class="checks">
+      <div class="ck arrive"><span class="bx">&#10003;</span><h3>Senior team, need to know</h3><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we&#8217;ll complete it before the first job.</p></div>
+      <div class="ck arrive"><span class="bx">&#10003;</span><h3>Compliance review</h3><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div>
+      <div class="ck arrive"><span class="bx">&#10003;</span><h3>Busy months</h3><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div>
+    </div>
+
+    <details class="more">
+      <summary>The details <span class="mono">Who fits &middot; Revisions</span></summary>
+      <div class="more-in">
+        <div><h4>A great fit</h4><ul>
+          <li>Marketing teams with a steady flow of work, month after month.</li>
+          <li>Launches, campaigns, events and sales support running at the same time.</li>
+          <li>Busy calendars and a brand that has to look right every time.</li>
+          <li>Teams that want the same people on their brand every week.</li>
+          <li>Creative directors and in-house design teams who need more hands, working in your files and your process.</li>
+        </ul></div>
+        <div class="no"><h4>Usually not a fit</h4><ul>
+          <li>One-off projects with no ongoing work behind them.</li>
+        </ul><p style="margin-top:12px">A first job or two to try us out is always welcome.</p></div>
+        <div><h4>Revisions</h4><p>Part of the job, billed as time like any other work, and handled quickly until it&#8217;s right.</p></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="rail mono"><span class="num">06</span>Contact<span class="ln"></span>New job</div>
+    <div class="contact">
+      <div>
+        <h2 class="display">Start now with <span class="y">one job.</span></h2>
+        <p class="sub" style="margin-top:22px">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
+        <div class="crew-l">
+          <span class="mono">The people on your board</span>
+          <div class="person"><img src="../media/team/shane-french.png" alt="" loading="lazy"><div><b>Shane French</b><span>Creative Director, Design, UX and Motion</span></div><span class="pill">CD</span></div>
+          <div class="person"><img src="../media/team/tom-larsen.png" alt="" loading="lazy"><div><b>Tom Larsen</b><span>Senior Designer</span></div><span class="pill">Design</span></div>
+          <div class="person"><img src="../media/team/andrew-baldwin.png" alt="" loading="lazy"><div><b>Andrew Baldwin</b><span>Senior UX/UI Designer</span></div><span class="pill">UX</span></div>
+          <div class="person"><img src="../media/team/joel-bender.png" alt="" loading="lazy"><div><b>Joel Bender</b><span>Senior Designer</span></div><span class="pill">Design</span></div>
+          <div class="person"><img src="../media/team/gui-freitas.png" alt="" loading="lazy"><div><b>Gui Freitas</b><span>Senior Motion Designer</span></div><span class="pill">Motion</span></div>
+          <p style="color:var(--mute);font-size:15px;margin-top:14px">Every client gets the whole team. Have your own creative director? We work to their direction.</p>
+        </div>
+        <a class="mail" href="mailto:hello@studiorendezvous.net">Prefer email? hello@studiorendezvous.net</a>
+      </div>
+
+      <form class="newjob arrive" id="newjob" novalidate>
+        <div class="nj-bar"><span>New job card</span><span class="mono" id="njid">SR-0682</span><span class="pill s0" id="njst">Draft</span></div>
+        <div class="nj-in">
+          <div class="f"><label for="n">Name</label><input id="n" name="name" autocomplete="name"></div>
+          <div class="f"><label for="e">Work email</label><input id="e" name="email" type="email" autocomplete="email"></div>
+          <div class="f full"><label for="c">Company</label><input id="c" name="company" autocomplete="organization"></div>
+          <div class="f"><label for="h">How can we help?</label><select id="h" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></div>
+          <div class="f"><label for="m">Monthly hours</label><select id="m" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40&#8211;80 hours</option><option>80&#8211;120 hours</option><option>120&#8211;160 hours</option><option>160+ hours</option></select></div>
+          <div class="f full"><label for="w">Tell us about the work</label><textarea id="w" name="work" placeholder="What it is, when it&#8217;s due, your budget"></textarea></div>
+          <div class="nj-foot">
+            <button class="btn" type="submit"><span class="plus">+</span> <span id="njb">Add to the board</span></button>
+            <small>We&#8217;ll get right back to you and get underway once you approve the estimate. We use your details only to reply, and we never share them.</small>
+          </div>
+          <p class="sent" role="status">Card added. This concept form doesn&#8217;t send yet; in the live site it lands on the board and we pick it up.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div>
+        <a class="logo" href="#top"><img src="../media/sr-logo.svg" alt="Studio Rendezvous"></a>
+        <p class="line">The senior crew that keeps your brand running, <em>every job, every frame.</em></p>
+      </div>
+      <div><h4>Sections</h4><ul><li><a href="#how">How it works</a></li><li><a href="#make">What we make</a></li><li><a href="#work">Work</a></li><li><a href="#fit">Good fit</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="mailto:hello@studiorendezvous.net">hello@<br>studiorendezvous.net</a></li><li><a href="#contact">Start a job</a></li></ul></div>
+      <div><h4>Partner</h4><ul><li><a href="https://contentmatterz.com/" target="_blank" rel="noopener">Content Matterz</a></li></ul><p style="margin-top:8px">Content and strategy. One brief, one board, one team.</p></div>
+    </div>
+    <div class="legal mono"><span>&copy; 2026 Studio Rendezvous, Inc.</span><a href="#top">Back to top &#8593;</a></div>
+  </div>
+</footer>
+
+<dialog id="job" aria-labelledby="jobT">
+  <div class="sheet">
+    <div class="sheet-bar mono"><span id="jobId">SR-0000</span><span id="jobInd"></span><span id="jobCount"></span><button class="x" id="jobX" aria-label="Close">&#215;</button></div>
+    <div class="sheet-in" id="jobIn"></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+var M='../media/';
+var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var $=function(s,c){return (c||document).querySelector(s)};
+var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+/* menu */
+var mb=$('#menuBtn'),nav=$('#nav');
+mb.addEventListener('click',function(){var o=nav.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+$$('#nav a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');mb.setAttribute('aria-expanded',false)})});
+
+/* timecode */
+var tc=$('#tc'),t0=performance.now();
+function pad(n){return (n<10?'0':'')+n}
+function tick(){var s=(performance.now()-t0)/1000,f=Math.floor(s*24)%24;tc.textContent=pad(Math.floor(s/3600))+':'+pad(Math.floor(s/60)%60)+':'+pad(Math.floor(s)%60)+':'+pad(f);requestAnimationFrame(tick)}
+RM?tc.textContent='00:00:00:00':requestAnimationFrame(tick);
+
+/* hero board */
+var STAGES=[['Add a job','#777','s0','New'],['We’re on it','#ffd300','s1','On it'],['Best first draft','#fff','s2','Draft'],['Review','#fe5000','s3','Review'],['Delivered','#5c4f00','s4','✓ Delivered']];
+var WHO={Motion:'gui-freitas',Video:'gui-freitas',UX:'andrew-baldwin',Brand:'shane-french',Events:'joel-bender',Print:'tom-larsen',Social:'tom-larsen'};
+var JOBS=[
+['smart-london-recap','v','Event recap reel','Events'],['nkv-dark','i','Key visual','Brand'],
+['norton-social-mosaic','v','Social program','Social'],['inn-pillars','i','Event environment','Events'],
+['arx-explainer','v','Explainer','Video'],['hi-bb-00','i','Brand book','Brand'],
+['smart-innovate-pillar','v','Stage loop','Events'],['pb-00','i','Partner playbook','Print'],
+['hi-flyby','v','Data story','Motion'],['inn-app','i','Event app','UX'],
+['norton-hrtech-booth','v','Booth video','Events'],['air-logo-wall','i','Logo system','Brand']];
+var START=[0,0,1,1,2,2,2,3,3,4,4,4];
+var board=$('#board'),lists=[],idN=670;
+STAGES.forEach(function(s,i){
+  var c=document.createElement('div');c.className='col';
+  c.innerHTML='<div class="col-h"><span class="sw" style="background:'+s[1]+'"></span><span class="n">0'+(i+1)+'</span>'+s[0]+'<span class="c">0</span></div><div class="list"></div>';
+  board.appendChild(c);lists.push($('.list',c));
+});
+function card(j,stage){
+  var el=document.createElement('article');el.className='jc';el.dataset.stage=stage;
+  var media=j[1]==='v'?'<video src="'+M+j[0]+'.mp4" poster="'+M+j[0]+'.jpg" muted loop playsinline autoplay preload="metadata"></video>':'<img src="'+M+j[0]+'.jpg" alt="" loading="lazy">';
+  el.innerHTML='<div class="th">'+media+'<span class="pill tg">'+j[3]+'</span></div><div class="mt"><span class="t">'+j[2]+'</span><img class="av" src="'+M+'team/'+WHO[j[3]]+'.png" alt=""><span class="id">SR-0'+(idN++)+'</span></div><div style="padding:0 11px 11px"><span class="pill st '+STAGES[stage][2]+'">'+STAGES[stage][3]+'</span></div>';
+  el._j=j;return el;
+}
+JOBS.forEach(function(j,i){lists[START[i]].appendChild(card(j,START[i]))});
+function counts(){lists.forEach(function(l){l.parentNode.querySelector('.c').textContent=l.children.length})}
+counts();
+function setStage(el,s){el.dataset.stage=s;var p=$('.st',el);p.className='pill st '+STAGES[s][2]+' tick';p.textContent=STAGES[s][3];el.classList.add('flash');setTimeout(function(){el.classList.remove('flash')},1400)}
+function flip(mut){
+  var cards=$$('.jc',board),first=new Map();
+  cards.forEach(function(c){first.set(c,c.getBoundingClientRect())});
+  var fresh=mut();
+  cards.forEach(function(c){
+    if(c===fresh)return;
+    var f=first.get(c),l=c.getBoundingClientRect(),dx=f.left-l.left,dy=f.top-l.top;
+    if((dx||dy)&&c.animate)c.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'none'}],{duration:750,easing:'cubic-bezier(.2,.8,.2,1)'});
+  });
+  if(fresh&&fresh.animate)fresh.animate([{opacity:0,transform:'translateY(-16px) scale(.96)'},{opacity:1,transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'});
+}
+var ev=$('#ev'),order=[3,2,1,0,4];
+function step(){
+  // move the bottom card of a random non-empty early column forward
+  var cands=[0,1,2,3].filter(function(i){return lists[i].children.length>(i===0?1:0)});
+  var s=cands[Math.floor(Math.random()*cands.length)];
+  var el=lists[s].lastElementChild;
+  flip(function(){
+    lists[s+1].insertBefore(el,lists[s+1].firstChild);setStage(el,s+1);
+    var v=$('video',el);if(v)v.play().catch(function(){});
+    ev.textContent=el._j[2]+' → '+STAGES[s+1][0];
+    if(s+1===4){lastDel(el._j[2]+' · '+el._j[3])}
+    if(lists[4].children.length>3||!lists[0].children.length){
+      var old=lists[4].lastElementChild;lists[4].removeChild(old);
+      var nw=card(old._j,0);lists[0].insertBefore(nw,lists[0].firstChild);return nw;
+    }
+  });
+  counts();
+}
+if(!RM){var iv=setInterval(step,3200)}
+/* pause hero videos offscreen */
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){es.forEach(function(e){$$('video',board).forEach(function(v){e.isIntersecting?v.play().catch(function(){}):v.pause()})})}).observe(board);
+}
+
+/* ticker */
+var DEL=['Brand narrative · Motion','Launch film · Video','Trade show loop · Events','Campaign video · Video','Explainer · Video','Booth film · Events','Product video · UX','Case study video · Video','Sales video · Video','Social animation · Social','Data story · Motion','Event sting · Events','Video series · Video','App walkthrough · UX','Competitive video · Video','Website hero · Digital','Brand end card · Brand','Benchmark video · Motion','681 videos in the last 12 months'];
+var tr=$('#track');tr.innerHTML=DEL.concat(DEL).map(function(d){return '<span>'+d+'</span>'}).join('');
+function lastDel(t){ev.textContent='Delivered: '+t}
+
+/* arrive on scroll */
+var arr=$$('.arrive');
+if('IntersectionObserver' in window&&!RM){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var sib=$$('.arrive',e.target.parentNode),i=Math.max(0,sib.indexOf(e.target));e.target.style.transitionDelay=(i%6)*70+'ms';e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  arr.forEach(function(a){io.observe(a)});
+}else arr.forEach(function(a){a.classList.add('in')});
+
+/* tenure bars */
+var YRS=[20,15,12,10,9,8,4,4,3],bars=$('#bars');
+bars.innerHTML=YRS.map(function(y,i){return '<div class="bar"><span class="mono"><span class="hm">Client </span>'+pad(i+1)+'</span><div class="tr"><div class="fl'+(y<6?' out':'')+'" data-w="'+(y/20*100)+'"><b>'+y+' yrs</b></div></div></div>'}).join('')+'<div class="avg" style="left:calc(88px + (100% - 88px) * '+(85/9/20).toFixed(4)+')"><span>Avg 9.4</span></div>';
+if(window.innerWidth<=480)$('.avg',bars).style.left='calc(40px + (100% - 40px) * '+(85/9/20).toFixed(4)+')';
+function grow(){$$('.fl',bars).forEach(function(f,i){setTimeout(function(){f.style.width=f.dataset.w+'%'},RM?0:i*90)})}
+if('IntersectionObserver' in window&&!RM){var bo=new IntersectionObserver(function(es){if(es[0].isIntersecting){grow();bo.disconnect()}},{threshold:.3});bo.observe(bars)}else grow();
+
+/* hours slider */
+var hr=$('#hrs'),me=$('#me'),meL=$('#meL'),vd=$('#verdict');
+function hv(){var v=+hr.value;me.style.left=(v/250*100)+'%';meL.textContent=v+' hrs';
+  vd.innerHTML=v<20?'<b>Under 20 hours.</b> A first job or two to try us out is always welcome.':v<40?'<b>Flex range.</b> A lighter month works well alongside a steadier rhythm.':v<=160?'<b>Right in the range</b> most of our clients work in, month after month.':v<=200?'<b>Flex range.</b> When your month spikes, the whole team picks it up.':'<b>Above our usual flex.</b> Share your launch calendar and let’s plan it together.'}
+hr.addEventListener('input',hv);hv();
+
+/* work filter */
+$$('.chip').forEach(function(c){c.addEventListener('click',function(){
+  $$('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});
+  var f=c.dataset.f;$$('.wc').forEach(function(w){w.classList.toggle('off',f!=='all'&&w.dataset.tags.split(' ').indexOf(f)<0)});
+})});
+/* hover play */
+$$('.wc').forEach(function(w){var v=$('video.hv',w);if(!v)return;
+  w.addEventListener('mouseenter',function(){v.preload='auto';v.play().catch(function(){})});
+  w.addEventListener('mouseleave',function(){v.pause()});
+});
+var auto=$('.wc video.auto');
+if(auto&&'IntersectionObserver' in window&&!RM){new IntersectionObserver(function(es){es[0].isIntersecting?auto.play().catch(function(){}):auto.pause()},{threshold:.25}).observe(auto)}
+
+/* case data */
+function V(s,l,t,p){return {v:1,s:s,l:l,t:t||'',p:p}}
+function I(s,l,t){return {s:s,l:l,t:t||''}}
+var CASES={
+ reel:{id:'SR-0681',ind:'Motion',n:'18 loops',h:'Motion reel',d:'We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.',
+  g:[V('smart-narrative','Brand narrative','Motion'),V('norton-exec-program','Launch film','Video'),V('arx-booth','Trade show loop','Events'),V('guidewire-sizzle','Campaign video','Video'),V('spareit-explainer','Explainer','Video'),V('norton-hrtech-booth','Booth film','Events'),V('marchex-aps','Product video','UX'),V('norton-a1-case','Case study video','Video'),V('marchex-nada','Sales video','Video'),V('norton-craft-beer','Social animation','Social'),V('hi-flyby','Data story','Motion'),V('norton-sko-sting','Event sting','Events'),V('norton-4p-digital','Video series','Video'),V('norton-currys','App walkthrough','UX'),V('hi-betterment','Competitive video','Video'),V('smart-hero','Website hero','Digital'),V('hi-endcard','Brand end card','Brand'),V('smart-healthcare','Benchmark video','Motion')]},
+ brand:{id:'SR-0544',ind:'Financial services',n:'8 pieces',h:'A new brand, carried into everything',d:'When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.',
+  g:[V('hi-logo-stings','Logo stings','','hi-logo-stings-poster'),V('hi-flyby','Data story'),I('hi-bb-03','Typography'),I('hi-bb-04','Color'),I('hi-bb-06','Gradients'),I('hi-bb-08','Graphic elements'),I('hi-bb-00','Brand book'),V('hi-betterment','Competitive video')],
+  note:'Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.',
+  sub:{h:'Apparel',d:'The brand carried onto apparel too: socks, hats, hoodies, jackets and tees for kickoffs and conferences.',tall:1,g:[I('app-jacket','Team jacket'),I('app-hoodie','Kickoff hoodie'),I('app-socks','Event socks'),I('app-tee','Event tee')]}},
+ events:{id:'SR-0602',ind:'B2B software',n:'12 pieces',h:'Events, end to end',d:'One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.',
+  g:[V('smart-innovate-pillar','Stage loops'),I('inn-pillars','Venue pillars'),I('inn-elevators','Elevator wraps'),I('inn-app','Event app'),I('inn-badge-nam','Badges'),I('inn-podium','Digital podium'),I('inn-classroom','Wayfinding'),V('smart-london-recap','Recap reel')]},
+ exec:{id:'SR-0637',ind:'Cybersecurity',n:'6 pieces',h:'An executive program, launched',d:'Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.',
+  g:[I('nkv-dark','Key visual'),V('norton-exec-program','Launch film'),I('nexp-01','Proposal cover'),I('nexp-02','Proposal spread'),I('nexp-04','Program pillars'),I('nexp-07','Feature page')]},
+ partner:{id:'SR-0619',ind:'Cybersecurity',n:'6 pieces',h:'Partner marketing',d:'A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.',
+  g:[I('pb-00','Playbook'),V('norton-social-mosaic','Social program'),I('pb-09','Onboarding'),I('pb-12','Use cases'),I('pb-17','Email journeys'),V('norton-currys','App walkthrough')]},
+ launch:{id:'SR-0655',ind:'B2B software',n:'2 pieces',h:'Product launches, in motion',d:'Product and sales videos built from the product’s own UI.',
+  g:[V('marchex-aps','Product video'),V('marchex-nada','Sales video')]},
+ logos:{id:'SR-0590',ind:'Commercial HVAC group',n:'47 logos',h:'Logo systems',d:'47 company logos brought into one family, with a self-serve site where each company downloads its own files.',one:1,
+  g:[I('air-logo-wall','A family of 47 company logos')]}
+};
+function gal(list,cls){return '<div class="gal'+(cls?' '+cls:'')+'">'+list.map(function(x){
+  var m=x.v?'<video src="'+M+x.s+'.mp4" poster="'+M+(x.p||x.s)+'.jpg" muted loop playsinline autoplay preload="metadata"></video>':'<img src="'+M+x.s+'.jpg" alt="'+x.l+'" loading="lazy">';
+  return '<figure><div>'+m+'</div><figcaption><span>'+x.l+'</span><span>'+(x.v?'▶ ':'')+(x.t||'')+'</span></figcaption></figure>'}).join('')+'</div>'}
+var dlg=$('#job'),jin=$('#jobIn'),lastBtn;
+function openCase(k,btn){var c=CASES[k];lastBtn=btn;
+  $('#jobId').textContent=c.id;$('#jobInd').textContent=c.ind;$('#jobCount').textContent=c.n;
+  jin.innerHTML='<div class="prog"><span>Add a job</span><span>We’re on it</span><span>Best first draft</span><span>Review</span><span>✓ Delivered</span></div><h2 class="display" id="jobT">'+c.h+'</h2><p class="sub">'+c.d+'</p>'+gal(c.g,c.one?'one':'')+(c.note?'<p class="note">'+c.note+'</p>':'')+(c.sub?'<h4>'+c.sub.h+'</h4><p class="sub" style="margin-top:6px">'+c.sub.d+'</p>'+gal(c.sub.g,'tall'):'');
+  if(dlg.showModal){dlg.showModal()}else{dlg.setAttribute('open','')}
+  jin.scrollTop=0;
+}
+$$('.wc').forEach(function(w){w.addEventListener('click',function(){openCase(w.dataset.case,w)});w.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openCase(w.dataset.case,w)}})});
+function closeD(){dlg.close?dlg.close():dlg.removeAttribute('open')}
+$('#jobX').addEventListener('click',closeD);
+dlg.addEventListener('click',function(e){if(e.target===dlg)closeD()});
+dlg.addEventListener('close',function(){jin.innerHTML='';if(lastBtn)lastBtn.focus()});
+
+/* new job card */
+var nj=$('#newjob'),st=$('#njst');
+nj.addEventListener('submit',function(e){e.preventDefault();
+  if(nj.classList.contains('done'))return;
+  st.className='pill s1 tick';st.textContent='On it';$('#njb').textContent='On the board';nj.classList.add('done');
+});
+})();
+</script>
+</body>
+</html>

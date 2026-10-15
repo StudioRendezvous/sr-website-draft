@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Rendezvous, Inc. | Design and motion, always on</title>
+<meta name="description" content="Studio Rendezvous, Inc. is a senior B2B design and motion studio working alongside your marketing and design teams.">
+<link rel="icon" href="../media/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="../media/smart-london-recap.jpg">
+<style>
+:root{
+  --bg:#0e0e0e; --bg2:#141414; --ink:#f2efe9; --ink2:#bdb8b0; --mute:#86827c;
+  --line:rgba(242,239,233,.12); --or:#fe5000; --yl:#ffd300;
+  --nav:60px; --pad:clamp(16px,4vw,56px);
+  --sans:"Archivo",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--or);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--or);color:#000;padding:8px 14px;z-index:99}
+.skip:focus{left:8px}
+.wrap{padding-inline:var(--pad)}
+.slate{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--yl)}
+.label{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.title{font-family:var(--sans);font-stretch:72%;font-weight:800;text-transform:uppercase;line-height:.88;letter-spacing:-.005em}
+.btn{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;font:600 15px/1 var(--sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn-or{background:var(--or);color:#0e0e0e}
+.btn-or:hover{background:#ff6a26}
+.btn-ghost{border-color:rgba(242,239,233,.35);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn svg{width:14px;height:14px}
+
+/* NAV */
+.nav{position:fixed;inset:0 0 auto;height:var(--nav);z-index:50;display:flex;align-items:center;gap:28px;padding-inline:var(--pad);transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(14,14,14,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav .logo img{height:22px;width:auto}
+.nav ul{display:flex;gap:26px;list-style:none;margin-left:auto}
+.nav ul a{text-decoration:none;font:500 14px/1 var(--sans);color:var(--ink2)}
+.nav ul a:hover{color:var(--ink)}
+.nav .btn{height:38px;padding:0 16px;font-size:14px}
+.mtog{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);border-radius:999px;height:38px;padding:0 12px;cursor:pointer;font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.mtog i{width:7px;height:7px;border-radius:50%;background:var(--or);box-shadow:0 0 0 0 rgba(254,80,0,.6);animation:rec 1.6s infinite}
+.still .mtog i{background:var(--mute);animation:none}
+@keyframes rec{50%{opacity:.25}}
+@media (max-width:900px){.nav ul{display:none}.nav .mtog{margin-left:auto}}
+@media (max-width:420px){.nav{gap:10px}.mtog span{display:none}.nav .logo img{height:18px}}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#000}
+.mosaic{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:2px}
+.mosaic figure{position:relative;overflow:hidden;background:#111;opacity:0;animation:cut .01s forwards}
+.mosaic figure:nth-child(1){grid-column:span 2;grid-row:span 2;animation-delay:.05s}
+.mosaic figure:nth-child(2){animation-delay:.35s}.mosaic figure:nth-child(3){animation-delay:.55s}
+.mosaic figure:nth-child(4){animation-delay:.75s}.mosaic figure:nth-child(5){animation-delay:.95s}
+@keyframes cut{to{opacity:1}}
+.mosaic video{width:100%;height:100%;object-fit:cover}
+.mosaic figcaption{position:absolute;right:12px;top:calc(var(--nav) + 6px);font:500 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:rgba(242,239,233,.7)}
+.mosaic figure:nth-child(n+4) figcaption{top:auto;bottom:12px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(180deg,rgba(14,14,14,.55) 0%,rgba(14,14,14,0) 22%),
+  linear-gradient(0deg,rgba(14,14,14,.98) 0%,rgba(14,14,14,.82) 26%,rgba(14,14,14,.15) 62%),
+  linear-gradient(90deg,rgba(14,14,14,.55),rgba(14,14,14,0) 70%)}
+.hero-copy{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:0 var(--pad) clamp(26px,5vh,56px)}
+.tc{display:flex;gap:14px;align-items:center;margin-bottom:clamp(14px,2.4vh,26px)}
+.tc b{font-weight:500;color:var(--yl)}
+.tc .dot{width:8px;height:8px;border-radius:50%;background:var(--or);animation:rec 1.6s infinite}
+.still .tc .dot{animation:none}
+h1{font-family:var(--sans);font-weight:700;font-stretch:100%;font-size:clamp(46px,8.6vw,156px);line-height:.9;letter-spacing:-.045em;max-width:13ch}
+h1 span{display:block;overflow:hidden;padding-bottom:.06em}
+h1 span>em{display:inline-block;font-style:normal;animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+h1 span:nth-child(2)>em{animation-delay:.18s}
+h1 .ser{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em;font-size:1.12em}
+h1 .ser::after{content:"";display:inline-block;width:.16em;height:.16em;border-radius:50%;background:var(--or);margin-left:.08em;vertical-align:.12em}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.hero-row{display:flex;flex-wrap:wrap;gap:22px 40px;align-items:flex-end;justify-content:space-between;margin-top:clamp(16px,3vh,30px)}
+.hero-row p{max-width:520px;color:var(--ink2);font-size:clamp(16px,1.25vw,18px)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+@media (max-width:700px){
+  .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:1.25fr 1fr 1fr}
+  .mosaic figure:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .hero::after{background:linear-gradient(0deg,rgba(14,14,14,1) 0%,rgba(14,14,14,.9) 42%,rgba(14,14,14,.2) 75%),linear-gradient(180deg,rgba(14,14,14,.6),rgba(14,14,14,0) 20%)}
+  .mosaic figcaption{display:none}
+}
+@media (prefers-reduced-motion:reduce){.mosaic figure{animation:none;opacity:1}h1 span>em{animation:none}}
+
+/* CREDIT TICKER + LOGOS */
+.ticker{border-block:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 28px;padding:16px var(--pad)}
+.ticker span{font:500 11.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.ticker span::before{content:"";display:inline-block;width:6px;height:6px;background:var(--or);margin-right:10px;vertical-align:1px}
+.clients{padding:clamp(40px,6vw,72px) 0}
+.clients .label{padding-inline:var(--pad);margin-bottom:22px}
+.marq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marq-in{display:flex;width:max-content;animation:marq 48s linear infinite}
+.marq:hover .marq-in{animation-play-state:paused}
+.marq ul{display:flex;align-items:center;list-style:none}
+.marq li{flex:none;width:clamp(130px,13vw,190px);padding:0 clamp(10px,1.4vw,22px)}
+.marq img{width:100%;height:auto;opacity:.82}
+@keyframes marq{to{transform:translateX(-50%)}}
+.still .marq-in{animation:none;width:auto}
+.still .marq-in ul:last-child{display:none}
+.still .marq ul{flex-wrap:wrap;justify-content:center}
+@media (prefers-reduced-motion:reduce){.marq-in{animation:none}}
+
+/* SECTION HEADS */
+.sec{padding-block:clamp(80px,11vw,160px)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:clamp(36px,5vw,72px)}
+.sec-head .title{font-size:clamp(42px,7vw,112px)}
+.sec-head p{color:var(--ink2);max-width:52ch}
+.sec-head .slate{grid-column:1/-1;margin-bottom:-6px}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+
+/* REEL (pinned on desktop) */
+.reel{position:relative}
+.reel-pin{padding:calc(var(--nav) + 28px) 0 40px}
+.reel-top{display:flex;flex-wrap:wrap;gap:16px 48px;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+.reel-top .title{font-size:clamp(42px,6.4vw,104px)}
+.reel-top p{max-width:46ch;color:var(--ink2);font-size:15.5px}
+.reel-top .ct{display:flex;gap:18px;align-items:center;margin-top:12px}
+.reel-track{display:flex;flex-direction:column;gap:12px;overflow-x:auto;padding:0 var(--pad) 12px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.reel-track::-webkit-scrollbar{display:none}
+.strip{display:flex;gap:12px;width:max-content}
+.strip.s2{padding-left:calc(var(--cw) * .5)}
+.reel{--cw:clamp(250px,72vw,420px)}
+.clip{position:relative;flex:none;width:var(--cw);aspect-ratio:16/9;overflow:hidden;background:#161616;scroll-snap-align:start}
+.clip video,.clip img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.clip:hover video,.clip:hover img{transform:scale(1.035)}
+.clip figcaption{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;gap:10px;padding:26px 12px 10px;background:linear-gradient(0deg,rgba(0,0,0,.78),transparent);font:500 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.clip figcaption b{font-weight:500;color:var(--ink)}
+.clip figcaption i{font-style:normal;color:var(--yl)}
+.clip .n{position:absolute;left:10px;top:9px;font:500 10px/1 var(--mono);letter-spacing:.12em;color:rgba(242,239,233,.75)}
+.reel-bar{height:2px;background:var(--line);margin:22px var(--pad) 0;position:relative}
+.reel-bar i{position:absolute;inset:0;background:var(--or);transform-origin:left;transform:scaleX(var(--p,0))}
+.reel.pinned .reel-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.reel.pinned .reel-track{overflow:visible;scroll-snap-type:none}
+.reel.pinned .strip{will-change:transform}
+@media (min-width:900px){.reel{--cw:min(30vw,calc((100vh - 300px) * .8889))}}
+
+/* CASES */
+.cases-intro{padding:clamp(70px,9vw,130px) var(--pad) 0}
+.cases-intro .title{font-size:clamp(42px,7vw,112px)}
+.case{position:relative;padding-bottom:clamp(70px,9vw,120px)}
+.case-bar{position:sticky;top:var(--nav);z-index:4;height:52px;display:flex;align-items:center;gap:20px;padding:0 var(--pad);background:rgba(14,14,14,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.case-bar .slate{display:flex;gap:16px;flex:none}
+.case-bar .slate span:nth-child(n+2){color:var(--ink2)}
+.case-bar .bt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:800 15px/1 var(--sans);font-stretch:72%;text-transform:uppercase;letter-spacing:.02em;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
+.case-bar.stuck .bt{opacity:1;transform:none}
+.case-t{font-size:clamp(36px,6vw,100px);padding:clamp(22px,3vw,40px) var(--pad) 14px;max-width:20ch;box-sizing:content-box}
+@media (max-width:640px){.case-bar .slate span:nth-child(3){display:none}.case-bar .bt{display:none}}
+.arrows{display:flex;gap:8px;flex:none;margin-left:auto}
+.arrows button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(242,239,233,.3);background:none;cursor:pointer;display:grid;place-items:center;transition:border-color .2s,background .2s}
+.arrows button:hover{border-color:var(--or);background:rgba(254,80,0,.12)}
+.arrows svg{width:16px;height:16px}
+.case-copy{padding:4px var(--pad) 26px;max-width:calc(62ch + var(--pad)*2);color:var(--ink2)}
+.row{--rh:clamp(230px,64vw,330px);display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--pad);scroll-padding-inline:var(--pad);scrollbar-width:none;overscroll-behavior-x:contain}
+.row::-webkit-scrollbar{display:none}
+.row .clip{width:auto;height:var(--rh);aspect-ratio:var(--r,16/9)}
+.row .note{flex:none;width:min(300px,70vw);height:var(--rh);display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:22px;border:1px solid var(--line);scroll-snap-align:start}
+.row .note h4{font-size:clamp(30px,3vw,44px)}
+.row .note p{color:var(--ink2);font-size:15px}
+.row-bar{height:2px;background:var(--line);margin:18px var(--pad) 0;position:relative;overflow:hidden}
+.row-bar i{position:absolute;inset:0;background:var(--or);transform-origin:left;transform:scaleX(var(--p,.08))}
+@media (min-width:900px){.row{--rh:min(62vh,560px)}}
+@media (max-width:640px){.arrows{display:none}}
+.wide{margin:0 var(--pad);position:relative;overflow:hidden;background:#fff}
+.wide img{width:100%;height:auto;aspect-ratio:5/3;object-fit:cover}
+.wide figcaption{position:absolute;left:0;bottom:0;padding:10px 14px;background:var(--bg);font:500 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.wide figcaption i{font-style:normal;color:var(--yl);margin-left:12px}
+
+/* QUOTE TITLE CARDS */
+.card{padding:clamp(90px,13vw,190px) var(--pad);text-align:center;border-block:1px solid var(--line);position:relative}
+.card blockquote{font:400 clamp(28px,3.9vw,60px)/1.12 var(--serif);letter-spacing:-.01em;max-width:24ch;margin:0 auto}
+.card blockquote.long{max-width:30ch;font-size:clamp(26px,3.2vw,50px)}
+.card blockquote::before{content:"\201C";color:var(--or)}
+.card blockquote::after{content:"\201D";color:var(--or)}
+.card cite{display:block;margin-top:34px;font:500 11.5px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:var(--ink2)}
+.card cite b{color:var(--ink);font-weight:500}
+.card .slate{position:absolute;top:22px;left:var(--pad)}
+.card .slate.r{left:auto;right:var(--pad);color:var(--mute)}
+
+/* PAST CLIENTS */
+.past{padding:clamp(60px,8vw,100px) var(--pad)}
+.grid-logos{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:22px}
+.grid-logos li{list-style:none;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(10px,2vw,26px)}
+.grid-logos img{width:100%;height:auto;opacity:.72}
+@media (max-width:820px){.grid-logos{grid-template-columns:repeat(3,1fr)}}
+
+/* HOW IT WORKS: edit timeline */
+.ruler{position:relative;height:30px;margin:0 0 0;border-bottom:1px solid var(--line);background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px calc(100%/24));-webkit-mask:linear-gradient(0deg,#000 40%,transparent 41%);mask:linear-gradient(0deg,#000 40%,transparent 41%)}
+.steps{--p:0;list-style:none;position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:s}
+.steps::before{content:"";position:absolute;left:calc(var(--p)*100%);top:-30px;bottom:0;width:2px;background:var(--or);z-index:2;box-shadow:0 0 18px rgba(254,80,0,.55)}
+.steps::after{content:"";position:absolute;left:calc(var(--p)*100% - 6px);top:-36px;width:14px;height:12px;background:var(--or);clip-path:polygon(0 0,100% 0,50% 100%);z-index:2}
+.step{position:relative;padding:22px 18px 26px;border-right:1px solid var(--line);min-height:240px;transition:background .4s}
+.step:first-child{border-left:1px solid var(--line)}
+.step .tcode{font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--mute)}
+.step h4{font-size:clamp(22px,1.9vw,30px);margin:46px 0 10px;font-stretch:72%;font-weight:800;text-transform:uppercase;line-height:.95}
+.step p{color:var(--mute);font-size:14.5px;line-height:1.5;transition:color .4s}
+.step.on{background:linear-gradient(180deg,rgba(254,80,0,.13),rgba(254,80,0,0) 70%)}
+.step.on .tcode{color:var(--yl)}
+.step.on p{color:var(--ink2)}
+@media (max-width:900px){
+  .ruler{display:none}
+  .steps{grid-template-columns:1fr;padding-left:22px}
+  .steps::before{left:0;top:0;bottom:auto;height:calc(var(--p)*100%);width:2px}
+  .steps::after{display:none}
+  .steps{background:linear-gradient(var(--line),var(--line)) 0 0/1px 100% no-repeat}
+  .step{min-height:0;border:0;border-bottom:1px solid var(--line);padding:20px 4px 22px 16px}
+  .step:first-child{border-left:0}
+  .step h4{margin:10px 0 6px}
+}
+.lead-quote{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin:clamp(40px,5vw,64px) 0;max-width:820px}
+.lead-quote img{width:64px;height:64px;border-radius:50%}
+.lead-quote p{font:400 clamp(22px,2.2vw,30px)/1.22 var(--serif)}
+.lead-quote cite{display:block;margin-top:10px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:var(--mute)}
+.quad{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.quad>div{padding:24px 22px 8px 0;border-right:1px solid var(--line);margin-right:22px}
+.quad>div:last-child{border-right:0;margin-right:0}
+.quad h4{font:700 19px/1.2 var(--sans);margin:10px 0 8px}
+.quad p{color:var(--mute);font-size:15px}
+@media (max-width:900px){.quad{grid-template-columns:1fr 1fr;gap:0 18px}.quad>div{border-right:0;margin-right:0;border-bottom:1px solid var(--line);padding-bottom:20px}}
+@media (max-width:520px){.quad{grid-template-columns:1fr}}
+
+/* TENURE tracks */
+.tl{position:relative;border-top:1px solid var(--line)}
+.tl-scale{display:flex;justify-content:space-between;padding:10px 0 14px 46px;font:500 10.5px/1 var(--mono);letter-spacing:.1em;color:var(--mute)}
+.tl-scale span:last-child{color:var(--yl)}
+.trk{display:grid;grid-template-columns:46px 1fr;align-items:center;height:clamp(34px,4.2vw,48px);border-bottom:1px solid rgba(242,239,233,.06)}
+.trk>span{font:500 10.5px/1 var(--mono);color:var(--mute);letter-spacing:.1em}
+.trk .lane{position:relative;height:72%;background:repeating-linear-gradient(90deg,rgba(242,239,233,.05) 0 1px,transparent 1px 5%)}
+.trk .bar{position:absolute;right:0;top:0;bottom:0;width:calc(var(--y)*5%);background:linear-gradient(90deg,#3a1708,#a83400 40%,var(--or));border-radius:3px;display:flex;align-items:center;padding-left:12px;font:600 clamp(12px,1vw,14px)/1 var(--sans);color:#fff;white-space:nowrap;transform-origin:right;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.2,.8,.2,1) calc(var(--i)*.08s)}
+.trk .bar small{font:500 10px/1 var(--mono);letter-spacing:.1em;margin-left:6px;opacity:.75}
+.tl.in .bar{transform:none}
+.tl::after{content:"";position:absolute;right:0;top:0;bottom:0;width:2px;background:var(--yl)}
+.tl-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:16px}
+.avg{display:flex;align-items:baseline;gap:14px}
+.avg b{font:800 clamp(64px,9vw,140px)/.8 var(--sans);font-stretch:72%;color:var(--or)}
+@media (prefers-reduced-motion:reduce){.trk .bar{transition:none;transform:none}}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,44px);margin-top:clamp(50px,6vw,80px)}
+.tri h4{font:700 20px/1.2 var(--sans);margin:10px 0 8px}
+.tri p{color:var(--mute);font-size:15.5px}
+.tri>div{border-top:1px solid var(--line);padding-top:16px}
+@media (max-width:760px){.tri{grid-template-columns:1fr}}
+
+/* WHAT WE MAKE: credit list */
+.make{list-style:none;border-top:1px solid var(--line)}
+.make li{display:grid;grid-template-columns:110px minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:baseline;padding:clamp(16px,1.8vw,24px) 0;border-bottom:1px solid var(--line);transition:padding .35s,color .3s}
+.make .label{color:var(--yl)}
+.make h4{font-size:clamp(30px,4.4vw,70px)}
+.make p{color:var(--mute);font-size:15px;max-width:48ch}
+.make li:hover{padding-left:14px}
+.make li:hover h4{color:var(--or)}
+@media (max-width:760px){.make li{grid-template-columns:1fr;gap:6px}}
+.peek{position:fixed;left:0;top:0;width:300px;aspect-ratio:16/10;z-index:40;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .25s;background:#111}
+.peek.on{opacity:1}
+.peek img{width:100%;height:100%;object-fit:cover}
+
+/* GOOD FIT */
+.meter{margin:10px 0 clamp(50px,6vw,80px)}
+.m-scale{position:relative;height:84px;border-bottom:1px solid var(--line);background:repeating-linear-gradient(90deg,rgba(242,239,233,.16) 0 1px,transparent 1px 4%) bottom/100% 14px no-repeat}
+.m-flex,.m-core{position:absolute;bottom:0;border-radius:2px 2px 0 0}
+.m-flex{left:8%;width:72%;height:38px;background:rgba(254,80,0,.18);border:1px dashed rgba(254,80,0,.6);border-bottom:0}
+.m-core{left:16%;width:48%;height:70px;background:var(--or);display:flex;align-items:center;justify-content:center;font:800 clamp(18px,2.4vw,34px)/1 var(--sans);font-stretch:72%;color:#0e0e0e;text-transform:uppercase}
+.m-flex span{position:absolute;top:-22px;font:500 10.5px/1 var(--mono);letter-spacing:.12em;color:var(--ink2);text-transform:uppercase}
+.m-flex span:first-child{left:0}.m-flex span:last-child{right:0}
+.m-ticks{position:relative;height:24px;font:500 10.5px/1 var(--mono);color:var(--mute)}
+.m-ticks span{position:absolute;top:8px;transform:translateX(-50%)}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,2.4vw,36px)}
+.cols.three{grid-template-columns:repeat(3,1fr)}
+.cols>div{border-top:1px solid var(--line);padding-top:16px}
+.cols h4{font:700 19px/1.25 var(--sans);margin:10px 0 8px}
+.cols p{color:var(--mute);font-size:15px}
+.cols a{color:var(--or);font-weight:600;text-decoration:none;display:inline-block;margin-top:12px}
+.sub{margin:clamp(56px,7vw,96px) 0 22px}
+.sub .title{font-size:clamp(30px,3.6vw,54px)}
+.hl{border-top:2px solid var(--or)!important}
+@media (max-width:900px){.cols,.cols.three{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.m-core{font-size:14px}.m-flex span:first-child{top:-36px}}
+@media (max-width:560px){.cols,.cols.three{grid-template-columns:1fr}}
+details.more{margin-top:clamp(40px,5vw,64px);border-block:1px solid var(--line)}
+details.more summary{cursor:pointer;list-style:none;padding:20px 0;display:flex;justify-content:space-between;align-items:center;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"+";font:300 26px/1 var(--sans);color:var(--or)}
+details.more[open] summary::after{content:"\2212"}
+.more-in{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:30px;color:var(--ink2);font-size:15.5px}
+.more-in h5{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--yl);margin-bottom:12px}
+.more-in ul{list-style:none}
+.more-in li{padding:8px 0;border-bottom:1px solid rgba(242,239,233,.06)}
+@media (max-width:760px){.more-in{grid-template-columns:1fr}}
+
+/* PARTNER */
+.partner{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;padding:clamp(48px,6vw,80px) var(--pad);background:var(--bg2);border-block:1px solid var(--line)}
+.partner h3{font-size:clamp(34px,4.4vw,68px);margin:12px 0 16px}
+.partner p{color:var(--ink2);max-width:54ch}
+.duo{display:flex;align-items:center;gap:22px;justify-content:center;flex-wrap:wrap}
+.duo img{height:auto}
+.duo .plus{font:300 40px/1 var(--sans);color:var(--or)}
+.duo-meta{text-align:center;margin-top:24px}
+@media (max-width:820px){.partner{grid-template-columns:1fr}}
+
+/* CONTACT */
+.contact{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,5vw,80px)}
+.contact .title{font-size:clamp(46px,7.4vw,120px)}
+.contact p{color:var(--ink2);margin-top:22px;max-width:44ch}
+.mail{display:inline-block;margin-top:26px;font:500 clamp(18px,1.6vw,22px)/1.2 var(--sans);text-decoration:none;border-bottom:1px solid var(--or);padding-bottom:4px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;align-content:start}
+.f{display:flex;flex-direction:column;gap:8px}
+.f.full{grid-column:1/-1}
+.f label{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.f input,.f select,.f textarea{background:transparent;border:0;border-bottom:1px solid rgba(242,239,233,.28);padding:10px 0 12px;font-size:17px;border-radius:0;outline:none;transition:border-color .2s}
+.f select{appearance:none;-webkit-appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23fe5000' stroke-width='1.6'/%3E%3C/svg%3E") right 4px center no-repeat}
+.f select option{background:var(--bg)}
+.f textarea{min-height:110px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--or)}
+.send{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;margin-top:8px}
+.send small{color:var(--mute);font-size:13.5px;max-width:42ch}
+.status{grid-column:1/-1;font:500 12px/1.4 var(--mono);letter-spacing:.08em;color:var(--yl);min-height:1em}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+
+/* CREDITS ROLL */
+.credits{padding:clamp(100px,14vw,200px) var(--pad) 40px;text-align:center;background:linear-gradient(180deg,var(--bg),#070707)}
+.credits .slate{display:block;margin-bottom:18px}
+.credits h2{font-size:clamp(36px,5vw,76px)}
+.credits .intro{color:var(--ink2);max-width:44ch;margin:18px auto 0}
+.faces{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);margin:clamp(40px,5vw,64px) 0;flex-wrap:wrap}
+.faces img{width:clamp(56px,7vw,92px);height:auto;border-radius:50%;filter:grayscale(1) contrast(1.05);transition:filter .3s}
+.faces img:hover{filter:none}
+.roll{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,2.6vw,34px) clamp(18px,2.5vw,36px);max-width:900px;margin:0 auto;text-align:left}
+.roll dt{text-align:right;font:500 11px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);padding-top:.5em}
+.roll dd{font:600 clamp(20px,2.2vw,32px)/1.1 var(--sans);font-stretch:112%;text-transform:uppercase;letter-spacing:.02em}
+.roll .sp{margin-top:clamp(20px,4vw,48px)}
+.roll dd small{display:block;font:400 14px/1.4 var(--sans);text-transform:none;letter-spacing:0;color:var(--mute);margin-top:6px;font-stretch:100%}
+[data-r]{opacity:0;transform:translateY(26px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+[data-r].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-r]{opacity:1;transform:none;transition:none}}
+.endcard{margin-top:clamp(120px,16vw,220px)}
+.endcard img{width:min(320px,70vw);height:auto;margin:0 auto 34px}
+.endcard p{font:400 clamp(30px,4.4vw,68px)/1.08 var(--serif);max-width:20ch;margin:0 auto}
+.endcard p em{color:var(--or)}
+.foot{margin-top:clamp(80px,10vw,140px);border-top:1px solid var(--line);padding-top:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:left;font-size:14.5px;color:var(--ink2)}
+.foot h5{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+.foot ul{list-style:none}
+.foot li{padding:3px 0}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--or)}
+.legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font:500 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.legal a{text-decoration:none}
+@media (max-width:760px){.foot{grid-template-columns:1fr 1fr}.roll{grid-template-columns:1fr;text-align:center}.roll dt{text-align:center;padding:0}.roll dd{margin-top:-14px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Studio Rendezvous, home"><img src="../media/sr-logo.svg" alt="Studio Rendezvous" width="128" height="22"></a>
+  <ul>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#make">What we make</a></li>
+    <li><a href="#fit">Good fit</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="mtog" id="mtog" type="button" aria-pressed="true" title="Play or pause all video"><i></i><span>Motion</span> <b id="mstate">On</b></button>
+  <a class="btn btn-or" href="#contact">Start a job</a>
+</header>
+
+<main id="main">
+<!-- HERO -->
+<section class="hero" id="top" aria-label="Introduction">
+  <div class="mosaic" aria-hidden="true">
+    <figure><video class="lv" muted loop playsinline preload="none" poster="../media/smart-london-recap.jpg" data-src="../media/smart-london-recap.mp4"></video><figcaption>Event recap reel · Events</figcaption></figure>
+    <figure><video class="lv" muted loop playsinline preload="none" poster="../media/arx-explainer.jpg" data-src="../media/arx-explainer.mp4"></video><figcaption>Explainer · Video</figcaption></figure>
+    <figure><video class="lv" muted loop playsinline preload="none" poster="../media/norton-hrtech-booth.jpg" data-src="../media/norton-hrtech-booth.mp4"></video><figcaption>Booth film · Events</figcaption></figure>
+    <figure><video class="lv" muted loop playsinline preload="none" poster="../media/smart-innovate-pillar.jpg" data-src="../media/smart-innovate-pillar.mp4"></video><figcaption>Stage loop · Events</figcaption></figure>
+    <figure><video class="lv" muted loop playsinline preload="none" poster="../media/norton-a1-case.jpg" data-src="../media/norton-a1-case.mp4"></video><figcaption>Case study video · Video</figcaption></figure>
+  </div>
+  <div class="hero-copy">
+    <div class="tc label"><span class="dot"></span><span>Studio Rendezvous, Inc.</span><b id="tc">00:00:00:00</b></div>
+    <h1><span><em>Design and motion,</em></span><span><em class="ser">always on</em></span></h1>
+    <div class="hero-row">
+      <p>Senior designers and motion artists working right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline.</p>
+      <div class="ctas">
+        <a class="btn btn-or" href="#contact">Start a job</a>
+        <a class="btn btn-ghost" href="#work"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5v11l9-5.5z" fill="currentColor"/></svg>Watch the work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" role="list">
+  <span role="listitem">Senior team</span><span role="listitem">681 videos last year</span><span role="listitem">Built for tight deadlines</span><span role="listitem">Current clients average 9 years</span>
+</div>
+
+<section class="clients" aria-labelledby="cl-h">
+  <p class="label" id="cl-h">Clients we’re helping every month</p>
+  <div class="marq"><div class="marq-in">
+    <ul>
+      <li><img src="../media/logos/norton.png" alt="Norton" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/gen.png" alt="Gen" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/smart-communications.png" alt="Smart Communications" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/human-interest.png" alt="Human Interest" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/guidewire.png" alt="Guidewire" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/marchex.png" alt="Marchex" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/satori-reader.png" alt="Satori Reader" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/human-japanese.png" alt="Human Japanese" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/master-builders.png" alt="Master Builders Association" width="190" height="89" loading="lazy"></li>
+      <li><img src="../media/logos/air-control.png" alt="AIR Control Concepts" width="190" height="89" loading="lazy"></li>
+    </ul>
+    <ul aria-hidden="true"></ul>
+  </div></div>
+</section>
+
+<!-- SC.01 MOTION REEL -->
+<section class="reel" id="work" aria-labelledby="reel-h">
+  <div class="reel-pin">
+    <div class="reel-top wrap">
+      <div>
+        <p class="slate">Sc.01 · Motion reel · 18 loops</p>
+        <h2 class="title" id="reel-h" style="margin-top:14px">681 videos.<br>Twelve months.</h2>
+      </div>
+      <div>
+        <p>A cross-section of the year: explainers, event loops, social, product and brand motion. Each piece paced to its story and finished for release with professional voice talent, music and a proper sound mix.</p>
+        <div class="ct label"><span id="reelc">01 / 18</span><span>Scroll to roll</span></div>
+      </div>
+    </div>
+    <div class="reel-track" id="reelTrack">
+      <div class="strip s1">
+        <figure class="clip"><span class="n">01</span><video class="lv" muted loop playsinline preload="none" poster="../media/smart-narrative.jpg" data-src="../media/smart-narrative.mp4"></video><figcaption><b>Brand narrative</b><i>Motion</i></figcaption></figure>
+        <figure class="clip"><span class="n">02</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-exec-program.jpg" data-src="../media/norton-exec-program.mp4"></video><figcaption><b>Launch film</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">03</span><video class="lv" muted loop playsinline preload="none" poster="../media/arx-booth.jpg" data-src="../media/arx-booth.mp4"></video><figcaption><b>Trade show loop</b><i>Events</i></figcaption></figure>
+        <figure class="clip"><span class="n">04</span><video class="lv" muted loop playsinline preload="none" poster="../media/guidewire-sizzle.jpg" data-src="../media/guidewire-sizzle.mp4"></video><figcaption><b>Campaign video</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">05</span><video class="lv" muted loop playsinline preload="none" poster="../media/spareit-explainer.jpg" data-src="../media/spareit-explainer.mp4"></video><figcaption><b>Explainer</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">06</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-hrtech-booth.jpg" data-src="../media/norton-hrtech-booth.mp4"></video><figcaption><b>Booth film</b><i>Events</i></figcaption></figure>
+        <figure class="clip"><span class="n">07</span><video class="lv" muted loop playsinline preload="none" poster="../media/marchex-aps.jpg" data-src="../media/marchex-aps.mp4"></video><figcaption><b>Product video</b><i>UX</i></figcaption></figure>
+        <figure class="clip"><span class="n">08</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-a1-case.jpg" data-src="../media/norton-a1-case.mp4"></video><figcaption><b>Case study video</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">09</span><video class="lv" muted loop playsinline preload="none" poster="../media/marchex-nada.jpg" data-src="../media/marchex-nada.mp4"></video><figcaption><b>Sales video</b><i>Video</i></figcaption></figure>
+      </div>
+      <div class="strip s2">
+        <figure class="clip"><span class="n">10</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-craft-beer.jpg" data-src="../media/norton-craft-beer.mp4"></video><figcaption><b>Social animation</b><i>Social</i></figcaption></figure>
+        <figure class="clip"><span class="n">11</span><video class="lv" muted loop playsinline preload="none" poster="../media/hi-flyby.jpg" data-src="../media/hi-flyby.mp4"></video><figcaption><b>Data story</b><i>Motion</i></figcaption></figure>
+        <figure class="clip"><span class="n">12</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-sko-sting.jpg" data-src="../media/norton-sko-sting.mp4"></video><figcaption><b>Event sting</b><i>Events</i></figcaption></figure>
+        <figure class="clip"><span class="n">13</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-4p-digital.jpg" data-src="../media/norton-4p-digital.mp4"></video><figcaption><b>Video series</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">14</span><video class="lv" muted loop playsinline preload="none" poster="../media/norton-currys.jpg" data-src="../media/norton-currys.mp4"></video><figcaption><b>App walkthrough</b><i>UX</i></figcaption></figure>
+        <figure class="clip"><span class="n">15</span><video class="lv" muted loop playsinline preload="none" poster="../media/hi-betterment.jpg" data-src="../media/hi-betterment.mp4"></video><figcaption><b>Competitive video</b><i>Video</i></figcaption></figure>
+        <figure class="clip"><span class="n">16</span><video class="lv" muted loop playsinline preload="none" poster="../media/smart-hero.jpg" data-src="../media/smart-hero.mp4"></video><figcaption><b>Website hero</b><i>Digital</i></figcaption></figure>
+        <figure class="clip"><span class="n">17</span><video class="lv" muted loop playsinline preload="none" poster="../media/hi-endcard.jpg" data-src="../media/hi-endcard.mp4"></video><figcaption><b>Brand end card</b><i>Brand</i></figcaption></figure>
+        <figure class="clip"><span class="n">18</span><video class="lv" muted loop playsinline preload="none" poster="../media/smart-healthcare.jpg" data-src="../media/smart-healthcare.mp4"></video><figcaption><b>Benchmark video</b><i>Motion</i></figcaption></figure>
+      </div>
+    </div>
+    <div class="reel-bar" aria-hidden="true"><i id="reelBar"></i></div>
+  </div>
+</section>
+
+<!-- SELECTED WORK -->
+<div class="cases-intro">
+  <p class="slate">Selected work</p>
+  <h2 class="title" style="margin-top:14px">Six scenes from<br>a working year.</h2>
+</div>
+
+<article class="case" aria-labelledby="c2">
+  <div class="case-bar"><p class="slate"><span>Sc.02</span><span>Financial services</span><span>8 pieces + apparel</span></p><span class="bt" aria-hidden="true">A new brand, carried into everything</span><div class="arrows"><button type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+  <h3 class="title case-t" id="c2">A new brand, carried into everything</h3>
+  <p class="case-copy">When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.</p>
+  <div class="row" tabindex="0" aria-label="Financial services brand pieces">
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/hi-logo-stings-poster.jpg" data-src="../media/hi-logo-stings.mp4"></video><figcaption><b>Logo stings</b><i>Motion</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/hi-flyby.jpg" data-src="../media/hi-flyby.mp4"></video><figcaption><b>Data story</b><i>Motion</i></figcaption></figure>
+    <figure class="clip" style="--r:3/2"><img src="../media/hi-bb-00.jpg" alt="Brand book cover" width="900" height="600" loading="lazy" decoding="async"><figcaption><b>Brand book</b><i>Brand</i></figcaption></figure>
+    <figure class="clip" style="--r:3/2"><img src="../media/hi-bb-03.jpg" alt="Brand book typography page" width="900" height="600" loading="lazy" decoding="async"><figcaption><b>Typography</b><i>Brand</i></figcaption></figure>
+    <figure class="clip" style="--r:3/2"><img src="../media/hi-bb-04.jpg" alt="Brand book color page" width="900" height="600" loading="lazy" decoding="async"><figcaption><b>Color</b><i>Brand</i></figcaption></figure>
+    <figure class="clip" style="--r:3/2"><img src="../media/hi-bb-06.jpg" alt="Brand book gradients page" width="900" height="600" loading="lazy" decoding="async"><figcaption><b>Gradients</b><i>Brand</i></figcaption></figure>
+    <figure class="clip" style="--r:3/2"><img src="../media/hi-bb-08.jpg" alt="Brand book graphic elements page" width="900" height="600" loading="lazy" decoding="async"><figcaption><b>Graphic elements</b><i>Brand</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/hi-betterment.jpg" data-src="../media/hi-betterment.mp4"></video><figcaption><b>Competitive video</b><i>Video</i></figcaption></figure>
+    <div class="note"><p class="slate">Apparel</p><h4 class="title">Onto the team, too.</h4><p>Socks, hats, hoodies, jackets and tees for kickoffs and conferences.</p></div>
+    <figure class="clip" style="--r:3/4"><img src="../media/app-jacket.jpg" alt="Team jacket" width="900" height="1200" loading="lazy" decoding="async"><figcaption><b>Team jacket</b><i>Apparel</i></figcaption></figure>
+    <figure class="clip" style="--r:3/4"><img src="../media/app-hoodie.jpg" alt="Kickoff hoodie" width="900" height="1200" loading="lazy" decoding="async"><figcaption><b>Kickoff hoodie</b><i>Apparel</i></figcaption></figure>
+    <figure class="clip" style="--r:3/4"><img src="../media/app-socks.jpg" alt="Event socks" width="900" height="1200" loading="lazy" decoding="async"><figcaption><b>Event socks</b><i>Apparel</i></figcaption></figure>
+    <figure class="clip" style="--r:3/4"><img src="../media/app-tee.jpg" alt="Event tee" width="900" height="1200" loading="lazy" decoding="async"><figcaption><b>Event tee</b><i>Apparel</i></figcaption></figure>
+  </div>
+  <div class="row-bar" aria-hidden="true"><i></i></div>
+</article>
+
+<article class="case" aria-labelledby="c3">
+  <div class="case-bar"><p class="slate"><span>Sc.03</span><span>B2B software</span><span>12 pieces</span></p><span class="bt" aria-hidden="true">Events, end to end</span><div class="arrows"><button type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+  <h3 class="title case-t" id="c3">Events, end to end</h3>
+  <p class="case-copy">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
+  <div class="row" tabindex="0" aria-label="Conference pieces">
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/smart-london-recap.jpg" data-src="../media/smart-london-recap.mp4"></video><figcaption><b>Recap reel</b><i>Video</i></figcaption></figure>
+    <figure class="clip" style="--r:2/1"><video class="lv" muted loop playsinline preload="none" poster="../media/smart-innovate-pillar.jpg" data-src="../media/smart-innovate-pillar.mp4"></video><figcaption><b>Stage loops</b><i>Motion</i></figcaption></figure>
+    <figure class="clip" style="--r:1100/711"><img src="../media/inn-pillars.jpg" alt="Venue pillars wrapped in the conference identity" width="1100" height="711" loading="lazy" decoding="async"><figcaption><b>Venue pillars</b><i>Events</i></figcaption></figure>
+    <figure class="clip" style="--r:687/1100"><img src="../media/inn-app.jpg" alt="Event app screens" width="687" height="1100" loading="lazy" decoding="async"><figcaption><b>Event app</b><i>UX</i></figcaption></figure>
+    <figure class="clip" style="--r:792/1100"><img src="../media/inn-badge-nam.jpg" alt="Attendee badges" width="792" height="1100" loading="lazy" decoding="async"><figcaption><b>Badges</b><i>Print</i></figcaption></figure>
+    <figure class="clip" style="--r:626/1100"><img src="../media/inn-podium.jpg" alt="Digital podium" width="626" height="1100" loading="lazy" decoding="async"><figcaption><b>Digital podium</b><i>Events</i></figcaption></figure>
+    <figure class="clip" style="--r:884/1100"><img src="../media/inn-classroom.jpg" alt="Wayfinding signage" width="884" height="1100" loading="lazy" decoding="async"><figcaption><b>Wayfinding</b><i>Events</i></figcaption></figure>
+    <figure class="clip" style="--r:1100/734"><img src="../media/inn-elevators.jpg" alt="Elevator door wraps" width="1100" height="734" loading="lazy" decoding="async"><figcaption><b>Elevator wraps</b><i>Events</i></figcaption></figure>
+  </div>
+  <div class="row-bar" aria-hidden="true"><i></i></div>
+</article>
+
+<article class="case" aria-labelledby="c4">
+  <div class="case-bar"><p class="slate"><span>Sc.04</span><span>Cybersecurity</span><span>6 pieces</span></p><span class="bt" aria-hidden="true">An executive program, launched</span><div class="arrows"><button type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+  <h3 class="title case-t" id="c4">An executive program, launched</h3>
+  <p class="case-copy">Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p>
+  <div class="row" tabindex="0" aria-label="Executive program pieces">
+    <figure class="clip" style="--r:1100/874"><img src="../media/nkv-dark.jpg" alt="Executive program key visual" width="1100" height="874" loading="lazy" decoding="async"><figcaption><b>Key visual</b><i>Brand</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/norton-exec-program.jpg" data-src="../media/norton-exec-program.mp4"></video><figcaption><b>Launch film</b><i>Video</i></figcaption></figure>
+    <figure class="clip" style="--r:700/906"><img src="../media/nexp-01.jpg" alt="Proposal cover" width="700" height="906" loading="lazy" decoding="async"><figcaption><b>Proposal cover</b><i>Sales</i></figcaption></figure>
+    <figure class="clip" style="--r:700/906"><img src="../media/nexp-02.jpg" alt="Proposal spread" width="700" height="906" loading="lazy" decoding="async"><figcaption><b>Proposal spread</b><i>Sales</i></figcaption></figure>
+    <figure class="clip" style="--r:700/906"><img src="../media/nexp-04.jpg" alt="Program pillars page" width="700" height="906" loading="lazy" decoding="async"><figcaption><b>Program pillars</b><i>Sales</i></figcaption></figure>
+    <figure class="clip" style="--r:700/906"><img src="../media/nexp-07.jpg" alt="Feature page" width="700" height="906" loading="lazy" decoding="async"><figcaption><b>Feature page</b><i>Sales</i></figcaption></figure>
+  </div>
+  <div class="row-bar" aria-hidden="true"><i></i></div>
+</article>
+
+<article class="case" aria-labelledby="c5">
+  <div class="case-bar"><p class="slate"><span>Sc.05</span><span>Cybersecurity</span><span>6 pieces</span></p><span class="bt" aria-hidden="true">Partner marketing</span><div class="arrows"><button type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+  <h3 class="title case-t" id="c5">Partner marketing</h3>
+  <p class="case-copy">A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.</p>
+  <div class="row" tabindex="0" aria-label="Partner marketing pieces">
+    <figure class="clip" style="--r:900/507"><img src="../media/pb-00.jpg" alt="Partner playbook cover" width="900" height="507" loading="lazy" decoding="async"><figcaption><b>Playbook</b><i>Print</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/norton-social-mosaic.jpg" data-src="../media/norton-social-mosaic.mp4"></video><figcaption><b>Social program</b><i>Social</i></figcaption></figure>
+    <figure class="clip" style="--r:900/507"><img src="../media/pb-09.jpg" alt="Onboarding page" width="900" height="507" loading="lazy" decoding="async"><figcaption><b>Onboarding</b><i>Print</i></figcaption></figure>
+    <figure class="clip" style="--r:900/507"><img src="../media/pb-12.jpg" alt="Use cases page" width="900" height="507" loading="lazy" decoding="async"><figcaption><b>Use cases</b><i>Print</i></figcaption></figure>
+    <figure class="clip" style="--r:900/507"><img src="../media/pb-17.jpg" alt="Email journeys page" width="900" height="507" loading="lazy" decoding="async"><figcaption><b>Email journeys</b><i>Digital</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/norton-currys.jpg" data-src="../media/norton-currys.mp4"></video><figcaption><b>App walkthrough</b><i>UX</i></figcaption></figure>
+  </div>
+  <div class="row-bar" aria-hidden="true"><i></i></div>
+</article>
+
+<article class="case" aria-labelledby="c6">
+  <div class="case-bar"><p class="slate"><span>Sc.06</span><span>B2B software</span><span>2 pieces</span></p><span class="bt" aria-hidden="true">Product launches, in motion</span></div>
+  <h3 class="title case-t" id="c6">Product launches, in motion</h3>
+  <p class="case-copy">Product and sales videos built from the product’s own UI.</p>
+  <div class="row" tabindex="0" aria-label="Product launch videos">
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/marchex-aps.jpg" data-src="../media/marchex-aps.mp4"></video><figcaption><b>Product video</b><i>UX</i></figcaption></figure>
+    <figure class="clip"><video class="lv" muted loop playsinline preload="none" poster="../media/marchex-nada.jpg" data-src="../media/marchex-nada.mp4"></video><figcaption><b>Sales video</b><i>Video</i></figcaption></figure>
+  </div>
+</article>
+
+<article class="case" aria-labelledby="c7">
+  <div class="case-bar"><p class="slate"><span>Sc.07</span><span>Commercial HVAC group</span><span>47 logos</span></p><span class="bt" aria-hidden="true">Logo systems</span></div>
+  <h3 class="title case-t" id="c7">Logo systems</h3>
+  <p class="case-copy">47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p>
+  <figure class="wide"><img src="../media/air-logo-wall.jpg" alt="A family of 47 company logos" width="2400" height="1440" loading="lazy" decoding="async"><figcaption>Logo family<i>Brand</i></figcaption></figure>
+</article>
+
+<section class="card" aria-label="Client quote">
+  <p class="slate">Brak Software</p><p class="slate r">Take 01</p>
+  <blockquote class="long">When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.</blockquote>
+  <cite><b>Brak Rak</b> · CEO and Founder, Brak Software<br>maker of Human Japanese and Satori Reader</cite>
+</section>
+
+<section class="past" aria-labelledby="past-h">
+  <p class="label" id="past-h">Past clients · thousands of projects over the years</p>
+  <ul class="grid-logos">
+    <li><img src="../media/logos/vertafore.png" alt="Vertafore" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/microsoft.png" alt="Microsoft" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/nike.png" alt="Nike" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/sap.png" alt="SAP" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/homestreet.png" alt="HomeStreet Bank" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/payscale.png" alt="Payscale" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/darigold.png" alt="Darigold" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/moxiworks.png" alt="MoxiWorks" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/onsolve.png" alt="OnSolve" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/syncron.png" alt="Syncron" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/aiphone.png" alt="Aiphone" width="190" height="89" loading="lazy"></li>
+    <li><img src="../media/logos/jetson.png" alt="Jetson" width="190" height="89" loading="lazy"></li>
+  </ul>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sec wrap" id="how" aria-labelledby="how-h">
+  <div class="sec-head">
+    <p class="slate">How it works</p>
+    <h2 class="title" id="how-h">Put a job on the board. We’ve got it.</h2>
+    <p>Every client gets a shared monday.com board, free to join. Jobs come in, reviews happen and nothing gets lost in an inbox. Have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
+  </div>
+  <div class="ruler" aria-hidden="true"></div>
+  <ol class="steps" id="steps">
+    <li class="step"><span class="tcode">01 · 00:00</span><h4>Add a job</h4><p>A brief, any files and the deadline.</p></li>
+    <li class="step"><span class="tcode">02 · 00:05</span><h4>“We’re on it”</h4><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
+    <li class="step"><span class="tcode">03 · 00:12</span><h4>Best first draft, fast</h4><p>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</p></li>
+    <li class="step"><span class="tcode">04 · 00:18</span><h4>Review</h4><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
+    <li class="step"><span class="tcode">05 · 00:21</span><h4>Delivered</h4><p>Final files, ready to use, and source files on request.</p></li>
+    <li class="step"><span class="tcode">06 · Loop</span><h4>Repeat</h4><p>The next job lands on a team that already knows your brand.</p></li>
+  </ol>
+  <div class="lead-quote" data-r>
+    <img src="../media/team/shane-french.png" alt="" width="64" height="64" loading="lazy">
+    <div><p>“Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</p><cite>Shane French · Creative Director</cite></div>
+  </div>
+  <div class="quad">
+    <div><p class="slate">Bigger projects</p><h4>Days to weeks</h4><p>Decks, videos, booths and sites, with more of the team on it when the schedule needs them. Event themes, brand work and logos start with multiple concepts.</p></div>
+    <div><p class="slate">Full campaigns</p><h4>One idea, every channel</h4><p>Carried start to finish across digital, print, social, video and the event floor, consistent from the first asset to the last.</p></div>
+    <div><p class="slate">Day-to-day work</p><h4>A clear timeline, always</h4><p>From a quick fix to the next scheduled job, you always see when the next draft and the final are due.</p></div>
+    <div><p class="slate">Annual plans</p><h4>The whole year, mapped</h4><p>Send your conference dates early and we plan the booths, stage loops and recap reels around them.</p></div>
+  </div>
+</section>
+
+<section class="card" aria-label="Client quote">
+  <p class="slate">Guidewire</p><p class="slate r">Take 02</p>
+  <blockquote class="long">I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.</blockquote>
+  <cite><b>Phil Iaccarino</b> · Director, Product Marketing, Guidewire</cite>
+</section>
+
+<!-- TENURE -->
+<section class="sec wrap" id="tenure" aria-labelledby="ten-h">
+  <div class="sec-head">
+    <p class="slate">Running time</p>
+    <h2 class="title" id="ten-h">Clients stay for years.</h2>
+    <p>Each track is a current client, measured back from today. After hundreds of projects together, we know their brands the way their own teams do.</p>
+  </div>
+  <div class="tl" id="tl" role="img" aria-label="Nine current clients have worked with us for 20, 15, 12, 10, 9, 8, 4, 4 and 3 years.">
+    <div class="tl-scale" aria-hidden="true"><span>−20 yrs</span><span>−15</span><span>−10</span><span>−5</span><span>Today</span></div>
+    <div class="trk" style="--y:20;--i:0"><span>V1</span><div class="lane"><div class="bar">20<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:15;--i:1"><span>V2</span><div class="lane"><div class="bar">15<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:12;--i:2"><span>V3</span><div class="lane"><div class="bar">12<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:10;--i:3"><span>V4</span><div class="lane"><div class="bar">10<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:9;--i:4"><span>V5</span><div class="lane"><div class="bar">9<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:8;--i:5"><span>V6</span><div class="lane"><div class="bar">8<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:4;--i:6"><span>V7</span><div class="lane"><div class="bar">4<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:4;--i:7"><span>V8</span><div class="lane"><div class="bar">4<small>yrs</small></div></div></div>
+    <div class="trk" style="--y:3;--i:8"><span>V9</span><div class="lane"><div class="bar">3<small>yrs</small></div></div></div>
+  </div>
+  <div class="tl-foot">
+    <p class="label">Current clients · years with us</p>
+    <div class="avg"><b>9</b><span class="label">year average</span></div>
+  </div>
+  <div class="tri">
+    <div><p class="slate">Why it works</p><h4>Second nature</h4><p>We know your brand the way your own team does. Many clients now work from brand books and templates we built.</p></div>
+    <div><p class="slate">&nbsp;</p><h4>It compounds</h4><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
+    <div><p class="slate">&nbsp;</p><h4>Straight to work</h4><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
+  </div>
+</section>
+
+<section class="card" aria-label="Client quote">
+  <p class="slate">MoxiWorks</p><p class="slate r">Take 03</p>
+  <blockquote class="long">I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.</blockquote>
+  <cite><b>Marc Chouaniere</b> · VP Marketing, MoxiWorks</cite>
+</section>
+
+<!-- WHAT WE MAKE -->
+<section class="sec wrap" id="make" aria-labelledby="make-h">
+  <div class="sec-head">
+    <p class="slate">What we make</p>
+    <h2 class="title" id="make-h">What marketing teams ask us for.</h2>
+    <p>Everything a B2B marketing team ships, from a banner to a booth, made by the same senior team.</p>
+  </div>
+  <ul class="make" id="makeList">
+    <li data-img="../media/smart-hero.jpg"><span class="label">Digital</span><h4 class="title">Web and email</h4><p>Landing pages, banners, email templates and website graphics.</p></li>
+    <li data-img="../media/nexp-02.jpg"><span class="label">Print</span><h4 class="title">Collateral</h4><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></li>
+    <li data-img="../media/inn-pillars.jpg"><span class="label">Events</span><h4 class="title">Trade shows and stages</h4><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></li>
+    <li data-img="../media/norton-a1-case.jpg"><span class="label">Video</span><h4 class="title">Motion and video</h4><p>Explainers, motion graphics, product, training, campaign and social video, and booth loops, finished with professional voiceover, music and sound.</p></li>
+    <li data-img="../media/norton-social-mosaic.jpg"><span class="label">Social</span><h4 class="title">Social programs</h4><p>Static and animated posts, campaign kits and monthly programs.</p></li>
+    <li data-img="../media/inn-app.jpg"><span class="label">UX</span><h4 class="title">UX and interactive</h4><p>Product UI, prototypes and design systems built in Figma.</p></li>
+    <li data-img="../media/hi-bb-00.jpg"><span class="label">Brand</span><h4 class="title">Brand systems</h4><p>Brand books, logo families, templates and shared asset libraries.</p></li>
+    <li data-img="../media/pb-00.jpg"><span class="label">Sales</span><h4 class="title">Decks and proposals</h4><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
+    <li data-img="../media/app-jacket.jpg"><span class="label">Apparel</span><h4 class="title">Apparel and textiles</h4><p>Socks, hats, jackets and shirts, designed in-house for kickoffs and events.</p></li>
+  </ul>
+</section>
+<div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
+
+<!-- GOOD FIT -->
+<section class="sec wrap" id="fit" aria-labelledby="fit-h" style="padding-top:0">
+  <div class="sec-head">
+    <p class="slate">Good fit</p>
+    <h2 class="title" id="fit-h">Are we a good fit?</h2>
+    <p>We work best as an ongoing partner, and keep our client list small on purpose. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands.</p>
+  </div>
+  <div class="meter" role="img" aria-label="Typical need: 40 to 160 hours of design and motion a month, with room to flex from 20 to 200.">
+    <div class="m-scale">
+      <div class="m-flex"><span>Flex 20</span><span>200</span></div>
+      <div class="m-core">40–160 hrs / month</div>
+    </div>
+    <div class="m-ticks" aria-hidden="true"><span style="left:0">0</span><span style="left:8%">20</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:64%">160</span><span style="left:80%">200</span><span style="left:calc(100% - 14px)">250</span></div>
+  </div>
+
+  <div class="sub"><h3 class="title">Why a studio like ours</h3></div>
+  <div class="cols">
+    <div><p class="slate">Instead of a freelancer</p><h4>A full senior team</h4><p>Design, motion, UX, print and apparel, with someone ready for every job.</p></div>
+    <div><p class="slate">Instead of a new hire</p><h4>No ramp-up</h4><p>We start on the first job and flex with your month, with no payroll when it slows.</p></div>
+    <div><p class="slate">Instead of a big agency</p><h4>Direct access</h4><p>No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
+    <div><p class="slate">Alongside your team</p><h4>More hands, same brand</h4><p>We step into your process, take the overflow and the deadline crunch, and help the brand look its best.</p></div>
+  </div>
+
+  <div class="sub"><h3 class="title">How we work together</h3></div>
+  <div class="cols three">
+    <div class="hl"><p class="slate">Start here</p><h4>Try us first</h4><p>A job or two at our hourly rate, with an estimate before we start. We start from your guidelines and past work. Most retainer clients began this way.</p><a href="#contact">Put a first job on the board →</a></div>
+    <div><p class="slate">All year</p><h4>Annual retainer</h4><p>A set block of hours each month at our best rate, invoiced at the start of the month. Unused hours roll over and stay yours until they’re used. Reviewed each year.</p></div>
+    <div><p class="slate">As needed</p><h4>Hourly</h4><p>Room to flex when needs swing month to month. Invoiced at month end for the hours used.</p></div>
+  </div>
+
+  <div class="sub"><h3 class="title">Before you sign</h3></div>
+  <div class="cols three">
+    <div><p class="slate">Senior team, need to know</p><h4>Never outside freelancers</h4><p>Every job, released or not, is done by our senior team. Launches and unreleased products are seen only by the people on your jobs. Send your vendor security review and we’ll complete it before the first job.</p></div>
+    <div><p class="slate">Compliance review</p><h4>Built into the schedule</h4><p>Legal and compliance rounds are expected and planned from day one.</p></div>
+    <div><p class="slate">Busy months</p><h4>The whole team picks it up</h4><p>When your month spikes, we’re ready. Share your launch calendar and we plan around it.</p></div>
+  </div>
+
+  <details class="more">
+    <summary>The details · Who fits · Revisions</summary>
+    <div class="more-in">
+      <div><h5>A great fit</h5><ul><li>Marketing teams with a steady flow of work, month after month.</li><li>Launches, campaigns, events and sales support running at the same time.</li><li>Busy calendars and a brand that has to look right every time.</li><li>Teams that want the same people on their brand every week.</li><li>Creative directors and in-house design teams who need more hands, working in your files and your process.</li></ul></div>
+      <div><h5>Usually not a fit</h5><ul><li>One-off projects with no ongoing work behind them.</li><li>A first job or two to try us out is always welcome.</li></ul></div>
+      <div><h5>Revisions</h5><p>Part of the job, billed as time like any other work, and handled quickly until it’s right.</p></div>
+    </div>
+  </details>
+</section>
+
+<!-- PARTNER -->
+<section class="partner" aria-labelledby="cm-h">
+  <div>
+    <p class="slate">Partner · Content and strategy</p>
+    <h3 class="title" id="cm-h">Need content and strategy too?</h3>
+    <p>For 15 years we’ve worked as one team with Content Matterz, a B2B content marketing agency. They bring the strategy, research and writing, plus fractional content leadership. We bring the design and motion. One brief, one board, one team.</p>
+    <a class="btn btn-ghost" style="margin-top:26px" href="https://contentmatterz.com/" rel="noopener">Visit Content Matterz</a>
+  </div>
+  <div>
+    <div class="duo"><img src="../media/sr-logo.svg" alt="Studio Rendezvous" width="200" height="35"><span class="plus" aria-hidden="true">+</span><img src="../media/logos/content-matterz-duo.png" alt="Content Matterz" width="220" height="23" loading="lazy"></div>
+    <p class="label duo-meta">15 years together · 10,000+ deliverables</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec wrap" id="contact" aria-labelledby="ct-h">
+  <div class="contact">
+    <div>
+      <p class="slate">Contact</p>
+      <h2 class="title" id="ct-h" style="margin-top:14px">Start now with one job.</h2>
+      <p>Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
+      <a class="mail" href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a>
+    </div>
+    <form id="form" novalidate>
+      <div class="f"><label for="n">Name</label><input id="n" name="name" autocomplete="name" required></div>
+      <div class="f"><label for="e">Work email</label><input id="e" name="email" type="email" autocomplete="email" required></div>
+      <div class="f full"><label for="co">Company</label><input id="co" name="company" autocomplete="organization"></div>
+      <div class="f"><label for="h">How can we help?</label><select id="h" name="help"><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></div>
+      <div class="f"><label for="hr">Monthly hours</label><select id="hr" name="hours"><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></div>
+      <div class="f full"><label for="w">Tell us about the work</label><textarea id="w" name="work" placeholder="What it is, when it’s due, your budget"></textarea></div>
+      <div class="send"><button class="btn btn-or" type="submit">Send</button><small>We’ll get right back to you and get underway once you approve the estimate. We use your details only to reply, and never share them.</small></div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- CREDITS ROLL -->
+<footer class="credits" aria-labelledby="cr-h">
+  <p class="slate" data-r>Credits</p>
+  <h2 class="title" id="cr-h" data-r>The people on your board</h2>
+  <p class="intro" data-r>Every client gets the whole team. Have your own creative director? We work to their direction.</p>
+  <div class="faces" data-r>
+    <img src="../media/team/shane-french.png" alt="Shane French" width="92" height="92" loading="lazy">
+    <img src="../media/team/tom-larsen.png" alt="Tom Larsen" width="92" height="92" loading="lazy">
+    <img src="../media/team/andrew-baldwin.png" alt="Andrew Baldwin" width="92" height="92" loading="lazy">
+    <img src="../media/team/joel-bender.png" alt="Joel Bender" width="92" height="92" loading="lazy">
+    <img src="../media/team/gui-freitas.png" alt="Gui Freitas" width="92" height="92" loading="lazy">
+  </div>
+  <dl class="roll">
+    <dt data-r>Creative Director<br>Design, UX and Motion</dt><dd data-r>Shane French</dd>
+    <dt data-r>Senior Designer</dt><dd data-r>Tom Larsen</dd>
+    <dt data-r>Senior UX/UI Designer</dt><dd data-r>Andrew Baldwin</dd>
+    <dt data-r>Senior Designer</dt><dd data-r>Joel Bender</dd>
+    <dt data-r>Senior Motion Designer</dt><dd data-r>Gui Freitas</dd>
+    <dt class="sp" data-r>Content and strategy</dt><dd class="sp" data-r>Content Matterz<small>One brief, one board, one team.</small></dd>
+    <dt data-r>Featuring the brands of</dt><dd data-r><small style="font-size:16px;color:var(--ink2)">Norton · Gen · Smart Communications · Human Interest · Guidewire · Marchex · Satori Reader · Human Japanese · Master Builders Association · AIR Control Concepts</small></dd>
+  </dl>
+
+  <div class="endcard" data-r>
+    <img src="../media/sr-logo.svg" alt="Studio Rendezvous" width="320" height="57" loading="lazy">
+    <p>The senior crew that keeps your brand running, <em>every job, every frame.</em></p>
+  </div>
+
+  <div class="foot">
+    <div><h5>Sections</h5><ul><li><a href="#how">How it works</a></li><li><a href="#make">What we make</a></li><li><a href="#work">Work</a></li><li><a href="#fit">Good fit</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><h5>Contact</h5><ul><li><a href="mailto:hello@studiorendezvous.net">hello@<br>studiorendezvous.net</a></li><li><a href="#contact">Start a job</a></li></ul></div>
+    <div><h5>Partner</h5><ul><li><a href="https://contentmatterz.com/" rel="noopener">Content Matterz</a></li><li>Content and strategy.</li></ul></div>
+    <div><h5>Studio</h5><ul><li>B2B design and motion studio</li></ul></div>
+  </div>
+  <div class="legal"><span>© 2026 Studio Rendezvous, Inc.</span><a href="#top">Back to top ↑</a></div>
+</footer>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement, W=window;
+  var rm=W.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var motion=!rm;
+  try{var s=localStorage.getItem('srMotion');if(s!==null)motion=s==='1';}catch(e){}
+
+  /* duplicate marquee set for a seamless loop */
+  var mq=d.querySelector('.marq-in');
+  if(mq){var u=mq.querySelectorAll('ul');u[1].innerHTML=u[0].innerHTML;u[1].querySelectorAll('img').forEach(function(i){i.alt='';});}
+
+  /* VIDEO: lazy load, only play what's in view */
+  var vids=[].slice.call(d.querySelectorAll('video[data-src]')), vis=new Set();
+  function play(v){if(!motion)return;if(!v.getAttribute('src')){v.src=v.dataset.src;}var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  if('IntersectionObserver' in W){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){vis.add(v);play(v);}else{vis.delete(v);v.pause();}});},{threshold:0.08});
+    vids.forEach(function(v){io.observe(v);});
+  }
+
+  /* MOTION TOGGLE */
+  var btn=d.getElementById('mtog'), ms=d.getElementById('mstate');
+  function setMotion(m,save){motion=m;root.classList.toggle('still',!m);btn.setAttribute('aria-pressed',m?'true':'false');ms.textContent=m?'On':'Off';
+    if(m)vis.forEach(play);else vids.forEach(function(v){v.pause();});
+    if(save){try{localStorage.setItem('srMotion',m?'1':'0');}catch(e){}}}
+  btn.addEventListener('click',function(){setMotion(!motion,true);});
+  setMotion(motion,false);
+
+  /* TIMECODE */
+  var tc=d.getElementById('tc'), t0=performance.now();
+  function pad(n){return n<10?'0'+n:''+n;}
+  (function tick(now){
+    if(motion&&W.scrollY<innerHeight){var f=Math.floor((now-t0)/1000*24),fr=f%24,sec=Math.floor(f/24);tc.textContent=pad(Math.floor(sec/3600))+':'+pad(Math.floor(sec/60)%60)+':'+pad(sec%60)+':'+pad(fr);}
+    requestAnimationFrame(tick);
+  })(t0);
+
+  /* REEL: pinned horizontal roll on desktop */
+  var reel=d.querySelector('.reel'), track=d.getElementById('reelTrack'), strips=[].slice.call(d.querySelectorAll('.strip')),
+      rbar=d.getElementById('reelBar'), rc=d.getElementById('reelc'), wide=W.matchMedia('(min-width: 900px)'), shifts=[0,0], pinned=false;
+  function sizeReel(){
+    pinned=wide.matches&&!rm;
+    reel.classList.toggle('pinned',pinned);
+    if(!pinned){reel.style.height='';strips.forEach(function(s){s.style.transform='';});return;}
+    var vw=root.clientWidth;
+    shifts=strips.map(function(s){return Math.max(0,s.scrollWidth-vw);});
+    reel.style.height=(innerHeight+Math.max.apply(null,shifts))+'px';
+  }
+  function reelUpdate(){
+    var p;
+    if(pinned){var r=reel.getBoundingClientRect(),span=reel.offsetHeight-innerHeight;p=Math.min(1,Math.max(0,-r.top/span));
+      strips.forEach(function(s,i){s.style.transform='translate3d('+(-p*shifts[i]).toFixed(1)+'px,0,0)';});}
+    else{var mx=track.scrollWidth-track.clientWidth;p=mx>0?track.scrollLeft/mx:0;}
+    rbar.style.setProperty('--p',p.toFixed(4));
+    rc.textContent=pad(Math.min(18,1+Math.round(p*17)))+' / 18';
+  }
+  track.addEventListener('scroll',reelUpdate,{passive:true});
+
+  /* CASE ROWS: arrows + progress */
+  [].forEach.call(d.querySelectorAll('.case'),function(c){
+    var row=c.querySelector('.row'), bar=c.querySelector('.row-bar i');
+    if(!row)return;
+    function upd(){if(!bar)return;var mx=row.scrollWidth-row.clientWidth;var p=mx>0?row.scrollLeft/mx:1;bar.style.setProperty('--p',Math.max(.06,p).toFixed(4));}
+    row.addEventListener('scroll',upd,{passive:true});upd();
+    [].forEach.call(c.querySelectorAll('.arrows button'),function(b){b.addEventListener('click',function(){row.scrollBy({left:+b.dataset.dir*row.clientWidth*.75,behavior:rm?'auto':'smooth'});});});
+  });
+
+  /* HOW IT WORKS: playhead tied to scroll */
+  var steps=d.getElementById('steps'), stepEls=[].slice.call(steps.children);
+  function stepsUpdate(){
+    var r=steps.getBoundingClientRect(), p=rm?1:Math.min(1,Math.max(0,(innerHeight*.78-r.top)/(r.height+innerHeight*.25)));
+    steps.style.setProperty('--p',p.toFixed(4));
+    stepEls.forEach(function(el,i){el.classList.toggle('on',p*6>i+.15);});
+  }
+
+  /* NAV + scroll loop */
+  var nav=d.getElementById('nav'), ticking=false, bars=[].slice.call(d.querySelectorAll('.case-bar'));
+  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(function(){ticking=false;nav.classList.toggle('solid',W.scrollY>30);reelUpdate();stepsUpdate();bars.forEach(function(b){var t=b.nextElementSibling.getBoundingClientRect();b.classList.toggle('stuck',t.bottom<b.getBoundingClientRect().bottom+4);});});}
+  W.addEventListener('scroll',onScroll,{passive:true});
+  W.addEventListener('resize',function(){sizeReel();onScroll();});
+  W.addEventListener('load',function(){sizeReel();onScroll();});
+  sizeReel();onScroll();
+
+  /* REVEALS + tenure tracks */
+  if('IntersectionObserver' in W){
+    var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.2,rootMargin:'0px 0px -6% 0px'});
+    [].forEach.call(d.querySelectorAll('[data-r], #tl'),function(el){ro.observe(el);});
+  }else{[].forEach.call(d.querySelectorAll('[data-r], #tl'),function(el){el.classList.add('in');});}
+
+  /* WHAT WE MAKE: cursor preview (fine pointers only) */
+  if(W.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    var pk=d.getElementById('peek'), pim=pk.querySelector('img'), list=d.getElementById('makeList');
+    [].forEach.call(list.children,function(li){
+      li.addEventListener('mouseenter',function(){pim.src=li.dataset.img;pk.classList.add('on');});
+      li.addEventListener('mouseleave',function(){pk.classList.remove('on');});
+    });
+    list.addEventListener('mousemove',function(e){var x=Math.min(e.clientX+28,root.clientWidth-316),y=Math.max(70,e.clientY-200);pk.style.transform='translate('+x+'px,'+y+'px)';});
+  }
+
+  /* FORM (concept only) */
+  d.getElementById('form').addEventListener('submit',function(e){e.preventDefault();d.getElementById('status').textContent='Thanks. This is a design concept, so nothing was sent. Email hello@studiorendezvous.net.';});
+})();
+</script>
+</body>
+</html>
