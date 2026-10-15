@@ -36,6 +36,7 @@
     --text: #ffffff;
     --muted: #a6a6a6;
     --accent: #fe5000;
+    --cta: #d24100; /* button orange: white text at 4.7:1 */
     --on-accent: #ffffff; /* text on orange is always white */
     --tab-ink: #1c1c1c;
     --accent-text: var(--accent);
@@ -364,7 +365,7 @@
   @media (max-width: 560px) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .team > div { border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 4px; align-content: start; }
   .team p { font-size: 15.5px; color: var(--muted); }
-  .cta { justify-self: start; display: inline-block; background: var(--accent); color: var(--on-accent); font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; padding: 13px 18px 12px; text-decoration: none; }
+  .cta { justify-self: start; display: inline-block; background: var(--cta); color: var(--on-accent); font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; padding: 13px 18px 12px; text-decoration: none; }
   .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .steps li { display: grid; gap: 6px; align-content: start; padding: 14px 14px 16px; background: var(--glass); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: blur(14px) saturate(120%); backdrop-filter: blur(14px) saturate(120%); }
   .steps .n { font-family: var(--display); font-weight: 900; font-size: 26px; line-height: 1; color: var(--accent-text); }
@@ -376,7 +377,7 @@
   .range-track { position: relative; height: 34px; border: 1px solid var(--glass-edge); background: var(--glass); background-image: linear-gradient(to right, var(--hair) 1px, transparent 1px); background-size: 10% 100%; }
   /* fill runs 20–200 hrs; the darker ends (20–40, 160–200) are the months that flex */
   .range-fill { position: absolute; top: -1px; bottom: -1px; background: linear-gradient(to right, rgba(0, 0, 0, .3) 0 11.11%, transparent 11.11% 77.78%, rgba(0, 0, 0, .3) 77.78%), var(--accent); display: flex; align-items: center; justify-content: center; }
-  .range-fill span { position: absolute; left: 11.11%; right: 22.22%; text-align: center; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--on-accent); white-space: nowrap; padding-inline: 8px; }
+  .range-fill span { position: absolute; left: 11.11%; right: 22.22%; text-align: center; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--tab-ink); white-space: nowrap; padding-inline: 8px; }
   @media (max-width: 620px) { .range-fill span { padding-inline: 0; letter-spacing: .02em; } }
   .range-ticks { position: relative; height: 16px; font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .range-ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
@@ -411,7 +412,7 @@
   .hello.sent .hello-note { font-size: 18px; color: var(--text); }
   .alt-contact a { color: var(--text); }
   section.light .alt-contact a.email { color: var(--tab-ink); background: var(--tab); text-decoration: none; padding: 3px 7px 2px; margin-left: 6px; }
-  section.light .alt-contact a.email:hover { background: var(--accent); color: var(--on-accent); }
+  section.light .alt-contact a.email:hover { background: var(--cta); color: var(--on-accent); }
   .hello .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .hello button[disabled] { opacity: .6; cursor: wait; }
   .privacy-note { font-size: 14px; margin: 0; } .hello.sent .privacy-note { display: none; }
@@ -619,7 +620,7 @@
 
   /* Start a job buttons: a quiet lift and glow on rollover; the text stays white on orange */
   .cta { transition: background-color .2s, box-shadow .25s, transform .2s; }
-  .cta:hover, .cta:focus-visible { background: #ff6320; box-shadow: 0 8px 22px rgba(254, 80, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .28); transform: translateY(-1px); }
+  .cta:hover, .cta:focus-visible { background: #c03c00; box-shadow: 0 8px 22px rgba(254, 80, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .28); transform: translateY(-1px); }
   .cta:active { transform: translateY(0); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2); }
   @media (prefers-reduced-motion: reduce) { .cta { transition: none; } .cta:hover, .cta:focus-visible { transform: none; } }
 
@@ -722,6 +723,25 @@
   .mono.eb { color: #ffffff; }  /* lead words white, the rest light gray */
   .mono.eb .hi { color: var(--sub); }
   .hero > .mono .hi { margin-left: .9em; }
+  /* Performance: frosted blur only on the nav, the logo tiles and the lightbox. Everything else is a flat fill. */
+  body * , body *::before, body *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  body .bar::before { -webkit-backdrop-filter: blur(16px) saturate(130%) !important; backdrop-filter: blur(16px) saturate(130%) !important; }
+  body .clients.marquee .mq-track > div, body .lb { -webkit-backdrop-filter: blur(18px) saturate(140%) !important; backdrop-filter: blur(18px) saturate(140%) !important; }
+  /* Phone menu */
+  .menu-btn { display: none; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text); background: none; border: 1px solid rgba(255, 255, 255, .3); padding: 9px 12px 8px; cursor: pointer; }
+  @media (max-width: 720px) {
+    .bar { flex-wrap: nowrap; gap: 8px; }
+    .bar img { height: 20px; }
+    .bar .bar-cta { order: 2; margin-left: auto; padding: 8px 10px 7px; font-size: 11px; white-space: nowrap; }
+    .menu-btn { display: inline-block; order: 3; padding: 8px 10px 7px; font-size: 11px; }
+    .bar .nav { display: none; position: absolute; top: 100%; left: calc(50% - 50vw); width: 100vw; flex-direction: column; gap: 0; background: #1c1c1c; border-bottom: 1px solid var(--line); padding: 4px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); box-sizing: border-box; }
+    .bar .nav.open { display: flex; }
+    .bar .nav a { font-size: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+    .bar .nav a:first-child { border-top: 0; }
+  }
+  /* Skip link */
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--tab); color: var(--tab-ink); font-family: var(--mono); font-size: 13px; padding: 10px 14px; text-decoration: none; }
+  .skip:focus { top: 12px; }
 </style>
 </head>
 <body>
@@ -732,12 +752,15 @@
   <span id="hudDesc" hidden></span><i id="hudBar" hidden></i>
 </div>
 
+<a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
   <header class="bar">
     <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><img src="media/sr-logo.svg" alt="Studio Rendezvous"></a>
-    <nav class="nav" aria-label="Sections"><a href="#how">How it works</a><a href="#make">What we make</a><a href="#work">Work</a><a href="#fit">Good fit</a><a href="#contact">Contact</a></nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Sections"><a href="#how">How it works</a><a href="#make">What we make</a><a href="#work">Work</a><a href="#fit">Good fit</a><a href="#contact">Contact</a></nav>
     <a class="cta bar-cta" href="#contact" data-help="first">Start a job</a>
   </header>
+  <main id="main">
 
   <div class="hero" id="top">
     <span class="mono eb">Studio Rendezvous, Inc. <span class="hi">B2B design and motion studio</span></span>
@@ -865,26 +888,26 @@
       <div class="cs-body">
       <p class="lede">We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p>
       <div class="wall more">
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/smart-narrative.jpg" data-src="media/smart-narrative.mp4"></video><figcaption><span>Brand narrative</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption><span>Launch film</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/arx-booth.jpg" data-src="media/arx-booth.mp4"></video><figcaption><span>Trade show loop</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/guidewire-sizzle.jpg" data-src="media/guidewire-sizzle.mp4"></video><figcaption><span>Campaign video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/spareit-explainer.jpg" data-src="media/spareit-explainer.mp4"></video><figcaption><span>Explainer</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-hrtech-booth.jpg" data-src="media/norton-hrtech-booth.mp4"></video><figcaption><span>Booth film</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption><span>Product video</span><span>UX</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-a1-case.jpg" data-src="media/norton-a1-case.mp4"></video><figcaption><span>Case study video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption><span>Sales video</span><span>Video</span></figcaption></figure>
       </div>
       <div class="wall more" id="moreMotion" hidden>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption><span>Data story</span><span>Motion</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-sko-sting.jpg" data-src="media/norton-sko-sting.mp4"></video><figcaption><span>Event sting</span><span>Events</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-4p-digital.jpg" data-src="media/norton-4p-digital.mp4"></video><figcaption><span>Video series</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>UX</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption><span>Competitive video</span><span>Video</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-hero.jpg" data-src="media/smart-hero.mp4"></video><figcaption><span>Website hero</span><span>Digital</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/hi-endcard.jpg" data-src="media/hi-endcard.mp4"></video><figcaption><span>Brand end card</span><span>Brand</span></figcaption></figure>
-      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-craft-beer.jpg" data-src="media/norton-craft-beer.mp4"></video><figcaption><span>Social animation</span><span>Social</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption><span>Data story</span><span>Motion</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-sko-sting.jpg" data-src="media/norton-sko-sting.mp4"></video><figcaption><span>Event sting</span><span>Events</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-4p-digital.jpg" data-src="media/norton-4p-digital.mp4"></video><figcaption><span>Video series</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption><span>App walkthrough</span><span>UX</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption><span>Competitive video</span><span>Video</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/smart-hero.jpg" data-src="media/smart-hero.mp4"></video><figcaption><span>Website hero</span><span>Digital</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/hi-endcard.jpg" data-src="media/hi-endcard.mp4"></video><figcaption><span>Brand end card</span><span>Brand</span></figcaption></figure>
+      <figure class="tile" style="margin:0"><video muted loop playsinline preload="metadata" data-poster="media/smart-healthcare.jpg" data-src="media/smart-healthcare.mp4"></video><figcaption><span>Benchmark video</span><span>Motion</span></figcaption></figure>
       </div>
       <button type="button" class="btn-ghost more-btn" aria-controls="moreMotion" aria-expanded="false">See more motion</button>
       </div>
@@ -893,7 +916,7 @@
       <summary><h3><span class="mono cs-ind">Financial services</span>A new brand, carried into everything</h3><span class="mono cs-count">8 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.</p>
-      <div class="gallery land"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-logo-stings-poster.jpg" data-src="media/hi-logo-stings.mp4"></video><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption>Data story</figcaption></figure><figure><img src="media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption>Competitive video</figcaption></figure></div>
+      <div class="gallery land"><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/hi-logo-stings-poster.jpg" data-src="media/hi-logo-stings.mp4"></video><figcaption>Logo stings</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/hi-flyby.jpg" data-src="media/hi-flyby.mp4"></video><figcaption>Data story</figcaption></figure><figure><img src="media/hi-bb-03.jpg" alt="Typography" loading="lazy"><figcaption>Typography</figcaption></figure><figure><img src="media/hi-bb-04.jpg" alt="Color" loading="lazy"><figcaption>Color</figcaption></figure><figure><img src="media/hi-bb-06.jpg" alt="Gradients" loading="lazy"><figcaption>Gradients</figcaption></figure><figure><img src="media/hi-bb-08.jpg" alt="Graphic elements" loading="lazy"><figcaption>Graphic elements</figcaption></figure><figure class="g2"><img src="media/hi-bb-00.jpg" alt="Brand book" loading="lazy"><figcaption>Brand book</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/hi-betterment.jpg" data-src="media/hi-betterment.mp4"></video><figcaption>Competitive video</figcaption></figure></div>
       <p class="mono cs-note">Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.</p>
       <div class="cs-sub">
         <span class="mono">Apparel</span>
@@ -906,28 +929,28 @@
       <summary><h3><span class="mono cs-ind">B2B software</span>Events, end to end</h3><span class="mono cs-count">12 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p>
-      <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/smart-london-recap.jpg" data-src="media/smart-london-recap.mp4"></video><figcaption>Recap reel</figcaption></figure></div>
+      <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/smart-innovate-pillar.jpg" data-src="media/smart-innovate-pillar.mp4"></video><figcaption>Stage loops</figcaption></figure><figure class="g2"><img src="media/inn-pillars.jpg" alt="Venue pillars" loading="lazy"><figcaption>Venue pillars</figcaption></figure><figure><img src="media/inn-app.jpg" alt="Event app" loading="lazy"><figcaption>Event app</figcaption></figure><figure><img src="media/inn-badge-nam.jpg" alt="Badges" loading="lazy"><figcaption>Badges</figcaption></figure><figure><img src="media/inn-podium.jpg" alt="Digital podium" loading="lazy"><figcaption>Digital podium</figcaption></figure><figure><img src="media/inn-classroom.jpg" alt="Wayfinding" loading="lazy"><figcaption>Wayfinding</figcaption></figure><figure class="g2"><img src="media/inn-elevators.jpg" alt="Elevator wraps" loading="lazy"><figcaption>Elevator wraps</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/smart-london-recap.jpg" data-src="media/smart-london-recap.mp4"></video><figcaption>Recap reel</figcaption></figure></div>
       </div>
     </details>
     <details class="cs">
       <summary><h3><span class="mono cs-ind">Cybersecurity</span>An executive program, launched</h3><span class="mono cs-count">6 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p>
-      <div class="gallery"><figure class="g2"><img src="media/nkv-dark.jpg" alt="Key visual" loading="lazy"><figcaption>Key visual</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption>Launch film</figcaption></figure><figure><img src="media/nexp-01.jpg" alt="Proposal cover" loading="lazy"><figcaption>Proposal cover</figcaption></figure><figure><img src="media/nexp-02.jpg" alt="Proposal spread" loading="lazy"><figcaption>Proposal spread</figcaption></figure><figure><img src="media/nexp-04.jpg" alt="Program pillars" loading="lazy"><figcaption>Program pillars</figcaption></figure><figure><img src="media/nexp-07.jpg" alt="Feature page" loading="lazy"><figcaption>Feature page</figcaption></figure></div>
+      <div class="gallery"><figure class="g2"><img src="media/nkv-dark.jpg" alt="Key visual" loading="lazy"><figcaption>Key visual</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/norton-exec-program.jpg" data-src="media/norton-exec-program.mp4"></video><figcaption>Launch film</figcaption></figure><figure><img src="media/nexp-01.jpg" alt="Proposal cover" loading="lazy"><figcaption>Proposal cover</figcaption></figure><figure><img src="media/nexp-02.jpg" alt="Proposal spread" loading="lazy"><figcaption>Proposal spread</figcaption></figure><figure><img src="media/nexp-04.jpg" alt="Program pillars" loading="lazy"><figcaption>Program pillars</figcaption></figure><figure><img src="media/nexp-07.jpg" alt="Feature page" loading="lazy"><figcaption>Feature page</figcaption></figure></div>
       </div>
     </details>
     <details class="cs">
       <summary><h3><span class="mono cs-ind">Cybersecurity</span>Partner marketing</h3><span class="mono cs-count">6 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.</p>
-      <div class="gallery screens"><figure class="g2"><img src="media/pb-00.jpg" alt="Playbook" loading="lazy"><figcaption>Playbook</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/norton-social-mosaic.jpg" data-src="media/norton-social-mosaic.mp4"></video><figcaption>Social program</figcaption></figure><figure><img src="media/pb-09.jpg" alt="Onboarding" loading="lazy"><figcaption>Onboarding</figcaption></figure><figure><img src="media/pb-12.jpg" alt="Use cases" loading="lazy"><figcaption>Use cases</figcaption></figure><figure><img src="media/pb-17.jpg" alt="Email journeys" loading="lazy"><figcaption>Email journeys</figcaption></figure><figure><video muted loop playsinline preload="metadata" poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption>App walkthrough</figcaption></figure></div>
+      <div class="gallery screens"><figure class="g2"><img src="media/pb-00.jpg" alt="Playbook" loading="lazy"><figcaption>Playbook</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/norton-social-mosaic.jpg" data-src="media/norton-social-mosaic.mp4"></video><figcaption>Social program</figcaption></figure><figure><img src="media/pb-09.jpg" alt="Onboarding" loading="lazy"><figcaption>Onboarding</figcaption></figure><figure><img src="media/pb-12.jpg" alt="Use cases" loading="lazy"><figcaption>Use cases</figcaption></figure><figure><img src="media/pb-17.jpg" alt="Email journeys" loading="lazy"><figcaption>Email journeys</figcaption></figure><figure><video muted loop playsinline preload="metadata" data-poster="media/norton-currys.jpg" data-src="media/norton-currys.mp4"></video><figcaption>App walkthrough</figcaption></figure></div>
       </div>
     </details>
     <details class="cs">
       <summary><h3><span class="mono cs-ind">B2B software</span>Product launches, in motion</h3><span class="mono cs-count">2 pieces</span><span class="cs-mark" aria-hidden="true"></span></summary>
       <div class="cs-body">
       <p class="lede">Product and sales videos built from the product’s own UI.</p>
-      <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption>Product video</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption>Sales video</figcaption></figure></div>
+      <div class="gallery"><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/marchex-aps.jpg" data-src="media/marchex-aps.mp4"></video><figcaption>Product video</figcaption></figure><figure class="g2"><video muted loop playsinline preload="metadata" data-poster="media/marchex-nada.jpg" data-src="media/marchex-nada.mp4"></video><figcaption>Sales video</figcaption></figure></div>
       </div>
     </details>
     <details class="cs">
@@ -1060,6 +1083,8 @@
     </div>
   </section>
 
+
+  </main>
 
   <footer class="site-foot" id="foot">
     <canvas class="sf-water" aria-hidden="true"></canvas>
@@ -1203,8 +1228,12 @@
     var hudFig = document.getElementById('hudFig'), hudDesc = document.getElementById('hudDesc'), hudIdx = document.getElementById('hudIdx'), hudBar = document.getElementById('hudBar');
     var anchors = ['top', 'how', 'together', 'work', 'fit', 'contact'].map(function (id) { return document.getElementById(id); });
     function smooth(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
+    var tops = [];
+    function measure() { tops = anchors.map(function (el) { return el ? el.getBoundingClientRect().top + window.scrollY : 0; }); }
+    measure(); window.addEventListener('load', measure); window.addEventListener('resize', measure);
+    document.addEventListener('toggle', measure, true);   // details open and close change the section positions
     function target() {
-      var y = window.scrollY + window.innerHeight * 0.5, tops = anchors.map(function (el) { return el ? el.getBoundingClientRect().top + window.scrollY : 0; });
+      var y = window.scrollY + window.innerHeight * 0.5;
       if (y <= tops[0]) return 0;
       for (var i = 0; i < tops.length - 1; i++) {
         if (y < tops[i + 1]) { var f = (y - tops[i]) / Math.max(1, tops[i + 1] - tops[i]); return i + smooth((f - 0.55) / 0.45); }
@@ -1212,32 +1241,44 @@
       return tops.length - 1;
     }
     var cur = target(), shown = -1, px = 0, py = 0, tx = 0, ty = 0, t0 = performance.now();
-    window.addEventListener('pointermove', function (e) { tx = e.clientX / window.innerWidth - 0.5; ty = e.clientY / window.innerHeight - 0.5; }, { passive: true });
+    if (!reduce) window.addEventListener('pointermove', function (e) { tx = e.clientX / window.innerWidth - 0.5; ty = e.clientY / window.innerHeight - 0.5; }, { passive: true });
     function resize() {
       var w = window.innerWidth, h = window.innerHeight;
       renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
       group.position.x = w > 1000 ? 1.0 : 0; group.scale.setScalar(w < 700 ? 0.62 : 1);
     }
     window.addEventListener('resize', resize); resize();
+    var lastDraw = 0, built = -1, fieldEl = document.getElementById('field'), queued = false;
+    function tick(now) { queued = false; frame(now); }
+    function queue() { if (!queued && !document.hidden) { queued = true; requestAnimationFrame(tick); } }
     function frame(now) {
+      if (!reduce) queue();
+      if (!reduce && now - lastDraw < 33) return;          // about 30 fps is plenty for slow ambient motion
+      lastDraw = now;
+      if (fieldEl && fieldEl.style.opacity === '0') return;   // the footer waves have taken over
       var tg = target();
       cur = reduce ? tg : cur + (tg - cur) * 0.07;
-      var i0 = Math.floor(cur), i1 = Math.min(shapes.length - 1, i0 + 1), f = cur - i0, a = shapes[i0], b = shapes[i1], out = pos.array;
-      for (var k = 0; k < out.length; k++) out[k] = a[k] + (b[k] - a[k]) * f;
-      pos.needsUpdate = true;
+      if (Math.abs(cur - built) > 0.0005) {
+        var i0 = Math.floor(cur), i1 = Math.min(shapes.length - 1, i0 + 1), f = cur - i0, a = shapes[i0], b = shapes[i1], out = pos.array;
+        for (var k = 0; k < out.length; k++) out[k] = a[k] + (b[k] - a[k]) * f;
+        pos.needsUpdate = true; built = cur;
+      }
       px += (tx - px) * 0.05; py += (ty - py) * 0.05;
       var t = reduce ? 0 : (now - t0) / 1000;
       var fin = Math.max(0, Math.min(1, cur - 4));          // 0 until the last figure, then 1
       group.rotation.y = -0.5 + t * (0.045 - 0.02 * fin) + px * (0.35 + 0.95 * fin);
       group.rotation.x = 0.18 + py * (0.14 + 0.55 * fin);
       var n = Math.round(cur);
-      if (n !== shown) { shown = n; hudFig.textContent = labels[n][0]; hudDesc.textContent = labels[n][1]; hudIdx.textContent = (n + 1) + ' / 6'; }
-      hudBar.style.setProperty('--p', (cur / 5 * 100).toFixed(1) + '%');
       renderer.render(scene, camera);
-      if (!document.hidden) requestAnimationFrame(frame);
     }
-    document.addEventListener('visibilitychange', function () { if (!document.hidden) requestAnimationFrame(frame); });
-    requestAnimationFrame(frame);
+    if (reduce) {
+      var q = false;
+      window.addEventListener('scroll', function () { if (q) return; q = true; requestAnimationFrame(function (t) { q = false; frame(t); }); }, { passive: true });
+      requestAnimationFrame(frame);
+    } else {
+      document.addEventListener('visibilitychange', queue);
+      queue();
+    }
   })();
 
 </script>
@@ -1356,6 +1397,7 @@
       var n = visibleCount();
       Array.prototype.forEach.call(track.children, function (fig, i) {
         var v = fig.querySelector('video'); if (!v) return;
+        if (reduce) return;
         if (i < n + 1) { if (!v.src) v.src = v.dataset.src; if (i < n) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } }
         else v.pause();
       });
@@ -1534,7 +1576,7 @@
     var media = lb.querySelector('.lb-media'), capT = lb.querySelector('.t'), capN = lb.querySelector('.n'), group = [], at = 0, last = null;
     function show(i) {
       at = (i + group.length) % group.length; var fig = group[at], v = fig.querySelector('video'), im = fig.querySelector('img'), el;
-      if (v) { el = document.createElement('video'); el.src = v.dataset.src || v.currentSrc; el.poster = v.poster; el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = !reduce; el.controls = true;
+      if (v) { el = document.createElement('video'); el.src = v.dataset.src || v.currentSrc; el.poster = v.poster || v.getAttribute('data-poster') || ''; el.muted = true; el.loop = true; el.playsInline = true; el.autoplay = !reduce; el.controls = true;
         if (v.videoWidth) el.style.setProperty('--ar', v.videoWidth / v.videoHeight);
         el.addEventListener('loadedmetadata', function () { if (el.videoWidth) el.style.setProperty('--ar', el.videoWidth / el.videoHeight); }); }
       else { el = document.createElement('img'); el.src = im.currentSrc || im.src; el.alt = im.alt;
@@ -1671,6 +1713,23 @@
       if (field) field.style.opacity = String(Math.max(0, 1 - r * 1.6));   // the main line art hands off to the waves
       if (visible && !was && !reduce) requestAnimationFrame(loop);
     }, { threshold: steps }).observe(foot);
+  })();
+
+  // Phone menu
+  (function () {
+    var b = document.querySelector('.menu-btn'), nav = document.getElementById('site-nav'); if (!b || !nav) return;
+    function set(open) { nav.classList.toggle('open', open); b.setAttribute('aria-expanded', String(open)); b.textContent = open ? 'Close' : 'Menu'; }
+    b.addEventListener('click', function () { set(!nav.classList.contains('open')); });
+    nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && nav.classList.contains('open')) { set(false); b.focus(); } });
+  })();
+  // Lazy posters: video previews below the first screen load as they come near.
+  (function () {
+    var vs = document.querySelectorAll('video[data-poster]');
+    function give(v) { if (!v.poster) v.poster = v.getAttribute('data-poster'); }
+    if (!('IntersectionObserver' in window)) { Array.prototype.forEach.call(vs, give); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { give(e.target); io.unobserve(e.target); } }); }, { rootMargin: '900px 0px' });
+    Array.prototype.forEach.call(vs, function (v) { io.observe(v); });
   })();
 </script>
 </body>
