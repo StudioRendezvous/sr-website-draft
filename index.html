@@ -73,6 +73,7 @@
   /* ---------- hero ---------- */
   .hero { padding-block: 40px 20px; display: grid; gap: 22px; }
   .hero .lede { max-width: 58ch; }
+  .hero-tag { margin: 18px 0 0; font-size: clamp(21px, 2.1vw, 28px); font-weight: 300; line-height: 1.25; color: var(--text); max-width: 48ch; text-wrap: balance; }
   @media (max-width: 720px) { .hero-copy { position: relative; } .hero-copy::before { content: ""; position: absolute; inset: -18px -16px; z-index: -1; background: radial-gradient(120% 85% at 35% 50%, rgba(28, 28, 28, .9) 45%, rgba(28, 28, 28, 0) 100%); } }
   .hero-proof { margin: 18px 0 0; width: max-content; max-width: calc(100vw - 32px); } .hero-proof span { white-space: nowrap; }
   .hero h1 { font-size: clamp(50px, 7vw, 104px); font-weight: 900; color: var(--text); }
@@ -741,6 +742,7 @@
   <div class="hero" id="top">
     <span class="mono eb">Studio Rendezvous, Inc. <span class="hi">B2B design and motion studio</span></span>
     <h1>Design and motion, <em>always on.</em></h1>
+    <p class="hero-tag">When you need a team that delivers every day.</p>
     <div class="hero-row">
       <div class="hero-copy">
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
@@ -970,7 +972,7 @@
   <section class="mid" id="fit">
     <div class="sec-head"><span class="folder">Good fit</span><h2>Are we a good fit?</h2></div>
     <div class="body-col">
-      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Typically they need 40 to 160 hours of design and motion a month, with room to flex from 20 to 200.</p>
+      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day. Our closest clients have us on their work several hours a day. Most are B2B marketing teams in software, security and financial services; some are creative directors whose in-house teams need more hands. Typically they need 40 to 160 hours of design and motion a month, with room to flex from 20 to 200.</p>
       <figure class="range" aria-label="Monthly hours scale: most clients need 40 to 160 hours a month, flexing from 20 to 200">
         <div class="range-track"><div class="range-fill" style="left:8%;width:72%"><span>40–160 hours a month</span></div></div>
         <div class="range-ticks"><span style="left:0%">0</span><span style="left:8%">20</span><span style="left:16%">40</span><span style="left:40%">100</span><span style="left:64%">160</span><span style="left:80%">200</span><span style="left:100%">250 hrs</span></div>
