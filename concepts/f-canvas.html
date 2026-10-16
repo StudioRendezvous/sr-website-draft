@@ -9,9 +9,12 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" id="themeColor" content="#f4f2ed">
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
+<!-- the display face is self-hosted and preloaded (same origin, found in the first bytes), so the hero headline paints in it;
+     the fallback faces below are metric-matched to it, so even a late font causes no reflow -->
+<link rel="preload" href="../media/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script>
   /* Before first paint: motion (saved choice, else the OS setting) and theme (Light, Dark or System). */
   (function () {
@@ -24,6 +27,14 @@
 </script>
 <noscript><style>.reel, .tbar .tb-l { display: none !important; }</style></noscript>
 <style>
+  /* Big Shoulders Display (SIL Open Font License), latin subset, one variable file for 700 to 900 */
+  @font-face { font-family: "Big Shoulders Display"; font-style: normal; font-weight: 700 900; font-display: swap; src: url(../media/fonts/big-shoulders-display-latin.woff2) format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  /* metric-matched stand-ins (widths, cap height and line box measured against it), so a swap moves nothing */
+  @font-face { font-family: "BSD Fallback"; font-weight: 900; src: local("Impact"), local("Impact Regular"); size-adjust: 96.7%; ascent-override: 101%; descent-override: 22%; line-gap-override: 0%; }
+  @font-face { font-family: "BSD Fallback"; font-weight: 700 800; src: local("Impact"), local("Impact Regular"); size-adjust: 90.4%; ascent-override: 108%; descent-override: 23%; line-gap-override: 0%; }
+  @font-face { font-family: "BSD Fallback N"; font-weight: 900; src: local("Arial Narrow Bold"), local("ArialNarrow-Bold"); size-adjust: 85.7%; ascent-override: 114%; descent-override: 25%; line-gap-override: 0%; }
+  @font-face { font-family: "BSD Fallback N"; font-weight: 700 800; src: local("Arial Narrow Bold"), local("ArialNarrow-Bold"); size-adjust: 77.5%; ascent-override: 122%; descent-override: 26%; line-gap-override: 0%; }
   /* Concept F: Canvas. The work laid out like a live design file. Light and dark themes, in the language of Figma's UI. */
   :root {
     color-scheme: light;
@@ -59,7 +70,7 @@
     --mini: #d9d4c9;
     --scrim: 244, 242, 237;
     --p-tom: #1c1c1c; --p-tom-t: #ffffff; --p-tom-s: #ffffff;
-    --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+    --display: "Big Shoulders Display", "BSD Fallback", "BSD Fallback N", "Arial Narrow", Impact, sans-serif;
     --body: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(.22, .8, .2, 1);
@@ -171,7 +182,7 @@
   .brief .eb svg { width: 15px; height: 15px; color: var(--accent); }
   .brief h1 { font-size: clamp(52px, 12vw, 92px); font-weight: 900; margin-top: 14px; }
   .brief h1 em { font-style: normal; color: var(--accent); display: block; }
-  .brief .tag { font-size: clamp(21px, 2.4vw, 26px); font-weight: 300; line-height: 1.25; margin-top: 16px; }
+  .brief .tag { font-size: clamp(21px, 2.4vw, 26px); font-weight: 400; line-height: 1.25; margin-top: 16px; }
   .brief .lede { font-size: 17.5px; font-weight: 400; line-height: 1.5; color: var(--ink2); margin-top: 14px; max-width: 58ch; }
   .brief .proof { color: var(--ink2); margin-top: 18px; line-height: 1.75; font-size: 12.5px; }
   .brief .proof span { white-space: nowrap; }
@@ -184,10 +195,16 @@
 
   /* ---------- the canvas ---------- */
   .reel { position: relative; }
-  .reel-on .reel { height: calc(var(--stage-h, 840px) + 55vh); }
+  .reel-on .reel { height: calc(max(600px, 100svh - 60px) + 55vh); }
   .reel-on .reel .stage { position: sticky; top: 60px; }
-  .stage { position: relative; height: clamp(600px, calc(100svh - 60px), 940px); background: var(--canvas); overflow: hidden; border-block: 1px solid var(--line); isolation: isolate; transition: background .4s; }
-  @media (max-width: 959px) { .stage { height: clamp(440px, 70svh, 640px); } }
+  .stage { position: relative; height: max(600px, calc(100svh - 60px)); background: var(--canvas); overflow: hidden; border-block: 1px solid var(--line); isolation: isolate; transition: background .4s; }
+  /* phones and tablets: the canvas toolbar docks in its own strip above the canvas, so it never sits on the work.
+     On phones the canvas below it is the whole file as a two-column overview, as tall as it needs (--vp-h, set by script). */
+  @media (max-width: 959px) {
+    .stage { height: calc(var(--vp-h, clamp(440px, 70svh, 640px)) + 68px); }
+    .stage:not(.full) .vp { top: 68px; }
+    .stage:not(.full)::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 68px; border-bottom: 1px solid var(--line); background: var(--paper); z-index: 5; }
+  }
   .stage.full { position: fixed !important; inset: 0; z-index: 90; height: auto; border: 0; top: 0 !important; }
   .vp { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: pan-y pinch-zoom; background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px); background-size: 24px 24px; outline: none; -webkit-user-select: none; user-select: none; }
   .vp:focus-visible { box-shadow: inset 0 0 0 3px var(--cta); }
@@ -198,22 +215,28 @@
 
   /* sections: a tinted area with its name tab, like a Figma section. Frames live inside (one group each). */
   .sec { position: absolute; background: var(--sec-bg); border: calc(1px * var(--k)) solid var(--sec-line); border-radius: calc(6px * var(--k)); transition: background .3s, border-color .3s; }
-  .sec-t { position: absolute; left: 0; bottom: 100%; transform-origin: 0 100%; transform: scale(var(--k)); padding-bottom: 8px; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: opacity .18s; }
-  .sec-t button { display: inline-flex; align-items: center; gap: 8px; background: var(--chip); color: var(--chip-ink); border: 0; border-radius: 5px; padding: 6px 10px 5px; font: 600 14px/1 var(--body); cursor: pointer; }
+  .sec-t { position: absolute; left: 0; bottom: 100%; transform-origin: 0 100%; transform: scale(var(--k)); padding-bottom: 8px; display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 5px 8px; transition: opacity .18s; }
+  .sec-t button { display: inline-flex; align-items: center; gap: 8px; background: var(--chip); color: var(--chip-ink); border: 0; border-radius: 5px; padding: 6px 10px 5px; font: 600 14px/1.15 var(--body); text-align: left; cursor: pointer; }
   .sec-t button:hover { background: var(--cta); color: var(--cta-ink); }
   .sec-t button svg { width: 11px; height: 11px; }
   .sec-t { max-width: calc(var(--sw) * var(--s) * 1px); }
-  .sec-t button { max-width: 100%; overflow: hidden; }
-  .sec-t button span { overflow: hidden; text-overflow: ellipsis; }
-  .sec-t .ind { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .sec-t button { max-width: 100%; }
+  .sec-t button svg { flex: none; }
+  .sec-t .ind { font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
 
-  /* semantic zoom, level 1 (overview): the section names take over, poster size */
-  .sec-big { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform: scale(var(--k)); max-width: calc(var(--sw) * var(--s) * .92px); padding: 9px 13px 11px; background: var(--chip); color: var(--chip-ink); border-radius: 6px 0 10px 0; box-shadow: 0 12px 26px -12px rgba(0,0,0,.55); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; z-index: 2; --fs: calc(var(--sw) * var(--s) * .062px); }
-  .sec-big small { display: block; font: 500 10px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #ff8a4c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sec-big b { display: block; margin-top: 5px; font: 900 clamp(14px, var(--fs), 26px)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
+  /* semantic zoom, level 1 (overview): the section names take over, poster size. They live in the band above each group
+     (--lb-b tall, in world units, so they scale with the file and can never reach the work), two lines at most. */
+  .world { --lb-b: 184px; --lb-t: 64px; --lb-s: 30px; }
+  .world.narrow { --lb-t: 88px; }
+  .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 16px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; z-index: 2; }
+  .sec-big small { display: block; font: 500 var(--lb-s)/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
+  .world.narrow .sec-big small { display: none; }
+  .sec-big b { display: block; font: 900 var(--lb-t)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
+  .sec-big:hover b { color: var(--accent-text); }
   .world.z-far .sec-big { opacity: 1; visibility: visible; transition: opacity .28s .1s; } /* the small labels leave first, then the big ones arrive: no double image mid-zoom */
-  .world.z-far .sec-t, .world.z-far .fr .vb, .world.z-far .fr .lb, .world.z-far .nj { opacity: 0; }
-  .world.z-far .cpin { opacity: 0; pointer-events: none; }
+  .world:not(.z-far) .sec-big { pointer-events: none; }
+  .world.z-far .sec-t, .world.z-far .fr .vb, .world.z-far .fr .lb { opacity: 0; }
+  .world.z-far .cpin, .world.z-far .sel b { opacity: 0; pointer-events: none; } /* the size pill would sit in the next group's name band */
 
   /* frames */
   .fr { position: absolute; padding: 0; border: 0; background: var(--ph, #ccc); cursor: pointer; box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); transition: opacity .45s var(--ease); }
@@ -264,7 +287,7 @@
   /* the empty frame waiting for the next job */
   .nj { position: absolute; display: flex; align-items: center; gap: 24px; padding: 0 32px; border: 2px dashed var(--line-2); background: transparent; color: var(--ink); cursor: pointer; text-align: left; transition: border-color .2s, background .2s, opacity .25s; }
   .nj:hover, .nj:focus-visible { border-color: var(--accent); background: rgba(254, 80, 0, .06); outline: none; }
-  .nj .pl { flex: none; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #1c1c1c; font: 300 48px/1 var(--body); }
+  .nj .pl { flex: none; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #1c1c1c; font: 400 48px/1 var(--body); }
   .nj b { display: block; font: 900 40px/.95 var(--display); text-transform: uppercase; }
   .nj small { display: block; margin-top: 8px; font: 400 19px/1.3 var(--body); color: var(--ink2); }
   .nj .go { margin-left: auto; flex: none; background: var(--cta); color: var(--cta-ink); font: 500 14px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 16px 20px 15px; border-radius: 999px; }
@@ -292,7 +315,8 @@
   .explore.alt svg { width: 12px; height: 12px; color: var(--accent); }
   .explore.alt:hover { background: var(--cta); color: var(--cta-ink); } .explore.alt:hover svg { color: currentColor; }
   .aslist { font: 500 12px var(--mono); letter-spacing: .05em; color: var(--ink); background: var(--glass); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
-  .ui-mini { right: 16px; bottom: 16px; width: 196px; height: 128px; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); overflow: hidden; cursor: pointer; touch-action: none; }
+  .ui-mini { right: 16px; bottom: 16px; width: 176px; height: 112px; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); overflow: hidden; cursor: pointer; touch-action: none; transition: opacity .25s, visibility 0s; }
+  .ui-mini.off { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s, visibility 0s .25s; } /* the whole file is on screen: nothing to find */
   .ui-mini i { position: absolute; background: var(--mini); border-radius: 1px; }
   .ui-mini i.b { background: var(--ink); }
   .ui-mini i.p { background: var(--accent); }
@@ -318,8 +342,11 @@
     .ui-zoom, .ui-mini { display: none; }
     .stage.full .ui-zoom { display: inline-flex; }
     .stage.full .ui-mini { display: block; width: 130px; height: 86px; }
+    @media (max-width: 599px) { .stage.full .ui-mini { display: none; } } /* phones: drag and pinch; the zoom bar keeps Zoom to fit */
     .stage.full .ui-main { display: none; }
-    .ui-main { bottom: 14px; }
+    .stage:not(.full) .ui-main { top: 12px; bottom: auto; }
+    .stage:not(.full) .tbar { box-shadow: none; }
+    .stage:not(.full) .ui-crumb, .stage:not(.full) .hint { top: 80px; }
     .ui-zoom .lvl { display: none; }
   }
 
@@ -409,7 +436,7 @@
   .rp-end > div, .rp-err > div { text-align: center; max-width: 640px; }
   .rp-end svg.mk { width: 56px; height: 56px; color: #fe5000; margin: 0 auto; }
   .rp-end h2 { font-size: clamp(44px, 7vw, 88px); font-weight: 900; margin-top: 22px; color: #fff; }
-  .rp-end p, .rp-err p { margin-top: 14px; font: 300 clamp(19px, 2vw, 23px)/1.4 var(--body); color: #d7d4cd; }
+  .rp-end p, .rp-err p { margin-top: 14px; font: 400 clamp(19px, 2vw, 23px)/1.4 var(--body); color: #d7d4cd; }
   .rp-end .row, .rp-err .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
   dialog.rp .ghost { color: #f3f1ec; border-color: #f3f1ec; }
   dialog.rp .ghost:hover { background: #f3f1ec; color: #141414; }
@@ -444,7 +471,7 @@
   .flabel { display: flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .flabel svg { width: 12px; height: 12px; color: var(--accent); }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
-  .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 300; max-width: 62ch; color: var(--ink2); }
+  .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 22px; }
 
   /* framed cards: a frame with its name above it */
@@ -473,7 +500,7 @@
   .cmt .pin { flex: none; width: 46px; height: 46px; border-radius: 50% 50% 50% 0; background: var(--chip); color: var(--chip-ink); display: grid; place-items: center; font: 600 15px var(--body); border: 3px solid var(--surface); box-shadow: 0 8px 18px -8px rgba(0,0,0,.4); }
   .cmt .pin.o { background: var(--tab); color: #1c1c1c; }
   .cmt .bub { background: var(--surface); border: 1px solid var(--line); border-radius: 22px 22px 22px 4px; padding: 22px 26px 22px; }
-  .cmt blockquote { margin: 0; font-size: clamp(19px, 1.9vw, 23px); line-height: 1.42; font-weight: 300; }
+  .cmt blockquote { margin: 0; font-size: clamp(19px, 1.9vw, 23px); line-height: 1.42; font-weight: 400; }
   .cmt figcaption { margin-top: 12px; font-size: 14px; color: var(--muted); }
   .cmt figcaption b { color: var(--ink); font-weight: 600; }
   .cmt.r { margin-left: auto; }
@@ -486,9 +513,12 @@
   .nos-list p { margin-top: 6px; color: var(--ink2); max-width: 70ch; }
 
   /* logos */
-  .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; margin-top: 18px; }
-  .logos div { background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; padding: 6px 12px; min-height: 72px; }
-  .logos img { width: 100%; max-width: 150px; height: auto; filter: var(--logo-f); }
+  /* logo walls: column counts that divide each wall evenly (10 clients: 5 or 2 across; 12 past clients: 6, 4 or 3 across),
+     and a per-logo --ls that evens out optical size (artboards share one size, the marks inside them do not) */
+  .logos { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+  @media (max-width: 699px) { .logos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .logos div { background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; padding: 6px 12px; min-height: 72px; overflow: hidden; }
+  .logos img { width: 100%; max-width: 150px; height: auto; filter: var(--logo-f); transform: scale(var(--ls, 1)); }
   :root[data-theme="dark"] .logos img { opacity: .86; }
   .proofline { font: 500 clamp(12px, 1.2vw, 14px)/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
   .proofline span { white-space: nowrap; }
@@ -563,7 +593,7 @@
     .js .fl-steps .bar { left: 8px; right: 8px; bottom: 6px; }
     .js .fl-steps .ck { right: 4px; top: 4px; width: 15px; height: 15px; }
     .js .fl-steps .ck::after { width: 6px; height: 3px; }
-    .js .fl-cap { display: block; min-height: 132px; padding: 16px 2px 18px; font: 300 16.5px/1.4 var(--body); color: var(--ink); }
+    .js .fl-cap { display: block; min-height: 132px; padding: 16px 2px 18px; font: 400 16.5px/1.4 var(--body); color: var(--ink); }
     .fl-cap b { display: block; margin-bottom: 6px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
     .fl-cap .ti { display: block; font: 800 26px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
   }
@@ -785,7 +815,7 @@
   .ld-row:hover .ld-go { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
   .ld-next { width: 100%; margin-top: 44px; display: flex; align-items: center; gap: 18px; padding: 20px 22px; border: 2px dashed var(--line-2); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
   .ld-next:hover, .ld-next:focus-visible { border-color: var(--accent); background: rgba(254, 80, 0, .06); outline: none; }
-  .ld-next .pl { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #1c1c1c; font: 300 34px/1 var(--body); }
+  .ld-next .pl { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #1c1c1c; font: 400 34px/1 var(--body); }
   .ld-next b { display: block; font: 900 28px/.95 var(--display); text-transform: uppercase; }
   .ld-next small { display: block; margin-top: 6px; font-size: 15.5px; color: var(--ink2); }
   .ld-next .go { margin-left: auto; flex: none; background: var(--cta); color: var(--cta-ink); font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 13px 16px 12px; border-radius: 999px; }
@@ -893,7 +923,9 @@
   .cmts .cmt { margin: 0; max-width: none; }
   .cmts .cmt blockquote { font-size: clamp(18px, 1.6vw, 21px); }
   @media (max-width: 900px) { .cmts { grid-template-columns: 1fr; } .cmts .cmt.r { margin-left: 0; } }
-  .logos.sm { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; }
+  .logos.sm { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  @media (max-width: 899px) { .logos.sm { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 559px) { .logos.sm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .logos.sm div { min-height: 58px; padding: 4px 10px; }
   .logos.sm img { max-width: 120px; }
 
@@ -1080,6 +1112,18 @@
   .toast { position: fixed; left: 50%; bottom: 24px; z-index: 300; transform: translate(-50%, 12px); background: var(--chip); color: var(--chip-ink); font: 400 15px/1.3 var(--body); padding: 11px 16px; border-radius: 10px; box-shadow: 0 16px 40px -16px rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: opacity .25s, transform .3s var(--ease); max-width: calc(100vw - 32px); }
   .toast.on { opacity: 1; transform: translate(-50%, 0); }
 
+  /* phones and touch screens: every control is at least 44px to tap */
+  @media (max-width: 640px), (pointer: coarse) {
+    .top .home { min-width: 44px; min-height: 44px; }
+    .kbtn, .theme .cyc { width: 44px !important; height: 44px !important; }
+    .switch { min-height: 44px; min-width: 44px; justify-content: center; padding-inline: 4px; }
+    .top .cta { min-height: 44px; }
+    .cta, .ghost, .explore, .tbar .tb, .fl-play, .sh-link, .sh-btn { min-height: 44px; }
+    .sh-btn { min-width: 44px; }
+    .card details.more { margin-top: 0; } .card details.more summary { padding-block: 15px; line-height: 14px; }
+    .card .move-link { padding-block: 15px; margin-top: 1px; }
+    .foot-site ul { gap: 0; } .foot-site ul a, .foot-site .base a, .foot-site a[aria-label] { display: inline-flex; align-items: center; min-height: 44px; }
+  }
   @media (prefers-reduced-motion: reduce) { .switch .tr, .switch .tr::after, .hint, .toast { transition: none; } }
   .still *, .still *::before, .still *::after { scroll-behavior: auto !important; }
   .still .hint, .still .toast, .still .fr, .still .sec-big, .still .sec-t, .still .form { transition: none !important; }
@@ -1186,16 +1230,16 @@
       <p class="proofline"><span>Senior team</span> · <span>681 videos last year</span> · <span>Built for tight deadlines</span> · <span>Current clients average 9 years</span></p>
       <span class="sub-eb" style="margin-top:36px">Clients we’re helping every month</span>
       <div class="logos" role="list" aria-label="Current clients">
-        <div role="listitem"><img data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/gen.png" alt="Gen" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/smart-communications.png" alt="Smart Communications" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/human-interest.png" alt="Human Interest" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/guidewire.png" alt="Guidewire" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/marchex.png" alt="Marchex" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/satori-reader.png" alt="Satori Reader" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/human-japanese.png" alt="Human Japanese" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/master-builders.png" alt="Master Builders Association" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/air-control.png" alt="AIR Control Concepts" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.99" data-src="../media/logos/gen.png" alt="Gen" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.86" data-src="../media/logos/smart-communications.png" alt="Smart Communications" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.99" data-src="../media/logos/human-interest.png" alt="Human Interest" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.16" data-src="../media/logos/guidewire.png" alt="Guidewire" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.06" data-src="../media/logos/marchex.png" alt="Marchex" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.06" data-src="../media/logos/satori-reader.png" alt="Satori Reader" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.11" data-src="../media/logos/human-japanese.png" alt="Human Japanese" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.95" data-src="../media/logos/master-builders.png" alt="Master Builders Association" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.01" data-src="../media/logos/air-control.png" alt="AIR Control Concepts" width="480" height="226"></div>
       </div>
     </div>
   </section>
@@ -1363,6 +1407,9 @@
       <!-- NEW COPY: "Good to know" (was "Before you sign"); the three answers and the partner block are unchanged, now folded -->
       <span class="sub-eb">Good to know</span>
       <div class="acc">
+        <!-- the two items below: copy approved by Shane 2026-10-16 -->
+        <details><summary><span class="ac-k">Timing</span><span class="ac-t">How fast?</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div></details>
+        <details><summary><span class="ac-k">Onboarding</span><span class="ac-t">Getting started</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We get right to work on your highest priorities, then schedule everything else around your calendar. Once the schedule is locked, we move.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Senior team, need to know</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Compliance review</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Busy months</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div></details>
@@ -1387,18 +1434,18 @@
       <figure class="cmt r"><span class="pin" aria-hidden="true">BR</span><div class="bub"><blockquote>“When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><figcaption><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</figcaption></div></figure>
       <span class="sub-eb">Past clients · thousands of projects over the years</span>
       <div class="logos sm" role="list" aria-label="Past long-term clients">
-        <div role="listitem"><img data-src="../media/logos/vertafore.png" alt="Vertafore" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/microsoft.png" alt="Microsoft" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/nike.png" alt="Nike" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/sap.png" alt="SAP" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/homestreet.png" alt="HomeStreet Bank" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/payscale.png" alt="Payscale" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/darigold.png" alt="Darigold" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/moxiworks.png" alt="MoxiWorks" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/onsolve.png" alt="OnSolve" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/syncron.png" alt="Syncron" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/aiphone.png" alt="Aiphone" width="480" height="226"></div>
-        <div role="listitem"><img data-src="../media/logos/jetson.png" alt="Jetson" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.16" data-src="../media/logos/vertafore.png" alt="Vertafore" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.94" data-src="../media/logos/microsoft.png" alt="Microsoft" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.13" data-src="../media/logos/nike.png" alt="Nike" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.78" data-src="../media/logos/sap.png" alt="SAP" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.9" data-src="../media/logos/homestreet.png" alt="HomeStreet Bank" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.91" data-src="../media/logos/payscale.png" alt="Payscale" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.1" data-src="../media/logos/darigold.png" alt="Darigold" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.13" data-src="../media/logos/moxiworks.png" alt="MoxiWorks" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.25" data-src="../media/logos/onsolve.png" alt="OnSolve" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:0.98" data-src="../media/logos/syncron.png" alt="Syncron" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.03" data-src="../media/logos/aiphone.png" alt="Aiphone" width="480" height="226"></div>
+        <div role="listitem"><img style="--ls:1.04" data-src="../media/logos/jetson.png" alt="Jetson" width="480" height="226"></div>
       </div>
     </div>
   </section>
@@ -1689,10 +1736,12 @@
   var secRects = {}, secEls = {};
   /* The file is a strict grid on an 8px base. Every section is the same width: 4 columns of 168 with 24 gutters inside 32 padding.
      Rows are 88 tall (two make a 200 row, four make a 424 row), so every frame is one of five sizes:
-     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid with one 184 gap everywhere. */
-  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 184, HERO_H = 712;
+     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, 184 apart side to side and 240 apart
+     top to bottom: every group's name lives in the 184 band above it (LB), clear of the work at every zoom.
+     On phones the same groups stack into two columns (arrange), so the whole file reads at phone width. */
+  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 184, GAP_Y = 240, LB = 184, HERO_H = 712;
   function secH(rows) { return PAD * 2 + rows * (ROW + GUT) - GUT; }
-  var CELL_Y = [0, HERO_H + GAP, HERO_H + GAP + secH(4) + GAP]; /* row A, row B, the stacked half of row B */
+  var CELL_Y = [0, HERO_H + GAP_Y, HERO_H + GAP_Y + secH(4) + GAP_Y]; /* row A, row B, the stacked half of row B */
   function cellX(c) { return c * (SEC_W + GAP); }
   var NOMINAL = { '2x2': '16:9', '4x4': '16:9', '3x4': '4:3', '1x2': '4:5', '1x1': '2:1' };
   function makeSec(id, title, ind, cnt, x, y, h) {
@@ -1701,19 +1750,22 @@
     var t = document.createElement('div'); t.className = 'sec-t';
     t.innerHTML = '<button type="button" tabindex="-1" aria-hidden="true">' + ICON_SEC + '<span></span></button><span class="ind"></span>';
     t.querySelector('button span').textContent = title; t.querySelector('.ind').textContent = ind + (cnt ? ' · ' + cnt : '');
-    var big = document.createElement('div'); big.className = 'sec-big'; big.setAttribute('aria-hidden', 'true');
+    var big = document.createElement('button'); big.type = 'button'; big.className = 'sec-big'; big.tabIndex = -1; big.setAttribute('aria-hidden', 'true');
     big.innerHTML = '<small></small><b></b>'; big.firstChild.textContent = ind + (cnt ? ' · ' + cnt : ''); big.lastChild.textContent = title;
     sec.appendChild(t); sec.appendChild(big); world.appendChild(sec);
     sec.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + SEC_W + 'px;height:' + h + 'px;--sw:' + SEC_W + ';--sh:' + h;
     secRects[id] = { x: x, y: y, w: SEC_W, h: h }; secEls[id] = sec; sec._frames = [];
     return sec;
   }
+  /* the hero's own name in the band above it, for the overview (NEW COPY: none, it reuses "Start here" and "Studio Rendezvous, Inc.") */
+  (function () { var hb = document.createElement('div'); hb.className = 'sec-big'; hb.setAttribute('aria-hidden', 'true'); hb.style.pointerEvents = 'none'; hb.innerHTML = '<small>Studio Rendezvous, Inc.</small><b>Start here</b>'; brief.appendChild(hb); })();
 
   JOBS.forEach(function (job) {
     var rows = 0; job.g.forEach(function (g) { rows = Math.max(rows, g[2] + g[4]); });
     var sx = cellX(job.cell[0]), sy = CELL_Y[job.cell[1]], sh = secH(rows);
     var sec = makeSec(job.id, job.title, job.ind, job.cnt, sx, sy, sh);
     sec.querySelector('.sec-t button').addEventListener('click', function () { if (suppress) return; openJob(job.id, 0, null); });
+    sec.querySelector('.sec-big').addEventListener('click', function () { if (suppress) return; openJob(job.id, 0, frameOf(job.id, 0)); });
     job.g.forEach(function (g) {
       var d = job.items[g[0]], x = PAD + g[1] * (COL + GUT), y = PAD + g[2] * (ROW + GUT), w = g[3] * (COL + GUT) - GUT, h = g[4] * (ROW + GUT) - GUT;
       var b = document.createElement('button');
@@ -1726,7 +1778,7 @@
       var img = document.createElement('img'); img.alt = ''; img.decoding = 'async'; img.draggable = false;
       img.addEventListener('load', function () { img.classList.add('in'); });
       b.insertBefore(img, b.firstChild);
-      var f = { el: b, job: job.id, idx: g[0], x: sx + x, y: sy + y, w: w, h: h, img: img, tier: 0, src: M + d[0], thumb: T + d[0], vsrc: d[1] ? M + d[1] : '', dims: w + ' × ' + h, cap: d[4], sec: sec, ar: d[2] / d[3], op: g[5] || '50% 50%', ph: d[5] };
+      var f = { el: b, job: job.id, idx: g[0], x: sx + x, y: sy + y, ox: x, oy: y, w: w, h: h, img: img, tier: 0, src: M + d[0], thumb: T + d[0], vsrc: d[1] ? M + d[1] : '', dims: w + ' × ' + h, cap: d[4], sec: sec, ar: d[2] / d[3], op: g[5] || '50% 50%', ph: d[5] };
       frames.push(f); b._f = f; sec._frames.push(b);
       sec.appendChild(b);
     });
@@ -1735,6 +1787,7 @@
   (function () {
     var sec = makeSec('start', 'Your next job', 'Untitled', '', cellX(3), CELL_Y[2], secH(2));
     sec.querySelector('.sec-t button').addEventListener('click', function () { if (!suppress) goContact(); });
+    sec.querySelector('.sec-big').addEventListener('click', function () { if (!suppress) goContact(); });
     var b = document.createElement('button'); b.type = 'button'; b.className = 'nj';
     b.style.cssText = 'left:' + PAD + 'px;top:' + PAD + 'px;width:' + (SEC_W - PAD * 2) + 'px;height:' + (ROW * 2 + GUT) + 'px';
     b.innerHTML = '<span class="pl" aria-hidden="true">+</span><span><b>Drop your next job here</b><small>Put a job on the board. We’ve got it.</small></span><span class="go" aria-hidden="true">Start a job</span>';
@@ -1742,6 +1795,18 @@
     b.addEventListener('click', function () { if (!suppress) goContact(); });
     sec.appendChild(b);
   })();
+  /* where the groups sit: the 4 × 2 grid, or (phones) two columns, each group dropping into the shorter one, in list order */
+  var arranged = null;
+  function arrange(narrow) {
+    if (arranged === narrow) return false; arranged = narrow;
+    world.classList.toggle('narrow', narrow);
+    var pos = {};
+    if (!narrow) { JOBS.forEach(function (j) { pos[j.id] = { x: cellX(j.cell[0]), y: CELL_Y[j.cell[1]] }; }); pos.start = { x: cellX(3), y: CELL_Y[2] }; }
+    else { var colY = [0, 0]; ORDER.concat(['start']).forEach(function (id) { var c = colY[0] <= colY[1] ? 0 : 1; pos[id] = { x: c * (SEC_W + GAP), y: colY[c] }; colY[c] += secRects[id].h + GAP_Y; }); }
+    for (var id in secEls) { var p = pos[id], r = secRects[id]; r.x = p.x; r.y = p.y; secEls[id].style.left = p.x + 'px'; secEls[id].style.top = p.y + 'px'; }
+    frames.forEach(function (f) { var r = secRects[f.job]; f.x = r.x + f.ox; f.y = r.y + f.oy; });
+    return true;
+  }
   function frameOf(job, idx) { for (var i = 0; i < frames.length; i++) if (frames[i].job === job && frames[i].idx === idx) return frames[i]; return null; }
 
   function place(el, x, y) { el.style.left = x + 'px'; el.style.top = y + 'px'; world.appendChild(el); return el; }
@@ -1776,8 +1841,8 @@
   function computeBounds() {
     var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
     function add(x, y, w, h) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + h); }
-    for (var k in secRects) { var r = secRects[k]; add(r.x, r.y - 40, r.w, r.h + 40); }
-    if (briefIn) add(0, 0, SEC_W, briefH);
+    for (var k in secRects) { var r = secRects[k]; add(r.x, r.y - LB, r.w, r.h + LB); }
+    if (briefIn) add(0, -LB, SEC_W, briefH + LB);
     bounds = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
   }
 
@@ -1791,12 +1856,15 @@
     if (briefIn) r(0, 0, SEC_W, briefH, 'b');
   }
 
-  var loadT = 0, openPin = null;
+  var loadT = 0, openPin = null, farS = 0.42, miniOff = false;
+  function refreshOv() { farS = bounds ? Math.max(0.42, overview().s * 1.04) : 0.42; } /* the Overview level always covers Zoom to fit */
   function apply() {
     world.style.transform = 'translate3d(' + cam.x + 'px,' + cam.y + 'px,0) scale(' + cam.s + ')';
     world.style.setProperty('--k', (1 / cam.s).toFixed(4));
     world.style.setProperty('--s', cam.s.toFixed(4));
-    var l = cam.s < 0.42 ? 'far' : cam.s >= 1.15 ? 'near' : 'mid';
+    var l = cam.s < farS ? 'far' : cam.s >= 1.15 ? 'near' : 'mid';
+    var allIn = !!bounds && cam.x + bounds.x * cam.s > -6 && cam.y + bounds.y * cam.s > -6 && cam.x + (bounds.x + bounds.w) * cam.s < vw + 6 && cam.y + (bounds.y + bounds.h) * cam.s < vh + 6;
+    if (allIn !== miniOff) { miniOff = allIn; miniEl.classList.toggle('off', allIn); }
     if (l !== lvl) { if (lvl) world.classList.remove('z-' + lvl); world.classList.add('z-' + l); lvl = l; zLvl.textContent = LVL[l]; }
     var g = 24 * cam.s; while (g < 12) g *= 2;
     vp.style.backgroundSize = g + 'px ' + g + 'px';
@@ -1819,7 +1887,9 @@
     if (!c || !c.s) { loadT = 0; c = cam; }
     var r = stage.getBoundingClientRect();
     if (r.bottom < -200 || r.top > innerHeight + 200) return;
-    var m = (full || innerWidth >= 960 ? 160 : 16) / c.s, x0 = -c.x / c.s - m, y0 = -c.y / c.s - m, x1 = (vw - c.x) / c.s + m, y1 = (vh - c.y) / c.s + m;
+    /* only the part of the canvas that is on the page's screen (plus 240px ahead): the phone overview is taller than the screen */
+    var vr = vp.getBoundingClientRect(), pm = 240, sy0 = full ? 0 : Math.max(0, -vr.top - pm), sy1 = full ? vh : Math.min(vh, innerHeight - vr.top + pm);
+    var m = (full || innerWidth >= 960 ? 160 : 16) / c.s, x0 = -c.x / c.s - m, y0 = (sy0 - c.y) / c.s - m, x1 = (vw - c.x) / c.s + m, y1 = (sy1 - c.y) / c.s + m;
     for (var i = 0; i < frames.length; i++) {
       var f = frames[i]; if (f.tier === 2) continue;
       var sw = f.w * c.s; if (sw < 24) continue;
@@ -1895,11 +1965,15 @@
       var pair = SEC_W * 2 + GAP, s = Math.min(.86, Math.max(.74, (vw - 96) / pair), (vh - 150) / briefH);
       return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(64, (vh - briefH * s) / 2 - 40)) };
     }
+    if (arranged) return overview(); /* phones: the whole file, two groups across */
     var r = secRects.partner, s2 = Math.min(0.6, Math.max(0.4, (vw - 40) / r.w));
     return { s: s2, x: 20 - r.x * s2, y: Math.max(54, (vh - r.h * s2) / 2 - 40) - r.y * s2 };
   }
-  function overview() { /* the whole file, clear of the toolbar along the bottom */
-    var sx = vw < 600 ? 20 : 56, top = vw < 600 ? 24 : 44, bot = vw < 600 ? 24 : 112;
+  function ovPad() { /* room around the whole file: the toolbar along the bottom (desktop), Done and the zoom bar (full screen on a phone) */
+    return vw < 600 ? (full ? { sx: 16, top: 76, bot: 76 } : { sx: 16, top: 16, bot: 16 }) : { sx: 56, top: full ? 76 : 44, bot: 112 };
+  }
+  function overview() { /* the whole file, clear of the canvas controls */
+    var P = ovPad(), sx = P.sx, top = P.top, bot = P.bot;
     var s = Math.max(MIN_S, Math.min((vw - sx * 2) / bounds.w, (vh - top - bot) / bounds.h, MAX_S));
     return { s: s, x: vw / 2 - (bounds.x + bounds.w / 2) * s, y: top + (vh - top - bot) / 2 - (bounds.y + bounds.h / 2) * s };
   }
@@ -1917,9 +1991,14 @@
       select(0, 0, SEC_W, briefH, 'Hero · ' + SEC_W + ' × ' + briefH);
       sel.style.display = '';
     } else sel.style.display = 'none';
+    arrange(innerWidth < 700);
     placePins();
+    computeBounds();
+    /* phones: the canvas is exactly as tall as the whole file at full width */
+    if (arranged && !full) { var P = ovPad(), s0 = (stage.clientWidth - P.sx * 2) / bounds.w; stage.style.setProperty('--vp-h', Math.round(bounds.h * s0 + P.top + P.bot) + 'px'); }
+    else stage.style.removeProperty('--vp-h');
     vw = vp.clientWidth; vh = vp.clientHeight;
-    computeBounds(); buildMini();
+    buildMini(); refreshOv();
     homeCam = home();
     if (first) { cam = { x: homeCam.x, y: homeCam.y, s: homeCam.s }; apply(); }
     else { clamp(); apply(); }
@@ -1947,6 +2026,7 @@
     apply();
     if (p > .97 && !reelHinted) { reelHinted = true; hint('That’s the whole file. Click a section to open it, or keep scrolling.', 2800); } /* NEW COPY: hint */
   }
+  addEventListener('scroll', function () { if (arranged && !full && !loadT) loadT = setTimeout(loadVisible, 90); }, { passive: true }); /* phones: the overview fills in as it scrolls up */
   addEventListener('scroll', function () { if (!reelRaf && html.classList.contains('reel-on')) reelRaf = requestAnimationFrame(function () { reelRaf = 0; reelTick(); }); }, { passive: true });
   function takeCam() { userCam = true; }
   /* a small view stack: going into a group remembers the exact view you came from (the scroll moment's included), and
@@ -2169,26 +2249,33 @@
   var layersBtn = $('layersBtn');
   var lyr = [{ id: '_brief', title: 'Start here' }].concat(ORDER.map(function (id) { return byId[id]; }), [{ id: 'start', title: 'Your next job' }]); /* NEW COPY: "Start here", "Your next job" */
   function fitSection(id, dur) {
-    if (inGroup === id && views.length) { exitGroup(); return; } /* the same row again: back out */
+    if (inGroup === id && views.length) { exitGroup(); return null; } /* the same row again: back out */
     var r = secRects[id], to = fitRect({ x: r.x, y: r.y - 40, w: r.w, h: r.h + 40 }, 70, 1);
     if (dur === 0) { takeCam(); animateTo(to, 0); } else enterGroup(to, id, id === 'start' ? 'Your next job' : byId[id].title);
+    return to;
   }
+  function setLayers(open) {
+    if (!open && layersList.contains(document.activeElement)) layersBtn.focus({ preventScroll: true });
+    layersBtn.setAttribute('aria-expanded', String(open)); layersList.hidden = !open; $('layersCue').textContent = open ? '−' : '+';
+  }
+  /* Layers works like a menu: picking a group closes it, so it never sits on the work it just brought into view */
+  function afterPick() { setLayers(false); }
   lyr.forEach(function (j) {
     var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
     b.innerHTML = ICON_SEC + '<span></span>'; b.lastChild.textContent = j.title; b._id = j.id;
-    b.addEventListener('click', function () { if (j.id === '_brief') { if (briefIn) goHome(); return; } fitSection(j.id); });
+    b.addEventListener('click', function () {
+      if (j.id === '_brief') { if (briefIn) { goHome(); afterPick('_brief', home()); } return; }
+      afterPick(j.id, fitSection(j.id));
+    });
     li.appendChild(b); layersList.appendChild(li);
   });
-  layersBtn.addEventListener('click', function () {
-    var open = layersBtn.getAttribute('aria-expanded') === 'true';
-    layersBtn.setAttribute('aria-expanded', String(!open)); layersList.hidden = open; $('layersCue').textContent = open ? '+' : '−';
-  });
+  layersBtn.addEventListener('click', function () { setLayers(layersBtn.getAttribute('aria-expanded') !== 'true'); });
 
   /* ------------------------------------------------------------------ Explore */
   var exploreLbl = $('exploreLbl'), explored = false;
   function enterFull() {
     full = true; takeCam(); stage.classList.add('full'); html.classList.add('lock');
-    vw = vp.clientWidth; vh = vp.clientHeight; buildMini();
+    vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv();
     vp.focus({ preventScroll: true });
     animateTo(fitRect(secRects.partner, 20), 0);
     hint('Drag with one finger. Pinch to zoom. Tap a frame to open it.', 3200); /* NEW COPY: hint */
@@ -2266,79 +2353,88 @@
     cam = { s: s, x: m.cam0.x + cx * m.cam0.s - cx * s, y: m.cam0.y + cy * m.cam0.s - cy * s }; apply();
     return cam;
   }
-  function targetOf(m) { /* the same picture's place in the sheet, if it is on screen there */
-    var el = shMosaic.querySelector('[data-i="' + m.idx + '"]') || (m.idx === 0 ? shMosaic.querySelector('.mo') : null);
+  function targetOf(m, frac) { /* the same picture's place in the sheet, if (enough of) it is on screen there */
+    var el = shMosaic.querySelector('[data-i="' + m.idx + '"]') || (m.idx === 0 ? shMosaic.querySelector('.mo') : null) || ((byId[m.job].versions || []).indexOf(m.idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
     if (!el) return null;
     var r = boxR(el.getBoundingClientRect()), sr = boxR(shScroll.getBoundingClientRect()), v = inter(r, sr);
-    if (!(v.h > r.h * .35 && v.w > 20)) return null;
+    if (!(v.h > r.h * (frac || .35) && v.w > 20)) return null;
     r.el = el; return r;
   }
+  /* the sheet's two layers (its bar and its scroller) ride one transform about the viewport's origin */
+  function kidsOf() { var k = [sheet.querySelector('.sh-bar'), shScroll]; k.forEach(function (el) { var r = el.getBoundingClientRect(); el.style.transformOrigin = (-r.left) + 'px ' + (-r.top) + 'px'; }); return k; }
+  function clipTo(el, W, B) { el.style.clipPath = 'inset(' + (W.y - B.y) + 'px ' + (B.x + B.w - W.x - W.w) + 'px ' + (B.y + B.h - W.y - W.h) + 'px ' + (W.x - B.x) + 'px)'; }
+  function unmorph(kids) {
+    kids.forEach(function (el) { el.style.transform = ''; el.style.transformOrigin = ''; el.style.opacity = ''; });
+    sheet.style.clipPath = ''; sheet.style.removeProperty('--bd'); sheet.style.removeProperty('--sa');
+  }
+  /* Frame <-> sheet is one container move on one clock. The sheet grows out of the frame: its contents ride a single
+     transform that carries the job's picture from exactly where it sits in the frame to its own place in the sheet, while
+     the sheet's window opens from the frame's rect to the full sheet. Picture and sheet are one piece, so they land together.
+     The frame's picture rides on top (same place, same size) until the sheet's own copy has decoded, so nothing snaps.
+     Closing (with that picture still in view) runs the same path back. clip, transform and opacity only. */
   function runMorph(m, opening, done) {
     morphing = 1; vp.classList.add('moving'); stopTween();
-    var dur = (opening ? 520 : 460) * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect()), T = targetOf(m);
-    var kids = [sheet.querySelector('.sh-bar'), shScroll];
-    sheet.classList.add('mph'); m.el.style.visibility = 'hidden'; if (T) T.el.style.visibility = 'hidden'; /* one picture at a time: the travelling one */
+    var S = boxR(sheet.getBoundingClientRect()), T = targetOf(m, opening ? .35 : .6);
+    if (!T) { morphing = 0; vp.classList.remove('moving'); if (opening) { sheet.classList.remove('mph', 'landed'); m.el.style.visibility = ''; if (done) done(); } return false; } /* opening: it pops in instead */
+    var dur = (opening ? 520 : 480) * (window.__morphSlow || 1), t0 = performance.now(), kids = kidsOf();
+    sheet.classList.add('mph'); m.el.style.visibility = 'hidden';
+    if (!opening) shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    morphEl.classList.remove('hold');
     morphImg.style.setProperty('--ph', m.ph); if (morphImg.getAttribute('src') !== m.img) morphImg.src = m.img;
-    var IT = T ? cover(T, m.ar, '50% 50%') : cover(S, m.ar, '50% 50%');
-    morphImg.style.width = IT.w + 'px'; morphImg.style.height = IT.h + 'px';
+    morphImg.style.width = T.w + 'px'; morphImg.style.height = T.h + 'px';
     function paint(t) {
       var p = opening ? EASE(t) : 1 - EASE(t);
-      var c = m.cam0 ? pushCam(m, p) : null, F = m.rect(c);
-      var W = lerpR(F, S, p), G = inter(lerpR(F, T || S, p), W), I = lerpR(cover(F, m.ar, m.op), IT, p);
-      sheet.style.clipPath = 'inset(' + (W.y - S.y) + 'px ' + (S.x + S.w - W.x - W.w) + 'px ' + (S.y + S.h - W.y - W.h) + 'px ' + (W.x - S.x) + 'px)';
+      var c = m.cam0 ? pushCam(m, p) : null, F = m.rect(c), I0 = cover(F, m.ar, m.op);
+      var I = lerpR(I0, T, p), k = I.w / T.w, dx = I.x - k * T.x, dy = I.y - k * T.y;
+      var Sc = { x: dx + k * S.x, y: dy + k * S.y, w: k * S.w, h: k * S.h }, Wn = inter(lerpR(F, S, p), Sc), G = inter(I, Wn);
+      clipTo(sheet, Wn, S);
+      kids.forEach(function (el) { el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')'; el.style.opacity = opening ? smooth(.04, .42, t) : 1 - smooth(.45, .92, t); });
       morphEl.style.clipPath = 'inset(' + G.y + 'px ' + (innerWidth - G.x - G.w) + 'px ' + (innerHeight - G.y - G.h) + 'px ' + G.x + 'px)';
-      morphImg.style.transform = 'translate(' + I.x + 'px,' + I.y + 'px) scale(' + (I.w / IT.w) + ')';
-      var ui = opening ? smooth(.08, .55, t) : 1 - smooth(0, .35, t);
-      kids.forEach(function (k) { k.style.opacity = ui; });
-      sheet.style.setProperty('--sa', opening ? smooth(0, .3, t) : 1 - smooth(.2, .75, t)); /* the sheet's paper */
-      sheet.style.setProperty('--bd', opening ? smooth(0, .5, t) : 1 - smooth(.15, 1, t));
-      morphEl.style.opacity = T ? 1 : opening ? 1 - smooth(.4, .9, t) : smooth(0, .4, t);
+      morphImg.style.transform = 'translate(' + I.x + 'px,' + I.y + 'px) scale(' + k + ')';
+      morphEl.style.opacity = opening ? 1 : smooth(0, .25, t);
+      sheet.style.setProperty('--sa', opening ? smooth(0, .32, t) : 1 - smooth(.5, .95, t)); /* the sheet's paper */
+      sheet.style.setProperty('--bd', opening ? smooth(0, .5, t) : 1 - EASE(t));
     }
     paint(0);
     (function tick(now) {
       var t = Math.min(1, (now - t0) / dur); paint(t);
       if (t < 1) { requestAnimationFrame(tick); return; }
       morphing = 0; vp.classList.remove('moving');
-      sheet.style.clipPath = ''; sheet.style.removeProperty('--bd'); sheet.style.removeProperty('--sa'); kids.forEach(function (k) { k.style.opacity = ''; });
-      if (opening) { /* hand over to the sheet's own picture once it is on screen */
-        sheet.classList.remove('mph');
-        if (T) { morphEl.classList.add('hold'); var pre = new Image(); pre.src = m.full; var tel = T.el, go = function () { tel.style.visibility = ''; requestAnimationFrame(function () { morphEl.classList.remove('hold'); }); }; (pre.decode ? pre.decode() : Promise.resolve()).then(go, go); setTimeout(go, 700); }
+      if (opening) { /* hand over to the sheet's own picture, at the same place, once it has decoded */
+        unmorph(kids); sheet.classList.remove('mph');
+        morphEl.classList.add('hold'); morphEl.style.clipPath = 'inset(' + T.y + 'px ' + (innerWidth - T.x - T.w) + 'px ' + (innerHeight - T.y - T.h) + 'px ' + T.x + 'px)';
+        var own = T.el.querySelector('img, video'), url = own && (own.currentSrc || own.getAttribute('src') || own.poster);
+        var released = false, go = function () { if (released) return; released = true; requestAnimationFrame(function () { morphEl.classList.remove('hold'); morphEl.style.clipPath = ''; if (T.el._reveal) setTimeout(T.el._reveal, 160); }); };
+        if (url) { var pre = new Image(); pre.src = url; (pre.decode ? pre.decode() : Promise.resolve()).then(go, go); } else go();
+        setTimeout(go, 900); shScroll.addEventListener('scroll', go, { once: true });
       }
       if (done) done();
     })(t0);
+    return true;
   }
-  /* Sheet -> frame: the exact reverse, as one container move. The sheet's window shrinks straight into the frame's rect
-     (the camera's push-in unwinds on the same clock), its contents scale down whole inside it (never cropped) while the
-     frame's own picture fades up to fill the window, so it lands as the frame itself. The dim leaves with the window. */
-  function closeMorph(m, done) {
+  /* Sheet -> frame after you have scrolled away from the picture: the whole sheet shrinks as one card (scroll position and
+     all) into the frame's place and fades out on the way, while the camera's push-in unwinds and the dim leaves with it.
+     The frame is already there underneath, so the card simply settles into it. No oversized picture, ever. */
+  function cardClose(m, done) {
     morphing = 1; vp.classList.add('moving'); stopTween();
-    var dur = 460 * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect());
-    var kids = [sheet.querySelector('.sh-bar'), shScroll];
-    kids.forEach(function (k) { var r = k.getBoundingClientRect(); k.style.transformOrigin = (S.x - r.left) + 'px ' + (S.y - r.top) + 'px'; });
-    sheet.classList.add('mph'); m.el.style.visibility = 'hidden';
-    morphEl.classList.remove('hold');
-    morphImg.style.setProperty('--ph', m.ph); if (morphImg.getAttribute('src') !== m.img) morphImg.src = m.img;
-    var op = m.cam0 ? m.op : '50% 50%', IB = cover(S, m.ar, op);
-    morphImg.style.width = IB.w + 'px'; morphImg.style.height = IB.h + 'px';
+    var dur = 440 * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect()), kids = kidsOf();
+    shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    sheet.classList.add('mph'); morphEl.classList.remove('hold'); m.el.style.visibility = '';
     function paint(t) {
       var q = EASE(t), c = m.cam0 ? pushCam(m, 1 - q) : null, F = m.rect(c);
-      var W = lerpR(S, F, q), k = Math.min(W.w / S.w, W.h / S.h), I = cover(W, m.ar, op);
-      sheet.style.clipPath = 'inset(' + (W.y - S.y) + 'px ' + (S.x + S.w - W.x - W.w) + 'px ' + (S.y + S.h - W.y - W.h) + 'px ' + (W.x - S.x) + 'px)';
-      var tx = W.x + (W.w - S.w * k) / 2 - S.x, ty = W.y + (W.h - S.h * k) / 2 - S.y, ui = 1 - smooth(0, .22, t);
-      kids.forEach(function (el) { el.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + k + ')'; el.style.opacity = ui; });
-      morphEl.style.clipPath = 'inset(' + W.y + 'px ' + (innerWidth - W.x - W.w) + 'px ' + (innerHeight - W.y - W.h) + 'px ' + W.x + 'px)';
-      morphImg.style.transform = 'translate(' + I.x + 'px,' + I.y + 'px) scale(' + (I.w / IB.w) + ')';
-      morphEl.style.opacity = smooth(0, .2, t);
-      sheet.style.setProperty('--sa', 1 - smooth(.22, .36, t));
-      sheet.style.setProperty('--bd', 1 - q);
+      var k1 = Math.min(F.w / S.w, F.h / S.h), k = Math.exp(Math.log(k1) * q);
+      var cx = lerp(S.x + S.w / 2, F.x + F.w / 2, q), cy = lerp(S.y + S.h / 2, F.y + F.h / 2, q);
+      var W = { w: S.w * k, h: S.h * k }; W.x = cx - W.w / 2; W.y = cy - W.h / 2;
+      clipTo(sheet, W, S);
+      var ui = 1 - smooth(.18, .78, t);
+      kids.forEach(function (el) { el.style.transform = 'translate(' + (W.x - k * S.x) + 'px,' + (W.y - k * S.y) + 'px) scale(' + k + ')'; el.style.opacity = ui; });
+      sheet.style.setProperty('--sa', ui); sheet.style.setProperty('--bd', 1 - q);
     }
     paint(0);
     (function tick(now) {
       var t = Math.min(1, (now - t0) / dur); paint(t);
       if (t < 1) { requestAnimationFrame(tick); return; }
       morphing = 0; vp.classList.remove('moving');
-      kids.forEach(function (el) { el.style.transform = ''; el.style.transformOrigin = ''; el.style.opacity = ''; });
-      morphEl.style.clipPath = ''; morphEl.style.opacity = ''; sheet.style.removeProperty('--sa');
       if (done) done();
     })(t0);
   }
@@ -2358,7 +2454,11 @@
     if (!sheet.open || morphing) return;
     var m = mo;
     if (!MOTION) { sheet.close(); return; }
-    if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) { closeMorph(m, function () { sheet.close(); }); return; }
+    if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) {
+      /* the picture still in view: the exact reverse of the opening. Scrolled away from it: the sheet settles in as one card */
+      if (!runMorph(m, false, function () { sheet.close(); })) cardClose(m, function () { sheet.close(); });
+      return;
+    }
     /* a different job is showing now (or the list moved on): it settles back and fades where it is, the dim with it,
        and the camera's push-in unwinds on the same clock */
     morphing = 1; var t0 = performance.now();
@@ -2384,7 +2484,7 @@
     renderMosaic(j, idx);
     shScroll.scrollTop = 0;
     if (idx > 0) {
-      var t = shMosaic.querySelector('[data-i="' + idx + '"]');
+      var t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
       if (t && still) { /* morphing: the picture lands in place, so put its place on screen first */
         var tr = t.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
         if (tr.bottom > sr.bottom - 24) shScroll.scrollTop = Math.max(0, tr.top - sr.top - Math.max(24, (sr.height - tr.height) / 2));
@@ -2415,7 +2515,23 @@
     }
     rng.addEventListener('input', function () { setP(parseFloat(rng.value)); });
     btns.forEach(function (bt) { bt.addEventListener('click', function () { setP(parseFloat(bt.dataset.v), true); }); });
+    /* arriving from the key visual's frame: it lands showing the final (the picture that travelled), then the handle
+       glides to the middle to show round 1 beside it, so the hand-over never snaps */
+    if (MOTION && (hl === j.versions[0] || hl === j.versions[1])) {
+      setP(hl === j.versions[0] ? 100 : 0); var shown = false;
+      fig._reveal = function () { if (shown) return; shown = true; setP(50, true); };
+      setTimeout(fig._reveal, 1400);
+    }
     return w;
+  }
+  /* Sheet pictures load as soon as the sheet opens, never lazily: the small thumbnail first (usually already cached by the
+     canvas, so there is never an empty block, however fast you scroll), then the full picture swaps in once it has decoded. */
+  var fullQ = [];
+  function sharpen(el, url) { fullQ.push([el, url]); }
+  function sharpenNow(el, url) {
+    var pre = new Image(); pre.decoding = 'async';
+    pre.onload = function () { if (!el.isConnected) return; (pre.decode ? pre.decode() : Promise.resolve()).then(function () { if (!el.isConnected) return; if (el.tagName === 'VIDEO') el.poster = url; else el.src = url; }, function () {}); };
+    pre.src = url;
   }
   function renderMosaic(j, hl) {
     if (vidIO) vidIO.disconnect();
@@ -2440,7 +2556,7 @@
         var d = it.d, fig = document.createElement('figure'); fig.className = 'mo' + (it.i === hl && hl > 0 ? ' hl' : ''); fig.dataset.i = it.i;
         fig.style.cssText = '--ar:' + it.ar.toFixed(4) + ';--ph:' + d[5];
         if (d[1]) {
-          var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.poster = M + d[0]; v.dataset.src = M + d[1];
+          var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.poster = T + d[0]; v.dataset.src = M + d[1]; sharpen(v, M + d[0]);
           v.setAttribute('aria-label', d[4]);
           fig.appendChild(v);
           var pb = document.createElement('button'); pb.type = 'button'; pb.className = 'play auto'; pb.innerHTML = ICON_PLAY + '<span>Play</span>';
@@ -2448,7 +2564,7 @@
           fig.appendChild(pb);
           vidIO.observe(v);
         } else {
-          var im = document.createElement('img'); im.loading = 'lazy'; im.decoding = 'async'; im.src = M + d[0]; im.alt = d[4]; fig.appendChild(im);
+          var im = document.createElement('img'); im.decoding = 'async'; im.src = T + d[0]; im.alt = d[4]; fig.appendChild(im); sharpen(im, M + d[0]);
         }
         var cap = document.createElement('figcaption'); cap.textContent = d[4]; fig.appendChild(cap);
         row.appendChild(fig);
@@ -2456,6 +2572,11 @@
       shMosaic.appendChild(row);
       if (ri === 0 && j.versions) shMosaic.appendChild(versionBlock(j, hl));
     });
+    /* the full pictures start only once every thumbnail is in, so the thumbnails never queue behind them */
+    var q = fullQ; fullQ = [];
+    var thumbs = [].slice.call(shMosaic.querySelectorAll('.mo img')).map(function (im) { return im.complete ? Promise.resolve() : new Promise(function (r) { im.addEventListener('load', r, { once: true }); im.addEventListener('error', r, { once: true }); }); });
+    var started = false, startFull = function () { if (started) return; started = true; q.forEach(function (x) { sharpenNow(x[0], x[1]); }); };
+    Promise.all(thumbs).then(startFull); setTimeout(startFull, 1500);
   }
   function step(dir) { var i = ORDER.indexOf(curJob); showJob(ORDER[(i + dir + ORDER.length) % ORDER.length], 0); }
   $('shPrev').addEventListener('click', function () { step(-1); });
@@ -2478,12 +2599,13 @@
     shMosaic.innerHTML = '';
     try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
     /* whatever closed it, the frame comes back and the canvas is where it was */
-    sheet.classList.remove('mph', 'landed'); morphEl.classList.remove('hold'); sheet.style.clipPath = ''; sheet.style.opacity = ''; sheet.style.removeProperty('--bd');
+    sheet.classList.remove('mph', 'landed'); morphEl.classList.remove('hold'); morphEl.style.clipPath = ''; morphEl.style.opacity = ''; sheet.style.opacity = ''; sheet.style.transform = '';
+    unmorph([sheet.querySelector('.sh-bar'), shScroll]);
     if (mo) { mo.el.style.visibility = ''; if (mo.cam0) { cam = { x: mo.cam0.x, y: mo.cam0.y, s: mo.cam0.s }; apply(); } mo = null; reelP = -1; reelTick(); }
     if (lastFocus && lastFocus.focus && document.contains(lastFocus)) { quietFocus = true; lastFocus.focus({ preventScroll: true }); quietFocus = false; }
   });
   var rT = 0; addEventListener('resize', function () {
-    clearTimeout(rT); rT = setTimeout(function () { if (!full) layout(false); else { vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); apply(); } if (sheet.open && curJob) renderMosaic(byId[curJob], -1); }, 120);
+    clearTimeout(rT); rT = setTimeout(function () { if (!full) layout(false); else { vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv(); apply(); } if (sheet.open && curJob) renderMosaic(byId[curJob], -1); }, 120);
   });
 
   /* ------------------------------------------------------------------ the reel: the studio's motion and design reel, full screen
@@ -2512,8 +2634,8 @@
     $('rpSndI').innerHTML = on ? ICON_SND_ON : ICON_SND_OFF;
     if (save) try { sessionStorage.setItem('sr-reel-sound', on ? 'on' : 'off'); } catch (e) {}
   }
-  function rpLoad() { /* the poster and the file, only now */
-    if (!rpV.getAttribute('poster')) rpV.poster = rpV.dataset.poster;
+  function rpLoad() { /* the poster (usually already fetched, see rpPoster) and the file, only now */
+    rpPoster(); if (!rpV.getAttribute('poster')) rpV.poster = rpV.dataset.poster;
     if (!rpV.getAttribute('src')) { rpV.preload = 'metadata'; rpV.src = rpV.dataset.src; }
   }
   function rpPlay() {
@@ -2611,7 +2733,9 @@
     rpBusy = 1; rp.classList.remove('idle');
     var r = !fade && !wasFull && rpFrom(rpTrigger), D = rp.getBoundingClientRect(), a;
     if (r) {
+      /* the dark window fades out as it shrinks, so it never lands on the button as a dark blob */
       a = rp.animate({ clipPath: [rpClip(null, D), rpClip(r, D)] }, { duration: 460, easing: RP_EASE, fill: 'forwards' });
+      rp.animate([{ opacity: 1 }, { opacity: 1, offset: .1 }, { opacity: 0, offset: .55 }, { opacity: 0 }], { duration: 460, easing: 'linear', fill: 'forwards' });
       rpStage.animate({ opacity: [1, 0] }, { duration: 380, easing: 'ease', fill: 'forwards' });
       rpChrome().concat([rpEnd]).forEach(function (c) { c.animate({ opacity: [1, 0] }, { duration: 160, easing: 'ease', fill: 'forwards' }); });
     } else a = rp.animate({ opacity: [1, 0] }, { duration: 280, easing: 'cubic-bezier(.4, 0, .1, 1)', fill: 'forwards' });
@@ -2695,7 +2819,14 @@
     else if (k === 'ArrowRight' || k === 'ArrowLeft') { e.preventDefault(); rpSeekTo((rpV.currentTime || 0) + (k === 'ArrowRight' ? 5 : -5)); }
     else if ((k === 'Home' || k === 'End') && e.target === rpSeek) { e.preventDefault(); rpSeekTo(k === 'Home' ? 0 : rpDur()); }
   });
-  document.querySelectorAll('[data-reel]').forEach(function (b) { b.addEventListener('click', openReel); });
+  document.querySelectorAll('[data-reel]').forEach(function (b) {
+    b.addEventListener('click', openReel);
+    /* the poster is in hand before the player opens: fetched on the first sign of intent (hover, focus, touch) */
+    ['pointerenter', 'focus', 'touchstart'].forEach(function (t) { b.addEventListener(t, rpPoster, { passive: true, once: true }); });
+  });
+  var rpPosterImg = null;
+  function rpPoster() { if (rpPosterImg) return; rpPosterImg = new Image(); rpPosterImg.src = rpV.dataset.poster; }
+  addEventListener('load', function () { setTimeout(function () { (window.requestIdleCallback || setTimeout)(rpPoster); }, 1500); }); /* 25 KB, once, after the page has settled */
 
   /* ------------------------------------------------------------------ theme: Light, Dark or System, with a circular reveal */
   var mqDark = matchMedia('(prefers-color-scheme: dark)'), themeEl = $('theme'), themeColor = $('themeColor');
