@@ -198,7 +198,7 @@
 
   /* sections: a tinted area with its name tab, like a Figma section. Frames live inside (one group each). */
   .sec { position: absolute; background: var(--sec-bg); border: calc(1px * var(--k)) solid var(--sec-line); border-radius: calc(6px * var(--k)); transition: background .3s, border-color .3s; }
-  .sec-t { position: absolute; left: 0; bottom: 100%; transform-origin: 0 100%; transform: scale(var(--k)); padding-bottom: 8px; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: opacity .25s; }
+  .sec-t { position: absolute; left: 0; bottom: 100%; transform-origin: 0 100%; transform: scale(var(--k)); padding-bottom: 8px; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: opacity .18s; }
   .sec-t button { display: inline-flex; align-items: center; gap: 8px; background: var(--chip); color: var(--chip-ink); border: 0; border-radius: 5px; padding: 6px 10px 5px; font: 600 14px/1 var(--body); cursor: pointer; }
   .sec-t button:hover { background: var(--cta); color: var(--cta-ink); }
   .sec-t button svg { width: 11px; height: 11px; }
@@ -211,7 +211,7 @@
   .sec-big { position: absolute; left: 0; top: 0; transform-origin: 0 0; transform: scale(var(--k)); max-width: calc(var(--sw) * var(--s) * .92px); padding: 9px 13px 11px; background: var(--chip); color: var(--chip-ink); border-radius: 6px 0 10px 0; box-shadow: 0 12px 26px -12px rgba(0,0,0,.55); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; z-index: 2; --fs: calc(var(--sw) * var(--s) * .062px); }
   .sec-big small { display: block; font: 500 10px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #ff8a4c; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sec-big b { display: block; margin-top: 5px; font: 900 clamp(14px, var(--fs), 26px)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
-  .world.z-far .sec-big { opacity: 1; visibility: visible; transition: opacity .3s; }
+  .world.z-far .sec-big { opacity: 1; visibility: visible; transition: opacity .28s .1s; } /* the small labels leave first, then the big ones arrive: no double image mid-zoom */
   .world.z-far .sec-t, .world.z-far .fr .vb, .world.z-far .fr .lb, .world.z-far .nj { opacity: 0; }
   .world.z-far .cpin { opacity: 0; pointer-events: none; }
 
@@ -327,6 +327,7 @@
   dialog.show[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
   dialog.show::backdrop { background: #0f0f0f; }
   .motion dialog.show[open] { animation: fade .35s ease; }
+  dialog.show.out, dialog.show.out::backdrop { opacity: 0; transition: opacity .28s cubic-bezier(.4, 0, .1, 1); pointer-events: none; }
   .sw-top { display: flex; align-items: center; gap: 14px; padding: 14px clamp(16px, 3vw, 32px); }
   .sw-t { display: flex; align-items: center; gap: 9px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #c9c5bc; white-space: nowrap; }
   .sw-t svg { width: 16px; height: 16px; color: #fe5000; }
@@ -927,11 +928,12 @@
   @keyframes pop { from { opacity: 0; transform: translateY(18px) scale(.98); } }
   /* frame -> sheet: one gesture, driven by script (see "job sheet"). While it runs the sheet is clipped to a growing window,
      its chrome fades up, and the frame's picture travels inside it to its own place in the sheet. */
-  .motion dialog.sheet.mo[open], .motion dialog.sheet.mo[open]::backdrop, .motion dialog.sheet.landed[open], .motion dialog.sheet.landed[open]::backdrop { animation: none; }
-  dialog.sheet.mo { box-shadow: none; background: color-mix(in srgb, var(--paper) calc(var(--sa, 1) * 100%), transparent); border-color: color-mix(in srgb, var(--line) calc(var(--sa, 1) * 100%), transparent); }
+  .motion dialog.sheet.mph[open], .motion dialog.sheet.mph[open]::backdrop, .motion dialog.sheet.landed[open], .motion dialog.sheet.landed[open]::backdrop { animation: none; }
+  /* (mph, not mo: .mo is a mosaic figure, and its position: relative must never reach the dialog, or opening it scrolls the page to the top) */
+  dialog.sheet.mph { box-shadow: none; background: color-mix(in srgb, var(--paper) calc(var(--sa, 1) * 100%), transparent); border-color: color-mix(in srgb, var(--line) calc(var(--sa, 1) * 100%), transparent); }
   dialog.sheet::backdrop { opacity: var(--bd, 1); }
   .morph { display: none; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: none; overflow: hidden; }
-  dialog.sheet.mo .morph, .morph.hold { display: block; }
+  dialog.sheet.mph .morph, .morph.hold { display: block; }
   .morph img { position: absolute; left: 0; top: 0; max-width: none; transform-origin: 0 0; background: var(--ph, #888); }
   ::view-transition-group(root) { animation-duration: .3s; }
   @keyframes fade { from { opacity: 0; } }
@@ -1737,14 +1739,14 @@
   }
   /* Load only what is on screen: a small thumbnail while a frame is small, the full poster once it is big. */
   var DPR = Math.min(2, window.devicePixelRatio || 1);
-  function loadVisible() {
-    loadT = 0;
+  function loadVisible(c) { /* c: a view the camera is about to reach, so its pictures are in before it lands */
+    if (!c || !c.s) { loadT = 0; c = cam; }
     var r = stage.getBoundingClientRect();
     if (r.bottom < -200 || r.top > innerHeight + 200) return;
-    var m = (full || innerWidth >= 960 ? 160 : 16) / cam.s, x0 = -cam.x / cam.s - m, y0 = -cam.y / cam.s - m, x1 = (vw - cam.x) / cam.s + m, y1 = (vh - cam.y) / cam.s + m;
+    var m = (full || innerWidth >= 960 ? 160 : 16) / c.s, x0 = -c.x / c.s - m, y0 = -c.y / c.s - m, x1 = (vw - c.x) / c.s + m, y1 = (vh - c.y) / c.s + m;
     for (var i = 0; i < frames.length; i++) {
       var f = frames[i]; if (f.tier === 2) continue;
-      var sw = f.w * cam.s; if (sw < 24) continue;
+      var sw = f.w * c.s; if (sw < 24) continue;
       if (!(f.x + f.w > x0 && f.x < x1 && f.y + f.h > y0 && f.y < y1)) continue;
       var need = sw * DPR > 380 ? 2 : 1;
       if (need > f.tier) setTier(f, need);
@@ -1756,22 +1758,33 @@
     var pre = new Image(); pre.decoding = 'async'; pre.onload = function () { f.img.src = src; }; pre.src = src;
   }
   function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  function stopTween() { if (tween) cancelAnimationFrame(tween); tween = 0; vp.classList.remove('moving'); }
+  var CAM_EASE = bezier(.4, 0, .1, 1), CAM_GO = bezier(.2, .45, .1, 1); /* every camera move: an easy start and a long, soft landing (the morph's curve, eased in a touch) */
+  function stopTween() { if (tween) cancelAnimationFrame(tween); tween = 0; stopWheel(); vp.classList.remove('moving'); }
+  /* Every camera move zooms about the one point that sits still in both views (log-scale zoom, and the view centre
+     travels by 1/s rather than linearly), so a zoom-out never swings sideways first. A pure pan stays a straight line. */
   function camLerp(from, to, e) {
-    var s = Math.exp(Math.log(from.s) + (Math.log(to.s) - Math.log(from.s)) * e);
+    var l0 = Math.log(from.s), l1 = Math.log(to.s), s = Math.exp(l0 + (l1 - l0) * e);
+    var g = Math.abs(l1 - l0) > 1e-4 ? (1 / s - 1 / from.s) / (1 / to.s - 1 / from.s) : e;
     var cx0 = (vw / 2 - from.x) / from.s, cy0 = (vh / 2 - from.y) / from.s, cx1 = (vw / 2 - to.x) / to.s, cy1 = (vh / 2 - to.y) / to.s;
-    var cx = cx0 + (cx1 - cx0) * e, cy = cy0 + (cy1 - cy0) * e;
+    var cx = cx0 + (cx1 - cx0) * g, cy = cy0 + (cy1 - cy0) * g;
     return { s: s, x: vw / 2 - cx * s, y: vh / 2 - cy * s };
   }
+  /* one duration rule for every camera move: longer for a bigger change of scale or a longer trip, never sluggish */
+  function camDur(to) {
+    var dl = Math.abs(Math.log(to.s / cam.s)), m = Math.min(to.s, cam.s);
+    var d = Math.hypot((vw / 2 - cam.x) / cam.s - (vw / 2 - to.x) / to.s, (vh / 2 - cam.y) / cam.s - (vh / 2 - to.y) / to.s) * m;
+    return Math.round(Math.min(760, Math.max(260, 300 + 330 * dl + 0.18 * d)));
+  }
   function animateTo(to, dur, done) {
+    var flying = !!tween; /* retargeted mid-flight: leave at speed on the new curve, no stop-and-restart */
     stopTween();
+    if (dur === 'auto') dur = camDur(to);
     if (!MOTION || !dur) { cam.x = to.x; cam.y = to.y; cam.s = to.s; apply(); if (done) done(); return; }
     var from = { x: cam.x, y: cam.y, s: cam.s }, t0 = performance.now();
-    vp.classList.add('moving');
+    vp.classList.add('moving'); loadVisible(to);
     (function step(now) {
       var t = Math.min(1, (now - t0) / dur);
-      /* log-scale zoom and a straight screen-space path */
-      cam = camLerp(from, to, ease(t)); apply();
+      cam = camLerp(from, to, (flying ? CAM_GO : CAM_EASE)(t)); apply();
       if (t < 1) tween = requestAnimationFrame(step); else { tween = 0; vp.classList.remove('moving'); cam = { x: to.x, y: to.y, s: to.s }; apply(); if (done) done(); }
     })(t0);
   }
@@ -1786,6 +1799,19 @@
     cam.s = s; cam.x = px - wx * s; cam.y = py - wy * s; clamp(); apply();
   }
   function panBy(dx, dy) { cam.x += dx; cam.y += dy; clamp(); apply(); }
+  /* a mouse wheel's notches glide to their zoom (anchored under the pointer); trackpad pinches stay 1:1. The loop ends when it lands. */
+  var wz = null;
+  function stopWheel() { if (wz) { cancelAnimationFrame(wz.raf); wz = null; } }
+  function wheelZoom(px, py, f, glide) {
+    if (!glide || !MOTION) { stopWheel(); zoomAt(px, py, f); return; }
+    if (!wz) wz = { s: cam.s, raf: 0 };
+    wz.px = px; wz.py = py; wz.s = Math.min(MAX_S, Math.max(MIN_S, wz.s * f));
+    if (!wz.raf) wz.raf = requestAnimationFrame(function glideZ() {
+      var k = Math.log(wz.s / cam.s);
+      if (Math.abs(k) < 0.003) { zoomAt(wz.px, wz.py, wz.s / cam.s); wz = null; return; }
+      zoomAt(wz.px, wz.py, Math.exp(k * 0.32)); wz.raf = requestAnimationFrame(glideZ);
+    });
+  }
 
   function home() {
     if (briefIn) {
@@ -1825,19 +1851,41 @@
   }
 
   /* ------------------------------------------------------------------ the one scroll moment: zoom out to the whole file
-     Native scroll only (sticky stage, half a viewport). Off with Motion off, on small screens, or once you move the camera yourself. */
-  var reelP = -1, reelRaf = 0, reelHinted = false;
-  function reelActive() { return html.classList.contains('reel-on') && briefIn && !full && !userCam && MOTION && !tween && !morphing && !(sheet && sheet.open); }
+     Native scroll only (sticky stage, half a viewport). Off with Motion off and on small screens.
+     It never fights you: once you move the camera yourself, the next scroll re-anchors the moment on the view you left, so
+     scrolling on blends from exactly there (on to the whole file, or back to the start) with no snap. */
+  var reelP = -1, reelRaf = 0, reelHinted = false, reelPre = false, anchor = null;
+  function reelActive() { return html.classList.contains('reel-on') && briefIn && !full && MOTION && !tween && !wz && !inertia && !drag && !morphing && !(sheet && sheet.open); }
+  function reelF(p) { return p + (p * p * (3 - 2 * p) - p) * .6; } /* close to 1:1 with the scroll so it tracks the hand, softened only at the two ends */
   function reelTick() {
     if (!reelActive()) return;
     var r = reelEl.getBoundingClientRect(), span = reelEl.offsetHeight - stage.offsetHeight; if (span < 20) return;
     var p = Math.min(1, Math.max(0, (60 - r.top) / span));
     if (p === reelP) return; reelP = p;
-    cam = camLerp(homeCam, overview(), ease(p)); apply();
+    if (p > 0 && !reelPre) { reelPre = true; loadVisible(overview()); } /* the moment it starts, fetch what the end of it shows */
+    if (userCam) { userCam = false; anchor = { f: reelF(p), c: { x: cam.x, y: cam.y, s: cam.s } }; return; } /* hand-off: stay put this tick */
+    var f = reelF(p), H = homeCam, O = overview();
+    if (!anchor) cam = camLerp(H, O, f);
+    else if (f <= anchor.f) cam = anchor.f < 1e-4 ? anchor.c : camLerp(H, anchor.c, f / anchor.f);
+    else cam = anchor.f > 1 - 1e-4 ? anchor.c : camLerp(anchor.c, O, (f - anchor.f) / (1 - anchor.f));
+    apply();
     if (p > .97 && !reelHinted) { reelHinted = true; hint('That’s the whole file. Click a section to open it, or keep scrolling.', 2800); } /* NEW COPY: hint */
   }
   addEventListener('scroll', function () { if (!reelRaf && html.classList.contains('reel-on')) reelRaf = requestAnimationFrame(function () { reelRaf = 0; reelTick(); }); }, { passive: true });
   function takeCam() { userCam = true; }
+  /* a small view stack: going into a group remembers the exact view you came from (the scroll moment's included), and
+     leaving it (Esc, or the same Layers row again) eases back to that view on the same curve */
+  var views = [], inGroup = null;
+  function enterGroup(to, id) {
+    if (!views.length) views.push({ x: cam.x, y: cam.y, s: cam.s });
+    inGroup = id || 'view'; takeCam(); animateTo(to, 'auto');
+  }
+  function exitGroup() {
+    var v = views.pop(); inGroup = null; views.length = 0; if (!v) return false;
+    takeCam(); animateTo(v, 'auto'); return true;
+  }
+  function forgetGroup() { views.length = 0; inGroup = null; }
+  stage.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !e.defaultPrevented && views.length) { e.preventDefault(); exitGroup(); } }); /* Esc from the Layers list or the toolbar too */
 
   /* ------------------------------------------------------------------ input: drag to pan, pinch, wheel with modifiers, keys */
   var pts = new Map(), drag = null, pinch = null, vel = { x: 0, y: 0, t: 0 }, inertia = 0;
@@ -1897,7 +1945,7 @@
   /* Wheel: the page keeps scrolling. Only a modifier (zoom) or a sideways swipe (pan) talks to the canvas. */
   vp.addEventListener('wheel', function (e) {
     var k = e.deltaMode === 1 ? 16 : 1, dx = e.deltaX * k, dy = e.deltaY * k, r = vp.getBoundingClientRect();
-    if (e.ctrlKey || e.metaKey) { e.preventDefault(); stopTween(); takeCam(); zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-dy * 0.0022)); return; }
+    if (e.ctrlKey || e.metaKey) { e.preventDefault(); if (tween) stopTween(); takeCam(); wheelZoom(e.clientX - r.left, e.clientY - r.top, Math.exp(-dy * 0.0022), e.deltaMode !== 0 || Math.abs(dy) >= 40); return; }
     if (e.shiftKey || e.altKey) { e.preventDefault(); stopTween(); takeCam(); panBy(-(dx || dy), e.altKey ? -dy : 0); return; }
     if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 1) { e.preventDefault(); stopTween(); takeCam(); panBy(-dx, 0); return; }
     if (!full && !reelActive()) hint('Scrolling the page. Drag to move the canvas, or hold <kbd>' + MOD + '</kbd> and scroll to zoom.', 1800); /* NEW COPY: hint */
@@ -1938,7 +1986,7 @@
       case '-': case '_': zoomStep(1 / 1.25); break;
       case 'f': case 'F': fitAll(); break;
       case '0': goHome(); break;
-      case 'Escape': if (full) exitFull(); else used = false; break;
+      case 'Escape': if (views.length) exitGroup(); else if (full) exitFull(); else used = false; break;
       default: used = false;
     }
     if (used) { e.preventDefault(); takeCam(); }
@@ -1946,9 +1994,9 @@
   /* the viewport must never scroll natively (focus would shift it) */
   vp.addEventListener('scroll', function () { vp.scrollLeft = 0; vp.scrollTop = 0; });
 
-  function zoomStep(f) { takeCam(); var s = Math.min(MAX_S, Math.max(MIN_S, cam.s * f)), cx = vw / 2, cy = vh / 2, wx = (cx - cam.x) / cam.s, wy = (cy - cam.y) / cam.s; animateTo({ s: s, x: cx - wx * s, y: cy - wy * s }, 220); }
-  function fitAll() { takeCam(); animateTo(overview(), 700); }
-  function goHome() { takeCam(); animateTo(home(), 600); }
+  function zoomStep(f) { takeCam(); var s = Math.min(MAX_S, Math.max(MIN_S, cam.s * f)), cx = vw / 2, cy = vh / 2, wx = (cx - cam.x) / cam.s, wy = (cy - cam.y) / cam.s; animateTo({ s: s, x: cx - wx * s, y: cy - wy * s }, 260); }
+  function fitAll() { forgetGroup(); takeCam(); animateTo(overview(), 'auto'); }
+  function goHome() { forgetGroup(); takeCam(); animateTo(home(), 'auto'); }
   $('zIn').addEventListener('click', function () { zoomStep(1.3); });
   $('zOut').addEventListener('click', function () { zoomStep(1 / 1.3); });
   $('zFit').addEventListener('click', fitAll);
@@ -2029,7 +2077,11 @@
   /* layers panel */
   var layersList = $('layersList'), layersBtn = $('layersBtn');
   var lyr = [{ id: '_brief', title: 'Start here' }].concat(ORDER.map(function (id) { return byId[id]; }), [{ id: 'start', title: 'Your next job' }]); /* NEW COPY: "Start here", "Your next job" */
-  function fitSection(id, dur) { takeCam(); var r = secRects[id]; animateTo(fitRect({ x: r.x, y: r.y - 40, w: r.w, h: r.h + 40 }, 70, 1), dur == null ? 650 : dur); }
+  function fitSection(id, dur) {
+    if (inGroup === id && views.length) { exitGroup(); return; } /* the same row again: back out */
+    var r = secRects[id], to = fitRect({ x: r.x, y: r.y - 40, w: r.w, h: r.h + 40 }, 70, 1);
+    if (dur === 0) { takeCam(); animateTo(to, 0); } else enterGroup(to, id);
+  }
   lyr.forEach(function (j) {
     var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
     b.innerHTML = ICON_SEC + '<span></span>'; b.lastChild.textContent = j.title;
@@ -2134,7 +2186,7 @@
     morphing = 1; vp.classList.add('moving'); stopTween();
     var dur = (opening ? 520 : 460) * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect()), T = targetOf(m);
     var kids = [sheet.querySelector('.sh-bar'), shScroll];
-    sheet.classList.add('mo'); m.el.style.visibility = 'hidden'; if (T) T.el.style.visibility = 'hidden'; /* one picture at a time: the travelling one */
+    sheet.classList.add('mph'); m.el.style.visibility = 'hidden'; if (T) T.el.style.visibility = 'hidden'; /* one picture at a time: the travelling one */
     morphImg.style.setProperty('--ph', m.ph); if (morphImg.getAttribute('src') !== m.img) morphImg.src = m.img;
     var IT = T ? cover(T, m.ar, '50% 50%') : cover(S, m.ar, '50% 50%');
     morphImg.style.width = IT.w + 'px'; morphImg.style.height = IT.h + 'px';
@@ -2158,9 +2210,44 @@
       morphing = 0; vp.classList.remove('moving');
       sheet.style.clipPath = ''; sheet.style.removeProperty('--bd'); sheet.style.removeProperty('--sa'); kids.forEach(function (k) { k.style.opacity = ''; });
       if (opening) { /* hand over to the sheet's own picture once it is on screen */
-        sheet.classList.remove('mo');
+        sheet.classList.remove('mph');
         if (T) { morphEl.classList.add('hold'); var pre = new Image(); pre.src = m.full; var tel = T.el, go = function () { tel.style.visibility = ''; requestAnimationFrame(function () { morphEl.classList.remove('hold'); }); }; (pre.decode ? pre.decode() : Promise.resolve()).then(go, go); setTimeout(go, 700); }
       }
+      if (done) done();
+    })(t0);
+  }
+  /* Sheet -> frame: the exact reverse, as one container move. The sheet's window shrinks straight into the frame's rect
+     (the camera's push-in unwinds on the same clock), its contents scale down whole inside it (never cropped) while the
+     frame's own picture fades up to fill the window, so it lands as the frame itself. The dim leaves with the window. */
+  function closeMorph(m, done) {
+    morphing = 1; vp.classList.add('moving'); stopTween();
+    var dur = 460 * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect());
+    var kids = [sheet.querySelector('.sh-bar'), shScroll];
+    kids.forEach(function (k) { var r = k.getBoundingClientRect(); k.style.transformOrigin = (S.x - r.left) + 'px ' + (S.y - r.top) + 'px'; });
+    sheet.classList.add('mph'); m.el.style.visibility = 'hidden';
+    morphEl.classList.remove('hold');
+    morphImg.style.setProperty('--ph', m.ph); if (morphImg.getAttribute('src') !== m.img) morphImg.src = m.img;
+    var op = m.cam0 ? m.op : '50% 50%', IB = cover(S, m.ar, op);
+    morphImg.style.width = IB.w + 'px'; morphImg.style.height = IB.h + 'px';
+    function paint(t) {
+      var q = EASE(t), c = m.cam0 ? pushCam(m, 1 - q) : null, F = m.rect(c);
+      var W = lerpR(S, F, q), k = Math.min(W.w / S.w, W.h / S.h), I = cover(W, m.ar, op);
+      sheet.style.clipPath = 'inset(' + (W.y - S.y) + 'px ' + (S.x + S.w - W.x - W.w) + 'px ' + (S.y + S.h - W.y - W.h) + 'px ' + (W.x - S.x) + 'px)';
+      var tx = W.x + (W.w - S.w * k) / 2 - S.x, ty = W.y + (W.h - S.h * k) / 2 - S.y, ui = 1 - smooth(0, .22, t);
+      kids.forEach(function (el) { el.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + k + ')'; el.style.opacity = ui; });
+      morphEl.style.clipPath = 'inset(' + W.y + 'px ' + (innerWidth - W.x - W.w) + 'px ' + (innerHeight - W.y - W.h) + 'px ' + W.x + 'px)';
+      morphImg.style.transform = 'translate(' + I.x + 'px,' + I.y + 'px) scale(' + (I.w / IB.w) + ')';
+      morphEl.style.opacity = smooth(0, .2, t);
+      sheet.style.setProperty('--sa', 1 - smooth(.22, .36, t));
+      sheet.style.setProperty('--bd', 1 - q);
+    }
+    paint(0);
+    (function tick(now) {
+      var t = Math.min(1, (now - t0) / dur); paint(t);
+      if (t < 1) { requestAnimationFrame(tick); return; }
+      morphing = 0; vp.classList.remove('moving');
+      kids.forEach(function (el) { el.style.transform = ''; el.style.transformOrigin = ''; el.style.opacity = ''; });
+      morphEl.style.clipPath = ''; morphEl.style.opacity = ''; sheet.style.removeProperty('--sa');
       if (done) done();
     })(t0);
   }
@@ -2171,7 +2258,7 @@
     if (m) {
       m.job = id; m.idx = idx; mo = m; stopFrame(); closeThread();
       var pre = new Image(); pre.src = m.full; if (pre.complete) m.img = m.full; /* the sharp poster if it is already here */
-      sheet.classList.add('mo', 'landed');
+      sheet.classList.add('mph', 'landed');
     }
     showJob(id, idx, !!m);
     if (m) runMorph(m, true);
@@ -2180,15 +2267,16 @@
     if (!sheet.open || morphing) return;
     var m = mo;
     if (!MOTION) { sheet.close(); return; }
-    if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) { runMorph(m, false, function () { sheet.close(); }); return; }
-    /* a different job is showing now (or the list moved on): fade out where it is, the camera eases back if it moved */
+    if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) { closeMorph(m, function () { sheet.close(); }); return; }
+    /* a different job is showing now (or the list moved on): it settles back and fades where it is, the dim with it,
+       and the camera's push-in unwinds on the same clock */
     morphing = 1; var t0 = performance.now();
     (function tick(now) {
-      var t = Math.min(1, (now - t0) / 260), e = EASE(t);
-      sheet.style.opacity = 1 - e; sheet.style.setProperty('--bd', 1 - e);
+      var t = Math.min(1, (now - t0) / 300), e = EASE(t);
+      sheet.style.opacity = 1 - e; sheet.style.transform = 'translateY(' + (12 * e) + 'px) scale(' + (1 - .02 * e) + ')'; sheet.style.setProperty('--bd', 1 - e);
       if (m && m.cam0) pushCam(m, 1 - e);
       if (t < 1) { requestAnimationFrame(tick); return; }
-      morphing = 0; sheet.close(); sheet.style.opacity = ''; sheet.style.removeProperty('--bd');
+      morphing = 0; sheet.close(); sheet.style.opacity = ''; sheet.style.transform = ''; sheet.style.removeProperty('--bd');
     })(t0);
   }
   function showJob(id, idx, still) {
@@ -2290,6 +2378,8 @@
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, function () { toast(url, 4000); }); else toast(url, 4000);
   });
   sheet.addEventListener('click', function (e) { if (e.target === sheet && !morphing) closeSheet(); }); /* backdrop */
+  /* the page under the sheet stays exactly where it was (so does the scroll moment): wheel and touch on the dim don't scroll it */
+  ['wheel', 'touchmove'].forEach(function (t) { sheet.addEventListener(t, function (e) { if (!shScroll.contains(e.target)) e.preventDefault(); }, { passive: false }); });
   sheet.addEventListener('cancel', function (e) { if (MOTION) { e.preventDefault(); closeSheet(); } }); /* Esc */
   sheet.addEventListener('close', function () {
     if (vidIO) vidIO.disconnect();
@@ -2297,7 +2387,7 @@
     shMosaic.innerHTML = '';
     try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
     /* whatever closed it, the frame comes back and the canvas is where it was */
-    sheet.classList.remove('mo', 'landed'); morphEl.classList.remove('hold'); sheet.style.clipPath = ''; sheet.style.opacity = ''; sheet.style.removeProperty('--bd');
+    sheet.classList.remove('mph', 'landed'); morphEl.classList.remove('hold'); sheet.style.clipPath = ''; sheet.style.opacity = ''; sheet.style.removeProperty('--bd');
     if (mo) { mo.el.style.visibility = ''; if (mo.cam0) { cam = { x: mo.cam0.x, y: mo.cam0.y, s: mo.cam0.s }; apply(); } mo = null; reelP = -1; reelTick(); }
     if (lastFocus && lastFocus.focus && document.contains(lastFocus)) { quietFocus = true; lastFocus.focus({ preventScroll: true }); quietFocus = false; }
   });
@@ -2347,7 +2437,7 @@
     end.innerHTML = '<div class="sw-end">' + MARK + '<h2>That’s the highlights.</h2><p>Start now with one job. See how easy it is.</p><div class="row"><a class="cta" href="#contact" data-sw="start">Start a job</a><button class="ghost" type="button" data-sw="explore">Explore the canvas</button><button class="ghost" type="button" data-sw="again">Watch again</button></div></div>';
     swStage.appendChild(end); slides.push(end);
     end.querySelector('[data-sw="start"]').addEventListener('click', function (e) { e.preventDefault(); show.close(); goContact(); });
-    end.querySelector('[data-sw="explore"]').addEventListener('click', function () { show.close(); exploreFromShow(); });
+    end.querySelector('[data-sw="explore"]').addEventListener('click', function () { closeShow(exploreFromShow); });
     end.querySelector('[data-sw="again"]').addEventListener('click', function () { goSlide(0); swPlay(MOTION); swPause.focus(); });
     /* the bar fills, then the next slide comes up */
     swProg.addEventListener('animationend', function (e) { if (swPlaying && e.target.parentNode.classList.contains('now')) goSlide(si + 1); });
@@ -2405,7 +2495,18 @@
     if (!full) html.classList.remove('lock');
     if (swTrigger && swTrigger.focus && document.contains(swTrigger) && !show.contains(swTrigger)) swTrigger.focus({ preventScroll: true });
   });
-  $('swClose').addEventListener('click', function () { show.close(); });
+  /* leaving the highlights fades out (the black and the slide together) instead of cutting; then is called as it starts,
+     so a move on the canvas (Explore) is already under way as it is revealed */
+  var swOut = 0;
+  function closeShow(then) {
+    if (!show.open || swOut) return;
+    if (!MOTION) { show.close(); if (then) then(); return; }
+    swPlay(false, true); show.classList.add('out');
+    swOut = setTimeout(function () { swOut = 0; show.close(); show.classList.remove('out'); }, 300);
+    if (then) then();
+  }
+  show.addEventListener('cancel', function (e) { if (MOTION) { e.preventDefault(); closeShow(); } });
+  $('swClose').addEventListener('click', function () { closeShow(); });
   swPause.addEventListener('click', function () { swPlay(!swPlaying); });
   $('swPrev').addEventListener('click', function () { goSlide(si - 1); });
   $('swNext').addEventListener('click', function () { goSlide(si + 1); });
