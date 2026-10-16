@@ -526,6 +526,8 @@
   .form .stat a { color: var(--accent-text); }
   .reply { position: absolute; right: clamp(-10px, -1vw, 0px); top: 100%; margin-top: 18px; display: flex; align-items: flex-end; gap: 10px; max-width: 330px; opacity: 0; transform: translateY(8px); transition: opacity .4s .25s, transform .5s .25s var(--ease); pointer-events: none; }
   .reply.on { opacity: 1; transform: none; }
+  .reply .pin.brand { background: var(--ink); color: var(--accent); display: grid; place-items: center; }
+  .reply .pin.brand .rmk { width: 20px; height: 20px; }
   .still .reply { transition: none; }
   .reply .pin { flex: none; width: 38px; height: 38px; border-radius: 50% 50% 50% 0; background: var(--accent) center/cover; border: 3px solid var(--surface); box-shadow: 0 6px 14px -6px rgba(0,0,0,.4); }
   .reply .bub { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 16px 16px 16px 4px; padding: 11px 14px 12px; font-size: 15.5px; line-height: 1.4; box-shadow: 0 10px 26px -14px rgba(0,0,0,.35); }
@@ -553,6 +555,11 @@
   .motion dialog.sheet[open] { animation: pop .42s var(--ease); }
   .motion dialog.sheet[open]::backdrop { animation: fade .3s ease; }
   @keyframes pop { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+  /* frame -> sheet morph (View Transitions); the pop animation steps aside while it runs */
+  html.vt dialog.sheet[open] { animation: none; }
+  ::view-transition-group(sheet) { animation-duration: .48s; animation-timing-function: cubic-bezier(.2,.75,.15,1); }
+  ::view-transition-old(sheet), ::view-transition-new(sheet) { height: 100%; object-fit: cover; overflow: hidden; }
+  ::view-transition-group(root) { animation-duration: .3s; }
   @keyframes fade { from { opacity: 0; } }
   @media (max-width: 640px) { dialog.sheet { width: 100vw; height: 100dvh; border: 0; } }
   .sh-bar { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--line); background: var(--surface); }
@@ -909,7 +916,7 @@
         </div>
         <p class="note-s" style="margin-top:12px">We’ll get right back to you and get underway once you approve the estimate. We use your details only to reply, and we never share them.</p>
         <span class="dim" id="fDim" aria-hidden="true">Frame</span>
-        <div class="reply" id="reply" aria-hidden="true"><span class="pin" style="background-image:url(../media/thumbs/shane-french.png)"></span><div class="bub"><span id="replyT"></span><b>Shane French · Creative Director</b></div></div>
+        <div class="reply" id="reply" aria-hidden="true"><span class="pin brand"><svg class="rmk" viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></svg></span><div class="bub"><span id="replyT"></span><b>Studio Rendezvous, Inc.</b></div></div>
       </form>
       <div class="you" id="you" hidden aria-hidden="true"><svg viewBox="0 0 20 22"><path d="M2 2l15 7.5-6.5 1.8L7 18z" fill="#2563eb" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><span>You</span></div>
       <div class="waiting" id="waiting" aria-hidden="true"><svg viewBox="0 0 20 22"><path d="M2 2l15 7.5-6.5 1.8L7 18z" fill="#fe5000" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Shane<small>Creative Director</small></span></div>
@@ -1628,8 +1635,33 @@
     lastFocus = document.activeElement;
     if (f && !sheet.open && !pres && vp.contains(f.el)) {
       takeCam(); camBefore = { x: cam.x, y: cam.y, s: cam.s };
-      animateTo(fitRect({ x: f.x, y: f.y, w: f.w, h: f.h }, 60, 2), 420, function () { showJob(id, idx); });
+      animateTo(fitRect({ x: f.x, y: f.y, w: f.w, h: f.h }, 60, 2), MOTION && canVT ? 320 : 420, function () { morphOpen(f.el, function () { showJob(id, idx); }); });
     } else { if (!sheet.open) camBefore = null; showJob(id, idx); }
+  }
+  /* the job sheet grows out of the clicked frame and shrinks back into it (View Transitions) */
+  var canVT = !!document.startViewTransition, srcEl = null, srcJob = null;
+  function onScreen(el) { var r = el.getBoundingClientRect(); return r.width > 4 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth; }
+  function morphOpen(el, update) {
+    if (!canVT || !MOTION || !el || !onScreen(el)) { srcEl = null; update(); return; }
+    srcEl = el; html.classList.add('vt'); el.style.viewTransitionName = 'sheet';
+    var t = document.startViewTransition(function () { el.style.viewTransitionName = ''; sheet.style.viewTransitionName = 'sheet'; update(); srcJob = curJob; });
+    t.ready.catch(function () {});
+    t.finished.then(done, done);
+    function done() { sheet.style.viewTransitionName = ''; html.classList.remove('vt'); }
+  }
+  var holdCam = false;
+  function closeSheet() {
+    if (!sheet.open) return;
+    var el = srcEl;
+    if (!canVT || !MOTION || !el || srcJob !== curJob || !document.contains(el) || !onScreen(el)) { sheet.close(); return; }
+    html.classList.add('vt'); sheet.style.viewTransitionName = 'sheet'; holdCam = true;
+    var t = document.startViewTransition(function () { sheet.style.viewTransitionName = ''; sheet.close(); el.style.viewTransitionName = 'sheet'; });
+    t.ready.catch(function () {});
+    t.finished.then(done, done);
+    function done() {
+      el.style.viewTransitionName = ''; html.classList.remove('vt'); holdCam = false;
+      if (camBefore) { animateTo(camBefore, 520); camBefore = null; }
+    }
   }
   function showJob(id, idx) {
     var j = byId[id]; curJob = id;
@@ -1716,20 +1748,21 @@
   $('shPrev').addEventListener('click', function () { step(-1); });
   $('shNext').addEventListener('click', function () { step(1); });
   $('shNextBig').addEventListener('click', function () { step(1); });
-  $('shClose').addEventListener('click', function () { sheet.close(); });
+  $('shClose').addEventListener('click', closeSheet);
   $('shCta').addEventListener('click', function (e) { e.preventDefault(); sheet.close(); if (pres) endPresent(true); goContact(); });
   $('shLink').addEventListener('click', function () {
     var url = location.href.split('#')[0] + '#job=' + curJob;
     function ok() { toast('Link copied. It opens straight to this job.'); } /* NEW COPY: toast */
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, function () { toast(url, 4000); }); else toast(url, 4000);
   });
-  sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); }); /* backdrop */
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) closeSheet(); }); /* backdrop */
+  sheet.addEventListener('cancel', function (e) { if (canVT && MOTION && srcEl) { e.preventDefault(); closeSheet(); } }); /* Esc */
   sheet.addEventListener('close', function () {
     if (vidIO) vidIO.disconnect();
     shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
     shMosaic.innerHTML = '';
     try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
-    if (camBefore) { animateTo(camBefore, 520); camBefore = null; }
+    if (camBefore && !holdCam) { animateTo(camBefore, 520); camBefore = null; }
     if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
   });
   var rT = 0; addEventListener('resize', function () {
