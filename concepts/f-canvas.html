@@ -18,10 +18,11 @@
     var d = document.documentElement, m = !matchMedia('(prefers-reduced-motion: reduce)').matches, t = 'system';
     try { var s = localStorage.getItem('sr-motion'); if (s === 'on') m = true; if (s === 'off') m = false; t = localStorage.getItem('sr-theme') || 'system'; } catch (e) {}
     var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
-    d.className = (m ? 'motion' : 'still') + (m && innerWidth >= 960 && innerHeight >= 560 ? ' reel-on' : '');
+    d.className = 'js ' + (m ? 'motion' : 'still') + (m && innerWidth >= 960 && innerHeight >= 560 ? ' reel-on' : '');
     d.setAttribute('data-theme', dark ? 'dark' : 'light'); d.setAttribute('data-pref', t);
   })();
 </script>
+<noscript><style>.reel, .tbar .tb-l { display: none !important; }</style></noscript>
 <style>
   /* Concept F: Canvas. The work laid out like a live design file. Light and dark themes, in the language of Figma's UI. */
   :root {
@@ -425,21 +426,12 @@
   .cmt figcaption b { color: var(--ink); font-weight: 600; }
   .cmt.r { margin-left: auto; }
 
-  /* work list (the plain fallback) */
-  .wl { list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid var(--ink); }
-  .wl li { border-bottom: 1px solid var(--line); }
-  .wl button { width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto 172px 28px; align-items: center; gap: 16px; text-align: left; background: none; border: 0; padding: 16px 4px; cursor: pointer; }
-  .wl button:hover { background: var(--surface); }
-  .wl .n { font: 500 12px var(--mono); color: var(--muted); }
-  .wl .t { font: 800 clamp(22px, 2.4vw, 30px)/1 var(--display); text-transform: uppercase; }
-  .wl .t small { display: block; font: 500 11px var(--mono); letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
-  .wl .c { font: 500 12px var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
-  .wl .th { display: flex; gap: 4px; }
-  .wl .th span { width: 54px; height: 38px; background: var(--ph, #ddd) center/cover; }
-  .wl .go { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; }
-  .wl .go svg { width: 9px; height: 9px; }
-  .wl button:hover .go { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
-  @media (max-width: 760px) { .wl button { grid-template-columns: 30px minmax(0, 1fr) 28px; } .wl .c, .wl .th { display: none; } }
+  /* no-script list of the work (the canvas needs script) */
+  .nos-list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--ink); }
+  .nos-list li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .nos-list small { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .nos-list b { display: block; margin-top: 4px; font: 800 26px/1 var(--display); text-transform: uppercase; }
+  .nos-list p { margin-top: 6px; color: var(--ink2); max-width: 70ch; }
 
   /* logos */
   .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; margin-top: 18px; }
@@ -449,16 +441,283 @@
   .proofline { font: 500 clamp(12px, 1.2vw, 14px)/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
   .proofline span { white-space: nowrap; }
 
-  /* steps */
-  .steps { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 0; border-top: 1.5px solid var(--ink); }
-  .steps li { padding: 18px 18px 20px 0; border-right: 1px solid var(--line); padding-left: 16px; }
-  .steps li:first-child { padding-left: 0; }
-  .steps li:last-child { border-right: 0; }
-  .steps .n { font: 500 12px var(--mono); color: var(--accent-text); }
-  .steps b { display: block; font: 800 22px/1 var(--display); text-transform: uppercase; margin: 8px 0 8px; }
-  .steps p { font-size: 15.5px; color: var(--ink2); line-height: 1.45; }
-  @media (max-width: 760px) { .steps li { border-right: 0; border-bottom: 1px solid var(--line); padding-left: 0; } }
+  /* ---------- How it works: one job on the shared board, start to finish ----------
+     Modelled on the studio's real job board (generic jobs, no names or photos). Numbered steps drive it; only the change animates.
+     State lives in classes on .flow: at-N is the current step, ge-1 … ge-N are every step reached so far. */
+  .bd { --b-bg: #ffffff; --b-line: #e1e3ea; --b-ink: #323338; --b-muted: #676879; --b-hover: #f2f3f7; --b-sub: #f6f7fb; --b-blue: #1b6fd6; --b-group: #c64a10; --b-shadow: rgba(30, 32, 60, .18); }
+  :root[data-theme="dark"] .bd { --b-bg: #1c1f3b; --b-line: #393e63; --b-ink: #e9eaf2; --b-muted: #a3a7bd; --b-hover: #2a2f52; --b-sub: #23274a; --b-blue: #2f7ff0; --b-group: #fdab3d; --b-shadow: rgba(0, 0, 0, .6); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) .bd { --b-bg: #1c1f3b; --b-line: #393e63; --b-ink: #e9eaf2; --b-muted: #a3a7bd; --b-hover: #2a2f52; --b-sub: #23274a; --b-blue: #2f7ff0; --b-group: #fdab3d; --b-shadow: rgba(0, 0, 0, .6); } }
+  :root { --st-new: #5a6785; --st-des: #575b66; --st-rev: #1b7cb0; --st-del: #6b4fc9; --st-done: #13804f; --st-hold: #fdab3d; --pr-hi: #c64a10; --pr-no: #676879; --inv-acc: #ff8a4c; }
+  :root[data-theme="dark"] { --inv-acc: #b13900; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --inv-acc: #b13900; } }
 
+  /* the steps */
+  .flow { margin-top: 44px; }
+  .fl-rh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding-bottom: 10px; border-bottom: 1.5px solid var(--ink); }
+  .fl-rh .mono { font-size: 11.5px; color: var(--ink); }
+  .fl-play { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px 0 12px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink); font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+  .fl-play:hover { border-color: var(--ink); }
+  .fl-play svg { width: 10px; height: 10px; color: var(--accent-text); }
+  .fl-play[hidden] { display: none; }
+  .fl-steps { list-style: none; margin: 0; padding: 0; }
+  .fl-steps li { border-bottom: 1px solid var(--line); }
+  .fl-steps button { position: relative; width: 100%; display: grid; grid-template-columns: 40px minmax(0, 1fr); text-align: left; background: none; border: 0; padding: 14px 14px 15px 0; cursor: pointer; color: var(--ink); }
+  .fl-steps .n { font: 500 12px/22px var(--mono); color: var(--muted); padding-left: 12px; }
+  .fl-steps .tx b { display: block; font: 800 22px/1 var(--display); text-transform: uppercase; padding-top: 2px; }
+  .fl-steps .tx span { display: block; margin-top: 6px; font-size: 15px; line-height: 1.42; color: var(--ink2); }
+  .fl-steps button[aria-current] { background: var(--surface); box-shadow: inset 3px 0 0 var(--accent); }
+  .fl-cap { display: none; }
+  .fl-steps .bar { display: none; }
+  /* with script: a numbered row of steps, the active caption under it, the board full width below */
+  .js .fl-steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; padding-top: 14px; }
+  .js .fl-steps li { border: 0; }
+  .js .fl-steps button { display: flex; align-items: center; gap: 10px; height: 60px; padding: 0 14px 4px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); transition: background .25s, border-color .25s, color .25s; }
+  .js .fl-steps button:hover { border-color: var(--ink); }
+  .js .fl-steps .n { padding: 0; line-height: 1; flex: none; }
+  .js .fl-steps .tx { min-width: 0; }
+  .js .fl-steps .tx b { font-size: 20px; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .js .fl-steps .tx span { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
+  .js .fl-steps button[aria-current] { background: var(--inv); border-color: var(--inv); color: var(--inv-ink); box-shadow: none; }
+  .js .fl-steps button[aria-current] .n { color: var(--inv-acc); }
+  .js .fl-steps .bar { display: block; position: absolute; left: 12px; right: 12px; bottom: 8px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; pointer-events: none; }
+  .js .fl-steps button[aria-current] .bar { background: rgba(127, 127, 127, .35); }
+  .js .fl-steps .bar i { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; }
+  .flow.ge-1 .st-1 .bar i, .flow.ge-2 .st-2 .bar i, .flow.ge-3 .st-3 .bar i, .flow.ge-4 .st-4 .bar i, .flow.ge-5 .st-5 .bar i, .flow.ge-6 .st-6 .bar i { transform: none; }
+  .flow.auto .fl-steps button[aria-current] .bar i { transform: scaleX(0); animation: flfill var(--d, 4.5s) linear forwards; }
+  .flow.auto:not(.run) .fl-steps button[aria-current] .bar i { animation-play-state: paused; }
+  @keyframes flfill { to { transform: none; } }
+  .js .fl-cap { display: flex; align-items: baseline; gap: 14px; min-height: 64px; padding: 18px 2px 20px; font: 300 clamp(18px, 1.6vw, 21px)/1.4 var(--body); color: var(--ink); }
+  .fl-cap b { flex: none; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
+  .fl-cap .ti { display: none; }
+  @media (max-width: 900px) {
+    .js .fl-steps button { justify-content: center; height: 48px; padding: 0 0 4px; }
+    .js .fl-steps .n { font-size: 13px; }
+    .js .fl-steps .tx { display: none; }
+    .js .fl-steps .bar { left: 8px; right: 8px; bottom: 6px; }
+    .js .fl-cap { display: block; min-height: 156px; padding: 16px 2px 18px; font-size: 16.5px; }
+    .fl-cap b { display: block; margin-bottom: 6px; }
+    .fl-cap .ti { display: block; font: 800 26px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
+  }
+
+  /* the board */
+  .bd { position: relative; height: 584px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 14px/1.25 var(--body); }
+  .bd svg { flex: none; }
+  .bd-top { display: flex; align-items: center; gap: 16px; height: 58px; padding: 6px 20px 0; }
+  .bd-name { display: flex; align-items: center; gap: 10px; font: 600 24px/1 var(--body); letter-spacing: -.01em; white-space: nowrap; }
+  .bd-name svg { width: 12px; height: 12px; color: var(--b-muted); margin-top: 4px; }
+  .bd-share { margin-left: auto; display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--b-muted); white-space: nowrap; min-width: 0; }
+  .bd-share span { overflow: hidden; text-overflow: ellipsis; }
+  .bd-mk { flex: none; width: 30px; height: 30px; border-radius: 50%; background: #1c1c1c; color: #fe5000; display: grid; place-items: center; box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 3px var(--b-line); }
+  .bd-mk svg { width: 14px; height: 14px; }
+  .bd-tabs { display: flex; gap: 26px; margin: 0 20px; border-bottom: 1px solid var(--b-line); font-size: 14px; color: var(--b-ink); white-space: nowrap; overflow: hidden; }
+  .bd-tabs span { padding: 10px 2px 9px; }
+  .bd-tabs .on { box-shadow: inset 0 -2px 0 var(--b-blue); padding-inline: 8px; }
+  .bd-tools { display: flex; align-items: center; gap: 4px; padding: 12px 20px 6px; font-size: 14px; color: var(--b-ink); white-space: nowrap; }
+  .bd-new { display: inline-flex; align-items: stretch; height: 34px; margin-right: 12px; border-radius: 5px; overflow: hidden; background: var(--b-blue); color: #fff; }
+  .bd-new span { display: flex; align-items: center; padding: 0 12px; }
+  .bd-new i { display: grid; place-items: center; width: 30px; border-left: 1px solid rgba(255, 255, 255, .3); }
+  .bd-new svg { width: 10px; height: 10px; }
+  .motion .flow.at-1 .bd-new { animation: newpress .9s ease; }
+  @keyframes newpress { 0% { box-shadow: 0 0 0 0 rgba(27, 111, 214, .55); } 20% { transform: scale(.95); } 45% { transform: none; box-shadow: 0 0 0 7px rgba(27, 111, 214, 0); } }
+  .bd-tl { display: inline-flex; align-items: center; gap: 7px; padding: 7px 9px; border-radius: 5px; }
+  .bd-tl svg { width: 15px; height: 15px; color: var(--b-ink); }
+  .bd-body { position: relative; padding: 14px 20px 20px; }
+  .bd-gh { display: flex; align-items: center; gap: 10px; margin: 0 0 10px 2px; color: var(--b-group); }
+  .bd-gh svg { width: 12px; height: 12px; }
+  .bd-gh b { font: 600 19px/1 var(--body); }
+  .bd-gh span { font-size: 13px; color: var(--b-muted); }
+  .bd-gh .c6 { display: none; }
+  .flow.ge-1 .bd-gh .c5 { display: none; } .flow.ge-1 .bd-gh .c6 { display: inline; }
+  .bd-tbl { position: relative; border-left: 6px solid var(--b-group); border-radius: 6px 0 0 6px; }
+  .bd-cols, .bd-r, .bd-add, .bd-sum { display: grid; grid-template-columns: 38px minmax(0, 1fr) 86px 40px 72px 92px 140px 108px 108px 96px; }
+  .bd-cols > span, .bd-r > span { display: flex; align-items: center; justify-content: center; min-width: 0; border-top: 1px solid var(--b-line); border-left: 1px solid var(--b-line); }
+  .bd-cols > span { height: 38px; padding: 0 6px; font-size: 13.5px; color: var(--b-ink); white-space: nowrap; overflow: hidden; }
+  .bd-cols > span:last-child, .bd-r > span:last-child { border-right: 1px solid var(--b-line); }
+  .bd-r > span { height: 42px; padding: 0 8px; }
+  .bd-r > .cb, .bd-cols > .cb, .bd-add > .cb { border-left: 0; }
+  .cb i { width: 16px; height: 16px; border: 1.5px solid var(--b-line); border-radius: 3px; }
+  .bd-cols > .j { justify-content: center; }
+  .bd-r > .j { justify-content: flex-start; gap: 8px; padding-left: 12px; }
+  .bd-r .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bd-r .sb { flex: none; padding: 1px 6px; border-radius: 4px; background: var(--b-hover); color: var(--b-muted); font-size: 12px; }
+  .bd-r .cv { flex: none; width: 10px; height: 10px; color: var(--b-muted); margin-right: -2px; }
+  .up { position: relative; flex: none; margin-left: auto; width: 26px; height: 24px; display: grid; place-items: center; color: var(--b-muted); }
+  .up svg { width: 20px; height: 20px; }
+  .up em { position: absolute; right: -2px; bottom: -1px; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 8px; background: var(--b-blue); color: #fff; font: 600 10px/15px var(--body); font-style: normal; text-align: center; }
+  .up.on { color: var(--b-blue); }
+  .no { color: var(--b-ink); font-size: 13.5px; }
+  .av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; }
+  .av svg { width: 13px; height: 13px; }
+  .av.ay { background: var(--b-hover); color: var(--b-muted); box-shadow: inset 0 0 0 1.5px var(--b-line); }
+  .av.ay svg { width: 15px; height: 15px; }
+  .av.as { background: #1c1c1c; color: #fe5000; }
+  .bd-r > .s, .bd-r > .pr { padding: 0; display: grid; justify-content: stretch; align-content: stretch; }
+  .bd-r > .o, .bd-r > .yt, .bd-r > .f { display: grid; place-items: center; }
+  .bd-r > .o > *, .bd-r > .s > *, .bd-r > .f > * { grid-area: 1 / 1; }
+  .pill { display: grid; place-items: center; grid-auto-flow: column; gap: 6px; width: 100%; height: 100%; padding: 0 8px; font: 400 14px/1 var(--body); font-style: normal; color: #fff; white-space: nowrap; }
+  .p-new { background: var(--st-new); } .p-des { background: var(--st-des); } .p-rev { background: var(--st-rev); } .p-del { background: var(--st-del); } .p-done { background: var(--st-done); } .p-hold { background: var(--st-hold); color: #1c1c1c; }
+  .p-hi { background: var(--pr-hi); } .p-no { background: var(--pr-no); }
+  .p-hi svg { width: 13px; height: 13px; color: #ffd300; }
+  .bd-r .nd, .bd-r .d { font-size: 13.5px; color: var(--b-ink); white-space: nowrap; }
+  .fi { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--b-muted); white-space: nowrap; }
+  .fi svg { width: 13px; height: 15px; color: var(--b-muted); }
+  .fi svg.dr { width: 38px; height: 22px; border-radius: 3px; box-shadow: 0 0 0 1px var(--b-line); }
+  .fi.fin svg { color: var(--st-del); }
+  .bd-add > span { display: flex; align-items: center; height: 40px; border-top: 1px solid var(--b-line); color: var(--b-muted); font-size: 14px; }
+  .bd-add > span:nth-child(2) { grid-column: 2 / -1; padding-left: 12px; border-right: 1px solid var(--b-line); border-bottom: 1px solid var(--b-line); }
+  .bd-add > .cb { border-bottom: 1px solid var(--b-line); }
+  .motion .flow.at-1 .bd-add > span:nth-child(2) { animation: addflash 1.1s ease; }
+  @keyframes addflash { 0%, 40% { background: rgba(27, 111, 214, .14); color: var(--b-blue); } }
+  .bd-sum { margin-left: 6px; }
+  .bd-sum > span { height: 38px; }
+  .bd-sum .bar { grid-column: 7; display: flex; gap: 0; height: 22px; margin: 8px 8px 0; overflow: hidden; }
+  .bd-sum .bar i { flex: 1; transition: background .5s; }
+  .bd-sum .prb { grid-column: 10; display: flex; height: 22px; margin: 8px 8px 0; }
+  .bd-sum .prb i { flex: 1; background: var(--pr-hi); } .bd-sum .prb i + i { flex: 5; background: var(--pr-no); }
+  .flow:not(.ge-1) .bd-sum .nwseg { flex: 0; }
+  .nwseg { background: var(--st-new); }
+  .flow.ge-2 .nwseg { background: var(--st-des); } .flow.ge-3 .nwseg { background: var(--st-rev); } .flow.ge-5 .nwseg { background: var(--st-del); } .flow.ge-6 .nwseg { background: var(--st-done); }
+
+  /* the new job's row: slides in, then only its cells change */
+  .bd-nw { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
+  .bd-nw > .bd-r { min-height: 0; overflow: hidden; opacity: 0; transform: translateY(-10px); transition: opacity .35s .12s, transform .5s var(--ease), background .6s; }
+  .flow.ge-1 .bd-nw { grid-template-rows: 1fr; }
+  .flow.ge-1 .bd-nw > .bd-r { opacity: 1; transform: none; background: rgba(27, 111, 214, .08); }
+  .flow.ge-6 .bd-nw > .bd-r { background: rgba(19, 128, 79, .1); }
+  .nw .o > *, .nw .s > *, .nw .f > *, .nw .up > em, .nw .nd > span { opacity: 0; transform: scale(.85); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+  .nw .s > * { transform: scale(.94); }
+  .nw .nd { display: grid; } .nw .nd > span { grid-area: 1 / 1; }
+  .flow:not(.ge-2) .nw .av.ae, .flow.ge-2 .nw .av.as,
+  .flow.at-1 .nw .p-new, .flow.at-2 .nw .p-des, .flow.at-3 .nw .p-rev, .flow.at-4 .nw .p-rev, .flow.at-5 .nw .p-del, .flow.at-6 .nw .p-done,
+  .flow.ge-1:not(.ge-3) .nw .f1, .flow.ge-3:not(.ge-5) .nw .f3, .flow.ge-5 .nw .f5,
+  .flow.ge-3:not(.ge-5) .nw .u2, .flow.ge-5 .nw .u4,
+  .flow.ge-2:not(.ge-5) .nw .nd .n1, .flow.ge-5 .nw .nd .n0 { opacity: 1; transform: none; }
+  .flow.ge-1:not(.ge-2) .nw .nd .n0 { opacity: 1; transform: none; }
+  .flow.ge-3 .nw .up { color: var(--b-blue); }
+  .av.ae { background: none; box-shadow: inset 0 0 0 1.5px var(--b-line); color: var(--b-muted); }
+  .chk { flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--st-done); display: grid; place-items: center; transform: scale(0); transition: transform .5s cubic-bezier(.34, 1.9, .5, 1) .15s; }
+  .chk::after { content: ""; width: 8px; height: 4px; margin-top: -2px; border: solid #fff; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
+  .flow.ge-6 .chk { transform: none; }
+
+  /* the item's updates pane slides in from the right (a bottom sheet on phones) */
+  .bd::after { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(10, 12, 30, .32); opacity: 0; pointer-events: none; transition: opacity .4s; }
+  .flow.at-4 .bd::after, .flow.at-5 .bd::after { opacity: 1; }
+  .bd-pan { position: absolute; z-index: 2; top: 0; right: 0; bottom: 0; width: min(440px, 48%); display: flex; flex-direction: column; background: var(--b-bg); border-left: 1px solid var(--b-line); box-shadow: -30px 0 60px -30px var(--b-shadow); transform: translateX(104%); visibility: hidden; transition: transform .55s var(--ease), visibility 0s .55s; }
+  .flow.at-4 .bd-pan, .flow.at-5 .bd-pan { transform: none; visibility: visible; transition: transform .55s var(--ease); }
+  .pn-h { display: flex; align-items: center; gap: 12px; padding: 18px 16px 0 22px; }
+  .pn-h b { flex: 1; min-width: 0; font: 600 20px/1.1 var(--body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pn-h .ps { display: grid; }
+  .pn-h .ps > * { grid-area: 1 / 1; opacity: 0; transition: opacity .3s; }
+  .flow.at-4 .pn-h .p-rev, .flow.at-5 .pn-h .p-del { opacity: 1; }
+  .pn-h .pill { height: 28px; width: auto; padding: 0 12px; border-radius: 4px; font-size: 13.5px; }
+  .pn-x { flex: none; width: 30px; height: 30px; display: grid; place-items: center; color: var(--b-muted); }
+  .pn-x svg { width: 11px; height: 11px; }
+  .pn-tabs { display: flex; gap: 22px; margin: 14px 22px 0; border-bottom: 1px solid var(--b-line); font-size: 14px; color: var(--b-muted); white-space: nowrap; }
+  .pn-tabs span { padding-bottom: 9px; }
+  .pn-tabs .on { color: var(--b-ink); box-shadow: inset 0 -2px 0 var(--b-blue); }
+  .pn-in { flex: 1; min-height: 0; overflow: hidden; padding: 14px 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .pn-write { flex: none; padding: 11px 13px; border: 1px solid var(--b-line); border-radius: 6px; color: var(--b-muted); font-size: 14px; }
+  .post { flex: none; border: 1px solid var(--b-line); border-radius: 8px; padding: 12px 14px 14px; background: var(--b-bg); }
+  .post header { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+  .post header b { font-weight: 600; font-size: 14px; }
+  .post header time { margin-left: auto; font-size: 12.5px; color: var(--b-muted); }
+  .post p { font-size: 14px; line-height: 1.42; }
+  .pn-draft { position: relative; margin: 10px 0 0; height: 158px; background: #10282f; border-radius: 6px; overflow: hidden; }
+  .pn-draft svg.dr { display: block; width: 100%; height: 100%; }
+  .pn-draft .tag { position: absolute; left: 8px; top: 8px; background: rgba(20, 20, 20, .84); color: #fff; font: 500 10.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; border-radius: 3px; }
+  .pn-draft .pl { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: rgba(20, 20, 20, .72); color: #fff; display: grid; place-items: center; }
+  .pn-draft .pl svg { width: 12px; height: 12px; margin-left: 2px; }
+  .pn-draft .sc { position: absolute; left: 10px; right: 10px; bottom: 10px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .35); }
+  .pn-draft .sc i { position: absolute; left: 0; top: 0; bottom: 0; width: 62%; border-radius: 2px; background: #fff; }
+  .pn-draft .sc b { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #fe5000; border: 2px solid #fff; }
+  .pn-act { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s var(--ease), opacity .3s; }
+  .pn-act > div { min-height: 0; overflow: hidden; display: flex; gap: 8px; padding-top: 12px; }
+  .pn-act span { flex: 1; display: grid; place-items: center; height: 36px; border-radius: 5px; font-size: 14px; }
+  .pn-act .b2 { box-shadow: inset 0 0 0 1px var(--b-line); color: var(--b-ink); }
+  .pn-act .b1 { background: var(--st-done); color: #fff; }
+  .flow.ge-5 .pn-act { grid-template-rows: 0fr; opacity: 0; }
+  .pn-new { flex: none; display: grid; grid-template-rows: 0fr; margin-bottom: -12px; transition: grid-template-rows .55s var(--ease), margin .55s var(--ease); }
+  .pn-new > div { min-height: 0; overflow: hidden; display: grid; gap: 12px; opacity: 0; transition: opacity .35s .2s; }
+  .flow.ge-5 .pn-new { grid-template-rows: 1fr; margin-bottom: 0; }
+  .flow.ge-5 .pn-new > div { opacity: 1; }
+  .pn-files { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .pn-files li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--b-line); border-radius: 5px; font: 400 12.5px var(--mono); }
+  .pn-files li::before { content: ""; flex: none; width: 10px; height: 12px; background: var(--st-del); clip-path: polygon(0 0, 65% 0, 100% 30%, 100% 100%, 0 100%); }
+  .fl-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; }
+  .fl-foot p { color: var(--muted); font-size: 15.5px; }
+
+  /* narrower boards drop the columns a buyer needs least */
+  @media (max-width: 1180px) { .c-pr { display: none !important; } .bd-cols, .bd-r, .bd-add, .bd-sum { grid-template-columns: 38px minmax(0, 1fr) 86px 40px 72px 92px 140px 108px 108px; } .bd-sum .prb { display: none; } .bd-cols > :nth-last-child(2), .bd-r > :nth-last-child(2) { border-right: 1px solid var(--b-line); } }
+  @media (max-width: 1000px) { .c-no, .c-yt { display: none !important; } .bd-cols, .bd-r, .bd-add, .bd-sum { grid-template-columns: 38px minmax(0, 1fr) 72px 92px 140px 108px 108px; } .bd-sum .bar { grid-column: 5; } .bd-tl.x2 { display: none; } }
+  @media (max-width: 900px) and (min-width: 641px) { .bd-pan { width: 56%; } }
+  @media (max-width: 820px) { .c-du { display: none !important; } .bd-cols, .bd-r, .bd-add, .bd-sum { grid-template-columns: 38px minmax(0, 1fr) 64px 84px 128px 104px; } .bd-cols > :nth-last-child(3), .bd-r > :nth-last-child(3) { border-right: 1px solid var(--b-line); } .bd-tl span { display: none; } .bd-share span { display: none; } }
+  @media (max-width: 640px) {
+    .bd { height: 600px; border-radius: 10px; }
+    .bd-top { height: 50px; padding: 4px 14px 0; } .bd-name { font-size: 20px; }
+    .bd-tabs { margin: 0 14px; gap: 18px; font-size: 13.5px; } .bd-tabs .x3 { display: none; }
+    .bd-tools { padding: 10px 14px 4px; } .bd-tl.x1 { display: none; }
+    .bd-body { padding: 12px 12px 16px; }
+    .bd-cols, .bd-sum, .bd-add > .cb, .bd-r.xs-x { display: none; }
+    .bd-tbl { border-left-width: 5px; }
+    .bd-r { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "o j f" "o s d"; gap: 7px 10px; padding: 10px 10px 10px 9px; border-top: 1px solid var(--b-line); border-right: 1px solid var(--b-line); }
+    .bd-r > span { height: auto; padding: 0; border: 0 !important; }
+    .bd-r > .cb, .bd-r > .c-yt, .bd-r > .c-no, .bd-r > .nd, .bd-r > .pr { display: none; }
+    .bd-r > .j { grid-area: j; padding-left: 0; } .bd-r > .o { grid-area: o; align-self: start; }
+    .bd-r > .s { grid-area: s; justify-items: start; } .bd-r > .f { grid-area: f; justify-items: end; }
+    .bd-r > .c-du { display: flex !important; grid-area: d; justify-content: flex-end; font-size: 12.5px; color: var(--b-muted); }
+    .bd-r .pill { width: auto; height: 26px; padding: 0 11px; border-radius: 4px; font-size: 13px; }
+    .bd-add { display: block; } .bd-add > span:nth-child(2) { border-right: 1px solid var(--b-line); }
+    .bd-pan { top: auto; left: 0; width: auto; height: 90%; border-left: 0; border-top: 1px solid var(--b-line); border-radius: 14px 14px 0 0; transform: translateY(104%); box-shadow: 0 -24px 48px -26px var(--b-shadow); }
+    .bd-pan::before { content: ""; position: absolute; left: 50%; top: 7px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--b-line); }
+    .pn-h { padding: 20px 12px 0 16px; } .pn-h b { font-size: 18px; }
+    .pn-tabs { margin: 12px 16px 0; } .pn-tabs .x3 { display: none; }
+    .pn-in { padding: 12px 14px 14px; gap: 10px; } .pn-write { display: none; }
+    .pn-draft { height: 130px; }
+  }
+  .still .flow *, .still .flow *::before, .still .flow *::after { transition: none !important; animation: none !important; }
+
+  /* ---------- the list: every job, as a popup in the canvas's own language ---------- */
+  dialog.listd { width: min(1000px, calc(100vw - 32px)); max-width: none; height: min(900px, calc(100dvh - 32px)); max-height: none; margin: auto; padding: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); color: var(--ink); box-shadow: 0 40px 90px -30px rgba(0,0,0,.6); overflow: hidden; }
+  dialog.listd[open] { display: flex; flex-direction: column; }
+  dialog.listd::backdrop { background: var(--backdrop); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+  .motion dialog.listd[open] { animation: pop .32s var(--ease); }
+  .motion dialog.listd[open]::backdrop { animation: fade .25s ease; }
+  @media (max-width: 640px) { dialog.listd { width: 100vw; height: 100dvh; border: 0; border-radius: 0; } }
+  .listd .sh-bar { padding-left: 18px; }
+  .ld-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: clamp(22px, 3vw, 36px) clamp(16px, 3vw, 36px) 40px; background: var(--canvas) radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px) 0 0 / 24px 24px; }
+  .ld-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 24px; }
+  .ld-head h2 { font-size: clamp(40px, 5.4vw, 68px); font-weight: 900; }
+  .ld-head .cnt { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 6px; }
+  .ld-g { position: relative; margin-top: 56px; padding: 12px; background: var(--sec-bg); border: 1px solid var(--sec-line); border-radius: 6px; }
+  .ld-gt { position: absolute; left: 0; bottom: 100%; display: flex; align-items: center; gap: 8px; padding-bottom: 8px; margin: 0; font: inherit; text-transform: none; letter-spacing: 0; line-height: 1; white-space: nowrap; }
+  .ld-gt .c { display: inline-flex; align-items: center; gap: 8px; background: var(--chip); color: var(--chip-ink); border-radius: 5px; padding: 6px 10px 5px; font: 600 14px/1 var(--body); }
+  .ld-gt .c svg { width: 11px; height: 11px; }
+  .ld-gt .ind { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .ld-g ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .ld-row { width: 100%; display: grid; grid-template-columns: 200px minmax(0, 1fr) auto 30px; gap: 20px; align-items: center; padding: 10px 18px 10px 10px; border: 0; background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -14px var(--sh2); }
+  .ld-row:hover, .ld-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
+  .ld-th { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; height: 88px; }
+  .ld-th span { background: var(--ph, #ccc) center/cover; }
+  .ld-th span:first-child { grid-row: span 2; }
+  .ld-t b { display: block; font: 800 clamp(22px, 2.4vw, 30px)/1 var(--display); text-transform: uppercase; }
+  .ld-t span { display: block; margin-top: 8px; font-size: 14.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ld-c { font: 500 12px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .ld-go { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; }
+  .ld-go svg { width: 9px; height: 9px; }
+  .ld-row:hover .ld-go { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
+  .ld-next { width: 100%; margin-top: 44px; display: flex; align-items: center; gap: 18px; padding: 20px 22px; border: 2px dashed var(--line-2); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+  .ld-next:hover, .ld-next:focus-visible { border-color: var(--accent); background: rgba(254, 80, 0, .06); outline: none; }
+  .ld-next .pl { flex: none; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #1c1c1c; font: 300 34px/1 var(--body); }
+  .ld-next b { display: block; font: 900 28px/.95 var(--display); text-transform: uppercase; }
+  .ld-next small { display: block; margin-top: 6px; font-size: 15.5px; color: var(--ink2); }
+  .ld-next .go { margin-left: auto; flex: none; background: var(--cta); color: var(--cta-ink); font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 13px 16px 12px; border-radius: 999px; }
+  @media (max-width: 700px) {
+    .ld-row { grid-template-columns: 92px minmax(0, 1fr) 28px; gap: 14px; padding-right: 12px; }
+    .ld-th { display: block; height: 64px; } .ld-th span { display: none; height: 100%; } .ld-th span:first-child { display: block; }
+    .ld-c { display: none; }
+    .ld-t span { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .ld-next { padding: 16px; gap: 14px; } .ld-next .go { display: none; } .ld-next b { font-size: 24px; }
+  }
   /* what we make */
   .make { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 1px; padding: 1px; }
   .make li { background: var(--surface); padding: 22px 22px 24px; outline: 1px solid var(--line); }
@@ -544,6 +803,9 @@
   .reply .bub b { display: block; font: 500 10.5px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
   .alt-mail { margin-top: 18px; color: var(--muted); }
   .alt-mail a { color: var(--ink); }
+  .next-s { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink2); font-size: 16px; }
+  .next-s .sq { display: inline-block; width: 8px; height: 8px; background: var(--accent); margin-right: 10px; vertical-align: 1px; }
+  .next-s a { color: var(--accent-text); font-weight: 600; white-space: nowrap; }
 
   /* footer */
   .foot-site { background: var(--foot); color: var(--foot-ink); padding-block: 64px 36px; border-top: 1px solid var(--foot-line); }
@@ -695,9 +957,10 @@
       </div>
     </div>
 
+    <div id="work" aria-hidden="true"></div>
     <div class="reel" id="reel">
     <div class="stage" id="stage">
-      <a class="skipc chip ui" href="#work"><span style="padding:10px 12px;font:500 12px var(--mono)">Skip the canvas</span></a>
+      <a class="skipc chip ui" href="#clients"><span style="padding:10px 12px;font:500 12px var(--mono)">Skip the canvas</span></a>
       <!-- NEW COPY: canvas region label (screen readers), updated for section groups -->
       <div class="vp" id="vp" tabindex="0" role="region" aria-roledescription="canvas" aria-label="Work canvas. Drag or use the arrow keys to move around, plus and minus to zoom, F to fit. Tab moves between sections, arrow keys move between frames, Enter opens the job.">
         <div class="world" id="world"></div>
@@ -720,7 +983,7 @@
 
       <div class="ui ui-main">
         <!-- NEW COPY: "Present" (accessible name "Watch the highlights, about one minute"), "List" (its accessible name keeps "See all work as a list") -->
-        <div class="tbar" role="group" aria-label="Canvas"><button class="explore" type="button" id="exploreBtn" data-explore><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="10" width="8" height="8" fill="#fe5000"/></svg><span id="exploreLbl">Explore the canvas</span></button><button class="tb tb-p" type="button" data-present aria-label="Present: watch the highlights, about one minute"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Present</button><a class="tb" href="#work" aria-label="See all work as a list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12M0 6h12M0 10h12" stroke="currentColor" stroke-width="1.6"/></svg>List</a></div>
+        <div class="tbar" role="group" aria-label="Canvas"><button class="explore" type="button" id="exploreBtn" data-explore><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="10" width="8" height="8" fill="#fe5000"/></svg><span id="exploreLbl">Explore the canvas</span></button><button class="tb tb-p" type="button" data-present aria-label="Present: watch the highlights, about one minute"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Present</button><button class="tb tb-l" type="button" data-list aria-haspopup="dialog" aria-label="See all work as a list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12M0 6h12M0 10h12" stroke="currentColor" stroke-width="1.6"/></svg>List</button></div>
       </div>
 
       <div class="ui ui-mini" id="mini" aria-hidden="true"><div class="view" id="miniView"></div></div>
@@ -733,18 +996,25 @@
     </div>
   </section>
 
-  <!-- ================================================================ the list fallback -->
-  <section class="band" id="work" aria-labelledby="workH">
-    <div class="wrap">
-      <!-- NEW COPY: "List view · every job on the canvas" -->
-      <span class="flabel"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0v12M9 0v12M0 3h12M0 9h12" stroke="currentColor" stroke-width="1.4"/></svg>List view · every job on the canvas</span>
-      <h2 id="workH">Selected work</h2>
-      <ol class="wl" id="workList"></ol>
-    </div>
-  </section>
+  <!-- without script the canvas cannot be drawn, so the work is listed plainly (titles and lines reuse the job copy) -->
+  <noscript>
+    <section class="band" id="worklist" aria-labelledby="nosH"><div class="wrap">
+      <h2 id="nosH">Selected work</h2>
+      <ol class="nos-list">
+        <li><small>Cybersecurity · 6 pieces</small><b>Partner marketing</b><p>A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.</p></li>
+        <li><small>Financial services · 12 pieces</small><b>A new brand, carried into everything</b><p>When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools.</p></li>
+        <li><small>B2B software · 8 pieces</small><b>Events, end to end</b><p>One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p></li>
+        <li><small>Cybersecurity · 8 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p></li>
+        <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>We delivered 681 videos in the last twelve months: explainers, event loops, social, product and brand motion.</p></li>
+        <li><small>Recent jobs · 8 pieces</small><b>Fresh off the board</b><p>A few recent jobs, straight off client boards: ads, sales sheets, guides, event signage and toolkits.</p></li>
+        <li><small>B2B software · 2 pieces</small><b>Product launches, in motion</b><p>Product and sales videos built from the product’s own UI.</p></li>
+        <li><small>Commercial HVAC group · 47 logos</small><b>Logo systems</b><p>47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p></li>
+      </ol>
+    </div></section>
+  </noscript>
 
   <!-- ================================================================ clients -->
-  <section class="band alt" aria-label="Clients">
+  <section class="band alt" id="clients" aria-label="Clients">
     <div class="wrap">
       <p class="proofline"><span>Senior team</span> · <span>681 videos last year</span> · <span>Built for tight deadlines</span> · <span>Current clients average 9 years</span></p>
       <span class="sub-eb" style="margin-top:36px">Clients we’re helping every month</span>
@@ -763,8 +1033,95 @@
     </div>
   </section>
 
+  <!-- ================================================================ how it works: one job on the shared board -->
+  <section class="band" id="how" aria-labelledby="howH">
+    <div class="wrap">
+      <span class="flabel"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0v12M9 0v12M0 3h12M0 9h12" stroke="currentColor" stroke-width="1.4"/></svg>How it works</span>
+      <h2 id="howH">Put a job on the board. We’ve got it.</h2>
+      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
+      <!-- NEW COPY: "One job, start to finish", "Pause", "Play", "Replay", "Step N of 6", step 4's second sentence
+           "Approve it, or ask for changes, right on the board.", step 6 title "Done" and "Marked complete."
+           (every other step line is the approved five-step copy) -->
+      <div class="flow at-6 ge-1 ge-2 ge-3 ge-4 ge-5 ge-6" id="flow">
+        <div class="fl-rail">
+          <div class="fl-rh"><span class="mono">One job, start to finish</span><button class="fl-play" id="flPlay" type="button" hidden></button></div>
+          <ol class="fl-steps" id="flSteps" aria-label="Steps">
+            <li class="st-1" style="--d:4.2s"><button type="button" data-step="1"><span class="n">01</span><span class="tx"><b>Add a job</b><span>A brief, any files and the deadline.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n">02</span><span class="tx"><b>We’re on it</b><span>A senior creative who knows your brand picks it up, and you see when to expect a first look.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-3" style="--d:5s"><button type="button" data-step="3"><span class="n">03</span><span class="tx"><b>Best first draft</b><span>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-4" style="--d:6.5s"><button type="button" data-step="4"><span class="n">04</span><span class="tx"><b>Review</b><span>Proofs and revisions stay with the job. Approve it, or ask for changes, right on the board.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-5" style="--d:5.5s"><button type="button" data-step="5"><span class="n">05</span><span class="tx"><b>Delivered</b><span>Final files, ready to use, and source files on request.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-6" style="--d:5s"><button type="button" data-step="6" aria-current="step"><span class="n">06</span><span class="tx"><b>Done</b><span>Marked complete. The next job lands on a team that already knows your brand.</span></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+          </ol>
+          <p class="fl-cap" id="flCap" aria-hidden="true"></p>
+        </div>
+        <!-- NEW COPY (board UI, shown as an example): "Your job board", "Shared with Studio Rendezvous, Inc.", "Main table", "Kanban", "Timeline",
+             "Files", "New item", "Search", "Person", "Filter", "Sort", "Hide", "Group by", "This month", "5 jobs", "6 jobs", column names
+             "Item", "Your team", "#", "Design", "Files", "Status", "Next draft", "Due date", "Priority", sample jobs "Product launch explainer",
+             "Q4 webinar social posts", "Partner email templates (Mac + PC)", "Event signage refresh", "October social posts", "Trade show booth loop",
+             statuses "New", "In Design", "In Review", "On Hold", "Delivered", "Complete", "High", "Normal", "Brief", "+ Add item", dates,
+             updates pane "Updates", "Activity log", "Write an update…", "Your team", "Yesterday", "2h", "Just now", "Round 2",
+             "Love it. Can the logo hold a beat longer at the end?", "Round 2 is up. The logo now holds to the last frame.",
+             "Request changes", "Approve", "Approved. Thank you!", "Final files are attached. Source files on request." -->
+        <div class="bd" aria-hidden="true">
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+            <symbol id="srmk" viewBox="0 0 78 78" fill="currentColor"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></symbol>
+            <symbol id="i-cd" viewBox="0 0 12 12"><path d="M2 4.2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+            <symbol id="i-cr" viewBox="0 0 12 12"><path d="M4.2 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+            <symbol id="i-se" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.4 10.4l4 4" stroke="currentColor" stroke-width="1.5"/></symbol>
+            <symbol id="i-pe" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6.4" r="2.3" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3.8 12.7c1-1.7 2.5-2.5 4.2-2.5s3.2.8 4.2 2.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+            <symbol id="i-fi" viewBox="0 0 16 16"><path d="M2 3h12l-4.6 5.4V13l-2.8-1.4V8.4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+            <symbol id="i-so" viewBox="0 0 16 16"><path d="M5 2.5v11M2.5 5L5 2.5 7.5 5M11 13.5v-11M8.5 11l2.5 2.5 2.5-2.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+            <symbol id="i-ey" viewBox="0 0 16 16"><path d="M1.5 8s2.4-4.2 6.5-4.2S14.5 8 14.5 8s-2.4 4.2-6.5 4.2S1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 13.5l11-11" stroke="currentColor" stroke-width="1.4"/></symbol>
+            <symbol id="i-gr" viewBox="0 0 16 16"><rect x="2" y="2.5" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2 6.5h12M6 6.5v7" stroke="currentColor" stroke-width="1.4"/></symbol>
+            <symbol id="i-bu" viewBox="0 0 20 20"><path d="M10 3.2c4.1 0 7.3 2.7 7.3 6s-3.2 6-7.3 6c-.9 0-1.8-.1-2.6-.4L3.6 16.6l1-3.3C3.4 12.2 2.7 10.8 2.7 9.2c0-3.3 3.2-6 7.3-6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 6.8v4.8M7.6 9.2h4.8" stroke="currentColor" stroke-width="1.4"/></symbol>
+            <symbol id="i-do" viewBox="0 0 13 15"><path d="M1.5 1h6.3l3.7 3.7V14h-10z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.5 1v4h4" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+            <symbol id="i-draft" viewBox="0 0 160 90"><rect width="160" height="90" fill="#16181f"/><circle cx="116" cy="47" r="29" fill="#fe5000"/><rect x="92" y="18" width="22" height="22" fill="#f3f1ec"/><path d="M126 72l15-26 15 26z" fill="#ffd300"/><rect x="14" y="27" width="60" height="9" rx="1" fill="#f3f1ec"/><rect x="14" y="40" width="46" height="9" rx="1" fill="#f3f1ec"/><rect x="14" y="57" width="40" height="4" rx="1" fill="#8a8f9c"/><rect x="14" y="65" width="28" height="4" rx="1" fill="#8a8f9c"/></symbol>
+            <symbol id="i-wa" viewBox="0 0 14 14"><path d="M7 1.2l6.2 11H.8z" fill="currentColor"/><path d="M7 5.2v3.6M7 10v1" stroke="#1c1c1c" stroke-width="1.4"/></symbol>
+          </svg>
+          <div class="bd-top"><span class="bd-name">Your job board<svg><use href="#i-cd"/></svg></span><span class="bd-share"><span>Shared with Studio Rendezvous, Inc.</span><i class="bd-mk"><svg><use href="#srmk"/></svg></i></span></div>
+          <div class="bd-tabs"><span class="on">Main table</span><span>Kanban</span><span>Timeline</span><span class="x3">Files</span></div>
+          <div class="bd-tools"><span class="bd-new"><span>New item</span><i><svg><use href="#i-cd"/></svg></i></span><span class="bd-tl"><svg><use href="#i-se"/></svg><span>Search</span></span><span class="bd-tl x1"><svg><use href="#i-pe"/></svg><span>Person</span></span><span class="bd-tl"><svg><use href="#i-fi"/></svg><span>Filter</span></span><span class="bd-tl x1"><svg><use href="#i-so"/></svg><span>Sort</span></span><span class="bd-tl x1 x2"><svg><use href="#i-ey"/></svg><span>Hide</span></span><span class="bd-tl x1 x2"><svg><use href="#i-gr"/></svg><span>Group by</span></span></div>
+          <div class="bd-body">
+            <div class="bd-gh"><svg><use href="#i-cd"/></svg><b>This month</b><span class="c5">5 jobs</span><span class="c6">6 jobs</span></div>
+            <div class="bd-tbl">
+              <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span>Files</span><span>Status</span><span>Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
+              <div class="bd-r xs-x"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi"><svg><use href="#i-do"/></svg>4</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r xs-x"><span class="cb"><i></i></span><span class="j"><span class="t">Event signage refresh</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"></span><span class="s"><em class="pill p-hold">On Hold</em></span><span class="nd"></span><span class="d c-du">Thu, Nov 12</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi fin"><svg><use href="#i-do"/></svg>9</i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">6</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av as"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi f1"><svg><use href="#i-do"/></svg>Brief</i><i class="fi f3"><svg class="dr" viewBox="0 0 160 90"><use href="#i-draft" width="160" height="90"/></svg></i><i class="fi fin f5"><svg><use href="#i-do"/></svg>3</i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd"><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
+              <div class="bd-add"><span class="cb"><i></i></span><span>+ Add item</span></div>
+            </div>
+            <div class="bd-sum"><span class="bar"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:2"></i><i style="background:var(--st-hold)"></i></span><span class="prb c-pr"><i></i><i></i></span></div>
+          </div>
+          <div class="bd-pan">
+            <div class="pn-h"><b>Trade show booth loop</b><span class="ps"><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em></span><span class="pn-x"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></span></div>
+            <div class="pn-tabs"><span class="on">Updates</span><span>Files</span><span class="x3">Activity log</span></div>
+            <div class="pn-in">
+              <div class="pn-write">Write an update…</div>
+              <div class="pn-new"><div>
+                <div class="post"><header><i class="av ay"><svg><use href="#i-pe"/></svg></i><b>Your team</b><time>Just now</time></header><p>Approved. Thank you!</p></div>
+                <div class="post"><header><i class="av as"><svg><use href="#srmk"/></svg></i><b>Studio Rendezvous, Inc.</b><time>Just now</time></header><p>Final files are attached. Source files on request.</p><ul class="pn-files"><li>booth-loop-16x9.mp4</li><li>booth-loop-9x16.mp4</li><li>booth-loop-stills.zip</li></ul></div>
+              </div></div>
+              <div class="post"><header><i class="av as"><svg><use href="#srmk"/></svg></i><b>Studio Rendezvous, Inc.</b><time>2h</time></header><p>Round 2 is up. The logo now holds to the last frame.</p>
+                <figure class="pn-draft"><svg class="dr" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice"><use href="#i-draft" width="160" height="90"/></svg><span class="tag">Round 2</span><span class="pl"><svg viewBox="0 0 10 10"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg></span><span class="sc"><i></i><b style="left:62%"></b></span></figure>
+                <div class="pn-act"><div><span class="b2">Request changes</span><span class="b1">Approve</span></div></div></div>
+              <div class="post"><header><i class="av ay"><svg><use href="#i-pe"/></svg></i><b>Your team</b><time>Yesterday</time></header><p>Love it. Can the logo hold a beat longer at the end?</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="vh" id="flLive" aria-live="polite" aria-atomic="true"></span>
+      <div class="fl-foot"><a class="cta" href="#contact" data-help="first">Put a first job on the board</a></div>
+      <figure class="cmt"><span class="pin o" aria-hidden="true" data-bg="../media/team/shane-french.png" style="background-color:var(--accent);background-size:cover;background-position:center;color:transparent">SF</span><div class="bub"><blockquote>“Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</blockquote><figcaption><b>Shane French</b>, Creative Director</figcaption></div></figure>
+      <figure class="cmt r"><span class="pin" aria-hidden="true">PI</span><div class="bub"><blockquote>“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><figcaption><b>Phil Iaccarino</b>, Director, Product Marketing, Guidewire</figcaption></div></figure>
+    </div>
+  </section>
+
   <!-- ================================================================ why it works -->
-  <section class="band" id="why" aria-labelledby="whyH">
+  <section class="band alt" id="why" aria-labelledby="whyH">
     <div class="wrap">
       <span class="flabel"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0v12M9 0v12M0 3h12M0 9h12" stroke="currentColor" stroke-width="1.4"/></svg>Why it works</span>
       <h2 id="whyH">Clients stay for years.</h2>
@@ -774,25 +1131,6 @@
         <div class="card" data-l="03 · Straight to work"><h3>Straight to work</h3><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
       </div>
       <figure class="cmt r"><span class="pin" aria-hidden="true">MC</span><div class="bub"><blockquote>“I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</blockquote><figcaption><b>Marc Chouaniere</b>, VP Marketing, MoxiWorks</figcaption></div></figure>
-    </div>
-  </section>
-
-  <!-- ================================================================ how it works -->
-  <section class="band alt" id="how" aria-labelledby="howH">
-    <div class="wrap">
-      <span class="flabel"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0v12M9 0v12M0 3h12M0 9h12" stroke="currentColor" stroke-width="1.4"/></svg>How it works</span>
-      <h2 id="howH">Put a job on the board. We’ve got it.</h2>
-      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
-      <ol class="steps">
-        <li><span class="n">01</span><b>Add a job</b><p>A brief, any files and the deadline.</p></li>
-        <li><span class="n">02</span><b>“We’re on it”</b><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
-        <li><span class="n">03</span><b>Best first draft, fast</b><p>Refined by a senior designer before it reaches you. Our creative director leads, or we work to yours. About nine in ten need only light changes.</p></li>
-        <li><span class="n">04</span><b>Review</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
-        <li><span class="n">05</span><b>Delivered</b><p>Final files, ready to use, and source files on request.</p></li>
-        <li><span class="n">06</span><b>Repeat</b><p>The next job lands on a team that already knows your brand.</p></li>
-      </ol>
-      <figure class="cmt"><span class="pin o" aria-hidden="true" data-bg="../media/team/shane-french.png" style="background-color:var(--accent);background-size:cover;background-position:center;color:transparent">SF</span><div class="bub"><blockquote>“Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</blockquote><figcaption><b>Shane French</b>, Creative Director</figcaption></div></figure>
-      <figure class="cmt r"><span class="pin" aria-hidden="true">PI</span><div class="bub"><blockquote>“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><figcaption><b>Phil Iaccarino</b>, Director, Product Marketing, Guidewire</figcaption></div></figure>
     </div>
   </section>
 
@@ -894,6 +1232,8 @@
         <h2 id="contactH">Start now with one job.</h2>
         <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
         <p class="alt-mail">Prefer email? <a href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a></p>
+        <!-- NEW COPY: "Next, your job lands on the shared board." / "See what happens" -->
+        <p class="next-s"><span class="sq" aria-hidden="true"></span>Next, your job lands on the shared board. <a href="#how" data-replay>See what happens</a></p>
       </div>
       <!-- NEW COPY: "Layers", "Untitled", "You", frame size pill; the reply reuses the approved thank-you line -->
       <div class="drop" id="drop">
@@ -956,6 +1296,19 @@
       <button class="sh-next" type="button" id="shNextBig"><span>Next job</span><b id="shNextT"></b></button>
       <a class="cta" href="#contact" id="shCta">Start a job</a>
     </div>
+  </div>
+</dialog>
+
+<!-- the list: every job as a popup. NEW COPY: "Close the list"; the heading, label and rows reuse "Selected work", "List view · every job on the canvas", the job titles, captions and counts -->
+<dialog class="listd" id="listDlg" aria-labelledby="listH">
+  <div class="sh-bar">
+    <span class="sh-crumb">Work / <b>List view · every job on the canvas</b></span>
+    <span class="sp"></span>
+    <button class="sh-btn x" type="button" id="listClose" aria-label="Close the list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  </div>
+  <div class="ld-scroll" id="listScroll">
+    <div class="ld-head"><h2 id="listH">Selected work</h2><span class="cnt" id="listCnt"></span></div>
+    <div id="listBody"></div>
   </div>
 </dialog>
 
@@ -1607,11 +1960,13 @@
   /* ------------------------------------------------------------------ job sheet */
   var sheet = $('sheet'), shScroll = $('shScroll'), shMosaic = $('shMosaic');
   var curJob = null, camBefore = null, vidIO = null, lastFocus = null;
-  function openJob(id, idx, f) {
+  function openJob(id, idx, f, from) {
     lastFocus = document.activeElement;
     if (f && !sheet.open && vp.contains(f.el)) {
       takeCam(); camBefore = { x: cam.x, y: cam.y, s: cam.s };
       animateTo(fitRect({ x: f.x, y: f.y, w: f.w, h: f.h }, 60, 2), MOTION && canVT ? 320 : 420, function () { morphOpen(f.el, function () { showJob(id, idx); }); });
+    } else if (from && !sheet.open) { /* from a row in the list: the row grows into the sheet */
+      camBefore = null; morphOpen(from, function () { showJob(id, idx); });
     } else { if (!sheet.open) { camBefore = null; srcEl = null; } showJob(id, idx); }
   }
   /* the job sheet grows out of the clicked frame and shrinks back into it (View Transitions) */
@@ -1834,7 +2189,7 @@
     if (show.open) return;
     if (sheet.open) sheet.close();
     if (cmdk.open) cmdk.close();
-    closeThread(); stopFrame();
+    closeList(); closeThread(); stopFrame();
     swTrigger = document.activeElement; buildShow();
     html.classList.add('lock'); show.showModal();
     goSlide(0); swPlay(MOTION);
@@ -1924,9 +2279,9 @@
     { g: 'Actions', label: 'Watch the highlights', hint: '1 min', icon: ICON_PLAY, kw: 'present tour play reel slideshow', run: startPresent },
     { g: 'Actions', label: 'Zoom to fit', hint: 'F', icon: ICON_SEARCH, kw: 'overview whole canvas', run: function () { scrollToStage(fitAll); } },
     { g: 'Actions', label: 'Back to the start', hint: '0', icon: ICON_SEC, kw: 'home hero', run: function () { scrollToStage(goHome); } },
-    { g: 'Actions', label: 'See all work as a list', icon: ICON_SEC, kw: 'list index', run: function () { go('#work'); } },
+    { g: 'Actions', label: 'See all work as a list', icon: ICON_SEC, kw: 'list index all jobs', run: function () { openList(); } },
     { g: 'Actions', label: 'Copy email address', hint: 'hello@', icon: ICON_SQ, kw: 'email mail contact', run: copyEmail },
-    { g: 'On this page', label: 'How it works', icon: ICON_SEC, kw: 'process board monday', run: function () { go('#how'); } },
+    { g: 'On this page', label: 'How it works', icon: ICON_SEC, kw: 'process board monday review status steps', run: function () { go('#how'); } },
     { g: 'On this page', label: 'What we make', icon: ICON_SEC, kw: 'services capabilities', run: function () { go('#make'); } },
     { g: 'On this page', label: 'Working together', icon: ICON_SEC, kw: 'retainer hourly engagement options', run: function () { go('#together'); } },
     { g: 'On this page', label: 'The team', icon: ICON_SEC, kw: 'people person who', run: function () { go('#team'); } },
@@ -1979,7 +2334,7 @@
     cIn.setAttribute('aria-activedescendant', cItems[cActive].el.id);
     if (!noScroll) cItems[cActive].el.scrollIntoView({ block: 'nearest' });
   }
-  function runCmd(n) { var it = cItems[n]; if (!it) return; cmdk.close(); setTimeout(function () { it.c.run(); }, 10); }
+  function runCmd(n) { var it = cItems[n]; if (!it) return; cmdk.close(); if (listDlg.open && it.c.label !== 'See all work as a list') closeList(); setTimeout(function () { it.c.run(); }, 10); }
   function openCmdk() {
     if (cmdk.open) return; closeThread();
     cTrigger = document.activeElement; cIn.value = ''; renderCmdk(); cmdk.showModal(); cIn.focus();
@@ -2000,15 +2355,106 @@
     if (e.key === '/' && !typing && !sheet.open && !cmdk.open && !show.open) { e.preventDefault(); openCmdk(); return; }
   });
 
-  /* ------------------------------------------------------------------ list fallback */
-  var wl = $('workList');
-  ORDER.forEach(function (id, n) {
-    var j = byId[id], li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
-    var th = j.items.slice(0, 3).map(function (d) { return '<span style="--ph:' + d[5] + '" data-bg="' + T + d[0] + '"></span>'; }).join('');
-    b.innerHTML = '<span class="n">' + String(n + 1).padStart(2, '0') + '</span><span class="t"><small></small><span></span></span><span class="c"></span><span class="th" aria-hidden="true">' + th + '</span><span class="go" aria-hidden="true">' + ICON_GO + '</span>';
-    b.querySelector('.t small').textContent = j.ind; b.querySelector('.t span').textContent = j.title; b.querySelector('.c').textContent = j.cnt;
-    b.addEventListener('click', function () { openJob(id, 0, null); });
-    li.appendChild(b); wl.appendChild(li);
+  /* ------------------------------------------------------------------ the list: every job, grouped by industry, as a popup over the page */
+  var listDlg = $('listDlg'), listBody = $('listBody'), listTrigger = null, listBuilt = false;
+  function buildList() {
+    if (listBuilt) return; listBuilt = true;
+    var groups = [], byInd = {};
+    ORDER.forEach(function (id) { var j = byId[id]; if (!byInd[j.ind]) { byInd[j.ind] = []; groups.push(j.ind); } byInd[j.ind].push(j); });
+    $('listCnt').textContent = ORDER.length + ' jobs · ' + groups.length + ' industries'; /* NEW COPY */
+    groups.forEach(function (ind) {
+      var g = document.createElement('section'), n = byInd[ind].length; g.className = 'ld-g'; g.setAttribute('aria-label', ind);
+      g.innerHTML = '<h3 class="ld-gt"><span class="c">' + ICON_SEC + '<span></span></span><span class="ind"></span></h3><ul></ul>';
+      g.querySelector('.c span').textContent = ind; g.querySelector('.ind').textContent = n + (n > 1 ? ' jobs' : ' job');
+      var ul = g.querySelector('ul');
+      byInd[ind].forEach(function (j) {
+        var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.className = 'ld-row';
+        var th = j.items.slice(0, 3).map(function (d) { return '<span style="--ph:' + d[5] + ';background-image:url(' + T + d[0] + ')"></span>'; }).join('');
+        var caps = []; j.items.forEach(function (d, i) { if ((j.versions || []).indexOf(i) < 0 && caps.indexOf(d[4]) < 0) caps.push(d[4]); });
+        b.innerHTML = '<span class="ld-th" aria-hidden="true">' + th + '</span><span class="ld-t"><b></b><span></span></span><span class="ld-c"></span><span class="ld-go" aria-hidden="true">' + ICON_GO + '</span>';
+        b.querySelector('.ld-t b').textContent = j.title;
+        b.querySelector('.ld-t span').textContent = caps.slice(0, 5).join(', ');
+        b.querySelector('.ld-c').textContent = j.cnt;
+        b.addEventListener('click', function () { openJob(j.id, 0, null, b); });
+        li.appendChild(b); ul.appendChild(li);
+      });
+      listBody.appendChild(g);
+    });
+    /* the empty frame for the viewer's own job closes the list, as it closes the canvas */
+    var nx = document.createElement('button'); nx.type = 'button'; nx.className = 'ld-next'; nx.setAttribute('aria-label', 'Start a job');
+    nx.innerHTML = '<span class="pl" aria-hidden="true">+</span><span><b>Drop your next job here</b><small>Put a job on the board. We’ve got it.</small></span><span class="go" aria-hidden="true">Start a job</span>';
+    nx.addEventListener('click', function () { goContact(); });
+    listBody.appendChild(nx);
+  }
+  function openList() {
+    if (listDlg.open) return;
+    closeThread(); stopFrame(); if (cmdk.open) cmdk.close();
+    buildList(); listTrigger = document.activeElement;
+    listDlg.showModal(); $('listScroll').scrollTop = 0;
+    listDlg.querySelector('.ld-row').focus({ preventScroll: true });
+  }
+  function closeList() { if (listDlg.open) listDlg.close(); }
+  $('listClose').addEventListener('click', closeList);
+  listDlg.addEventListener('click', function (e) { if (e.target === listDlg) closeList(); }); /* backdrop */
+  listDlg.addEventListener('close', function () { if (listTrigger && listTrigger.focus && document.contains(listTrigger) && !listDlg.contains(listTrigger)) listTrigger.focus({ preventScroll: true }); });
+  document.querySelectorAll('[data-list]').forEach(function (b) { b.addEventListener('click', openList); });
+
+  /* ------------------------------------------------------------------ How it works: one job on the shared board
+     Click a step, or let it play while the board is on screen. The active step's progress bar is a CSS animation and its
+     animationend moves to the next step: no timers and no rAF, and nothing runs off screen, on hover, on focus or in a hidden tab. */
+  var flow = $('flow'), flStepBtns = flow.querySelectorAll('.fl-steps button'), flPlay = $('flPlay'), flCap = $('flCap'), flLive = $('flLive'), flBoard = flow.querySelector('.bd');
+  var fl = { step: 6, auto: false, inView: false, hover: false, focus: false };
+  var ICON_REPLAY = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.3 6.4A3.8 3.8 0 1 0 3.6 3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M1.6 1v3.1h3.1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+  function flSet(n, say) {
+    fl.step = n;
+    var c = flow.className.replace(/\s*\b(at|ge)-\d\b/g, '') + ' at-' + n;
+    for (var k = 1; k <= n; k++) c += ' ge-' + k;
+    flow.className = c;
+    flStepBtns.forEach(function (b) { if (+b.dataset.step === n) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+    var b = flStepBtns[Math.max(0, n - 1)], t = b.querySelector('.tx b').textContent, l = b.querySelector('.tx span').textContent;
+    flCap.innerHTML = '<b></b><span class="ti"></span><span class="ln"></span>';
+    flCap.firstChild.textContent = 'Step ' + String(Math.max(1, n)).padStart(2, '0') + ' of 06'; /* NEW COPY */
+    flCap.children[1].textContent = t; flCap.lastChild.textContent = l;
+    if (say) flLive.textContent = 'Step ' + n + ' of 6. ' + t + '. ' + l;
+    if (n >= 6) fl.auto = false;
+    flSync();
+  }
+  function flSync() {
+    var on = fl.auto && MOTION;
+    var run = on && fl.inView && !fl.hover && !fl.focus && !document.hidden && fl.step >= 1 && fl.step < 6;
+    flow.classList.toggle('auto', on); flow.classList.toggle('run', run);
+    flPlay.hidden = !MOTION;
+    var mode = on ? 0 : fl.step >= 6 ? 2 : 1;
+    /* NEW COPY: "Pause", "Play", "Replay" and their accessible names */
+    flPlay.innerHTML = [ICON_PAUSE, ICON_PLAY, ICON_REPLAY][mode] + '<span>' + ['Pause', 'Play', 'Replay'][mode] + '</span>';
+    flPlay.setAttribute('aria-label', ['Pause the walkthrough', 'Play the walkthrough', 'Replay the walkthrough'][mode]);
+  }
+  function flStart() { fl.auto = true; flSet(0); if (fl.inView) setTimeout(function () { if (fl.step === 0) flSet(1); }, 420); }
+  flPlay.addEventListener('click', function () {
+    if (fl.auto) { fl.auto = false; flSync(); return; }
+    if (fl.step >= 6 || fl.step < 1) flStart(); else { fl.auto = true; flSync(); }
+  });
+  flStepBtns.forEach(function (b) { b.addEventListener('click', function () { fl.auto = false; flSet(+b.dataset.step, true); }); });
+  flow.addEventListener('animationend', function (e) { if (e.animationName === 'flfill' && fl.auto && fl.step >= 1 && fl.step < 6) flSet(fl.step + 1); });
+  /* a real move over the board pauses it (the page scrolling under a still pointer does not) */
+  flBoard.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse' && !fl.hover && (e.movementX || e.movementY)) { fl.hover = true; flSync(); } });
+  flBoard.addEventListener('pointerleave', function () { if (fl.hover) { fl.hover = false; flSync(); } });
+  flow.addEventListener('focusin', function (e) { var on = !!(e.target.closest && e.target.closest('.fl-steps')); if (on !== fl.focus) { fl.focus = on; flSync(); } });
+  flow.addEventListener('focusout', function () { setTimeout(function () { var on = !!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#flSteps')); if (on !== fl.focus) { fl.focus = on; flSync(); } }, 0); });
+  new IntersectionObserver(function (es) {
+    fl.inView = es[0].intersectionRatio >= 0.44;
+    if (fl.inView && fl.auto && fl.step === 0) flSet(1); else flSync();
+  }, { threshold: [0, 0.45] }).observe(flBoard);
+  document.addEventListener('visibilitychange', flSync);
+  function flMotion(on) { if (!on) { fl.auto = false; if (fl.step < 1) flSet(6); else flSync(); } else flSync(); }
+  if (MOTION) { fl.auto = true; flSet(0); } else flSet(6);
+  /* "See what happens": from the form back to the board, from the top */
+  document.querySelectorAll('[data-replay]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      flow.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' });
+      if (MOTION) { flStart(); flPlay.focus({ preventScroll: true }); } else { flSet(1, true); flStepBtns[0].focus({ preventScroll: true }); }
+    });
   });
 
   /* lazy page images and backgrounds */
@@ -2032,6 +2478,7 @@
     if (!on) { stopFrame(); stopTween(); document.querySelectorAll('video').forEach(function (v) { v.pause(); }); }
     if (show.open) swPlay(on);
     else if (sheet.open && curJob) renderMosaic(byId[curJob], -1);
+    flMotion(on);
     if (save) try { localStorage.setItem('sr-motion', on ? 'on' : 'off'); } catch (e) {}
   }
   sw.addEventListener('click', function () { setMotion(!MOTION, true); });
@@ -2066,6 +2513,7 @@
   form.addEventListener('input', syncLayers); form.addEventListener('change', syncLayers);
   if (window.ResizeObserver) new ResizeObserver(function () { dimEl.textContent = 'Frame · ' + Math.round(form.offsetWidth) + ' × ' + Math.round(form.offsetHeight); if (document.activeElement && form.contains(document.activeElement) && document.activeElement.name) moveYou(document.activeElement); }).observe(form);
   function goContact() {
+    closeList();
     var c = $('contact'); if (!form.elements.help.value) { form.elements.help.value = 'Start a first job'; syncLayers(); }
     c.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' });
     setTimeout(function () { form.elements.name.focus({ preventScroll: true }); }, MOTION ? 650 : 0);
@@ -2104,10 +2552,12 @@
   document.fonts && document.fonts.ready.then(function () { if (!full) { var keep = { x: cam.x, y: cam.y, s: cam.s }, h0 = homeCam; layout(false); if (h0 && keep.x === h0.x && keep.y === h0.y && keep.s === h0.s) { cam = home(); apply(); } reelP = -1; reelTick(); } });
   /* deep links: #job=events opens that job */
   var dl = /^#job=(\w+)/.exec(location.hash); if (dl && byId[dl[1]]) setTimeout(function () { openJob(dl[1], 0, null); }, 60);
+  if (location.hash === '#list') setTimeout(openList, 60);
   window.__canvas = { cam: function () { return cam; }, frames: frames, openJob: openJob, fitAll: fitAll, home: goHome, sheet: sheet, bounds: function () { return bounds; },
     zoomTo: function (s) { takeCam(); var c = { x: vw / 2, y: vh / 2 }, wx = (c.x - cam.x) / cam.s, wy = (c.y - cam.y) / cam.s; cam = { s: s, x: c.x - wx * s, y: c.y - wy * s }; apply(); },
     look: function (job, idx, s) { takeCam(); var f = frameOf(job, idx); cam = { s: s, x: vw / 2 - (f.x + f.w / 2) * s, y: vh / 2 - (f.y + f.h / 2) * s }; apply(); },
-    present: startPresent, slide: function (k) { goSlide(k); }, play: function (on) { swPlay(on); }, show: show, palette: openCmdk, setTheme: setTheme, pins: PINS, secRects: secRects, lvl: function () { return lvl; }, tiers: function () { return frames.map(function (f) { return f.tier; }); } };
+    present: startPresent, slide: function (k) { goSlide(k); }, play: function (on) { swPlay(on); }, show: show, palette: openCmdk, setTheme: setTheme, pins: PINS, secRects: secRects, lvl: function () { return lvl; }, tiers: function () { return frames.map(function (f) { return f.tier; }); },
+    list: openList, closeList: closeList, flow: function (n) { fl.auto = false; flSet(n); }, flState: function () { return { step: fl.step, auto: fl.auto, run: flow.classList.contains('run'), inView: fl.inView, hover: fl.hover, focus: fl.focus, hidden: document.hidden }; }, flPlay: function () { flStart(); } };
 })();
 </script>
 </body>
