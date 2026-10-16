@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Studio Rendezvous, Inc. | Concept G · Channel</title>
+<meta name="description" content="Concept G: Studio Rendezvous as an always-on broadcast channel.">
+<meta name="theme-color" content="#1c1c1c">
+<link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
+<link rel="preload" as="image" href="../media/smart-london-recap.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+  /* Motion preference before first paint: a saved choice wins, otherwise follow the OS. */
+  (function () {
+    var m = null;
+    try { m = localStorage.getItem('srg-motion'); } catch (e) {}
+    var on = m === null ? !matchMedia('(prefers-reduced-motion: reduce)').matches : m === '1';
+    if (!on) document.documentElement.classList.add('still');
+  })();
+</script>
+<style>
+  /* Concept G · "Channel": the studio as an always-on broadcast channel. */
+  :root {
+    color-scheme: dark;
+    --ink: #1c1c1c;
+    --ink-2: #151515;
+    --panel: #262626;
+    --line: #3a3a3a;
+    --text: #ffffff;
+    --muted: #a6a6a6;
+    --accent: #fe5000;   /* PMS 021 C: type, bars, shapes */
+    --cta: #d24100;      /* buttons: white text 4.67:1 */
+    --yellow: #ffd300;   /* channel tabs, NOW chips (ink text) */
+    --paper: #f2f0eb;
+    --paper-2: #e8e5de;
+    --rule: #cdc8bd;
+    --dim: #4a4a4a;      /* body copy on paper, 7.9:1 */
+    --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+    --body: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --g: clamp(16px, 3.4vw, 48px);
+  }
+  * { box-sizing: border-box; }
+  html, body { overflow-x: clip; }
+  html { background: var(--ink); }
+  body { margin: 0; background: var(--ink); color: var(--text); font: 400 17px/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+  img, video, svg { display: block; max-width: 100%; }
+  button { font: inherit; color: inherit; }
+  a { color: inherit; }
+  .wrap { max-width: 1440px; margin: 0 auto; padding-inline: var(--g); }
+  .mono { font-family: var(--mono); }
+  .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+  .paper :focus-visible { outline-color: var(--cta); }
+  .skip { position: absolute; left: 12px; top: -80px; z-index: 100; background: var(--yellow); color: var(--ink); font: 500 13px/1 var(--mono); padding: 12px 14px; text-decoration: none; }
+  .skip:focus { top: 12px; }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; line-height: .92; margin: 0; text-wrap: balance; }
+
+  .cta { display: inline-flex; align-items: center; gap: 10px; background: var(--cta); color: #fff; font: 500 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 15px 18px 14px; text-decoration: none; border: 0; cursor: pointer; }
+  .cta::before { content: ""; width: 7px; height: 7px; background: currentColor; }
+  .cta:hover { background: #b83900; }
+  .ghost { display: inline-flex; align-items: center; gap: 10px; font: 500 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 14px 18px 13px; color: inherit; border: 1px solid currentColor; text-decoration: none; }
+  .ghost:hover { background: rgba(255,255,255,.06); }
+
+  /* ================================================================ header */
+  .top { display: flex; align-items: center; gap: 28px; height: 68px; }
+  .top .logo img { height: 22px; width: auto; }
+  .top nav { display: flex; gap: 22px; margin-left: auto; }
+  .top nav a { font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: #d9d9d9; padding: 8px 0; }
+  .top nav a:hover { color: #fff; box-shadow: inset 0 -2px 0 var(--accent); }
+  .msw { display: inline-flex; align-items: center; gap: 10px; background: none; border: 1px solid var(--line); border-radius: 99px; padding: 6px 8px 6px 14px; cursor: pointer; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #e6e6e6; }
+  .msw .trk { width: 34px; height: 18px; border-radius: 9px; background: #444; position: relative; }
+  .msw .trk::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .2s; }
+  .msw[aria-checked="true"] .trk { background: var(--accent); }
+  .msw[aria-checked="true"] .trk::after { transform: translateX(16px); }
+  .msw .st { min-width: 2.2em; text-align: left; color: var(--muted); }
+  .top .cta { padding: 12px 14px 11px; }
+
+  /* ================================================================ channel hero */
+  .hero { display: grid; grid-template-columns: minmax(300px, 400px) minmax(0, 1fr); gap: clamp(24px, 3.2vw, 52px); padding-top: 18px; align-items: start; }
+  .hero-copy { padding-top: 34px; display: grid; gap: 22px; }
+  .eb { font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+  .eb b { font-weight: 500; color: #fff; }
+  .eb i { width: 6px; height: 6px; background: var(--accent); display: inline-block; }
+  .hero h1 { font-size: clamp(56px, 5.5vw, 82px); font-weight: 900; line-height: .86; }
+  .hero h1 em { font-style: normal; color: var(--accent); display: block; }
+  .tag { font: 300 clamp(20px, 1.7vw, 24px)/1.3 var(--body); margin: 0; color: #f0f0f0; }
+  .proof { font: 400 12px/1.9 var(--mono); letter-spacing: .04em; color: #cfcfcf; margin: 0; text-transform: uppercase; }
+  .proof span { white-space: nowrap; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* program monitor */
+  .mv-strip { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 8px; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); min-width: 0; }
+  .mv-strip .l, .mv-strip .r { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .mv-strip .r { justify-content: flex-end; }
+  .mv-strip .r span:last-child, .mv-strip .l span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tally { background: var(--accent); color: var(--ink); padding: 5px 7px 4px; }
+  .pvw { border: 1px solid #555; color: #ddd; padding: 4px 6px 3px; }
+  .monitor { position: relative; aspect-ratio: 16 / 9; background: #000; overflow: hidden; border-radius: 3px; box-shadow: 0 0 0 1px #333, 0 40px 90px -40px rgba(0,0,0,.9); }
+  .monitor:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  .monitor .media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .monitor.vert .media { object-fit: contain; }
+  .monitor.vert { background: radial-gradient(60% 80% at 50% 50%, #2b2b2b, #0d0d0d); }
+  .monitor video { opacity: 0; }
+  .monitor.live video { opacity: 1; }
+  .safe i { position: absolute; width: 18px; height: 18px; border: 0 solid rgba(255,255,255,.4); pointer-events: none; }
+  .safe i:nth-child(1) { top: 3.2%; left: 2%; border-width: 1px 0 0 1px; }
+  .safe i:nth-child(2) { top: 3.2%; right: 2%; border-width: 1px 1px 0 0; }
+  .safe i:nth-child(3) { bottom: 3.2%; left: 2%; border-width: 0 0 1px 1px; }
+  .safe i:nth-child(4) { bottom: 3.2%; right: 2%; border-width: 0 1px 1px 0; }
+  .bug { position: absolute; top: 5.5%; left: 3.4%; display: flex; align-items: center; gap: 8px; background: rgba(18,18,18,.72); color: #fff; padding: 7px 10px 6px; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+  .bug .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .monitor.paused .bug .dot { background: #9a9a9a; }
+  .bug .clk { color: #cfcfcf; font-variant-numeric: tabular-nums; }
+  .chbug { position: absolute; top: 5.5%; right: 3.4%; display: flex; align-items: center; gap: 10px; }
+  .chbug b { background: var(--yellow); color: var(--ink); font: 500 12px/1 var(--mono); letter-spacing: .08em; padding: 7px 8px 6px; }
+  .chbug svg { width: 30px; height: 30px; fill: #fff; opacity: .78; }
+
+  .l3 { position: absolute; left: 3.4%; bottom: 7%; max-width: min(74%, 600px); display: grid; justify-items: start; }
+  .l3-tab { background: var(--yellow); color: var(--ink); font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 6px 10px 5px; }
+  .l3-main { position: relative; background: var(--accent); color: var(--ink); font: 800 clamp(22px, 2.7vw, 42px)/1 var(--display); text-transform: uppercase; letter-spacing: .01em; padding: 10px 18px 9px 14px; }
+  .l3-sub { display: flex; align-items: center; gap: 16px; background: rgba(18,18,18,.9); color: #fff; font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 8px 12px 7px 14px; }
+  .l3-sub .info { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; color: #fff; border-bottom: 1px solid var(--accent); padding: 2px 0; }
+  .l3-sub .info svg { width: 9px; height: 9px; fill: var(--accent); transform: rotate(90deg); }
+  .l3-sub .info:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+  .prog { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
+  .prog.run { animation: prog linear forwards; animation-play-state: paused; }
+  .monitor.playing .prog.run { animation-play-state: running; }
+  @keyframes prog { to { transform: scaleX(1); } }
+  html:not(.still) .l3.wipe .l3-tab { animation: wipe .35s cubic-bezier(.2,.8,.2,1) both; }
+  html:not(.still) .l3.wipe .l3-main { animation: wipe .45s .06s cubic-bezier(.2,.8,.2,1) both; }
+  html:not(.still) .l3.wipe .l3-sub { animation: wipe .45s .12s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+  .bigplay { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); width: 78px; height: 78px; border-radius: 50%; background: rgba(20,20,20,.62); border: 2px solid #fff; display: none; place-items: center; cursor: pointer; padding: 0; }
+  .bigplay svg { width: 26px; height: 26px; fill: #fff; transform: translateX(2px) rotate(90deg); }
+  .bigplay:hover { background: var(--cta); border-color: var(--cta); }
+  .monitor.paused .bigplay { display: grid; }
+
+  /* ident between channels: circle, square, triangle */
+  .ident { position: absolute; inset: 0; z-index: 5; background: var(--ink); display: none; place-items: center; overflow: hidden; }
+  .ident.on { display: grid; }
+  .id-in { display: grid; justify-items: center; gap: clamp(10px, 2vw, 22px); }
+  .id-sh { display: flex; align-items: flex-end; gap: clamp(8px, 1.6vw, 20px); }
+  .id-sh i { display: block; width: clamp(34px, 6.4vw, 92px); aspect-ratio: 1; }
+  .id-sh .c { border-radius: 50%; background: var(--accent); }
+  .id-sh .s { background: var(--yellow); }
+  .id-sh .t { background: #fff; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .id-tx { display: grid; justify-items: center; gap: 6px; text-align: center; }
+  .id-tx b { font: 500 12px/1 var(--mono); letter-spacing: .14em; color: var(--yellow); text-transform: uppercase; }
+  .id-tx strong { font: 900 clamp(26px, 4.4vw, 64px)/.9 var(--display); text-transform: uppercase; }
+  .id-tx span { font: 400 12px/1 var(--mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+  .ident.on .c { animation: idC .5s cubic-bezier(.2,1.5,.4,1) both; }
+  .ident.on .s { animation: idS .5s .07s cubic-bezier(.2,1.5,.4,1) both; }
+  .ident.on .t { animation: idT .5s .14s cubic-bezier(.2,1.5,.4,1) both; }
+  .ident.on .id-tx { animation: idX .4s .3s cubic-bezier(.2,.8,.2,1) both; }
+  .ident.on::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform: translateX(-101%); animation: idW .32s 1.02s cubic-bezier(.6,0,.4,1) both; }
+  @keyframes idC { from { transform: scale(0); } }
+  @keyframes idS { from { transform: translateY(-140%) rotate(-90deg); opacity: 0; } }
+  @keyframes idT { from { transform: translateX(160%) rotate(120deg); opacity: 0; } }
+  @keyframes idX { from { transform: translateY(14px); opacity: 0; } }
+  @keyframes idW { 0% { transform: translateX(-101%); } 100% { transform: translateX(101%); } }
+
+  .cc { display: flex; align-items: flex-start; gap: 12px; background: #101010; border: 1px solid #2a2a2a; border-top: 0; padding: 11px 14px; min-height: 48px; font: 400 15px/1.45 var(--body); color: #f0f0f0; }
+  .cc b { flex: none; font: 500 10px/1 var(--mono); letter-spacing: .08em; border: 1px solid #bdbdbd; padding: 4px 5px 3px; margin-top: 2px; }
+  .cc[hidden] { display: none; }
+
+  /* ================================================================ console: remote + program guide */
+  .console { display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 28px; padding: 34px 0 72px; align-items: start; }
+  .remote { background: linear-gradient(180deg, #2d2d2d, #1d1d1d); border: 1px solid #3c3c3c; border-radius: 30px 30px 40px 40px; padding: 18px 18px 18px; display: grid; gap: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 30px 60px -30px rgba(0,0,0,.9); }
+  .r-top { display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
+  .r-top svg { width: 22px; height: 22px; fill: #fff; opacity: .9; }
+  .r-top .ir { width: 26px; height: 8px; border-radius: 4px; background: #3a1208; box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
+  .r-sh { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; }
+  .r-sh span { display: block; font: 500 10px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 7px; }
+  .k { width: 52px; height: 52px; margin: 0 auto; border-radius: 50%; background: #141414; border: 1px solid #474747; display: grid; place-items: center; cursor: pointer; padding: 0; box-shadow: 0 3px 0 #0b0b0b; }
+  .k:hover { border-color: #888; }
+  .k:active { transform: translateY(2px); box-shadow: 0 1px 0 #0b0b0b; }
+  .k svg { width: 22px; height: 22px; }
+  .k .c { fill: var(--accent); } .k .s { fill: var(--yellow); } .k .t { fill: #fff; }
+  .r-rk { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rock { display: grid; grid-template-rows: 44px 20px 44px; background: #141414; border: 1px solid #474747; border-radius: 26px; overflow: hidden; box-shadow: 0 3px 0 #0b0b0b; }
+  .rock button { background: none; border: 0; cursor: pointer; display: grid; place-items: center; }
+  .rock button:hover { background: #222; }
+  .rock button svg { width: 12px; height: 12px; fill: #fff; }
+  .rock button.dn svg { transform: rotate(180deg); }
+  .rock span { font: 500 10px/20px var(--mono); letter-spacing: .12em; color: var(--muted); text-align: center; }
+  .r-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .num { height: 38px; border-radius: 19px; background: #141414; border: 1px solid #474747; font: 500 15px/1 var(--mono); cursor: pointer; box-shadow: 0 2px 0 #0b0b0b; }
+  .num:hover { border-color: #888; }
+  .num[aria-current="true"] { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+  .r-ft { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .ccb { background: #141414; border: 1px solid #474747; border-radius: 12px; font: 500 11px/1 var(--mono); letter-spacing: .08em; padding: 6px 10px 5px; cursor: pointer; }
+  .ccb[aria-pressed="true"] { border-color: #fff; background: #fff; color: var(--ink); }
+  .r-ft small { font: 400 10px/1.35 var(--mono); color: var(--muted); text-align: right; }
+
+  .guide { min-width: 0; }
+  .g-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .g-head h2 { font-size: 30px; }
+  .g-head p { margin: 0; color: var(--muted); font-size: 15px; }
+  .g-head .gnow { margin-left: auto; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #d0d0d0; }
+  .g-head .gnow b { color: var(--yellow); font-weight: 500; }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .grow { display: grid; grid-template-columns: 142px minmax(0, 1fr); gap: 6px; padding: 6px 0; border-bottom: 1px solid #2b2b2b; }
+  .chc { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 0; padding: 0 12px; height: 50px; text-align: left; cursor: pointer; }
+  .chc:hover { background: #303030; }
+  .chc .n { font: 500 12px/1 var(--mono); color: var(--muted); }
+  .chc .nm { font: 800 18px/1 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+  .grow.on .chc { background: var(--accent); color: var(--ink); }
+  .grow.on .chc .n { color: var(--ink); }
+  .progs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .progs::-webkit-scrollbar { display: none; }
+  .pg { flex: 0 0 auto; width: max(136px, calc(var(--d) * 18px)); height: 50px; background: #222; border: 1px solid #313131; text-align: left; padding: 7px 9px; display: grid; align-content: center; gap: 4px; cursor: pointer; text-decoration: none; min-width: 0; }
+  .pg:hover { background: #2c2c2c; border-color: #5a5a5a; }
+  .pg-t { display: flex; align-items: center; gap: 6px; font: 600 13.5px/1.1 var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pg-t svg { flex: none; width: 8px; height: 8px; fill: var(--accent); }
+  .pg-c { font: 400 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pg[aria-current="true"] { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+  .pg[aria-current="true"] .pg-c { color: #3b3b3b; }
+  .pg[aria-current="true"] .pg-t svg { fill: var(--ink); }
+  .pg.open { flex: 1 1 auto; width: auto; min-width: 92px; background: repeating-linear-gradient(135deg, #1f1f1f 0 7px, #262626 7px 14px); border: 1px dashed #5c5c5c; color: #e6e6e6; }
+  .pg.open .pg-t svg { fill: #e6e6e6; }
+  .pg.open:hover { border-color: var(--accent); }
+
+  /* ================================================================ the handoff: one short scroll-driven ident */
+  .handoff { position: relative; background: var(--paper); color: var(--ink); }
+  .ho-stage { position: relative; display: grid; place-items: center; padding: clamp(80px, 11vw, 150px) var(--g) clamp(64px, 8vw, 110px); overflow: hidden; }
+  .ho-wipe { position: absolute; inset: 0; background: var(--paper); }
+  .ho-in { position: relative; display: grid; justify-items: center; gap: clamp(28px, 4vw, 48px); max-width: 1100px; }
+  .ho-sh { display: flex; align-items: flex-end; gap: clamp(10px, 1.6vw, 22px); }
+  .ho-sh i { display: block; width: clamp(40px, 5vw, 70px); aspect-ratio: 1; }
+  .ho-sh .c { border-radius: 50%; background: var(--accent); }
+  .ho-sh .s { background: var(--yellow); }
+  .ho-sh .t { background: var(--ink); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .ho-lede { margin: 0; text-align: center; font: 300 clamp(23px, 2.6vw, 38px)/1.3 var(--body); color: var(--ink); text-wrap: balance; }
+  @supports (animation-timeline: view()) {
+    html:not(.still) .handoff { height: 200vh; height: 200svh; background: var(--ink); view-timeline: --ho block; }
+    html:not(.still) .ho-stage { position: sticky; top: 0; height: 100vh; height: 100svh; padding-block: 0; }
+    html:not(.still) .ho-wipe { animation: hoWipe linear both; animation-timeline: --ho; animation-range: contain 34% contain 62%; }
+    html:not(.still) .ho-sh i { animation: linear both; animation-timeline: --ho; animation-range: contain 0% contain 58%; }
+    html:not(.still) .ho-sh .c { animation-name: hoC; }
+    html:not(.still) .ho-sh .s { animation-name: hoS; }
+    html:not(.still) .ho-sh .t { animation-name: hoT; }
+    html:not(.still) .ho-lede { animation: hoL linear both; animation-timeline: --ho; animation-range: contain 58% contain 86%; }
+  }
+  @keyframes hoWipe { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes hoC { 0% { transform: translate(-46vw, 30vh) scale(3); } 55% { transform: translate(-110px, 16vh) scale(2.1); } 100% { transform: none; } }
+  @keyframes hoS { 0% { transform: translate(0, 70vh) scale(3) rotate(-180deg); } 55% { transform: translate(0, 16vh) scale(2.1) rotate(0); } 100% { transform: none; } }
+  @keyframes hoT { 0% { transform: translate(46vw, 30vh) scale(3) rotate(200deg); background: #fff; } 55% { transform: translate(110px, 16vh) scale(2.1) rotate(0); } 88% { background: #fff; } 96% { background: var(--ink); } 100% { transform: none; background: var(--ink); } }
+  @keyframes hoL { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+
+  /* ================================================================ calm sections */
+  .seg { padding: clamp(72px, 9vw, 128px) 0; }
+  .paper { background: var(--paper); color: var(--ink); color-scheme: light; }
+  .paper-2 { background: var(--paper-2); color: var(--ink); color-scheme: light; }
+  .dark { background: var(--ink); }
+  .deep { background: var(--ink-2); }
+  .slug { display: inline-flex; font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 22px; }
+  .slug b { background: var(--accent); color: var(--ink); padding: 8px 10px 7px; font-weight: 500; }
+  .slug span { background: var(--ink); color: #fff; padding: 8px 12px 7px; }
+  .dark .slug span, .deep .slug span { background: #fff; color: var(--ink); }
+  .seg h2 { font-size: clamp(42px, 5.6vw, 82px); max-width: 16ch; }
+  .lede { font: 300 clamp(20px, 1.8vw, 25px)/1.4 var(--body); max-width: 46ch; margin: 22px 0 0; }
+  .paper p, .paper-2 p { color: var(--dim); }
+  .paper .lede, .paper-2 .lede { color: var(--ink); }
+  .eyebrow { display: flex; align-items: center; gap: 10px; font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; margin: 64px 0 18px; }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; background: var(--accent); }
+  .mv h3 { font-size: clamp(24px, 2.2vw, 30px); line-height: 1; margin-bottom: 10px; }
+  .mv p { margin: 0; font-size: 17px; }
+  .shp { width: 22px; height: 22px; margin-bottom: 16px; }
+  .shp .c { fill: var(--accent); } .shp .s { fill: var(--yellow); stroke: var(--ink); stroke-width: 0; } .shp .t { fill: var(--ink); }
+  .dark .shp .t, .deep .shp .t { fill: #fff; }
+
+  /* why it works */
+  .why { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .tenure { margin: 36px 0 0; }
+  .tenure .tg { display: inline-block; background: var(--yellow); color: var(--ink); font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 6px 8px 5px; margin-bottom: 14px; }
+  .tenure svg { width: 100%; height: auto; }
+  .tenure svg text { font-family: var(--mono); fill: var(--dim); }
+  .tenure svg .val { fill: var(--ink); }
+  .why .stack { display: grid; gap: 34px; padding-top: 6px; }
+  .why .mv { border-top: 2px solid var(--ink); padding-top: 18px; }
+
+  .mail { margin: 0; display: grid; gap: 16px; border-left: 4px solid var(--accent); padding: 4px 0 4px 22px; }
+  .mail .lb { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: inherit; opacity: .8; }
+  .mail blockquote { margin: 0; font: 300 clamp(20px, 1.7vw, 24px)/1.4 var(--body); font-style: italic; }
+  .mail cite { font: 500 12px/1.4 var(--mono); font-style: normal; letter-spacing: .04em; text-transform: uppercase; }
+  .paper .mail blockquote, .paper-2 .mail blockquote { color: var(--ink); }
+
+  /* how it works: a static run of show */
+  .how { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .how .mail { margin-top: 40px; }
+  .ros { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .ros li { display: grid; grid-template-columns: 54px minmax(0, 210px) minmax(0, 1fr); gap: 18px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+  .ros .n { justify-self: start; font: 500 12px/1 var(--mono); background: var(--ink); color: #fff; padding: 6px 7px 5px; }
+  .ros li:nth-child(2) .n { background: var(--accent); color: var(--ink); }
+  .ros b { font: 800 24px/1 var(--display); text-transform: uppercase; letter-spacing: .01em; }
+  .ros p { margin: 0; font-size: 16.5px; }
+  .ros-h { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding-bottom: 10px; }
+
+  /* good fit / engagement */
+  .pk { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .pkc { background: #fff; border: 1px solid var(--rule); display: grid; grid-template-rows: auto 1fr; }
+  .pkc header { display: flex; align-items: center; gap: 12px; background: var(--ink); color: #fff; padding: 14px 18px; }
+  .pkc header svg { width: 18px; height: 18px; flex: none; }
+  .pkc header h3 { font-size: 26px; }
+  .pkc .bd { padding: 18px 18px 22px; display: grid; gap: 14px; align-content: start; }
+  .pkc .bd p { margin: 0; }
+  .pkc .lnk { font: 500 12px/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .vs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--ink); }
+  .vs .mv { padding: 20px 22px 4px 0; }
+  .vs .mv + .mv { padding-left: 22px; border-left: 1px solid var(--rule); }
+  .sp { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .sp .mv { background: var(--paper-2); padding: 20px 20px 22px; }
+  .sp .mv h3 { font-size: 22px; }
+  .sp .mv p { font-size: 16px; }
+
+  /* on-air talent */
+  .talent { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 44px; }
+  .tc { margin: 0; position: relative; background: #232323; aspect-ratio: 4 / 5; overflow: hidden; display: grid; place-items: center; }
+  .tc .set { position: absolute; inset: 0; }
+  .tc .set i { position: absolute; width: 74%; aspect-ratio: 1; right: -18%; top: -10%; background: #2c2c2c; }
+  .tc:nth-child(3n+1) .set i { border-radius: 50%; }
+  .tc:nth-child(3n+3) .set i { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .tc img { position: relative; width: 58%; aspect-ratio: 1; border-radius: 50%; box-shadow: 0 0 0 3px var(--ink), 0 0 0 5px var(--accent); margin-bottom: 22%; }
+  .tc figcaption { position: absolute; left: 0; bottom: 14px; right: 14px; display: grid; justify-items: start; }
+  .tc figcaption b { background: #fff; color: var(--ink); font: 800 clamp(19px, 1.7vw, 24px)/1 var(--display); text-transform: uppercase; padding: 8px 12px 6px 12px; }
+  .tc figcaption span { background: var(--accent); color: var(--ink); font: 500 10.5px/1.35 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 6px 10px 5px 12px; }
+  .talent-lede { font-size: 19px; color: #e0e0e0; max-width: 52ch; margin: 18px 0 0; }
+
+  /* clients */
+  .logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid #333; border-left: 1px solid #333; }
+  .logos li { border-right: 1px solid #333; border-bottom: 1px solid #333; display: grid; place-items: center; padding: 18px 14px; aspect-ratio: 2 / 1; }
+  .logos img { width: 100%; max-width: 190px; height: auto; }
+  .logos.past { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .logos.past img { max-width: 140px; opacity: .8; }
+  .lgl { font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: #d6d6d6; margin: 0 0 16px; display: flex; gap: 10px; align-items: center; }
+  .lgl::before { content: ""; width: 8px; height: 8px; background: var(--accent); }
+  .mails { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 64px); margin: 72px 0; }
+
+  /* contact */
+  .ct { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); gap: clamp(32px, 5vw, 80px); margin-top: 40px; align-items: start; }
+  .form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form label { display: grid; gap: 6px; font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
+  .form .wide { grid-column: 1 / -1; }
+  .form input, .form select, .form textarea { font: 400 17px/1.35 var(--body); color: var(--ink); background: #fff; border: 1px solid #a9a397; border-radius: 0; padding: 12px 12px; width: 100%; }
+  .form input:focus-visible, .form select:focus-visible, .form textarea:focus-visible { outline: 3px solid var(--cta); outline-offset: 0; }
+  .form .hp { position: absolute; left: -9999px; }
+  .form .ft { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+  .form .note { margin: 0; font-size: 15px; color: var(--dim); }
+  .side { display: grid; gap: 20px; border-top: 2px solid var(--ink); padding-top: 20px; }
+  .side p { margin: 0; }
+  .side .em { font: 600 20px/1.3 var(--body); color: var(--ink); text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; overflow-wrap: anywhere; }
+
+  /* footer: sign-off */
+  .bars { display: grid; grid-template-columns: 3fr 2fr 2fr 1fr 1fr 1fr 4fr; height: 12px; }
+  .bars i:nth-child(1) { background: #fff; } .bars i:nth-child(2) { background: var(--yellow); } .bars i:nth-child(3) { background: var(--accent); }
+  .bars i:nth-child(4) { background: var(--cta); } .bars i:nth-child(5) { background: #8a8a8a; } .bars i:nth-child(6) { background: #3a3a3a; } .bars i:nth-child(7) { background: #262626; }
+  .foot { padding-block: 64px 28px; }
+  .fd { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; }
+  .fd .logo img { height: 26px; width: auto; margin-bottom: 16px; }
+  .fd p { margin: 0; color: #d0d0d0; max-width: 34ch; }
+  .fd h2 { font: 500 11px/1 var(--mono); letter-spacing: .12em; color: var(--muted); margin-bottom: 14px; }
+  .fd ul { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+  .fd a { text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  .fb { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 56px; padding-top: 18px; border-top: 1px solid #333; font: 400 12px/1 var(--mono); letter-spacing: .06em; color: #c8c8c8; }
+  .fb a { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; }
+  .fb svg { width: 10px; height: 10px; fill: var(--accent); }
+  .fb .sh { display: flex; gap: 6px; align-items: center; }
+  .fb .sh i { width: 10px; height: 10px; display: block; }
+  .fb .sh i:nth-child(1) { background: var(--accent); border-radius: 50%; } .fb .sh i:nth-child(2) { background: var(--yellow); } .fb .sh i:nth-child(3) { background: #fff; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+  /* ================================================================ job sheet overlay */
+  dialog.sheet { width: min(1240px, calc(100vw - 48px)); max-width: none; height: calc(100vh - 48px); max-height: none; margin: auto; padding: 0; border: 0; background: var(--ink); color: #fff; overflow: hidden; box-shadow: 0 0 0 1px #3a3a3a; }
+  dialog.sheet::backdrop { background: rgba(8,8,8,.82); }
+  .sh-wrap { height: 100%; display: grid; grid-template-rows: auto 1fr; }
+  .sh-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 22px; border-bottom: 1px solid #333; background: #181818; }
+  .sh-bar .lb { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; display: flex; gap: 8px; align-items: center; min-width: 0; }
+  .sh-bar .lb b { background: var(--yellow); color: var(--ink); padding: 6px 8px 5px; font-weight: 500; white-space: nowrap; }
+  .sh-bar .lb span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sh-bar .nav { margin-left: auto; display: flex; gap: 6px; }
+  .sbtn { background: #222; border: 1px solid #444; color: #fff; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 10px 12px 9px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+  .sbtn:hover { border-color: #888; }
+  .sbtn svg { width: 9px; height: 9px; fill: currentColor; }
+  .sbtn.x { background: #fff; color: var(--ink); border-color: #fff; }
+  .sh-body { overflow-y: auto; padding: 30px 22px 40px; overscroll-behavior: contain; }
+  .sh-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 40px; align-items: end; margin-bottom: 26px; }
+  .sh-head h2 { font-size: clamp(36px, 4.8vw, 68px); max-width: 18ch; }
+  .sh-head .ld { grid-column: 1 / 2; margin: 0; font: 300 clamp(18px, 1.6vw, 22px)/1.45 var(--body); color: #ececec; max-width: 60ch; }
+  .sh-head .acts { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 10px; justify-items: end; align-self: end; }
+  .sh-head .cnt { font: 500 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .mos { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 40px; grid-auto-flow: row dense; gap: 8px; }
+  .tl { position: relative; margin: 0; background: #262626; overflow: hidden; }
+  .tl .tm { position: absolute; inset: 0; }
+  .tl img, .tl video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tl video { opacity: 0; }
+  .tl.live video { opacity: 1; }
+  .tl.ct img, .tl.ct video { object-fit: contain; background: #111; }
+  .tl figcaption { position: absolute; left: 0; bottom: 0; background: rgba(18,18,18,.88); color: #fff; font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 7px 10px 6px; }
+  .tl .tp { position: absolute; right: 10px; bottom: 10px; width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff; background: rgba(18,18,18,.6); display: grid; place-items: center; cursor: pointer; padding: 0; }
+  .tl .tp svg { width: 13px; height: 13px; fill: #fff; transform: translateX(1px) rotate(90deg); }
+  .tl.live .tp { background: var(--accent); border-color: var(--accent); }
+  .tl.live .tp svg { display: none; }
+  .tl.live .tp::before, .tl.live .tp::after { content: ""; width: 4px; height: 13px; background: var(--ink); position: absolute; top: 12px; }
+  .tl.live .tp::before { left: 13px; } .tl.live .tp::after { right: 13px; }
+  .z-xl { grid-column: span 8; grid-row: span 10; }
+  .z-l { grid-column: span 6; grid-row: span 7; }
+  .z-m { grid-column: span 4; grid-row: span 5; }
+  .z-s { grid-column: span 3; grid-row: span 4; }
+  .z-p { grid-column: span 4; grid-row: span 10; }
+  .z-t { grid-column: span 3; grid-row: span 9; }
+  .z-w { grid-column: span 8; grid-row: span 6; }
+  .z-sq { grid-column: span 6; grid-row: span 9; }
+  .z-v { grid-column: span 3; grid-row: span 10; }
+  .z-f { grid-column: span 12; grid-row: span 14; }
+  .sh-note { font: 400 13px/1.5 var(--mono); color: #cfcfcf; margin: 20px 0 0; max-width: 80ch; }
+  .sh-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; padding-top: 22px; border-top: 1px solid #333; }
+
+  /* ================================================================ responsive */
+  @media (max-width: 1180px) {
+    .hero { grid-template-columns: minmax(0, 1fr); }
+    .hero-copy { padding-top: 10px; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: end; gap: 18px 40px; }
+    .hero-copy .eb, .hero-copy h1 { grid-column: 1 / -1; }
+    .hero h1 em { display: inline; }
+    .talent { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .vs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .vs .mv:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+  @media (max-width: 900px) {
+    .top nav { display: none; }
+    .top .msw { margin-left: auto; }
+    .console { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 24px; }
+    .remote { border-radius: 22px; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "sh rk" "ft ft"; gap: 14px 18px; padding: 14px 16px; }
+    .r-top, .r-pad { display: none; }
+    .r-sh { grid-area: sh; }
+    .r-rk { grid-area: rk; }
+    .r-ft { grid-area: ft; }
+    .rock { grid-template-rows: none; grid-template-columns: 44px minmax(0, 1fr) 44px; height: 44px; align-items: center; }
+    .rock button.dn { order: -1; }
+    .rock button.up { order: 1; }
+    .rock button.dn svg { transform: rotate(-90deg); }
+    .rock button.up svg { transform: rotate(90deg); }
+    .rock span { line-height: 44px; }
+    .why, .how, .ct { grid-template-columns: minmax(0, 1fr); }
+    .pk, .sp { grid-template-columns: minmax(0, 1fr); }
+    .mails { grid-template-columns: minmax(0, 1fr); }
+    .logos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .logos.past { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .fd { grid-template-columns: 1fr 1fr; }
+    .fd > :first-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 720px) {
+    :root { --g: 16px; }
+    body { font-size: 16.5px; }
+    .top { height: 60px; gap: 12px; }
+    .top .logo img { height: 18px; }
+    .top .cta { display: none; }
+    .msw { padding: 5px 6px 5px 10px; }
+    .hero-copy { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .hero h1 { font-size: clamp(46px, 13vw, 64px); }
+    .hero h1 em { display: block; }
+    .mv-strip .r { display: none; }
+    .safe { display: none; }
+    .bug { top: 6%; left: 3%; padding: 5px 7px 4px; font-size: 10px; gap: 6px; }
+    .bug .clk { display: none; }
+    .chbug { top: 6%; right: 3%; gap: 6px; }
+    .chbug b { font-size: 10px; padding: 5px 6px 4px; }
+    .chbug svg { width: 20px; height: 20px; }
+    .l3 { left: 3%; bottom: 5%; max-width: 92%; }
+    .l3-tab { font-size: 9.5px; padding: 4px 7px 3px; }
+    .l3-main { font-size: clamp(18px, 5.4vw, 26px); padding: 7px 12px 6px 10px; }
+    .l3-sub { font-size: 10px; gap: 10px; padding: 6px 8px 5px 10px; }
+    .bigplay { width: 58px; height: 58px; }
+    .cc { font-size: 14px; padding: 10px 12px; }
+    .k { width: 46px; height: 46px; }
+    .remote { grid-template-columns: minmax(0, 1fr); grid-template-areas: "sh" "rk" "ft"; }
+    .r-ft small { display: none; }
+    .grow { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 10px 0; }
+    .chc { height: 40px; }
+    .progs { scroll-snap-type: x proximity; padding-bottom: 2px; }
+    .pg { width: 156px; height: 58px; scroll-snap-align: start; }
+    .pg.open { flex: 0 0 auto; width: 128px; }
+    .g-head .gnow { margin-left: 0; }
+    .ros li { grid-template-columns: 44px minmax(0, 1fr); gap: 6px 14px; }
+    .ros li p { grid-column: 2; }
+    .vs { grid-template-columns: minmax(0, 1fr); }
+    .vs .mv, .vs .mv + .mv { padding: 20px 0 6px; border-left: 0; border-top: 1px solid var(--rule); }
+    .vs .mv:first-child { border-top: 0; }
+    .talent { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .tc figcaption { right: 8px; bottom: 10px; }
+    .tc figcaption span { font-size: 9.5px; }
+    .logos, .logos.past { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .form { grid-template-columns: minmax(0, 1fr); }
+    .fd { grid-template-columns: minmax(0, 1fr); }
+    .fb { flex-wrap: wrap; }
+    dialog.sheet { width: 100vw; height: 100vh; height: 100dvh; }
+    .sh-bar { padding: 10px 10px 10px 14px; }
+    .sh-bar .nav .t { display: none; }
+    .sh-body { padding: 22px 16px 32px; }
+    .sh-head { grid-template-columns: minmax(0, 1fr); }
+    .sh-head .acts { grid-column: 1; grid-row: auto; justify-items: start; }
+    .mos { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .mos .tl { grid-column: span 1; grid-row: auto; aspect-ratio: 4 / 3; }
+    .mos .z-xl, .mos .z-l, .mos .z-w, .mos .z-sq, .mos .z-f { grid-column: span 2; aspect-ratio: 16 / 9; }
+    .mos .z-p, .mos .z-t { aspect-ratio: 3 / 4; }
+    .mos .z-v { aspect-ratio: 9 / 16; }
+    .mos .z-w { aspect-ratio: 2.4 / 1; }
+    .mos .z-sq { aspect-ratio: 5 / 4; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .msw .trk::after { transition: none; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <!-- The Studio Rendezvous mark (from media/sr-logo.svg): square, circle sweep, triangle -->
+  <symbol id="mk" viewBox="0 0 78 78"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></symbol>
+  <symbol id="tri" viewBox="0 0 10 10"><polygon points="5,0 10,10 0,10"/></symbol>
+  <symbol id="sq" viewBox="0 0 10 10"><rect width="10" height="10"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#top" aria-label="Studio Rendezvous, back to top"><img src="../media/sr-logo.svg" alt="Studio Rendezvous" width="135" height="24"></a>
+    <!-- NEW COPY: nav labels "Guide", "Talent" -->
+    <nav aria-label="Sections"><a href="#guide">Guide</a><a href="#how">How it works</a><a href="#fit">Good fit</a><a href="#talent">Talent</a><a href="#contact">Contact</a></nav>
+    <button class="msw" id="msw" type="button" role="switch" aria-checked="true"><span>Motion</span><span class="trk" aria-hidden="true"></span><span class="st" id="mswSt">On</span></button>
+    <a class="cta" href="#contact">Start a job</a>
+  </header>
+</div>
+
+<main id="main">
+  <!-- ================================================================ ON AIR -->
+  <div class="wrap" id="top">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eb"><b>Studio Rendezvous, Inc.</b><i aria-hidden="true"></i><span>B2B design and motion studio</span></p>
+        <h1>Design and motion, <em>always on.</em></h1>
+        <p class="tag">When you need a team that delivers every day.</p>
+        <p class="proof"><span>Senior team</span> · <span>681 videos last year</span> · <span>Built for tight deadlines</span> · <span>Current clients average 9 years</span></p>
+        <div class="hero-ctas"><a class="cta" href="#contact">Start a job</a><a class="ghost" href="#guide">See the work</a></div>
+      </div>
+
+      <div class="screen">
+        <!-- NEW COPY: monitor strip labels "PGM", "PVW · Up next" -->
+        <div class="mv-strip" aria-hidden="true">
+          <div class="l"><span class="tally">PGM</span><span id="stripCh">CH 01 · Events</span></div>
+          <div class="r"><span class="pvw">PVW</span><span id="stripNext">Up next · Stage loop</span></div>
+        </div>
+        <!-- NEW COPY (aria): "Studio Rendezvous channel. Program monitor. Arrow keys change channel and program." -->
+        <div class="monitor paused" id="monitor" tabindex="0" role="region" aria-roledescription="program monitor" aria-label="Studio Rendezvous channel. Program monitor. Arrow keys change channel and program.">
+          <img class="media" id="poster" src="../media/smart-london-recap.jpg" alt="" width="960" height="540" fetchpriority="high">
+          <video class="media" id="vid" muted playsinline preload="none" aria-hidden="true"></video>
+          <div class="safe" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <!-- NEW COPY: bug states "On air" / "Paused" / "Still" -->
+          <div class="bug" aria-hidden="true"><span class="dot"></span><span id="bugTx">Still</span><span class="clk" id="clk">00:00:00</span></div>
+          <div class="chbug" aria-hidden="true"><b id="bugCh">CH 01</b><svg viewBox="0 0 78 78"><use href="#mk"/></svg></div>
+          <div class="l3" id="l3" aria-live="off" aria-atomic="true">
+            <span class="l3-tab" id="l3Tab">CH 01 · Events</span>
+            <span class="l3-main"><span id="l3Job">Event recap reel</span><i class="prog" id="prog" aria-hidden="true"></i></span>
+            <!-- NEW COPY: "More on this job" -->
+            <span class="l3-sub"><span id="l3Cat">B2B software</span><button class="info" id="info" type="button">More on this job <svg viewBox="0 0 10 10" aria-hidden="true"><use href="#tri"/></svg></button></span>
+          </div>
+          <button class="bigplay" id="bigplay" type="button" aria-label="Play the channel"><svg viewBox="0 0 10 10" aria-hidden="true"><use href="#tri"/></svg></button>
+          <div class="ident" id="ident" aria-hidden="true">
+            <div class="id-in">
+              <div class="id-sh"><i class="c"></i><i class="s"></i><i class="t"></i></div>
+              <div class="id-tx"><b id="idN">CH 02</b><strong id="idName">Brand</strong><span id="idNext">Up next · Logo stings</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="cc" id="cc"><b aria-hidden="true">CC</b><span id="ccTx">One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</span></p>
+      </div>
+    </div>
+
+    <!-- ================================================================ remote + guide -->
+    <div class="console" id="guide">
+      <!-- NEW COPY: remote key labels "Play/Pause", "Guide", "Info", "CH", "PRG", "CC", hint "Keys 1 to 6 tune · + and - change channel · I for info" -->
+      <div class="remote" role="group" aria-label="Remote control">
+        <div class="r-top" aria-hidden="true"><svg viewBox="0 0 78 78"><use href="#mk"/></svg><span class="ir"></span></div>
+        <div class="r-sh">
+          <div><button class="k" type="button" data-act="play" id="kPlay" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="c" cx="12" cy="12" r="10"/></svg></button><span id="kPlayL">Play</span></div>
+          <div><button class="k" type="button" data-act="guide" aria-label="Go to the program guide"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="s" x="3" y="3" width="18" height="18"/></svg></button><span>Guide</span></div>
+          <div><button class="k" type="button" data-act="info" aria-label="More on this job"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon class="t" points="12,2 22,21 2,21"/></svg></button><span>Info</span></div>
+        </div>
+        <div class="r-rk">
+          <div class="rock"><button class="up" type="button" data-act="chup" aria-label="Channel up"><svg viewBox="0 0 10 10"><use href="#tri"/></svg></button><span aria-hidden="true">CH</span><button class="dn" type="button" data-act="chdn" aria-label="Channel down"><svg viewBox="0 0 10 10"><use href="#tri"/></svg></button></div>
+          <div class="rock"><button class="up" type="button" data-act="next" aria-label="Next program"><svg viewBox="0 0 10 10"><use href="#tri"/></svg></button><span aria-hidden="true">PRG</span><button class="dn" type="button" data-act="prev" aria-label="Previous program"><svg viewBox="0 0 10 10"><use href="#tri"/></svg></button></div>
+        </div>
+        <div class="r-pad" id="pad"></div>
+        <div class="r-ft"><button class="ccb" id="ccb" type="button" aria-pressed="true" aria-label="Captions">CC</button><small>Keys 1 to 6 tune<br>+ and - change channel<br>I for info</small></div>
+      </div>
+
+      <section class="guide" aria-labelledby="guideH">
+        <div class="g-head">
+          <!-- NEW COPY: "Program guide", "Pick a program to tune in.", "Now" -->
+          <h2 id="guideH">Program guide</h2>
+          <p>Pick a program to tune in.</p>
+          <span class="gnow" aria-hidden="true"><b>Now</b> · <span id="gNow">CH 01 · Event recap reel</span></span>
+        </div>
+        <ol class="rows" id="rows"></ol>
+      </section>
+    </div>
+  </div>
+
+  <!-- ================================================================ the one scroll moment: channel hands off to the studio -->
+  <section class="handoff" aria-label="About the studio">
+    <div class="ho-stage">
+      <div class="ho-wipe" aria-hidden="true"></div>
+      <div class="ho-in">
+        <div class="ho-sh" aria-hidden="true"><i class="c"></i><i class="s"></i><i class="t"></i></div>
+        <p class="ho-lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ why it works -->
+  <section class="seg paper" id="why" aria-labelledby="whyH">
+    <div class="wrap why">
+      <div>
+        <span class="slug"><b>02</b><span>Why it works</span></span>
+        <h2 id="whyH">Clients stay for years.</h2>
+        <figure class="tenure">
+          <span class="tg">Current clients · years with us</span>
+          <div id="chTenure"></div>
+        </figure>
+      </div>
+      <div class="stack">
+        <div class="mv"><svg class="shp" viewBox="0 0 22 22" aria-hidden="true"><circle class="c" cx="11" cy="11" r="10"/></svg><h3>Second nature</h3><p>After hundreds of projects, we know your brand the way your own team does. Many clients now work from brand books and templates we built.</p></div>
+        <div class="mv"><svg class="shp" viewBox="0 0 22 22" aria-hidden="true"><rect class="s" x="1" y="1" width="20" height="20"/></svg><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
+        <div class="mv"><svg class="shp" viewBox="0 0 22 22" aria-hidden="true"><polygon class="t" points="11,1 21,21 1,21"/></svg><h3>Straight to work</h3><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
+        <!-- NEW COPY: "Viewer mail" -->
+        <figure class="mail"><span class="lb">Viewer mail</span><blockquote>“I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</blockquote><cite>Marc Chouaniere, VP Marketing, MoxiWorks</cite></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ how it works -->
+  <section class="seg paper-2" id="how" aria-labelledby="howH">
+    <div class="wrap how">
+      <div>
+        <span class="slug"><b>03</b><span>How it works</span></span>
+        <h2 id="howH">Put a job on the board. We’ve got it.</h2>
+        <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
+        <figure class="mail"><span class="lb">From the director’s chair</span><blockquote>“Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</blockquote><cite>Shane French, Creative Director</cite></figure>
+        <!-- NEW COPY: "From the director’s chair" -->
+      </div>
+      <div>
+        <!-- NEW COPY: "Run of show" -->
+        <div class="ros-h" aria-hidden="true"><span>Run of show</span><span>Project delivery steps</span></div>
+        <ol class="ros" aria-label="Project delivery steps">
+          <li><span class="n">01</span><b>Add a job</b><p>A brief, any files and the deadline.</p></li>
+          <li><span class="n">02</span><b>“We’re on it”</b><p>A senior creative who knows your brand picks it up, and you see when to expect a first look.</p></li>
+          <li><span class="n">03</span><b>Best first draft, fast</b><p>Refined by a senior designer before it reaches you. Our creative director leads, or we work to yours. About nine in ten need only light changes.</p></li>
+          <li><span class="n">04</span><b>Review</b><p>Proofs and revisions stay with the job. Motion is reviewed frame by frame on Frame.io.</p></li>
+          <li><span class="n">05</span><b>Delivered</b><p>Final files, ready to use, and source files on request.</p></li>
+          <li><span class="n">06</span><b>Repeat</b><p>The next job lands on a team that already knows your brand.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ good fit + engagement -->
+  <section class="seg paper" id="fit" aria-labelledby="fitH">
+    <div class="wrap">
+      <span class="slug"><b>04</b><span>Good fit</span></span>
+      <h2 id="fitH">Are we a good fit?</h2>
+      <p class="lede">We work best as an ongoing partner, and we keep our client list small on purpose: a handful of teams we can do our best work for, every day.</p>
+
+      <h3 class="eyebrow">How we work together</h3>
+      <!-- Approved copy, trimmed to whole sentences that do not mention rates. -->
+      <div class="pk">
+        <article class="pkc"><header><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#fe5000"/></svg><h3>Try us first</h3></header><div class="bd"><p>A first job or two to try us out is always welcome. We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p><a class="lnk" href="#contact">Put a first job on the board</a></div></article>
+        <article class="pkc"><header><svg viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" fill="#ffd300"/></svg><h3>Annual retainer</h3></header><div class="bd"><p>A team you can count on all year. Your year is already on the calendar, so we commit to it. Unused hours roll over and stay yours until they’re used.</p></div></article>
+        <article class="pkc"><header><svg viewBox="0 0 22 22" aria-hidden="true"><polygon points="11,1 21,21 1,21" fill="#fff"/></svg><h3>Hourly</h3></header><div class="bd"><p>Room to flex when needs swing month to month. Invoiced at month end for the hours used.</p></div></article>
+      </div>
+
+      <h3 class="eyebrow">Why a studio like ours</h3>
+      <div class="vs">
+        <div class="mv"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, UX, print and apparel, with someone ready for every job.</p></div>
+        <div class="mv"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, with no payroll when it slows.</p></div>
+        <div class="mv"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
+        <div class="mv"><h3>Alongside your team</h3><p>More hands, same brand. We step into your process, take the overflow and the deadline crunch, and help the brand look its best along the way.</p></div>
+      </div>
+
+      <!-- NEW COPY: "Standards and practices" (replaces the "Before you sign" label) -->
+      <h3 class="eyebrow">Standards and practices</h3>
+      <div class="sp">
+        <div class="mv"><h3>Senior team, need to know</h3><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
+        <div class="mv"><h3>Compliance review</h3><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div>
+        <div class="mv"><h3>Busy months</h3><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ on-air talent -->
+  <section class="seg dark" id="talent" aria-labelledby="talentH">
+    <div class="wrap">
+      <!-- NEW COPY: "On-air talent" -->
+      <span class="slug"><b>05</b><span>On-air talent</span></span>
+      <h2 id="talentH">The people on your board</h2>
+      <p class="talent-lede">Every client gets the whole team. Have your own creative director? We work to their direction.</p>
+      <div class="talent">
+        <figure class="tc"><div class="set" aria-hidden="true"><i></i></div><img src="../media/team/shane-french.png" alt="" width="150" height="150" loading="lazy"><figcaption><b>Shane French</b><span>Creative Director, Design, UX and Motion</span></figcaption></figure>
+        <figure class="tc"><div class="set" aria-hidden="true"><i></i></div><img src="../media/team/tom-larsen.png" alt="" width="150" height="150" loading="lazy"><figcaption><b>Tom Larsen</b><span>Senior Designer</span></figcaption></figure>
+        <figure class="tc"><div class="set" aria-hidden="true"><i></i></div><img src="../media/team/andrew-baldwin.png" alt="" width="150" height="150" loading="lazy"><figcaption><b>Andrew Baldwin</b><span>Senior UX/UI Designer</span></figcaption></figure>
+        <figure class="tc"><div class="set" aria-hidden="true"><i></i></div><img src="../media/team/joel-bender.png" alt="" width="150" height="150" loading="lazy"><figcaption><b>Joel Bender</b><span>Senior Designer</span></figcaption></figure>
+        <figure class="tc"><div class="set" aria-hidden="true"><i></i></div><img src="../media/team/gui-freitas.png" alt="" width="150" height="150" loading="lazy"><figcaption><b>Gui Freitas</b><span>Senior Motion Designer</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ clients -->
+  <section class="seg deep" id="clients" aria-label="Clients">
+    <div class="wrap">
+      <p class="lgl">Clients we’re helping every month</p>
+      <ul class="logos" aria-label="Current clients">
+        <li><img src="../media/logos/norton.png" alt="Norton" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/gen.png" alt="Gen" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/smart-communications.png" alt="Smart Communications" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/human-interest.png" alt="Human Interest" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/guidewire.png" alt="Guidewire" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/marchex.png" alt="Marchex" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/satori-reader.png" alt="Satori Reader" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/human-japanese.png" alt="Human Japanese" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/master-builders.png" alt="Master Builders Association" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/air-control.png" alt="AIR Control Concepts" width="480" height="226" loading="lazy"></li>
+      </ul>
+      <div class="mails">
+        <figure class="mail"><span class="lb">Viewer mail</span><blockquote>“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><cite>Phil Iaccarino, Director, Product Marketing, Guidewire</cite></figure>
+        <figure class="mail"><span class="lb">Viewer mail</span><blockquote>“When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><cite>Brak Rak, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</cite></figure>
+      </div>
+      <p class="lgl">Past clients · thousands of projects over the years</p>
+      <ul class="logos past" aria-label="Past long-term clients">
+        <li><img src="../media/logos/vertafore.png" alt="Vertafore" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/microsoft.png" alt="Microsoft" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/nike.png" alt="Nike" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/sap.png" alt="SAP" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/homestreet.png" alt="HomeStreet Bank" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/payscale.png" alt="Payscale" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/darigold.png" alt="Darigold" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/moxiworks.png" alt="MoxiWorks" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/onsolve.png" alt="OnSolve" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/syncron.png" alt="Syncron" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/aiphone.png" alt="Aiphone" width="480" height="226" loading="lazy"></li>
+        <li><img src="../media/logos/jetson.png" alt="Jetson" width="480" height="226" loading="lazy"></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================================================================ contact -->
+  <section class="seg paper" id="contact" aria-labelledby="contactH">
+    <div class="wrap">
+      <span class="slug"><b>06</b><span>Contact</span></span>
+      <h2 id="contactH">Start now with one job.</h2>
+      <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
+      <div class="ct">
+        <form class="form" id="hello" novalidate>
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Work email<input name="email" type="email" autocomplete="email" required></label>
+          <label class="wide">Company<input name="company" autocomplete="organization"></label>
+          <label>How can we help?<select name="help"><option value="" selected>Choose one</option><option>An estimate for a project</option><option>More info about working together</option><option>Start a first job</option></select></label>
+          <label>Monthly hours<select name="hours"><option value="" selected>Choose one</option><option>Not sure yet</option><option>Around 20 hours</option><option>40–80 hours</option><option>80–120 hours</option><option>120–160 hours</option><option>160+ hours</option></select></label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+          <label class="wide">Tell us about the work<textarea name="need" rows="4" placeholder="What it is, when it’s due, your budget"></textarea></label>
+          <div class="ft"><button class="cta" type="submit">Send</button><p class="note" id="helloNote" role="status"></p></div>
+          <!-- NEW COPY: "Choose one" (select placeholder); concept status line in script -->
+        </form>
+        <div class="side">
+          <p>Prefer email?</p>
+          <a class="em" href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a>
+          <p>We’ll get right back to you and get underway once you approve the estimate. We use your details only to reply, and we never share them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="dark" aria-label="Site footer">
+  <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap foot">
+    <div class="fd">
+      <div><a class="logo" href="#top" aria-label="Studio Rendezvous, back to top"><img src="../media/sr-logo.svg" alt="Studio Rendezvous" width="146" height="26"></a><p>The senior crew that keeps your brand running, every job, every frame.</p></div>
+      <nav aria-labelledby="fS"><h2 id="fS">Sections</h2><ul><li><a href="#guide">Guide</a></li><li><a href="#how">How it works</a></li><li><a href="#fit">Good fit</a></li><li><a href="#talent">Talent</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+      <div><h2>Contact</h2><ul><li><a href="mailto:hello@studiorendezvous.net">hello@<wbr>studiorendezvous.net</a></li><li><a href="#contact">Start a job</a></li></ul></div>
+      <div><h2>Partner</h2><ul><li><a href="https://contentmatterz.com/" target="_blank" rel="noopener">Content Matterz</a></li></ul><p>Content and strategy. One brief, one board, one team.</p></div>
+    </div>
+    <div class="fb"><span>&copy; 2026 Studio Rendezvous, Inc.</span><span class="sh" aria-hidden="true"><i></i><i></i><i></i></span><a href="#top"><svg viewBox="0 0 10 10" aria-hidden="true"><use href="#tri"/></svg>Back to top</a></div>
+  </div>
+</footer>
+
+<!-- ================================================================ job sheet -->
+<dialog class="sheet" id="sheet" aria-labelledby="shTitle">
+  <div class="sh-wrap">
+    <div class="sh-bar">
+      <!-- NEW COPY: "Job sheet", "Prev job", "Next job", "Close" -->
+      <span class="lb"><b>Job sheet</b><span id="shCat">B2B software</span></span>
+      <div class="nav">
+        <button class="sbtn" type="button" id="shPrev" aria-label="Previous job"><svg viewBox="0 0 10 10" style="transform:rotate(-90deg)"><use href="#tri"/></svg><span class="t">Prev job</span></button>
+        <button class="sbtn" type="button" id="shNext" aria-label="Next job"><span class="t">Next job</span><svg viewBox="0 0 10 10" style="transform:rotate(90deg)"><use href="#tri"/></svg></button>
+        <button class="sbtn x" type="button" id="shClose">Close</button>
+      </div>
+    </div>
+    <div class="sh-body" id="shBody">
+      <div class="sh-head">
+        <h2 id="shTitle">Events, end to end</h2>
+        <p class="ld" id="shLede"></p>
+        <!-- NEW COPY: "Watch this channel" -->
+        <div class="acts"><span class="cnt" id="shCnt"></span><button class="sbtn" type="button" id="shWatch"><svg viewBox="0 0 10 10" style="transform:rotate(90deg)"><use href="#tri"/></svg>Watch this channel</button></div>
+      </div>
+      <div class="mos" id="mos"></div>
+      <p class="sh-note" id="shNote" hidden></p>
+      <div class="sh-foot"><a class="cta" href="#contact" id="shCta">Start a job</a></div>
+    </div>
+  </div>
+</dialog>
+
+<div class="vh" aria-live="polite" id="announce"></div>
+
+<script>
+(function () {
+  'use strict';
+  var M = '../media/';
+  var root = document.documentElement;
+  function $(id) { return document.getElementById(id); }
+  function noop() {}
+
+  /* ------------------------------------------------------------ data
+     Lower thirds name the job and the client category, never the client.
+     NEW COPY: channel names "Product launch", "Partner marketing", "Explainers";
+     category "Infrastructure"; job names "Key visual animation", "Story animation". */
+  var CH = [
+    { name: 'Events', items: [
+      { t: 'Event recap reel', c: 'B2B software', v: 'smart-london-recap', j: 'events' },
+      { t: 'Stage loop', c: 'B2B software', v: 'smart-innovate-pillar', j: 'events' },
+      { t: 'Elevator wraps', c: 'B2B software', s: 'inn-elevators', j: 'events' },
+      { t: 'Booth film', c: 'Cybersecurity', v: 'norton-hrtech-booth', j: 'motion' },
+      { t: 'Trade show loop', c: 'Infrastructure', v: 'arx-booth', j: 'motion' },
+      { t: 'Event sting', c: 'Cybersecurity', v: 'norton-sko-sting', j: 'motion' } ] },
+    { name: 'Brand', items: [
+      { t: 'Logo stings', c: 'Financial services', v: 'hi-logo-stings', p: 'hi-logo-stings-poster', d: 13.9, j: 'brand' },
+      { t: 'Brand book', c: 'Financial services', s: 'hi-bb-00', j: 'brand' },
+      { t: 'Data story', c: 'Financial services', v: 'hi-flyby', j: 'brand' },
+      { t: 'Brand end card', c: 'Financial services', v: 'hi-endcard', j: 'brand' },
+      { t: 'Logo system', c: 'Commercial HVAC group', s: 'air-logo-wall', j: 'logos' } ] },
+    { name: 'Product launch', items: [
+      { t: 'Launch film', c: 'Cybersecurity', v: 'norton-exec-program', j: 'exec' },
+      { t: 'Key visual animation', c: 'Cybersecurity', v: 'norton-kv-hero', d: 5, j: 'exec' },
+      { t: 'Product video', c: 'B2B software', v: 'marchex-aps', j: 'product' },
+      { t: 'Sales video', c: 'B2B software', v: 'marchex-nada', j: 'product' } ] },
+    { name: 'Partner marketing', items: [
+      { t: 'Partner playbook', c: 'Cybersecurity', s: 'pb-00', j: 'partner' },
+      { t: 'App walkthrough', c: 'Cybersecurity', v: 'norton-currys', j: 'partner' },
+      { t: 'Onboarding', c: 'Cybersecurity', s: 'pb-09', j: 'partner' },
+      { t: 'Social program', c: 'Cybersecurity', v: 'norton-social-mosaic', d: 6, j: 'partner' },
+      { t: 'Email journeys', c: 'Cybersecurity', s: 'pb-17', j: 'partner' } ] },
+    { name: 'Social', items: [
+      { t: 'Social animation', c: 'Cybersecurity', v: 'norton-craft-beer', j: 'motion' },
+      { t: 'Story animation', c: 'Cybersecurity', v: 'norton-kv-story', d: 5, vert: 1, j: 'exec' },
+      { t: 'Case study video', c: 'Cybersecurity', v: 'norton-a1-case', j: 'motion' } ] },
+    { name: 'Explainers', items: [
+      { t: 'Explainer', c: 'Infrastructure', v: 'arx-explainer', j: 'motion' },
+      { t: 'Brand narrative', c: 'B2B software', v: 'smart-narrative', j: 'motion' },
+      { t: 'Campaign video', c: 'B2B software', v: 'guidewire-sizzle', j: 'motion' },
+      { t: 'Explainer', c: 'B2B software', v: 'spareit-explainer', j: 'motion' },
+      { t: 'Video series', c: 'Cybersecurity', v: 'norton-4p-digital', j: 'motion' },
+      { t: 'Competitive video', c: 'Financial services', v: 'hi-betterment', j: 'brand' } ] }
+  ];
+
+  /* Job sheets: approved case-study titles and ledes. Tiles: [type, file, caption, size, poster?] */
+  var JOBS = {
+    events: { title: 'Events, end to end', cat: 'B2B software',
+      lede: 'One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.',
+      tiles: [['v', 'smart-london-recap', 'Recap reel', 'xl'], ['i', 'inn-app', 'Event app', 'p'], ['v', 'smart-innovate-pillar', 'Stage loops', 'l'], ['i', 'inn-pillars', 'Venue pillars', 'l'],
+        ['i', 'inn-badge-nam', 'Badges', 't'], ['i', 'inn-podium', 'Digital podium', 't'], ['i', 'inn-classroom', 'Wayfinding', 't'], ['i', 'inn-elevators', 'Elevator wraps', 't']] },
+    brand: { title: 'A new brand, carried into everything', cat: 'Financial services',
+      lede: 'When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.',
+      note: 'Their system: typography, color, gradients, graphic elements. Our work: the brand book, logo stings, data stories, sales tools.',
+      cc: 'When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools.',
+      tiles: [['v', 'hi-logo-stings', 'Logo stings', 'xl', 'hi-logo-stings-poster'], ['i', 'hi-bb-03', 'Typography', 'm'], ['i', 'hi-bb-04', 'Color', 'm'],
+        ['v', 'hi-flyby', 'Data story', 'l'], ['i', 'hi-bb-00', 'Brand book', 'l'], ['i', 'hi-bb-06', 'Gradients', 's'], ['i', 'hi-bb-08', 'Graphic elements', 's'],
+        ['v', 'hi-betterment', 'Competitive video', 'l'], ['i', 'app-jacket', 'Team jacket', 't'], ['i', 'app-hoodie', 'Kickoff hoodie', 't'],
+        ['v', 'hi-endcard', 'Brand end card', 'l'], ['i', 'app-socks', 'Event socks', 't'], ['i', 'app-tee', 'Event tee', 't']] },
+    exec: { title: 'An executive program, launched', cat: 'Cybersecurity',
+      lede: 'Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.',
+      tiles: [['v', 'norton-exec-program', 'Launch film', 'xl'], ['v', 'norton-kv-story', 'Story animation', 'p', null, 1],
+        ['i', 'nkv-dark', 'Key visual', 'l', null, 1], ['v', 'norton-kv-hero', 'Key visual animation', 'l'],
+        ['i', 'nexp-01', 'Proposal cover', 't'], ['i', 'nexp-02', 'Proposal spread', 't'], ['i', 'nexp-04', 'Program pillars', 't'], ['i', 'nexp-07', 'Feature page', 't']] },
+    partner: { title: 'Partner marketing', cat: 'Cybersecurity',
+      lede: 'A lifecycle playbook with email journeys and Figma templates, app walkthrough films, and a monthly social program.',
+      tiles: [['i', 'pb-00', 'Playbook', 'xl'], ['i', 'pb-09', 'Onboarding', 'm'], ['i', 'pb-12', 'Use cases', 'm'],
+        ['v', 'norton-social-mosaic', 'Social program', 'xl'], ['v', 'norton-currys', 'App walkthrough', 'm'], ['i', 'pb-17', 'Email journeys', 'm']] },
+    product: { title: 'Product launches, in motion', cat: 'B2B software',
+      lede: 'Product and sales videos built from the product’s own UI.',
+      tiles: [['v', 'marchex-aps', 'Product video', 'l'], ['v', 'marchex-nada', 'Sales video', 'l']] },
+    logos: { title: 'Logo systems', cat: 'Commercial HVAC group',
+      lede: '47 company logos brought into one family, with a self-serve site where each company downloads its own files.',
+      tiles: [['i', 'air-logo-wall', 'Logo family', 'f']] },
+    motion: { title: 'Motion reel', cat: '18 loops',
+      lede: 'We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.',
+      cc: 'We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion.',
+      tiles: [['v', 'smart-narrative', 'Brand narrative', 'xl'], ['v', 'norton-exec-program', 'Launch film', 'm'], ['v', 'arx-booth', 'Trade show loop', 'm'],
+        ['v', 'guidewire-sizzle', 'Campaign video', 'm'], ['v', 'spareit-explainer', 'Explainer', 'm'], ['v', 'norton-hrtech-booth', 'Booth film', 'm'], ['v', 'marchex-aps', 'Product video', 'm'],
+        ['v', 'norton-a1-case', 'Case study video', 'm'], ['v', 'marchex-nada', 'Sales video', 'm'], ['v', 'norton-craft-beer', 'Social animation', 'm'], ['v', 'hi-flyby', 'Data story', 'm'],
+        ['v', 'norton-sko-sting', 'Event sting', 'm'], ['v', 'norton-4p-digital', 'Video series', 'm'], ['v', 'norton-currys', 'App walkthrough', 'm'], ['v', 'hi-betterment', 'Competitive video', 'm'],
+        ['v', 'smart-hero', 'Website hero', 'm'], ['v', 'hi-endcard', 'Brand end card', 'm'], ['v', 'smart-healthcare', 'Benchmark video', 'm']] }
+  };
+  var ORDER = ['events', 'brand', 'exec', 'partner', 'product', 'logos', 'motion'];
+
+  var PROG = [];
+  CH.forEach(function (ch, ci) {
+    ch.first = PROG.length;
+    ch.items.forEach(function (it) { it.ch = ci; it.d = it.d || (it.v ? 4.5 : 5); it.i = PROG.length; PROG.push(it); });
+  });
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function chLabel(ci) { return 'CH ' + pad2(ci + 1); }
+  function posterOf(it) { return M + (it.p || it.v || it.s) + '.jpg'; }
+  function ccOf(it) { var j = JOBS[it.j]; return j.cc || j.lede; }
+
+  /* ------------------------------------------------------------ elements */
+  var mon = $('monitor'), vid = $('vid'), poster = $('poster'), l3 = $('l3'), prog = $('prog'), ident = $('ident');
+  var announce = $('announce'), msw = $('msw');
+
+  /* ------------------------------------------------------------ guide + keypad */
+  var tri = '<svg viewBox="0 0 10 10" aria-hidden="true" style="transform:rotate(90deg)"><use href="#tri"/></svg>';
+  var sq = '<svg viewBox="0 0 10 10" aria-hidden="true"><use href="#sq"/></svg>';
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+  var rowsHtml = '', padHtml = '';
+  CH.forEach(function (ch, ci) {
+    rowsHtml += '<li class="grow" data-ch="' + ci + '"><button class="chc" type="button" data-tune="' + ci + '" aria-label="Tune to channel ' + (ci + 1) + ', ' + esc(ch.name) + '"><span class="n">' + pad2(ci + 1) + '</span><span class="nm">' + esc(ch.name) + '</span></button><div class="progs">';
+    ch.items.forEach(function (it) {
+      rowsHtml += '<button class="pg" type="button" data-i="' + it.i + '" style="--d:' + it.d + '" aria-label="' + esc(it.t + ', ' + it.c + (it.v ? ', video' : ', still') + '. Tune in.') + '"><span class="pg-t">' + (it.v ? tri : sq) + esc(it.t) + '</span><span class="pg-c">' + esc(it.c) + '</span></button>';
+    });
+    /* NEW COPY: "Open slot" */
+    rowsHtml += '<a class="pg open" href="#contact"><span class="pg-t"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M4 0h2v4h4v2H6v4H4V6H0V4h4z"/></svg>Open slot</span><span class="pg-c">Start a job</span></a></div></li>';
+    padHtml += '<button class="num" type="button" data-tune="' + ci + '" aria-label="Channel ' + (ci + 1) + ', ' + esc(ch.name) + '">' + (ci + 1) + '</button>';
+  });
+  $('rows').innerHTML = rowsHtml;
+  $('pad').innerHTML = padHtml;
+  var pgs = [].slice.call(document.querySelectorAll('.pg[data-i]'));
+  var growEls = [].slice.call(document.querySelectorAll('.grow'));
+  var nums = [].slice.call(document.querySelectorAll('.num'));
+
+  /* ------------------------------------------------------------ playback state */
+  var motion = !root.classList.contains('still');
+  var want = motion;             /* the viewer wants the channel playing */
+  var inView = true, vis = !document.hidden, sheetOpen = false, loaded = false;
+  var cur = 0, curCh = 0, timer = null, identT = null;
+  function canPlay() { return want && inView && vis && !sheetOpen && loaded; }
+
+  function setState() {
+    var on = canPlay();
+    mon.classList.toggle('paused', !want);
+    if (!on) mon.classList.remove('playing');
+    $('bugTx').textContent = on ? 'On air' : (motion ? 'Paused' : 'Still');
+    $('kPlayL').textContent = want ? 'Pause' : 'Play';
+    $('kPlay').setAttribute('aria-label', want ? 'Pause' : 'Play');
+  }
+
+  function restartProg(d) {
+    prog.classList.remove('run'); void prog.offsetWidth;
+    prog.style.animationDuration = d + 's'; prog.classList.add('run');
+  }
+
+  function updateUI(it, how) {
+    var ch = CH[it.ch], nx = PROG[(it.i + 1) % PROG.length];
+    l3.setAttribute('aria-live', how === 'user' ? 'polite' : 'off');
+    $('l3Tab').textContent = chLabel(it.ch) + ' · ' + ch.name;
+    $('l3Job').textContent = it.t;
+    $('l3Cat').textContent = it.c;
+    $('bugCh').textContent = chLabel(it.ch);
+    $('stripCh').textContent = chLabel(it.ch) + ' · ' + ch.name;
+    $('stripNext').textContent = 'Up next · ' + nx.t;
+    $('gNow').textContent = chLabel(it.ch) + ' · ' + it.t;
+    $('ccTx').textContent = ccOf(it);
+    pgs.forEach(function (b) { if (+b.dataset.i === it.i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    growEls.forEach(function (r, i) { r.classList.toggle('on', i === it.ch); });
+    nums.forEach(function (b, i) { if (i === it.ch) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    if (motion && how !== 'init') { l3.classList.remove('wipe'); void l3.offsetWidth; l3.classList.add('wipe'); }
+    if (how === 'user') announce.textContent = 'Now playing on ' + chLabel(it.ch) + ', ' + ch.name + ': ' + it.t + ', ' + it.c + '.';
+  }
+
+  function stopMedia() {
+    clearTimeout(timer); timer = null;
+    clearTimeout(identT); identT = null;
+    ident.classList.remove('on');
+    vid.pause();
+    if (vid.getAttribute('src')) { vid.removeAttribute('src'); vid.load(); }
+    mon.classList.remove('live', 'playing');
+  }
+
+  function show(i, how) {
+    stopMedia();
+    cur = (i + PROG.length) % PROG.length;
+    var it = PROG[cur], chChanged = it.ch !== curCh;
+    curCh = it.ch;
+    poster.src = posterOf(it);
+    mon.classList.toggle('vert', !!it.vert);
+    updateUI(it, how);
+    restartProg(it.d);
+    if (!canPlay()) { setState(); return; }
+    if (chChanged && motion && how !== 'init') {
+      var nx = PROG[(cur + 1) % PROG.length];
+      $('idN').textContent = chLabel(it.ch);
+      $('idName').textContent = CH[it.ch].name;
+      $('idNext').textContent = 'Now · ' + it.t;
+      if (it.v) { vid.preload = 'auto'; vid.src = M + it.v + '.mp4'; }
+      ident.classList.remove('on'); void ident.offsetWidth; ident.classList.add('on');
+      identT = setTimeout(function () { identT = null; ident.classList.remove('on'); start(it); }, 1340);
+    } else start(it);
+    setState();
+  }
+
+  function start(it) {
+    if (!canPlay()) { setState(); return; }
+    if (it.v) {
+      if (vid.getAttribute('src') !== M + it.v + '.mp4') { vid.preload = 'auto'; vid.src = M + it.v + '.mp4'; }
+      var p = vid.play(); if (p && p.catch) p.catch(noop);
+    } else {
+      mon.classList.add('playing');
+      timer = setTimeout(function () { timer = null; show(cur + 1, 'auto'); }, it.d * 1000);
+    }
+    setState();
+  }
+
+  /* Re-check conditions: pause off-screen, in a hidden tab, or under the job sheet. */
+  function sync() {
+    var it = PROG[cur];
+    if (canPlay()) {
+      if (identT) return;
+      if (it.v) {
+        if (!vid.getAttribute('src')) start(it);
+        else if (vid.paused) { var p = vid.play(); if (p && p.catch) p.catch(noop); }
+      } else if (!timer) { restartProg(it.d); start(it); }
+    } else {
+      if (identT) { clearTimeout(identT); identT = null; ident.classList.remove('on'); }
+      vid.pause();
+      if (timer) { clearTimeout(timer); timer = null; }
+      mon.classList.remove('playing');
+    }
+    setState();
+  }
+
+  vid.addEventListener('playing', function () { mon.classList.add('live', 'playing'); });
+  vid.addEventListener('pause', function () { mon.classList.remove('playing'); });
+  vid.addEventListener('ended', function () { show(cur + 1, 'auto'); });
+  vid.addEventListener('error', function () { if (vid.getAttribute('src')) setTimeout(function () { show(cur + 1, 'auto'); }, 600); });
+
+  /* ------------------------------------------------------------ controls */
+  function tune(ci, how) { ci = (ci + CH.length) % CH.length; show(CH[ci].first, how || 'user'); }
+  function togglePlay() { want = !want; if (want && !loaded) loaded = true; sync(); if (want && !vid.getAttribute('src') && !timer) show(cur, 'init'); }
+  function bringMonitor() {
+    var r = mon.getBoundingClientRect();
+    if (r.bottom < 60 || r.top > innerHeight - 60) mon.scrollIntoView({ block: 'nearest', behavior: motion ? 'smooth' : 'auto' });
+  }
+  var ACT = {
+    play: togglePlay,
+    guide: function () { var b = document.querySelector('.pg[aria-current="true"]') || pgs[0]; b.focus(); },
+    info: function () { openSheet(PROG[cur].j); },
+    chup: function () { tune(curCh + 1); }, chdn: function () { tune(curCh - 1); },
+    next: function () { show(cur + 1, 'user'); }, prev: function () { show(cur - 1, 'user'); }
+  };
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act],[data-tune],.pg[data-i]');
+    if (!b) return;
+    if (b.dataset.act) ACT[b.dataset.act]();
+    else if (b.dataset.tune) { tune(+b.dataset.tune); if (b.closest('.guide')) bringMonitor(); }
+    else { show(+b.dataset.i, 'user'); bringMonitor(); }
+  });
+  $('info').addEventListener('click', ACT.info);
+  $('bigplay').addEventListener('click', togglePlay);
+  $('ccb').addEventListener('click', function () {
+    var on = this.getAttribute('aria-pressed') !== 'true';
+    this.setAttribute('aria-pressed', String(on)); $('cc').hidden = !on;
+  });
+  mon.addEventListener('keydown', function (e) {
+    var k = e.key, f = { ArrowUp: ACT.chup, ArrowDown: ACT.chdn, ArrowRight: ACT.next, ArrowLeft: ACT.prev, ' ': togglePlay, Enter: togglePlay }[k];
+    if (f && e.target === mon) { e.preventDefault(); f(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || sheetOpen) return;
+    var t = e.target;
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+    var k = e.key;
+    if (k >= '1' && k <= String(CH.length)) tune(+k - 1);
+    else if (k === '+' || k === '=') ACT.chup();
+    else if (k === '-' || k === '_') ACT.chdn();
+    else if (k === 'i' || k === 'I') ACT.info();
+  });
+
+  /* Motion switch: default follows prefers-reduced-motion; a saved choice wins. */
+  function paintSwitch() { msw.setAttribute('aria-checked', String(motion)); $('mswSt').textContent = motion ? 'On' : 'Off'; }
+  msw.addEventListener('click', function () {
+    motion = !motion; want = motion;
+    root.classList.toggle('still', !motion);
+    try { localStorage.setItem('srg-motion', motion ? '1' : '0'); } catch (e) {}
+    paintSwitch(); sync();
+  });
+  paintSwitch();
+
+  /* Only play while the monitor is on screen and the tab is visible. */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { var e = es[es.length - 1]; inView = e.isIntersecting && e.intersectionRatio >= 0.25; sync(); }, { threshold: [0, 0.25, 0.5] }).observe(mon);
+  }
+  document.addEventListener('visibilitychange', function () {
+    vis = !document.hidden; sync();
+    if (sheetVid) { if (vis) sheetVid.play().catch(noop); else sheetVid.pause(); }
+    clock();
+  });
+
+  /* Once-per-second clock, only while the tab is visible. */
+  var clkEl = $('clk'), clkT = null;
+  function clock() {
+    clearTimeout(clkT); if (document.hidden) return;
+    var d = new Date();
+    clkEl.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+    clkT = setTimeout(clock, 1000 - d.getMilliseconds() + 5);
+  }
+  clock();
+
+  show(0, 'init');
+  /* Poster first; the first clip starts after the page has loaded. */
+  window.addEventListener('load', function () { setTimeout(function () { loaded = true; sync(); }, 250); });
+
+  /* ------------------------------------------------------------ job sheet */
+  var sheet = $('sheet'), mos = $('mos'), curJob = null, sheetVid = null, activeTile = null, lastFocus = null;
+  function stopTile() {
+    if (sheetVid) { sheetVid.pause(); sheetVid.removeAttribute('src'); sheetVid.load(); sheetVid.remove(); sheetVid = null; }
+    if (activeTile) { activeTile.classList.remove('live'); var b = activeTile.querySelector('.tp'); if (b) b.setAttribute('aria-pressed', 'false'); activeTile = null; }
+  }
+  function playTile(fig) {
+    if (activeTile === fig) return;
+    stopTile();
+    var v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+    v.src = M + fig.dataset.v + '.mp4';
+    v.addEventListener('playing', function () { fig.classList.add('live'); });
+    fig.querySelector('.tm').appendChild(v);
+    sheetVid = v; activeTile = fig;
+    fig.querySelector('.tp').setAttribute('aria-pressed', 'true');
+    var p = v.play(); if (p && p.catch) p.catch(noop);
+  }
+  function openSheet(key) {
+    var j = JOBS[key]; if (!j) return;
+    curJob = key; stopTile();
+    $('shCat').textContent = j.cat;
+    $('shTitle').textContent = j.title;
+    $('shLede').textContent = j.lede;
+    $('shCnt').textContent = j.tiles.length + (j.tiles.length === 1 ? ' piece' : ' pieces');
+    $('shNote').hidden = !j.note; $('shNote').textContent = j.note || '';
+    var watchable = PROG.some(function (it) { return it.j === key; });
+    $('shWatch').hidden = !watchable;
+    mos.innerHTML = j.tiles.map(function (t, n) {
+      var ct = t[5] ? ' ct' : '';
+      var img = '<img src="' + M + (t[4] || t[1]) + '.jpg" alt="' + esc(t[2]) + '" loading="' + (n < 3 ? 'eager' : 'lazy') + '">';
+      var btn = t[0] === 'v' ? '<button class="tp" type="button" aria-pressed="false" aria-label="Play ' + esc(t[2]) + '"><svg viewBox="0 0 10 10" aria-hidden="true"><use href="#tri"/></svg></button>' : '';
+      return '<figure class="tl z-' + t[3] + ct + '"' + (t[0] === 'v' ? ' data-v="' + t[1] + '"' : '') + '><div class="tm">' + img + '</div><figcaption>' + esc(t[2]) + '</figcaption>' + btn + '</figure>';
+    }).join('');
+    $('shBody').scrollTop = 0;
+    if (!sheet.open) {
+      lastFocus = document.activeElement;
+      sheetOpen = true; sync();
+      sheet.showModal();
+      root.style.overflow = 'hidden';
+    }
+    var lead = mos.querySelector('.tl[data-v]');
+    if (lead && motion && vis) playTile(lead);
+  }
+  function closeSheet() { if (sheet.open) sheet.close(); }
+  sheet.addEventListener('close', function () {
+    if (sheet.open) return; /* reopened before the close event fired */
+    stopTile(); sheetOpen = false; root.style.overflow = '';
+    sync();
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  });
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) closeSheet(); });
+  $('shClose').addEventListener('click', closeSheet);
+  $('shPrev').addEventListener('click', function () { openSheet(ORDER[(ORDER.indexOf(curJob) - 1 + ORDER.length) % ORDER.length]); });
+  $('shNext').addEventListener('click', function () { openSheet(ORDER[(ORDER.indexOf(curJob) + 1) % ORDER.length]); });
+  $('shCta').addEventListener('click', function () { closeSheet(); });
+  $('shWatch').addEventListener('click', function () {
+    var it = PROG.filter(function (p) { return p.j === curJob; })[0];
+    closeSheet(); if (it) { if (!want) want = true; show(it.i, 'user'); bringMonitor(); }
+  });
+  mos.addEventListener('click', function (e) {
+    var b = e.target.closest('.tp'); if (!b) return;
+    var fig = b.closest('.tl');
+    if (activeTile === fig) stopTile(); else playTile(fig);
+  });
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    mos.addEventListener('mouseover', function (e) {
+      var fig = e.target.closest('.tl[data-v]'); if (fig && motion) playTile(fig);
+    });
+  }
+
+  /* ------------------------------------------------------------ tenure chart (current clients, years with us) */
+  (function () {
+    var el = $('chTenure'); if (!el) return;
+    var clients = [20, 15, 12, 10, 9, 7.7, 4, 4, 3];
+    function draw() {
+      var narrow = el.clientWidth < 520;
+      var W = narrow ? 380 : 640, L = narrow ? 30 : 40, R = narrow ? 64 : 84, T = 6, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 18;
+      var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; };
+      var o = [];
+      clients.forEach(function (y, i) {
+        var cy = T + i * rowH + rowH / 2, xe = x(y);
+        o.push('<text x="' + (L - 12) + '" y="' + (cy + 4) + '" text-anchor="end" font-size="12">' + pad2(i + 1) + '</text>');
+        o.push('<line x1="' + x(0) + '" x2="' + xe + '" y1="' + cy + '" y2="' + cy + '" stroke="#1c1c1c" stroke-width="1.5"/>');
+        o.push('<rect x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10" fill="#fe5000"/>');
+        o.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + Math.round(y) + ' yrs</text>');
+      });
+      o.push('<line x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="#1c1c1c"/>');
+      for (var yr = 0; yr <= 20; yr++) {
+        var major = yr % 5 === 0;
+        o.push('<line x1="' + x(yr) + '" x2="' + x(yr) + '" y1="' + axisY + '" y2="' + (axisY + (major ? 8 : 4)) + '" stroke="#1c1c1c"/>');
+        if (major) o.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + yr + '</text>');
+      }
+      o.push('<text x="' + x(0) + '" y="' + (axisY + 46) + '" font-size="12">YEARS WORKING WITH US</text>');
+      el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + (axisY + 56) + '" role="img" aria-label="Current clients by years working with us: ' + clients.map(Math.round).join(', ') + ' years">' + o.join('') + '</svg>';
+      return narrow;
+    }
+    var was = draw();
+    window.addEventListener('resize', function () { if ((el.clientWidth < 520) !== was) was = draw(); });
+  })();
+
+  /* ------------------------------------------------------------ contact form (concept: not connected) */
+  $('hello').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, ok = f.name.value.trim() && /.+@.+\..+/.test(f.email.value.trim());
+    /* NEW COPY: the two status lines below */
+    $('helloNote').textContent = ok ? 'Thanks. This concept page doesn’t send yet, so please email hello@studiorendezvous.net.' : 'Please add your name and a work email.';
+  });
+})();
+</script>
+</body>
+</html>
