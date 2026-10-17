@@ -237,14 +237,17 @@
      (--lb-b tall, in world units, so they scale with the file and can never reach the work), two lines at most. */
   .world { --lb-b: 184px; --lb-t: 64px; --lb-s: 30px; }
   .world.narrow { --lb-t: 88px; }
-  .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 16px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; z-index: 2; }
+  .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 16px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .06s linear, visibility 0s .06s; z-index: 2; }
   .sec-big small { display: block; font: 500 var(--lb-s)/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
   .world.narrow .sec-big small { display: none; }
   .sec-big b { display: block; font: 900 var(--lb-t)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
   .sec-big:hover b { color: var(--accent-text); }
-  .world.z-far .sec-big { opacity: 1; visibility: visible; transition: opacity .28s .1s; } /* the small labels leave first, then the big ones arrive: no double image mid-zoom */
+  /* One threshold (farS), one quick hand-over: the outgoing labels are gone in 60ms, then the incoming ones fade up in 60ms.
+     The two styles are never on screen together, mid-zoom or mid-tween (enter or leave a group, Zoom to fit, the scroll moment). */
+  .world.z-far .sec-big { opacity: 1; visibility: visible; transition: opacity .06s linear .06s, visibility 0s .06s; }
   .world:not(.z-far) .sec-big { pointer-events: none; }
-  .world.z-far .sec-t, .world.z-far .fr .vb, .world.z-far .fr .lb { opacity: 0; }
+  .sec-t, .fr .vb { transition: opacity .06s linear .06s; }
+  .world.z-far .sec-t, .world.z-far .fr .vb, .world.z-far .fr .lb { opacity: 0; transition: opacity .06s linear; }
   .world.z-far .cpin, .world.z-far .sel b { opacity: 0; pointer-events: none; } /* the size pill would sit in the next group's name band */
 
   /* frames */
@@ -269,6 +272,9 @@
   .sel i { position: absolute; width: calc(9px * var(--k)); height: calc(9px * var(--k)); background: var(--surface); border: calc(1.5px * var(--k)) solid var(--accent); transform: translate(-50%, -50%); }
   .sel i:nth-child(1) { left: 0; top: 0; } .sel i:nth-child(2) { left: 100%; top: 0; } .sel i:nth-child(3) { left: 0; top: 100%; } .sel i:nth-child(4) { left: 100%; top: 100%; }
   .sel b { position: absolute; left: 50%; top: 100%; transform-origin: 0 0; transform: scale(var(--k)) translate(-50%, 8px); background: var(--accent); color: var(--on-accent); font: 500 11px/1 var(--mono); padding: 4px 6px 3px; border-radius: 3px; white-space: nowrap; }
+  /* no editor chrome on the first screen: the hero's handles and size pill wait until you start exploring (pre),
+     and the selection steps aside while a job sheet grows out of, or settles back into, its frame (hush) */
+  .sel.pre, .sel.hush { opacity: 0; transition: none; }
 
   /* comment pins: open a thread */
   .cpin { position: absolute; width: 0; height: 0; padding: 0; border: 0; background: none; z-index: 4; cursor: pointer; transition: opacity .2s; }
@@ -625,6 +631,18 @@
     .fl-cap b { display: block; margin-bottom: 6px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
     .fl-cap .ti { display: block; font: 800 26px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
   }
+  /* wide screens: the rail runs exactly from the board's top edge to its bottom edge. The active step's card takes up the
+     slack (its progress line rides its bottom edge), so the steps above it never move to make the ends meet. */
+  @media (min-width: 960px) {
+    .js .flow { align-items: stretch; }
+    .js .flow .bd { margin-top: 0; }
+    .js .fl-rail { display: flex; flex-direction: column; min-height: 0; }
+    .js .fl-steps { flex: 1 1 auto; display: flex; flex-direction: column; }
+    .js .fl-steps li { display: flex; flex-direction: column; }
+    .js .fl-steps li > button { flex: 1 1 auto; align-content: start; }
+    .flow.at-1 .st-1, .flow.at-2 .st-2, .flow.at-3 .st-3, .flow.at-4 .st-4, .flow.at-5 .st-5, .flow.at-6 .st-6 { flex: 1 1 auto; }
+    .flow.at-0 .fl-steps { justify-content: space-between; }
+  }
 
   /* the board */
   .bd { position: relative; height: 584px; margin-top: 12px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 13.5px/1.25 var(--body); container: board / inline-size; }
@@ -684,6 +702,8 @@
   .av.ay svg { width: 15px; height: 15px; }
   .av.ay.ph { box-shadow: 0 0 0 2px var(--b-bg); }
   .av.as { background: #1c1c1c; color: #fe5000; }
+  .av.untone { position: relative; }
+  .av.untone::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; filter: url(#srUntone); }
   .bd-r > .s, .bd-r > .pr { padding: 0; display: grid; justify-content: stretch; align-content: stretch; }
   .bd-r > .o, .bd-r > .yt, .bd-r > .f { display: grid; place-items: center; }
   .bd-r > .o > *, .bd-r > .s > *, .bd-r > .f > * { grid-area: 1 / 1; }
@@ -1081,6 +1101,8 @@
   .sh-link:hover { border-color: var(--ink); }
   .sh-link svg { width: 13px; height: 13px; }
   @media (max-width: 640px) { .sh-link span { display: none; } .sh-link { width: 40px; padding: 0; justify-content: center; } }
+  /* phones: the crumb keeps the whole industry name (it wraps to a second line rather than cutting off); "Work /" steps aside */
+  @media (max-width: 640px) { .sh-bar { gap: 8px; padding-left: 16px; } .sh-crumb { white-space: normal; overflow: visible; text-overflow: clip; font-size: 11px; line-height: 1.3; overflow-wrap: break-word; flex: 1 1 0; } .sh-crumb .wk { display: none; } }
   .sh-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: clamp(20px, 3.4vw, 44px); }
   .sh-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 48px; align-items: end; }
   @media (max-width: 860px) { .sh-head { grid-template-columns: 1fr; } }
@@ -1255,10 +1277,16 @@
       /* Before first paint: on desktop the hero goes straight onto the canvas at the exact camera the canvas script starts from
          (it calls srHeroCam too), so nothing moves when it takes over. Tiny and blocking on purpose. */
       (function () {
-        var SEC_W = 808, GAP = 184, HERO_H = 712; /* the same file grid as the canvas script */
+        var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + 240; /* the same file grid as the canvas script (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
           var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too (was capped at .86, so 1920+ wide or zoomed-out Chrome showed extra groups) */
-          return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(64, (vh - HERO_H * s) / 2 - 40)) };
+          /* Vertically: the pair (with the "Start here" tab, LBL, above it) sits in the middle of the stage, and the second row,
+             name tabs and all, starts below the stage's bottom edge, so no dead band opens between the rows and the canvas
+             toolbar never sits on work. The toolbar keeps a clear zone along the bottom that the pair never enters: ZONE under
+             the bars, MINI under the minimap's corner (it only ever meets the first group's last row, PAD inside its edge). */
+          var LBL = 44, ZONE = 88, MINI = 142, h = HERO_H * s, mid = (vh - h - LBL) / 2 + LBL, below = vh + 52 - ROW2 * s;
+          var y = Math.max(mid, Math.min(below, mid + vh * .1));
+          return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
         var pref = d.getAttribute('data-pref'), ic = document.querySelector('#theme [data-theme-set="' + pref + '"] svg'), cyc = $('themeCyc');
@@ -1347,6 +1375,9 @@
              folded row "Show 7 more" (In Review, 7), sample job "Customer story one-pager" (In Review), dates "Tue, Oct 20", "Fri, Oct 23" -->
         <div class="bd" aria-hidden="true">
           <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+            <!-- the only headshot on file for Shane is a two-colour duotone: this lifts its red channel (the one both halves share)
+                 back into a plain, warm, photo-toned portrait so it sits with the other team photos -->
+            <filter id="srUntone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".82 0 0 0 .1  .754 0 0 0 .092  .689 0 0 0 .084  0 0 0 1 0"/></filter>
             <symbol id="srmk" viewBox="0 0 78 78" fill="currentColor"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></symbol>
             <symbol id="i-cd" viewBox="0 0 12 12"><path d="M2 4.2l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
             <symbol id="i-cr" viewBox="0 0 12 12"><path d="M4.2 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
@@ -1370,7 +1401,7 @@
               <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span class="c-fi">Files</span><span>Status</span><span class="c-nd">Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
               <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="tj">This job</span><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi f1"><svg><use href="#i-do"/></svg>Brief</i><i class="fi f3"><img class="dr" data-src="../media/thumbs/arx-booth.jpg" alt="" width="38" height="22"></i><i class="fi fin f5"><svg><use href="#i-do"/></svg>3</i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd c-nd"><span class="n0"></span><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
               <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd c-nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph untone" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
               <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av ph" data-bg="../media/thumbs/andrew-baldwin.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>4</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
               <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Customer story one-pager</span><span class="up on"><svg><use href="#i-bu"/></svg><em>1</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>1</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Tue, Oct 20</span><span class="d c-du">Fri, Oct 23</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
               <div class="bd-r bd-more"><span class="cb"></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Show 7 more</span></span><span class="yt c-yt"></span><span class="no c-no"></span><span class="o"></span><span class="f c-fi"></span><span class="s"><em class="pill p-rev">In Review<b>7</b></em></span><span class="nd c-nd"></span><span class="d c-du"></span><span class="pr c-pr"></span></div>
@@ -1900,9 +1931,12 @@
   function placePins() { PINS.forEach(function (p) { var a = p.at(); p.el.hidden = !a; if (a) { p.el.style.left = 'calc(' + a.x + 'px - 52px * var(--k))'; p.el.style.top = 'calc(' + a.y + 'px + 50px * var(--k))'; } }); }
 
   /* selection box */
-  var sel = document.createElement('div'); sel.className = 'sel'; sel.setAttribute('aria-hidden', 'true'); sel.innerHTML = '<i></i><i></i><i></i><i></i><b></b>';
+  var sel = document.createElement('div'); sel.className = 'sel pre'; sel.setAttribute('aria-hidden', 'true'); sel.innerHTML = '<i></i><i></i><i></i><i></i><b></b>';
   world.appendChild(sel);
-  function select(x, y, w, h, label) { sel.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px'; sel.lastChild.textContent = label; }
+  var selPre = true;
+  function selWake() { if (selPre) { selPre = false; sel.classList.remove('pre'); } } /* the first move, zoom, Explore, a frame picked, or a hover on the hero */
+  function select(x, y, w, h, label, quiet) { sel.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px'; sel.lastChild.textContent = label; if (!quiet) selWake(); }
+  brief.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && briefIn) selWake(); });
 
   /* ------------------------------------------------------------------ camera */
   var cam = { x: 0, y: 0, s: 1 }, vw = 0, vh = 0, briefIn = false, briefH = 560, bounds = null, homeCam = null;
@@ -2057,7 +2091,7 @@
     html.classList.toggle('reel-on', MOTION && briefIn);
     if (briefIn) {
       briefH = HERO_H;
-      select(0, 0, SEC_W, briefH, 'Hero · ' + SEC_W + ' × ' + briefH);
+      select(0, 0, SEC_W, briefH, 'Hero · ' + SEC_W + ' × ' + briefH, true);
       sel.style.display = '';
     } else sel.style.display = 'none';
     arrange(innerWidth < 700);
@@ -2097,7 +2131,7 @@
   }
   addEventListener('scroll', function () { if (arranged && !full && !loadT) loadT = setTimeout(loadVisible, 90); }, { passive: true }); /* phones: the overview fills in as it scrolls up */
   addEventListener('scroll', function () { if (!reelRaf && html.classList.contains('reel-on')) reelRaf = requestAnimationFrame(function () { reelRaf = 0; reelTick(); }); }, { passive: true });
-  function takeCam() { userCam = true; }
+  function takeCam() { userCam = true; selWake(); }
   /* a small view stack: going into a group remembers the exact view you came from (the scroll moment's included), and
      leaving it (the breadcrumb, Esc, the palette, or the same Layers row again) eases back to that view on the same curve */
   var views = [], inGroup = null, groupName = '';
@@ -2245,7 +2279,7 @@
   world.addEventListener('focusin', function (e) {
     var b = e.target.closest('.fr'); if (!b) return;
     /* only keyboard focus moves the camera: a click (or focus coming back from the job sheet) leaves it where it is */
-    if (quietFocus || !b.matches(':focus-visible')) { select(b._f.x, b._f.y, b._f.w, b._f.h, b._f.dims); return; }
+    if (quietFocus || performance.now() < quietUntil || !b.matches(':focus-visible')) { select(b._f.x, b._f.y, b._f.w, b._f.h, b._f.dims); return; }
     var f = b._f, sx = f.x * cam.s + cam.x, sy = f.y * cam.s + cam.y, sw = f.w * cam.s, shh = f.h * cam.s;
     if (sx < 24 || sy < 40 || sx + sw > vw - 24 || sy + shh > vh - 90 || cam.s < 0.4) {
       takeCam();
@@ -2380,7 +2414,13 @@
 
   /* ------------------------------------------------------------------ job sheet */
   var sheet = $('sheet'), shScroll = $('shScroll'), shMosaic = $('shMosaic'), morphEl = $('morph'), morphImg = morphEl.firstChild;
-  var curJob = null, vidIO = null, lastFocus = null, quietFocus = false;
+  var curJob = null, vidIO = null, lastFocus = null, quietFocus = false, quietUntil = 0, glideT = 0;
+  /* Every way the sheet closes goes through here. The dialog hands focus back to the frame it opened from as it closes; that
+     hand-back (and the one in the close handler) must never read as keyboard focus and fly the camera to the frame, which on a
+     phone left the canvas half empty and the next tap landing nowhere. */
+  function shutSheet() { if (!sheet.open) return; quietUntil = performance.now() + 120; quietFocus = true; try { sheet.close(); } finally { quietFocus = false; } }
+  /* and however a dialog lets go of focus (a browser-forced close included), what lands on a frame next is a hand-back, not navigation */
+  document.addEventListener('focusout', function (e) { if (e.target.closest && e.target.closest('dialog')) quietUntil = performance.now() + 120; }, true);
   /* Frame -> sheet is one gesture on one clock: the sheet's window grows out of the frame while the frame's picture travels,
      at its own aspect, to its place in the sheet; the canvas pushes in a touch underneath and the sheet's chrome fades up as it
      lands. Closing runs the same path back into the frame. ~500 ms, one easing curve, clip/transform/opacity only. */
@@ -2446,7 +2486,7 @@
      The frame's picture rides on top (same place, same size) until the sheet's own copy has decoded, so nothing snaps.
      Closing (with that picture still in view) runs the same path back. clip, transform and opacity only. */
   function runMorph(m, opening, done) {
-    morphing = 1; vp.classList.add('moving'); stopTween();
+    morphing = 1; vp.classList.add('moving'); stopTween(); sel.classList.add('hush');
     var S = boxR(sheet.getBoundingClientRect()), T = targetOf(m, opening ? .35 : .6);
     if (!T) { morphing = 0; vp.classList.remove('moving'); if (opening) { sheet.classList.remove('mph', 'landed'); m.el.style.visibility = ''; if (done) done(); } return false; } /* opening: it pops in instead */
     var dur = (opening ? 520 : 480) * (window.__morphSlow || 1), t0 = performance.now(), kids = kidsOf();
@@ -2461,11 +2501,11 @@
       var I = lerpR(I0, T, p), k = I.w / T.w, dx = I.x - k * T.x, dy = I.y - k * T.y;
       var Sc = { x: dx + k * S.x, y: dy + k * S.y, w: k * S.w, h: k * S.h }, Wn = inter(lerpR(F, S, p), Sc), G = inter(I, Wn);
       clipTo(sheet, Wn, S);
-      kids.forEach(function (el) { el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')'; el.style.opacity = opening ? smooth(.04, .42, t) : 1 - smooth(.45, .92, t); });
+      kids.forEach(function (el) { el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')'; el.style.opacity = opening ? smooth(.04, .42, t) : 1 - smooth(.1, .5, t); });
       morphEl.style.clipPath = 'inset(' + G.y + 'px ' + (innerWidth - G.x - G.w) + 'px ' + (innerHeight - G.y - G.h) + 'px ' + G.x + 'px)';
       morphImg.style.transform = 'translate(' + I.x + 'px,' + I.y + 'px) scale(' + k + ')';
       morphEl.style.opacity = opening ? 1 : smooth(0, .25, t);
-      sheet.style.setProperty('--sa', opening ? smooth(0, .32, t) : 1 - smooth(.5, .95, t)); /* the sheet's paper */
+      sheet.style.setProperty('--sa', opening ? smooth(0, .32, t) : 1 - smooth(.12, .52, t)); /* the sheet's paper */
       sheet.style.setProperty('--bd', opening ? smooth(0, .5, t) : 1 - EASE(t));
     }
     paint(0);
@@ -2489,17 +2529,21 @@
      all) into the frame's place and fades out on the way, while the camera's push-in unwinds and the dim leaves with it.
      The frame is already there underneath, so the card simply settles into it. No oversized picture, ever. */
   function cardClose(m, done) {
-    morphing = 1; vp.classList.add('moving'); stopTween();
+    morphing = 1; vp.classList.add('moving'); stopTween(); sel.classList.add('hush');
     var dur = 440 * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect()), kids = kidsOf();
     shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); });
+    /* the travelling picture is never part of this path (it would be the opening's last, oversized cover): hidden from the first frame */
+    morphEl.style.opacity = '0'; morphEl.style.clipPath = 'inset(50%)';
     sheet.classList.add('mph'); morphEl.classList.remove('hold'); m.el.style.visibility = '';
     function paint(t) {
-      var q = EASE(t), c = m.cam0 ? pushCam(m, 1 - q) : null, F = m.rect(c);
+      var q = CAM_EASE(t), c = m.cam0 ? pushCam(m, 1 - q) : null, F = m.rect(c); /* an easy start, so the card is still large while it fades */
       var k1 = Math.min(F.w / S.w, F.h / S.h), k = Math.exp(Math.log(k1) * q);
       var cx = lerp(S.x + S.w / 2, F.x + F.w / 2, q), cy = lerp(S.y + S.h / 2, F.y + F.h / 2, q);
       var W = { w: S.w * k, h: S.h * k }; W.x = cx - W.w / 2; W.y = cy - W.h / 2;
       clipTo(sheet, W, S);
-      var ui = 1 - smooth(.18, .78, t);
+      /* the card is gone (paper and all) well before it reaches the frame's size, so it never sits on the frame as a ghost:
+         the frame underneath is what lands */
+      var ui = 1 - smooth(0, .4, t);
       kids.forEach(function (el) { el.style.transform = 'translate(' + (W.x - k * S.x) + 'px,' + (W.y - k * S.y) + 'px) scale(' + k + ')'; el.style.opacity = ui; });
       sheet.style.setProperty('--sa', ui); sheet.style.setProperty('--bd', 1 - q);
     }
@@ -2520,16 +2564,64 @@
       var pre = new Image(); pre.src = m.full; if (pre.complete) m.img = m.full; /* the sharp poster if it is already here */
       sheet.classList.add('mph', 'landed');
     }
-    showJob(id, idx, !!m);
-    if (m) runMorph(m, true);
+    /* phones: the sheet always opens at its top, so the job's title and lede are the first thing you read. If the tapped piece
+       is on that first screen its picture lands in place (and is outlined); otherwise the sheet grows out of the frame as one
+       card and then glides down to the piece (glideTo) */
+    var top = phoneSheet() && idx > 0;
+    showJob(id, idx, !!m, top);
+    if (m) { if (top && !targetOf(m, .9)) cardOpen(m, function () { glideTo(idx, 400); }); else runMorph(m, true); }
+    else if (top) glideTo(idx, 400);
   }
+  function phoneSheet() { return innerWidth <= 640; } /* the sheet is the whole screen there */
+  /* Sheet <- frame as one card, for the phone's open-at-the-top case: the exact reverse of cardClose. No travelling picture. */
+  function cardOpen(m, done) {
+    morphing = 1; vp.classList.add('moving'); stopTween(); sel.classList.add('hush');
+    var dur = 460 * (window.__morphSlow || 1), t0 = performance.now(), S = boxR(sheet.getBoundingClientRect()), kids = kidsOf();
+    morphEl.style.opacity = '0';
+    function paint(t) {
+      var p = EASE(t), c = m.cam0 ? pushCam(m, p) : null, F = m.rect(c);
+      var k1 = Math.min(F.w / S.w, F.h / S.h), k = Math.exp(Math.log(k1) * (1 - p));
+      var cx = lerp(F.x + F.w / 2, S.x + S.w / 2, p), cy = lerp(F.y + F.h / 2, S.y + S.h / 2, p);
+      var W = { w: S.w * k, h: S.h * k }; W.x = cx - W.w / 2; W.y = cy - W.h / 2;
+      clipTo(sheet, W, S);
+      var ui = smooth(.04, .4, t);
+      kids.forEach(function (el) { el.style.transform = 'translate(' + (W.x - k * S.x) + 'px,' + (W.y - k * S.y) + 'px) scale(' + k + ')'; el.style.opacity = ui; });
+      sheet.style.setProperty('--sa', ui); sheet.style.setProperty('--bd', smooth(0, .5, t));
+    }
+    paint(0);
+    (function tick(now) {
+      var t = Math.min(1, (now - t0) / dur); paint(t);
+      if (t < 1) { requestAnimationFrame(tick); return; }
+      morphing = 0; vp.classList.remove('moving'); unmorph(kids); sheet.classList.remove('mph'); morphEl.style.opacity = '';
+      if (done) done();
+    })(t0);
+  }
+  /* after a beat at the top, the sheet glides down to the piece you tapped (instantly with Motion off); any touch or wheel
+     in the sheet takes over at once */
+  var glideRaf = 0;
+  function glideStop() { clearTimeout(glideT); glideT = 0; if (glideRaf) cancelAnimationFrame(glideRaf); glideRaf = 0; }
+  function glideTo(idx, wait) {
+    glideStop();
+    glideT = setTimeout(function () {
+      glideT = 0; if (!sheet.open) return;
+      var j = byId[curJob], t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
+      if (!t) return;
+      var tr = t.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
+      if (tr.top >= sr.top + 8 && tr.bottom <= sr.bottom - 8) return; /* already on screen */
+      var to = Math.max(0, Math.min(shScroll.scrollHeight - shScroll.clientHeight, shScroll.scrollTop + tr.top - sr.top - Math.max(24, (sr.height - tr.height) / 2)));
+      if (!MOTION) { shScroll.scrollTop = to; return; }
+      var from = shScroll.scrollTop, d = Math.round(Math.min(900, 420 + Math.abs(to - from) * .3)), t0 = performance.now();
+      (function st(now) { var k = Math.min(1, (now - t0) / d); shScroll.scrollTop = from + (to - from) * CAM_EASE(k); glideRaf = k < 1 ? requestAnimationFrame(st) : 0; })(t0);
+    }, wait);
+  }
+  ['touchstart', 'wheel', 'keydown'].forEach(function (ev) { shScroll.addEventListener(ev, glideStop, { passive: true }); });
   function closeSheet() {
     if (!sheet.open || morphing) return;
     var m = mo;
-    if (!MOTION) { sheet.close(); return; }
+    if (!MOTION) { shutSheet(); return; }
     if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) {
       /* the picture still in view: the exact reverse of the opening. Scrolled away from it: the sheet settles in as one card */
-      if (!runMorph(m, false, function () { sheet.close(); })) cardClose(m, function () { sheet.close(); });
+      if (!runMorph(m, false, shutSheet)) cardClose(m, shutSheet);
       return;
     }
     /* a different job is showing now (or the list moved on): it settles back and fades where it is, the dim with it,
@@ -2540,12 +2632,12 @@
       sheet.style.opacity = 1 - e; sheet.style.transform = 'translateY(' + (12 * e) + 'px) scale(' + (1 - .02 * e) + ')'; sheet.style.setProperty('--bd', 1 - e);
       if (m && m.cam0) pushCam(m, 1 - e);
       if (t < 1) { requestAnimationFrame(tick); return; }
-      morphing = 0; sheet.close(); sheet.style.opacity = ''; sheet.style.transform = ''; sheet.style.removeProperty('--bd');
+      morphing = 0; shutSheet(); sheet.style.opacity = ''; sheet.style.transform = ''; sheet.style.removeProperty('--bd');
     })(t0);
   }
-  function showJob(id, idx, still) {
+  function showJob(id, idx, still, top) {
     var j = byId[id]; curJob = id;
-    $('shCrumb').innerHTML = 'Work / ' + '<b></b>'; document.querySelector('#shCrumb b').textContent = j.ind;
+    $('shCrumb').innerHTML = '<span class="wk">Work / </span><b></b>'; document.querySelector('#shCrumb b').textContent = j.ind;
     $('shInd').textContent = j.ind;
     $('shTitle').textContent = j.title;
     $('shCnt').textContent = j.cnt;
@@ -2555,8 +2647,8 @@
     if (!sheet.open) { sheet.showModal(); }
     try { history.replaceState(null, '', '#job=' + id); } catch (_) {}
     renderMosaic(j, idx);
-    shScroll.scrollTop = 0;
-    if (idx > 0) {
+    shScroll.scrollTop = 0; glideStop();
+    if (idx > 0 && !top) {
       var t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
       if (t && still) { /* morphing: the picture lands in place, so put its place on screen first */
         var tr = t.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
@@ -2656,7 +2748,7 @@
   $('shNext').addEventListener('click', function () { step(1); });
   $('shNextBig').addEventListener('click', function () { step(1); });
   $('shClose').addEventListener('click', closeSheet);
-  $('shCta').addEventListener('click', function (e) { e.preventDefault(); sheet.close(); goContact(); });
+  $('shCta').addEventListener('click', function (e) { e.preventDefault(); shutSheet(); goContact(); });
   $('shLink').addEventListener('click', function () {
     var url = location.href.split('#')[0] + '#job=' + curJob;
     function ok() { toast('Link copied. It opens straight to this job.'); } /* NEW COPY: toast */
@@ -2665,7 +2757,7 @@
   sheet.addEventListener('click', function (e) { if (e.target === sheet && !morphing) closeSheet(); }); /* backdrop */
   /* the page under the sheet stays exactly where it was (so does the scroll moment): wheel and touch on the dim don't scroll it */
   ['wheel', 'touchmove'].forEach(function (t) { sheet.addEventListener(t, function (e) { if (!shScroll.contains(e.target)) e.preventDefault(); }, { passive: false }); });
-  sheet.addEventListener('cancel', function (e) { if (MOTION) { e.preventDefault(); closeSheet(); } }); /* Esc */
+  sheet.addEventListener('cancel', function (e) { e.preventDefault(); closeSheet(); }); /* Esc */
   sheet.addEventListener('close', function () {
     if (vidIO) vidIO.disconnect();
     shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
@@ -2674,8 +2766,11 @@
     /* whatever closed it, the frame comes back and the canvas is where it was */
     sheet.classList.remove('mph', 'landed'); morphEl.classList.remove('hold'); morphEl.style.clipPath = ''; morphEl.style.opacity = ''; sheet.style.opacity = ''; sheet.style.transform = '';
     unmorph([sheet.querySelector('.sh-bar'), shScroll]);
-    if (mo) { mo.el.style.visibility = ''; if (mo.cam0) { cam = { x: mo.cam0.x, y: mo.cam0.y, s: mo.cam0.s }; apply(); } mo = null; reelP = -1; reelTick(); }
+    glideStop(); morphing = 0; vp.classList.remove('moving');
+    /* nothing may move the camera on the way out (a tween started by the dialog's own focus hand-back used to carry it off) */
+    if (mo) { stopTween(); mo.el.style.visibility = ''; if (mo.cam0) { cam = { x: mo.cam0.x, y: mo.cam0.y, s: mo.cam0.s }; apply(); } mo = null; reelP = -1; reelTick(); }
     if (lastFocus && lastFocus.focus && document.contains(lastFocus)) { quietFocus = true; lastFocus.focus({ preventScroll: true }); quietFocus = false; }
+    requestAnimationFrame(function () { sel.classList.remove('hush'); }); /* the selection fades back once the frame has landed */
   });
   var rT = 0; addEventListener('resize', function () {
     clearTimeout(rT); rT = setTimeout(function () { if (!full) layout(false); else { vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv(); apply(); } if (sheet.open && curJob) renderMosaic(byId[curJob], -1); }, 120);
@@ -2779,7 +2874,7 @@
   }
   function openReel() {
     if (rp.open) return;
-    if (sheet.open) sheet.close();
+    if (sheet.open) shutSheet();
     if (cmdk.open) cmdk.close();
     closeList(); closeThread(); stopFrame();
     rpTrigger = document.activeElement;
@@ -3364,7 +3459,7 @@
     c.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' });
     setTimeout(function () { form.elements.name.focus({ preventScroll: true }); }, MOTION ? 650 : 0);
   }
-  document.querySelectorAll('a[data-help="first"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); if (sheet.open) sheet.close(); goContact(); }); });
+  document.querySelectorAll('a[data-help="first"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); if (sheet.open) shutSheet(); goContact(); }); });
   /* Posts to the same relay as the live site, which creates an item on the monday.com "Website inquiries" board. */
   (function () {
     var note = $('helloNote'), btn = form.querySelector('button[type="submit"]'), t0 = Date.now();
