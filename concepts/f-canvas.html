@@ -553,10 +553,12 @@
      Modelled on the studio's real job board (generic jobs; the studio column shows the real team). A numbered rail on the left
      drives it; the board sits beside it, sized so board and review pane fit one screen. Only the change animates.
      State lives in classes on .flow: at-N is the current step, ge-1 … ge-N are every step reached so far. */
-  .bd { --b-bg: #ffffff; --b-line: #e1e3ea; --b-ink: #323338; --b-muted: #676879; --b-hover: #f2f3f7; --b-sub: #f6f7fb; --b-blue: #1b6fd6; --b-group: #c64a10; --b-shadow: rgba(30, 32, 60, .18); }
-  :root[data-theme="dark"] .bd { --b-bg: #1c1f3b; --b-line: #393e63; --b-ink: #e9eaf2; --b-muted: #a3a7bd; --b-hover: #2a2f52; --b-sub: #23274a; --b-blue: #2f7ff0; --b-group: #fdab3d; --b-shadow: rgba(0, 0, 0, .6); }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) .bd { --b-bg: #1c1f3b; --b-line: #393e63; --b-ink: #e9eaf2; --b-muted: #a3a7bd; --b-hover: #2a2f52; --b-sub: #23274a; --b-blue: #2f7ff0; --b-group: #fdab3d; --b-shadow: rgba(0, 0, 0, .6); } }
-  /* status colours from the studio's real board. Light fills carry near-black text and dark fills white, so every label passes AA. */
+  /* the board's greys are the site's own tokens (white frames and warm lines in light, the canvas greys in dark), so it reads as part of the page */
+  .bd { --b-bg: var(--surface); --b-line: color-mix(in srgb, var(--line) 62%, var(--surface)); --b-ink: var(--ink); --b-muted: var(--muted); --b-hover: var(--paper); --b-sub: var(--paper); --b-blue: #1b6fd6; --b-group: var(--accent-text); --b-shadow: rgba(0, 0, 0, .16); --b-dim: rgba(28, 28, 28, .26); --rh: 36px; }
+  :root[data-theme="dark"] .bd { --b-line: color-mix(in srgb, var(--line-2) 52%, var(--surface)); --b-hover: var(--hover); --b-sub: var(--surface-2); --b-blue: #2f7ff0; --b-shadow: rgba(0, 0, 0, .6); --b-dim: rgba(0, 0, 0, .38); --st-des: #69696f; --st-new: #5a6a92; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) .bd { --b-line: color-mix(in srgb, var(--line-2) 52%, var(--surface)); --b-hover: var(--hover); --b-sub: var(--surface-2); --b-blue: #2f7ff0; --b-shadow: rgba(0, 0, 0, .6); --b-dim: rgba(0, 0, 0, .38); --st-des: #69696f; --st-new: #5a6a92; } }
+  /* status colours from the studio's real board. Light fills carry near-black text and dark fills white, so every label passes AA.
+     On the dark grey board In Design and New step up a little (#69696f 5.4:1 and #5a6a92 5.4:1 with white text) so they stay distinct from the rows. */
   :root { --st-new: #62677d; --st-des: #4b4b50; --st-rev: #2fa6d9; --st-del: #11865a; --st-done: #33d391; --st-hold: #fdbc64; --pr-hi: #fd7d42; --pr-no: #676879; --st-ink: #1c1c1c; --inv-acc: #ff8a4c; --inv-sub: #d9d6cf; --ok: #13804f; }
   :root[data-theme="dark"] { --inv-acc: #b13900; --inv-sub: #34332f; --ok: #33d391; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --inv-acc: #b13900; --inv-sub: #34332f; --ok: #33d391; } }
@@ -625,7 +627,7 @@
   }
 
   /* the board */
-  .bd { position: relative; height: 548px; margin-top: 12px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 13.5px/1.25 var(--body); container: board / inline-size; }
+  .bd { position: relative; height: 584px; margin-top: 12px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 13.5px/1.25 var(--body); container: board / inline-size; }
   @media (max-width: 959px) { .bd { margin-top: 0; } }
   .bd svg { flex: none; }
   .bd-top { display: flex; align-items: center; gap: 16px; height: 52px; padding: 4px 18px 0; }
@@ -661,7 +663,7 @@
   .bd-cols, .bd-r, .bd-add, .bd-sum { display: grid; grid-template-columns: var(--cols); }
   .bd-cols > span, .bd-r > span { display: flex; align-items: center; justify-content: center; min-width: 0; border-top: 1px solid var(--b-line); border-left: 1px solid var(--b-line); }
   .bd-cols > span { height: 34px; padding: 0 6px; font-size: 13px; color: var(--b-ink); white-space: nowrap; overflow: hidden; }
-  .bd-r > span { height: 40px; padding: 0 8px; }
+  .bd-r > span { height: var(--rh); padding: 0 8px; }
   .bd-r > .cb, .bd-cols > .cb, .bd-add > .cb { border-left: 0; }
   .cb i { width: 15px; height: 15px; border: 1.5px solid var(--b-line); border-radius: 3px; }
   .bd-r > .j { justify-content: flex-start; gap: 8px; padding-left: 12px; }
@@ -694,24 +696,33 @@
   .fi svg { width: 13px; height: 15px; color: var(--b-muted); }
   .fi img.dr { width: 38px; height: 22px; border-radius: 3px; object-fit: cover; background: #10282f; box-shadow: 0 0 0 1px var(--b-line); }
   .fi.fin svg { color: var(--st-del); }
-  .bd-add > span { display: flex; align-items: center; height: 38px; border-top: 1px solid var(--b-line); color: var(--b-muted); font-size: 13.5px; }
-  .bd-add > span:nth-child(2) { grid-column: 2 / -1; padding-left: 12px; border-bottom: 1px solid var(--b-line); }
-  .bd-add > .cb { border-bottom: 1px solid var(--b-line); }
+  /* "+ Add item" sits on the table's own grid: checkbox centred in the checkbox column, text on the Item column's text line */
+  .bd-add > span { display: flex; align-items: center; height: var(--rh); border-top: 1px solid var(--b-line); border-bottom: 1px solid var(--b-line); color: var(--b-muted); font-size: 13.5px; }
+  .bd-add > .cb { justify-content: center; }
+  .bd-add > .cb i { opacity: .55; }
+  .bd-add > span:nth-child(2) { grid-column: 2 / -1; padding-left: 12px; border-left: 1px solid var(--b-line); }
+  /* a snippet of a bigger board: the rest of the jobs in review, folded into one row */
+  .bd-more > .j, .bd-more > .no { color: var(--b-muted); }
+  .bd-more .t { font-size: 13px; }
+  .bd-more .pill { justify-content: center; }
+  .bd-more .pill { background: repeating-linear-gradient(180deg, var(--st-rev) 0 calc(100% - 4px), color-mix(in srgb, var(--st-rev) 55%, var(--b-bg)) calc(100% - 4px) calc(100% - 2px), var(--st-rev) calc(100% - 2px) 100%); }
+  .bd-more .pill b { font-weight: 600; font-size: 11.5px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; display: grid; place-items: center; background: rgba(28, 28, 28, .16); }
   .bd-sum { margin-left: 6px; }
   .bd-sum > span { height: 36px; display: flex; }
   .bd-sum > .s { gap: 0; height: 22px; margin: 7px 8px 0; overflow: hidden; }
   .bd-sum > .s i { flex: 1; transition: background .5s; }
   .bd-sum > .pr { height: 22px; margin: 7px 8px 0; }
-  .bd-sum > .pr i { flex: 1; background: var(--pr-hi); } .bd-sum > .pr i + i { flex: 5; background: var(--pr-no); }
+  .bd-sum > .pr i { flex: 1; background: var(--pr-hi); } .bd-sum > .pr i + i { flex: 13; background: var(--pr-no); }
   .flow:not(.ge-1) .bd-sum .nwseg { flex: 0; }
   .nwseg { background: var(--st-new); }
   .flow.ge-2 .nwseg { background: var(--st-des); } .flow.ge-3 .nwseg { background: var(--st-rev); } .flow.ge-5 .nwseg { background: var(--st-del); } .flow.ge-6 .nwseg { background: var(--st-done); }
 
   /* the new job's row lands at the top of the group (as a new item does), then only its cells change */
   .bd-nw { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
-  .bd-nw > .bd-r { min-height: 0; overflow: hidden; opacity: 0; transform: translateY(-10px); transition: opacity .35s .12s, transform .5s var(--ease), background .6s, box-shadow .4s; }
+  .bd-nw > .bd-r { position: relative; min-height: 0; overflow: hidden; opacity: 0; transform: translateY(-10px); transition: opacity .35s .12s, transform .5s var(--ease), background .6s; }
+  .bd-nw > .bd-r::after { content: ""; position: absolute; inset: 0; z-index: 1; border: 2px solid var(--accent); pointer-events: none; }
   .flow.ge-1 .bd-nw { grid-template-rows: 1fr; }
-  .flow.ge-1 .bd-nw > .bd-r { opacity: 1; transform: none; background: rgba(254, 80, 0, .07); box-shadow: inset 0 0 0 2px var(--accent); }
+  .flow.ge-1 .bd-nw > .bd-r { opacity: 1; transform: none; background: rgba(254, 80, 0, .07); }
   .flow.ge-6 .bd-nw > .bd-r { background: rgba(19, 128, 79, .1); }
   /* "This job": the tracked row is marked like a selected frame */
   .tj { flex: none; background: var(--accent); color: #1c1c1c; font: 600 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 6px 3px; border-radius: 3px; }
@@ -731,7 +742,7 @@
   .flow.ge-6 .chk { transform: none; }
 
   /* the item's updates pane slides in from the right (a bottom sheet on narrow boards) */
-  .bd::after { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(10, 12, 30, .32); opacity: 0; pointer-events: none; transition: opacity .4s; }
+  .bd::after { content: ""; position: absolute; inset: 0; z-index: 1; background: var(--b-dim); opacity: 0; pointer-events: none; transition: opacity .4s; }
   .flow.at-4 .bd::after, .flow.at-5 .bd::after { opacity: 1; }
   .bd-pan { position: absolute; z-index: 2; top: 0; right: 0; bottom: 0; width: min(400px, 50%); display: flex; flex-direction: column; background: var(--b-bg); border-left: 1px solid var(--b-line); box-shadow: -30px 0 60px -30px var(--b-shadow); transform: translateX(104%); visibility: hidden; transition: transform .55s var(--ease), visibility 0s .55s; }
   .flow.at-4 .bd-pan, .flow.at-5 .bd-pan { transform: none; visibility: visible; transition: transform .55s var(--ease); }
@@ -780,9 +791,11 @@
   .fl-foot p { color: var(--muted); font-size: 15.5px; }
 
   /* narrower boards drop the columns a buyer needs least (by the board's own width) */
-  @container board (max-width: 1060px) { .c-no, .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 80px 66px 80px 126px 100px 100px; } }
-  @container board (max-width: 900px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 78px 64px 78px 124px 100px; } .bd-tl.x2 { display: none; } }
-  @container board (max-width: 720px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(0, 1fr) 60px 70px 116px 96px; } .bd-tl span { display: none; } .bd-share > span { display: none; } .bd-pan { width: 64%; } }
+  @container board (max-width: 1060px) { .c-no, .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 80px 64px 76px 120px 100px 100px; } }
+  @container board (max-width: 900px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 80px 64px 76px 118px 98px; } .bd-tl.x2 { display: none; } }
+  @container board (max-width: 780px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(0, 1fr) 56px 64px 100px 88px; } .bd-tl span { display: none; } .bd-share > span { display: none; } }
+  @container board (max-width: 720px) { .bd-pan { width: 64%; } }
+  @container board (max-width: 660px) { .c-fi { display: none !important; } .bd-body { --cols: 32px minmax(0, 1fr) 54px 100px 88px; } }
   /* phones: every row as a stacked card, the updates pane as a bottom sheet */
   @container board (max-width: 560px) {
     .bd-top { height: 48px; padding: 4px 14px 0; } .bd-name { font-size: 19px; }
@@ -800,7 +813,10 @@
     .bd-r .pill { width: auto; height: 26px; padding: 0 11px; border-radius: 4px; font-size: 13px; }
     .bd-r .up, .bd-r .sb, .bd-r .cv { display: none; }
     .bd-r.nw > .j { flex-wrap: wrap; row-gap: 5px; } .bd-r.nw .t { white-space: normal; }
-    .bd-add { display: block; } .bd-add > span:nth-child(2) { border-bottom: 1px solid var(--b-line); }
+    .bd-add { display: block; } .bd-add > span:nth-child(2) { border-left: 0; padding-left: 10px; }
+    .bd-r.bd-more { grid-template-areas: "o j s"; align-items: center; } .bd-r.bd-more .cv { display: block; } .bd-r.bd-more > .j { gap: 6px; } .bd-r.bd-more > .s { justify-items: end; }
+    .bd-r .f.c-fi { display: grid !important; }
+    .bd-r.bd-more > .f, .bd-r.bd-more > .d { display: none !important; }
     .bd-pan { top: auto; left: 0; width: auto; height: min(92%, 560px); border-left: 0; border-top: 1px solid var(--b-line); border-radius: 14px 14px 0 0; transform: translateY(104%); box-shadow: 0 -24px 48px -26px var(--b-shadow); }
     .bd-pan::before { content: ""; position: absolute; left: 50%; top: 7px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--b-line); }
     .pn-h { padding: 20px 12px 0 16px; } .pn-h b { font-size: 18px; }
@@ -1319,7 +1335,7 @@
           <p class="fl-cap" id="flCap" aria-hidden="true"></p>
         </div>
         <!-- NEW COPY (board UI, shown as an example): "Your job board", "Shared with Studio Rendezvous, Inc.", "Main table", "Kanban", "Timeline",
-             "Files", "New item", "Search", "Person", "Filter", "Sort", "Hide", "Group by", "This month", "5 jobs", "6 jobs", column names
+             "Files", "New item", "Search", "Person", "Filter", "Sort", "Hide", "Group by", column names
              "Item", "Your team", "#", "Design", "Files", "Status", "Next draft", "Due date", "Priority", sample jobs "Product launch explainer",
              "Q4 webinar social posts", "Partner email templates (Mac + PC)", "Event signage refresh", "October social posts", "Trade show booth loop",
              statuses "New", "In Design", "In Review", "On Hold", "Delivered", "Complete", "High", "Normal", "Brief", "+ Add item", dates,
@@ -1327,6 +1343,8 @@
              "Love it. Can the logo hold a beat longer at the end?", "Round 2 is up. The logo now holds to the last frame.",
              "Request changes", "Approve", "Approved. Thank you!", "Final files are attached. Source files on request." -->
         <!-- NEW COPY: "This job" (the marker on the tracked row) -->
+        <!-- NEW COPY: group "Your current jobs" (was "This month"), counts "13 active" / "14 active" (was "5 jobs" / "6 jobs"),
+             folded row "Show 7 more" (In Review, 7), sample job "Customer story one-pager" (In Review), dates "Tue, Oct 20", "Fri, Oct 23" -->
         <div class="bd" aria-hidden="true">
           <svg width="0" height="0" style="position:absolute" aria-hidden="true">
             <symbol id="srmk" viewBox="0 0 78 78" fill="currentColor"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></symbol>
@@ -1347,18 +1365,20 @@
           <div class="bd-tabs"><span class="on">Main table</span><span>Kanban</span><span>Timeline</span><span class="x3">Files</span></div>
           <div class="bd-tools"><span class="bd-new"><span>New item</span><i><svg><use href="#i-cd"/></svg></i></span><span class="bd-tl"><svg><use href="#i-se"/></svg><span>Search</span></span><span class="bd-tl x1"><svg><use href="#i-pe"/></svg><span>Person</span></span><span class="bd-tl"><svg><use href="#i-fi"/></svg><span>Filter</span></span><span class="bd-tl x1"><svg><use href="#i-so"/></svg><span>Sort</span></span><span class="bd-tl x1 x2"><svg><use href="#i-ey"/></svg><span>Hide</span></span><span class="bd-tl x1 x2"><svg><use href="#i-gr"/></svg><span>Group by</span></span></div>
           <div class="bd-body">
-            <div class="bd-gh"><svg><use href="#i-cd"/></svg><b>This month</b><span class="c5">5 jobs</span><span class="c6">6 jobs</span></div>
+            <div class="bd-gh"><svg><use href="#i-cd"/></svg><b>Your current jobs</b><span class="c5">13 active</span><span class="c6">14 active</span></div>
             <div class="bd-tbl">
-              <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span>Files</span><span>Status</span><span class="c-nd">Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
-              <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="tj">This job</span><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi f1"><svg><use href="#i-do"/></svg>Brief</i><i class="fi f3"><img class="dr" data-src="../media/thumbs/arx-booth.jpg" alt="" width="38" height="22"></i><i class="fi fin f5"><svg><use href="#i-do"/></svg>3</i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd c-nd"><span class="n0"></span><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f"></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd c-nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av ph" data-bg="../media/thumbs/andrew-baldwin.png"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi"><svg><use href="#i-do"/></svg>4</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Event signage refresh</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av ph" data-bg="../media/thumbs/joel-bender.png"><svg><use href="#srmk"/></svg></i></span><span class="f"></span><span class="s"><em class="pill p-hold">On Hold</em></span><span class="nd c-nd"></span><span class="d c-du">Thu, Nov 12</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">6</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f"><i class="fi fin"><svg><use href="#i-do"/></svg>9</i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd c-nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span class="c-fi">Files</span><span>Status</span><span class="c-nd">Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
+              <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="tj">This job</span><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi f1"><svg><use href="#i-do"/></svg>Brief</i><i class="fi f3"><img class="dr" data-src="../media/thumbs/arx-booth.jpg" alt="" width="38" height="22"></i><i class="fi fin f5"><svg><use href="#i-do"/></svg>3</i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd c-nd"><span class="n0"></span><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd c-nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av ph" data-bg="../media/thumbs/andrew-baldwin.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>4</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Customer story one-pager</span><span class="up on"><svg><use href="#i-bu"/></svg><em>1</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>1</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Tue, Oct 20</span><span class="d c-du">Fri, Oct 23</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r bd-more"><span class="cb"></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Show 7 more</span></span><span class="yt c-yt"></span><span class="no c-no"></span><span class="o"></span><span class="f c-fi"></span><span class="s"><em class="pill p-rev">In Review<b>7</b></em></span><span class="nd c-nd"></span><span class="d c-du"></span><span class="pr c-pr"></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Event signage refresh</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">13</span><span class="o"><i class="av ph" data-bg="../media/thumbs/joel-bender.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"></span><span class="s"><em class="pill p-hold">On Hold</em></span><span class="nd c-nd"></span><span class="d c-du">Thu, Nov 12</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">14</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi fin"><svg><use href="#i-do"/></svg>9</i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd c-nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
               <div class="bd-add"><span class="cb"><i></i></span><span>+ Add item</span></div>
             </div>
-            <div class="bd-sum"><span class="cb"></span><span class="j"></span><span class="c-yt"></span><span class="c-no"></span><span class="o"></span><span class="f"></span><span class="s"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:2"></i><i style="background:var(--st-hold)"></i></span><span class="c-nd"></span><span class="c-du"></span><span class="pr c-pr"><i></i><i></i></span></div>
+            <div class="bd-sum"><span class="cb"></span><span class="j"></span><span class="c-yt"></span><span class="c-no"></span><span class="o"></span><span class="f c-fi"></span><span class="s"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:10"></i><i style="background:var(--st-hold)"></i></span><span class="c-nd"></span><span class="c-du"></span><span class="pr c-pr"><i></i><i></i></span></div>
           </div>
           <div class="bd-pan">
             <div class="pn-h"><b>Trade show booth loop</b><span class="ps"><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em></span><span class="pn-x"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></span></div>
