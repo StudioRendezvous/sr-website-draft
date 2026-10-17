@@ -171,7 +171,9 @@
   .top .cta { padding: 11px 15px 10px; font-size: 12px; flex: none; }
   @media (max-width: 1640px) { .file { display: none; } }
   @media (max-width: 1360px) { .kbtn .t { display: none; } }
-  @media (max-width: 1060px) { .nav { display: none; } .kbtn { margin-left: auto; } }
+  /* six sections fit down to 1181: below 1280 the links tighten and the switch drops its On/Off word (its toggle shows it) */
+  @media (max-width: 1279px) { .nav { gap: 14px; } .nav a { font-size: 14.5px; } .switch .st { display: none; } }
+  @media (max-width: 1180px) { .nav { display: none; } .kbtn { margin-left: auto; } }
   @media (max-width: 640px) {
     .top { gap: 10px; }
     .switch .lbl { display: none; }
@@ -519,13 +521,15 @@
   .cs-t .ind, .cs-t .dm { font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
   .cs-t .dm { opacity: 0; color: var(--accent-text); letter-spacing: .02em; transition: opacity .15s; }
   .cs.cur .chip-s { background: var(--cta); color: var(--cta-ink); } /* the section you are reading */
+  /* One layer at a time, as in Figma: only the innermost layer under the pointer (or holding keyboard focus) highlights.
+     A component (.fx), a named frame (.fg) or the contact frame (.drop) takes the highlight from its section; the section
+     lights up (outline, live size) only for its own direct content. Its name chip still shows reading position (.cur). */
   @media (hover: hover) {
-    .cs-in:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--sec-line)); }
-    .cs-in:hover > .cs-t .dm { opacity: 1; }
+    .cs-in:hover:not(:has(.fx:hover, .fg:hover, .drop:hover)) { border-color: color-mix(in srgb, var(--accent) 45%, var(--sec-line)); }
+    .cs-in:hover:not(:has(.fx:hover, .fg:hover, .drop:hover)) > .cs-t .dm { opacity: 1; }
   }
-  /* keyboard focus on something that isn't inside a component selects the whole section */
-  .cs-in:has(:focus-visible):not(:has(.fx :focus-visible)) { border-color: var(--accent); box-shadow: 0 0 0 .5px var(--accent); }
-  .cs-in:has(:focus-visible):not(:has(.fx :focus-visible)) > .cs-t .dm { opacity: 1; }
+  .cs-in:has(:focus-visible):not(:has(.fx :focus-visible, .fg :focus-visible, .drop :focus-visible)) { border-color: var(--accent); box-shadow: 0 0 0 .5px var(--accent); }
+  .cs-in:has(:focus-visible):not(:has(.fx :focus-visible, .fg :focus-visible, .drop :focus-visible)) > .cs-t .dm { opacity: 1; }
 
   /* LINE ART: three deliberate moments, not a page-wide field. A ribbon of parallel strands lives INSIDE a section frame
      (What we make, Why it works), where the dot grid stops, so the two textures never overlap, and once in the footer. Each sits
@@ -538,26 +542,31 @@
   :root[data-theme="dark"] .lx, .foot-site .lx { --lx-ink: 243, 241, 236; --lx-a: .17; --lx-r: .085; --lx-o: .6; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) .lx { --lx-ink: 243, 241, 236; --lx-a: .17; --lx-r: .085; --lx-o: .6; } }
   #make .cs-in, #why .cs-in { isolation: isolate; }
-  .lx-make { right: 0; top: 0; width: min(58%, 780px); height: 560px; border-top-right-radius: 5px;
-    -webkit-mask: linear-gradient(90deg, transparent, #000 34%) , linear-gradient(#000 52%, transparent 92%); -webkit-mask-composite: source-in;
-    mask: linear-gradient(90deg, transparent, #000 34%), linear-gradient(#000 52%, transparent 92%); mask-composite: intersect; }
-  .lx-why { right: 0; top: 0; width: min(60%, 800px); height: 330px; border-top-right-radius: 5px;
-    -webkit-mask: linear-gradient(90deg, transparent, #000 30%, #000 90%, transparent), linear-gradient(#000 55%, transparent); -webkit-mask-composite: source-in;
-    mask: linear-gradient(90deg, transparent, #000 30%, #000 90%, transparent), linear-gradient(#000 55%, transparent); mask-composite: intersect; }
+  /* Each moment lives inside its frame's content area (inside the 48px padding, never past the right content edge or under
+     the frame's top), with soft fades on every edge; the drawing is also scaled to fit its box at every tilt it can take
+     (see fit() in the line art script), so a strand is never cut. */
+  .lx-make { right: 48px; top: 48px; width: min(calc(58% - 48px), 732px); height: 512px;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 34%, #000 92%, transparent), linear-gradient(transparent, #000 8%, #000 52%, transparent 92%); -webkit-mask-composite: source-in;
+    mask: linear-gradient(90deg, transparent, #000 34%, #000 92%, transparent), linear-gradient(transparent, #000 8%, #000 52%, transparent 92%); mask-composite: intersect; }
+  .lx-why { right: 48px; top: 48px; width: min(calc(60% - 48px), 752px); height: 288px;
+    -webkit-mask: linear-gradient(90deg, transparent, #000 30%, #000 90%, transparent), linear-gradient(transparent, #000 10%, #000 55%, transparent); -webkit-mask-composite: source-in;
+    mask: linear-gradient(90deg, transparent, #000 30%, #000 90%, transparent), linear-gradient(transparent, #000 10%, #000 55%, transparent); mask-composite: intersect; }
   .foot-site { position: relative; isolation: isolate; overflow: hidden; }
-  .lx-foot { right: 0; bottom: 0; width: min(62%, 900px); height: 100%;
-    -webkit-mask: linear-gradient(90deg, transparent, #000 40%), linear-gradient(transparent, #000 45%); -webkit-mask-composite: source-in;
-    mask: linear-gradient(90deg, transparent, #000 40%), linear-gradient(transparent, #000 45%); mask-composite: intersect; }
+  /* inside the footer's content box: on the wrap's right edge (1312 wide, centred, or the gutter), in the band just above the base row */
+  .lx-foot { right: max(var(--gut), calc((100% - 1312px) / 2)); bottom: 92px; height: min(200px, calc(100% - 156px)); width: min(60%, 860px); /* (a canvas never stretches between top and bottom, so its height is set) */
+    -webkit-mask: linear-gradient(90deg, transparent, #000 40%, #000 92%, transparent), linear-gradient(transparent, #000 45%, #000 85%, transparent); -webkit-mask-composite: source-in;
+    mask: linear-gradient(90deg, transparent, #000 40%, #000 92%, transparent), linear-gradient(transparent, #000 45%, #000 85%, transparent); mask-composite: intersect; }
   /* only where the heading column leaves a clear zone: below these widths the lede runs under it, so the moment steps aside */
   @media (max-width: 1279px) { .lx-make { display: none; } }
   @media (max-width: 959px) { .lx-why { display: none; } }
-  @media (max-width: 700px) { .lx-foot { width: 86%; height: 42%; } } /* phones: the footer's one quiet still */
+  @media (max-width: 700px) { .lx-foot { width: calc(100% - 2 * var(--gut)); height: 30%; } } /* phones: the footer's one quiet still */
 
   /* FRAME: a named frame inside a section (the mono name with the # glyph, as on the canvas) */
   .fg { position: relative; margin-top: 64px; }
   .fn { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; font: 500 12px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); transition: color .15s; }
   .fn svg { width: 11px; height: 11px; flex: none; color: var(--accent); }
-  @media (hover: hover) { .fg:hover > .fn { color: var(--accent-text); } }
+  @media (hover: hover) { .fg:hover:not(:has(.fx:hover)) > .fn { color: var(--accent-text); } }
+  .fg:has(:focus-visible):not(:has(.fx :focus-visible)) > .fn { color: var(--accent-text); }
 
   /* COMPONENT: a white frame on the canvas (no border, the canvas frames' ring and shadow), its component label above it */
   .fx { position: relative; }
@@ -590,7 +599,13 @@
   .motion .fx::after, .motion .cs-t .dm { transition: opacity .12s; }
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
-  .frames.c3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .frames.c3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: stretch; }
+  /* each row of components shares one height (auto layout: fill), and a card's CTA link sits on its bottom edge */
+  @media (min-width: 641px) { /* (phones stack one card per row, as before) */
+    .frames.c3 > .card, .frames.c4 > .card { display: flex; flex-direction: column; }
+    .frames.c3 > .card > .move-link { margin-top: auto; align-self: flex-start; }
+    .frames.c3 > .card > :has(+ .move-link) { margin-bottom: 16px; }
+  }
   .frames.c4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); align-items: stretch; }
   .card h3 { font-size: clamp(25px, 2.4vw, 30px); }
   .card p { margin-top: 8px; color: var(--ink2); }
@@ -1125,6 +1140,19 @@
   .still .you { transition: none; }
   .drop.sent { padding-bottom: 132px; }
   .you[hidden] { display: none; }
+  /* A calm, trustworthy form first: the same rule as the hero. By default the frame is a plain white frame with its name;
+     no selection outline, handles, size tag, "You" tag or Layers panel. They come up only on a deliberate hover of the frame
+     (a mouse resting on it for a beat), go the moment you click into a field or move away, and never on touch. */
+  .form { border-color: var(--line); }
+  .form .flab b { background: var(--chip); color: var(--chip-ink); transition: background .2s, color .2s; }
+  .form > i, .form .dim, .you, .flayers { opacity: 0; visibility: hidden; transition: opacity .15s, visibility 0s .15s; }
+  .you { transition: opacity .15s, visibility 0s .15s, transform .4s var(--ease); }
+  @media (hover: hover) and (pointer: fine) {
+    .drop:hover:not(:focus-within) .form:not(.sent) { border-color: var(--accent); transition: transform .5s var(--ease), box-shadow .5s, border-color .2s .45s; }
+    .drop:hover:not(:focus-within) .form:not(.sent) .flab b { background: var(--accent); color: #1c1c1c; transition-delay: .45s; }
+    .drop:hover:not(:focus-within) .form:not(.sent) > i, .drop:hover:not(:focus-within) .form:not(.sent) .dim,
+    .drop:hover:not(:focus-within):not(.sent) .you, .drop:hover:not(:focus-within):not(.sent) .flayers { opacity: 1; visibility: visible; transition: opacity .2s .45s, visibility 0s .45s, transform .4s var(--ease); }
+  }
   .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .fields .wide { grid-column: 1 / -1; }
   @media (max-width: 560px) { .fields { grid-template-columns: 1fr; } }
@@ -1311,7 +1339,7 @@
   <a class="home" href="#top" aria-label="Studio Rendezvous, back to top"><svg class="mk" viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></svg><svg class="wm" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" viewBox="0 0 437.71811 77.53658"><g><g><g><path d="m114.69074,16.78192c0-2.2869-.57073-4.00307-3.10507-4.00307s-3.10906,1.71617-3.10906,4.00307v6.21414c0,1.87981.32727,3.75961,1.22527,5.31614l8.58485,14.71118c1.22926,2.04743,1.96362,4.58178,1.96362,7.19994v9.31522c0,5.56359-3.26871,8.66866-8.66467,8.66866-5.97068,0-8.8323-2.69798-8.8323-8.66866v-8.09394h5.39596v7.76667c0,2.78179,1.06562,4.41814,3.43633,4.41814,2.20708,0,3.26871-1.63635,3.26871-4.41814v-8.25359c0-2.04344-.40709-3.59997-1.55254-5.64341l-7.93031-13.81718c-1.47271-2.53036-2.29089-4.49397-2.29089-7.51923v-7.11213c0-5.80305,3.02525-8.66866,8.50503-8.66866,6.04651,0,8.50104,2.86561,8.50104,8.26157v7.51923h-5.39596v-7.19595Z"/><path d="m126.62412,17.193l5.06869-1.96362v7.93031h3.59598v4.08688h-3.59598v33.84849c0,2.04344,1.06163,2.53435,2.53435,2.53435h1.06163v4.08688h-2.45452c-4.25052,0-6.21015-2.04344-6.21015-5.47978V27.24657h-2.53435v-4.08688h2.53435v-5.96669Z"/><path d="m155.88684,67.71629h-4.74142v-3.02525h-.16363c-1.14544,1.87981-3.26871,3.51616-5.88687,3.51616-4.1707,0-6.0505-3.10507-6.0505-6.70504V23.15969h5.06869v36.37884c0,2.37071.90199,4.09087,3.18889,4.09087,2.37071,0,3.51616-2.29089,3.51616-4.09087V23.15969h5.06869v44.5566Z"/><path d="m173.45964,64.9345h-.16363c-1.22527,1.71617-2.37071,3.2727-5.39596,3.2727-3.26871,0-6.54141-1.96362-6.54141-8.66866v-29.91726c0-4.00706,2.29089-6.95249,5.80705-6.95249,2.53435,0,4.49397.90199,5.80305,3.18889h.16363V8.69197h5.06869v59.02432h-4.74142v-2.78179Zm-.32727-32.78287c0-2.7778-1.47271-4.90506-3.67979-4.90506-2.04344,0-3.02525,1.87981-3.02525,5.15251v26.97981c0,3.10507.90199,4.74142,2.94543,4.74142s3.75961-1.30908,3.75961-4.90905v-27.05963Z"/><path d="m184.08394,8.69197h5.39596v6.21015h-5.39596v-6.21015Zm.16363,14.46772h5.06869v44.5566h-5.06869V23.15969Z"/><path d="m195.36277,31.25363c0-6.78486,4.08688-8.58485,8.42121-8.58485s8.42121,1.79998,8.42121,8.58485v28.36871c0,6.78486-4.08688,8.58485-8.42121,8.58485s-8.42121-1.79998-8.42121-8.58485v-28.36871Zm11.77373,0c0-3.26871-1.30908-4.49797-3.35252-4.49797s-3.35252,1.22926-3.35252,4.49797v28.36871c0,3.26871,1.30908,4.49797,3.35252,4.49797s3.35252-1.22926,3.35252-4.49797v-28.36871Z"/><path d="m240.15884,42.94356c0-2.85762-1.71617-3.59598-4.25052-3.59598h-3.59997v28.36871h-5.39596V8.69197h10.05756c5.15251,0,8.3374.89401,8.3374,6.78486v14.95863c0,4.57779-1.71617,6.13032-5.88288,6.37777v.16363c3.83943.24346,6.13032,1.3889,6.13032,5.47978v25.25965h-5.39596v-24.77273Zm-4.25052-8.17377c2.53435,0,4.00307-.73436,4.00307-4.25451v-13.24246c0-3.43234-1.79599-4.00706-4.57779-4.00706h-3.02525v21.50403h3.59997Z"/><path d="m263.0398,53.32839h5.06869v6.29396c0,6.78486-4.08688,8.58485-8.41722,8.58485-4.33433,0-8.42121-1.79998-8.42121-8.58485v-28.36871c0-6.78486,4.08688-8.58485,8.42121-8.58485,4.33034,0,8.41722,1.79998,8.41722,8.58485v15.44953h-11.76974v12.91918c0,3.26871,1.30509,4.49797,3.35252,4.49797,2.04344,0,3.34853-1.22926,3.34853-4.49797v-6.29396Zm0-22.07475c0-3.26871-1.30509-4.49797-3.34853-4.49797-2.04743,0-3.35252,1.22926-3.35252,4.49797v10.87574h6.70105v-10.87574Z"/><path d="m273.58427,23.15969h4.74142v3.02525h.16363c1.14544-1.87981,3.2727-3.51616,5.88687-3.51616,4.1707,0,6.0505,3.10507,6.0505,6.70504v38.34246h-5.06869V31.33745c0-2.37071-.898-4.09087-3.18889-4.09087-2.37071,0-3.51616,2.29089-3.51616,4.09087v36.37884h-5.06869V23.15969Z"/><path d="m307.9995,64.9345h-.16363c-1.22527,1.71617-2.37071,3.2727-5.39596,3.2727-3.26871,0-6.54141-1.96362-6.54141-8.66866v-29.91726c0-4.00706,2.29089-6.95249,5.80705-6.95249,2.53435,0,4.49397.90199,5.80305,3.18889h.16363V8.69197h5.06869v59.02432h-4.74142v-2.78179Zm-.32727-32.78287c0-2.7778-1.47271-4.90506-3.67979-4.90506-2.04344,0-3.02525,1.87981-3.02525,5.15251v26.97981c0,3.10507.90199,4.74142,2.94543,4.74142s3.75961-1.30908,3.75961-4.90905v-27.05963Z"/><path d="m329.98645,53.32839h5.06869v6.29396c0,6.78486-4.08688,8.58485-8.42121,8.58485s-8.42121-1.79998-8.42121-8.58485v-28.36871c0-6.78486,4.08688-8.58485,8.42121-8.58485s8.42121,1.79998,8.42121,8.58485v15.44953h-11.77373v12.91918c0,3.26871,1.30908,4.49797,3.35252,4.49797s3.35252-1.22926,3.35252-4.49797v-6.29396Zm0-22.07475c0-3.26871-1.30908-4.49797-3.35252-4.49797s-3.35252,1.22926-3.35252,4.49797v10.87574h6.70504v-10.87574Z"/><path d="m347.55924,27.24657h-8.01412v-4.08688h13.08281v4.41415l-8.82831,36.05556h8.99194v4.08688h-13.73735v-5.88687l8.50503-34.58285Z"/><path d="m355.72902,23.15969h4.74541l4.25052,37.68792h.16363l4.25052-37.68792h4.74142l-5.31215,44.5566h-7.52322l-5.31614-44.5566Z"/><path d="m377.8796,31.25363c0-6.78486,4.08688-8.58485,8.42121-8.58485s8.42121,1.79998,8.42121,8.58485v28.36871c0,6.78486-4.08688,8.58485-8.42121,8.58485s-8.42121-1.79998-8.42121-8.58485v-28.36871Zm11.77373,0c0-3.26871-1.30908-4.49797-3.35252-4.49797s-3.35252,1.22926-3.35252,4.49797v28.36871c0,3.26871,1.30908,4.49797,3.35252,4.49797s3.35252-1.22926,3.35252-4.49797v-28.36871Z"/><path d="m417.03625,67.71629h-4.74142v-3.02525h-.16363c-1.14145,1.87981-3.26871,3.51616-5.88288,3.51616-4.1707,0-6.0505-3.10507-6.0505-6.70504V23.15969h5.06869v36.37884c0,2.37071.898,4.09087,3.18889,4.09087,2.37071,0,3.51216-2.29089,3.51216-4.09087V23.15969h5.06869v44.5566Z"/><path d="m432.89287,29.78092c0-2.04344-.98181-3.02525-2.61417-3.02525-2.04344,0-2.61816,1.47271-2.61816,3.18889v4.98887c0,1.30509.57472,2.53435,1.87981,4.41415l6.37777,8.91212c1.22527,1.71617,1.79998,2.85762,1.79998,4.90506v7.52322c0,4.82124-2.69798,7.51923-7.60304,7.51923-4.1707,0-7.52322-1.96362-7.52322-6.95249v-7.76667h5.06869v6.87267c0,2.04344.32727,3.75961,2.53435,3.75961,2.04344,0,2.45452-1.79998,2.45452-3.84343v-5.39596c0-1.63236-.65454-3.26871-1.87981-4.90506l-5.80705-7.93031c-1.46872-1.95963-2.37071-3.51616-2.37071-5.96669v-5.72323c0-4.90905,3.35252-7.68685,7.93031-7.68685,5.39596,0,7.11213,3.67979,7.11213,6.37777v7.35958h-4.74142v-6.62522Z"/></g><g><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></g></g></g></svg></a>
   <span class="file" aria-hidden="true">Studio Rendezvous, Inc. / <b>Work canvas</b></span>
   <nav class="nav" aria-label="Sections">
-    <a href="#work">Work</a><a href="#how">How it works</a><a href="#together">Working together</a><a href="#team">Team</a><a href="#contact">Contact</a>
+    <a href="#work">Work</a><a href="#how">How it works</a><a href="#make">What we make</a><a href="#together">Working together</a><a href="#team">Team</a><a href="#contact">Contact</a>
   </nav>
   <!-- NEW COPY: "Search" button, theme labels, "Search work and actions" -->
   <button class="kbtn" id="kbtn" type="button" aria-haspopup="dialog" aria-label="Search work and actions"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg><span class="t" aria-hidden="true">Search</span><kbd id="kbtnK" aria-hidden="true">⌘K</kbd></button>
@@ -1332,7 +1360,7 @@
         <h1 id="h1">Design and motion, <em>always on.</em></h1>
         <p class="tag">When you need a team that delivers every day.</p>
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
-        <p class="proof mono"><span>Senior team</span><i aria-hidden="true"></i><span>681 videos last year</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
+        <p class="proof mono"><span>Senior team</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
         <!-- NEW COPY: "Watch the reel" -->
         <div class="ctas"><a class="cta" href="#contact" data-help="first">Start a job</a><button class="ghost" type="button" data-reel aria-haspopup="dialog"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Watch the reel</button></div>
       </div>
@@ -1389,12 +1417,18 @@
         var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + 240; /* the same file grid as the canvas script (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
           var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too (was capped at .86, so 1920+ wide or zoomed-out Chrome showed extra groups) */
-          /* Vertically: the pair (with the "Start here" tab, LBL, above it) sits in the middle of the stage, and the second row,
-             name tabs and all, starts below the stage's bottom edge, so no dead band opens between the rows and the canvas
-             toolbar never sits on work. The toolbar keeps a clear zone along the bottom that the pair never enters: ZONE under
-             the bars, MINI under the minimap's corner (it only ever meets the first group's last row, PAD inside its edge). */
-          var LBL = 44, ZONE = 88, MINI = 142, h = HERO_H * s, mid = (vh - h - LBL) / 2 + LBL, below = vh + 52 - ROW2 * s;
-          var y = Math.max(mid, Math.min(below, mid + vh * .1));
+          /* Vertically the pair is anchored near the top of the stage: its "Start here" tab (LBL tall) sits TOP under the bar,
+             so a tall screen reads as a whole canvas, not a card floating in the middle. Below it the second row either peeks in
+             (its name tabs and top edge, clear above the toolbar's zone) or starts below the stage's bottom edge; its tabs never
+             land on the toolbar. Where a little less width-fill (at most 12%, never under 74%, never so little that a third group's edge slips in
+             at the right) lets the second row peek, that wins. The pair itself never enters the clear zone along the bottom:
+             ZONE under the bars, MINI under the minimap's corner (it only ever meets the first group's last row). */
+          var TOP = 64, LBL = 35, ZONE = 88, MINI = 142, y0 = TOP + LBL;
+          var peekS = (vh - ZONE - y0) / ROW2; /* the largest scale at which the second row's top edge meets the zone at y0 */
+          if (peekS < s && peekS >= Math.max(.74, s * .88) && peekS >= (vw + 16) / (4 * (SEC_W + GAP) - pair)) s = peekS; /* centred, the third column's left edge stays 8px past the right edge */
+          var h = HERO_H * s, r2 = ROW2 * s, y;
+          if (y0 + r2 <= vh - ZONE) y = y0; /* the second row peeks in */
+          else y = Math.max(y0, vh + 52 - r2); /* the second row starts below the stage (its tabs never sit on the toolbar) */
           return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
@@ -1421,7 +1455,7 @@
         <li><small>Financial services · 12 pieces</small><b>A new brand, carried into everything</b><p>When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories and sales tools.</p></li>
         <li><small>B2B software · 8 pieces</small><b>Events, end to end</b><p>One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p></li>
         <li><small>Cybersecurity · 8 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p></li>
-        <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>We delivered 681 videos in the last twelve months: explainers, event loops, social, product and brand motion.</p></li>
+        <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>Explainers, event loops, social, product and brand motion.</p></li>
         <li><small>Recent jobs · 8 pieces</small><b>Fresh off the board</b><p>A few recent jobs, straight off client boards: ads, sales sheets, guides, event signage and toolkits.</p></li>
         <li><small>B2B software · 2 pieces</small><b>Product launches, in motion</b><p>Product and sales videos built from the product’s own UI.</p></li>
         <li><small>Commercial HVAC group · 47 logos</small><b>Logo systems</b><p>47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p></li>
@@ -1439,7 +1473,7 @@
   <!-- ================================================================ clients -->
   <section class="band cs" id="clients" aria-label="Clients">
     <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="10 current">
-      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>681 videos last year</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
+      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Clients we’re helping every month</p>
       <div class="logos" role="list" aria-label="Current clients">
         <div role="listitem" class="fx"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
@@ -1581,12 +1615,12 @@
       <h2 id="makeH">What marketing teams ask us for.</h2>
       <p class="lede">Everything a B2B marketing team ships, from a banner to a booth, made by the same senior team.</p>
       <ol class="make">
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Landing pages, banners, email templates and website graphics.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Web pages and full websites, landing pages, banners and email templates.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="14" width="30" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="20" y="8" width="30" height="36"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="50,8 50,20 38,8" class="o"/></svg></span></span><span class="cat">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><polygon pathLength="1" points="30,10 52,50 8,50"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="34" r="7" class="o"/></svg></span></span><span class="cat">Events</span><h3>Trade shows and stages</h3><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="21"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="25,21 25,39 40,30" class="o"/></svg></span></span><span class="cat">Video</span><h3>Motion and video</h3><p>Explainers, motion graphics, product and training videos, campaign and social video, and trade show booth loops, finished with professional voiceover, music and sound.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="17" cy="40" r="7"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="16" r="7"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="43" cy="40" r="7" class="o"/></svg></span></span><span class="cat">Social</span><h3>Social programs</h3><p>Static and animated posts, campaign kits and monthly programs.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>Product UI, prototypes and design systems built in Figma.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>UX for companies with large websites. We design and build out their pages in Figma, plus product UI, prototypes and design systems.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts, designed in-house for kickoffs and events.</p></li>
@@ -1877,7 +1911,7 @@
         ['inn-elevators.jpg', '', 1100, 734, 'Elevator wraps', '#a58f7e'],
         ['smart-london-recap.jpg', 'smart-london-recap.mp4', 960, 540, 'Recap reel', '#453e63'] ] },
     { id: 'motion', ind: 'Motion and video', title: 'Motion reel', cnt: '16 loops',
-      lede: 'We delivered 681 videos in the last twelve months. Here’s a cross-section: explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.',
+      lede: 'Explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.',
       cell: [3, 0], g: [[0,0,0,2,2],[1,2,0,2,2],[2,0,2,2,2],[3,2,2,1,1],[4,3,2,1,1],[5,2,3,1,1],[6,3,3,1,1],[7,0,4,1,1],[8,1,4,1,1],[9,0,5,1,1],[10,1,5,1,1],[11,2,4,1,1],[12,3,4,1,1],[13,2,5,1,1],[14,3,5,1,1]],
       items: [
         ['smart-narrative.jpg', 'smart-narrative.mp4', 960, 540, 'Brand narrative', '#746959'],
@@ -2689,8 +2723,9 @@
        card and then glides down to the piece (glideTo) */
     var top = phoneSheet() && idx > 0;
     showJob(id, idx, !!m, top);
-    if (m) { if (top && !targetOf(m, .9)) cardOpen(m, function () { glideTo(idx, 400); }); else runMorph(m, true); }
-    else if (top) glideTo(idx, 400);
+    /* the title holds for TITLE_HOLD once the sheet has settled (cardOpen's own 460ms, or the 420ms pop when it simply opens) */
+    if (m) { if (top && !targetOf(m, .9)) cardOpen(m, function () { glideTo(idx, TITLE_HOLD); }); else runMorph(m, true); }
+    else if (top) glideTo(idx, (MOTION ? 420 : 0) + TITLE_HOLD);
   }
   function phoneSheet() { return innerWidth <= 640; } /* the sheet is the whole screen there */
   /* Sheet <- frame as one card, for the phone's open-at-the-top case: the exact reverse of cardClose. No travelling picture. */
@@ -2718,10 +2753,10 @@
   }
   /* after a beat at the top, the sheet glides down to the piece you tapped (instantly with Motion off); any touch or wheel
      in the sheet takes over at once */
-  var glideRaf = 0;
+  var glideRaf = 0, holdTop = 0, TITLE_HOLD = 600;
   function glideStop() { clearTimeout(glideT); glideT = 0; if (glideRaf) cancelAnimationFrame(glideRaf); glideRaf = 0; }
   function glideTo(idx, wait) {
-    glideStop();
+    glideStop(); holdTop = shScroll.scrollTop;
     glideT = setTimeout(function () {
       glideT = 0; if (!sheet.open) return;
       var j = byId[curJob], t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
@@ -2734,7 +2769,9 @@
       (function st(now) { var k = Math.min(1, (now - t0) / d); shScroll.scrollTop = from + (to - from) * CAM_EASE(k); glideRaf = k < 1 ? requestAnimationFrame(st) : 0; })(t0);
     }, wait);
   }
-  ['touchstart', 'wheel', 'keydown'].forEach(function (ev) { shScroll.addEventListener(ev, glideStop, { passive: true }); });
+  /* a touch, click, wheel or key anywhere in the sheet, or a scroll of your own while the title holds, cancels the glide */
+  ['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(function (ev) { sheet.addEventListener(ev, function () { if (glideT || glideRaf) glideStop(); }, { passive: true }); });
+  shScroll.addEventListener('scroll', function () { if (glideT && Math.abs(shScroll.scrollTop - holdTop) > 4) glideStop(); }, { passive: true });
   function closeSheet() {
     if (!sheet.open || morphing) return;
     var m = mo;
@@ -3178,7 +3215,7 @@
     { g: 'Actions', label: 'See all work as a list', icon: ICON_SEC, kw: 'list index all jobs', run: function () { openList(); } },
     { g: 'Actions', label: 'Copy email address', hint: 'hello@', icon: ICON_SQ, kw: 'email mail contact', run: copyEmail },
     { g: 'On this page', label: 'How it works', icon: ICON_SEC, kw: 'process board monday review status steps', run: function () { go('#how'); } },
-    { g: 'On this page', label: 'What we make', icon: ICON_SEC, kw: 'services capabilities', run: function () { go('#make'); } },
+    { g: 'On this page', label: 'What we make', icon: ICON_SEC, kw: 'services capabilities website websites web design ux figma', run: function () { go('#make'); } },
     { g: 'On this page', label: 'Working together', icon: ICON_SEC, kw: 'retainer hourly engagement options', run: function () { go('#together'); } },
     { g: 'On this page', label: 'The team', icon: ICON_SEC, kw: 'people person who', run: function () { go('#team'); } },
     { g: 'Preferences', label: 'Theme: Light', icon: ICON_SUN, kw: 'appearance mode', run: function () { setTheme('light'); } },
@@ -3433,7 +3470,7 @@
       secs.forEach(function (sec) { var a = sec.querySelector('.cs-in'); a._sec = sec; ro.observe(a); });
     }
     /* the section you are reading: the one across the middle of the screen */
-    var navMap = { clients: '#work', how: '#how', why: '#how', make: '#together', together: '#together', team: '#team', contact: '#contact' };
+    var navMap = { clients: '#work', how: '#how', why: '#how', make: '#make', together: '#together', team: '#team', contact: '#contact' };
     var navLinks = document.querySelectorAll('.top .nav a'), fileB = document.querySelector('.top .file b'), fileDef = fileB ? fileB.textContent : '';
     var pgl = $('pgl'), pglOl = pgl.querySelector('ol'), rows = {};
     secs.forEach(function (sec) {
@@ -3476,17 +3513,17 @@
     /* spine(t) -> [x, y, z]; ref(t) -> the direction the ribbon's width starts from (before the twist); twist(t, phase) in radians */
     var FORMS = {
       /* What we make: an arch, the ring from the studio site, three quarters round, lying back a little */
-      arch: { S: 12, P: 96, w: 2, rib: 4, acc: 2, zoom: .5, fit: 760, cx: .6, cy: .6, ry: -.46, rx: .24, rz: -.1,
+      arch: { S: 12, P: 96, w: 2, rib: 4, acc: 2, zoom: .5, fit: 760, refH: 560, cx: .6, cy: .6, ry: -.46, rx: .24, rz: -.1,
         spine: function (t) { var a = PI * (-.18 + 1.36 * t); return [3 * Math.cos(a), 3 * Math.sin(a), 0]; },
         ref: function (t) { var a = PI * (-.18 + 1.36 * t); return [Math.cos(a), Math.sin(a), 0]; },
         twist: function (t, ph) { return .95 - .6 * Math.sin(PI * (t * 1.1 - .05) + ph); } },
       /* Why it works: one long, low sweep across the head of the frame, the years running on */
-      sweep: { S: 10, P: 96, w: 1.9, rib: 5, acc: 7, zoom: .5, cx: .54, cy: .5, ry: -.42, rx: .18, rz: 0,
+      sweep: { S: 10, P: 96, w: 1.9, rib: 5, acc: 7, zoom: .5, refH: 330, cx: .54, cy: .5, ry: -.42, rx: .18, rz: 0,
         spine: function (t) { var x = -6.4 + 12.8 * t; return [x, .45 * Math.sin(PI * (1.3 * t + .1)) + .07 * x, -1.6 * Math.cos(PI * t)]; },
         ref: function () { return [0, 1, 0]; },
         twist: function (t, ph) { return .5 + .6 * Math.sin(PI * (t * 1.1 + .1) + ph); } },
       /* the footer: a flatter, quieter wave, no orange */
-      wave: { S: 9, P: 96, w: 1.5, rib: 6, acc: -1, zoom: .5, cx: .52, cy: .66, ry: -.36, rx: .26, rz: -.06,
+      wave: { S: 9, P: 96, w: 1.5, rib: 6, acc: -1, zoom: .5, refH: 400, cx: .52, cy: .66, ay: 1, ry: -.36, rx: .26, rz: -.06,
         spine: function (t) { var x = -7 + 14 * t; return [x, .45 * Math.sin(PI * (1.6 * t + .3)), -1 * Math.sin(PI * t)]; },
         ref: function () { return [0, 1, 0]; },
         twist: function (t, ph) { return .45 + .5 * Math.sin(PI * (t * .9) + ph); } }
@@ -3501,6 +3538,23 @@
     function size(I) {
       I.d = Math.min(fine ? 2 : 1.5, window.devicePixelRatio || 1); I.W = I.cv.offsetWidth; I.H = I.cv.offsetHeight;
       I.cv.width = Math.max(1, Math.round(I.W * I.d)); I.cv.height = Math.max(1, Math.round(I.H * I.d));
+      fit(I);
+    }
+    /* Fit once per size: project the ribbon across the tilts it takes while you read (the scroll moment's middle, the cursor's
+       middle range), take the union, and scale and place that inside the box with a margin, so the drawing sits whole inside
+       its frame; the rarer extreme tilts only reach the box's soft-faded edges. No cost per frame. Never larger than the form's
+       own scale; anchored right (and top, or bottom for the wave). */
+    function fit(I) {
+      if (!I.W || !I.H) return;
+      var F = I.F, x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, n = F.S * F.P * 2, a = I.scr;
+      [-.3, 0, .3].forEach(function (p) { [-.25, 0, .25].forEach(function (mx) { [-.25, 0, .25].forEach(function (my) {
+        project(I, p, mx, my, 1, 0, 0);
+        for (var i = 0; i < n; i += 2) { if (a[i] < x0) x0 = a[i]; if (a[i] > x1) x1 = a[i]; if (a[i + 1] < y0) y0 = a[i + 1]; if (a[i + 1] > y1) y1 = a[i + 1]; }
+      }); }); });
+      var m = 14 * I.d, W = I.W * I.d, H = I.H * I.d, k0 = Math.max(I.H, F.refH || 0) * F.zoom * I.d * Math.min(1, I.W / (F.fit || I.W)); /* the form's own scale, at the height it was drawn for */
+      var k = Math.min(k0, (W - 2 * m) / (x1 - x0), (H - 2 * m) / (y1 - y0));
+      I.k = k; I.ox = W - m - x1 * k; I.oy = F.ay === 1 ? H - m - y1 * k : m - y0 * k;
+      if (F.ay === .5) I.oy = (H - (y1 - y0) * k) / 2 - y0 * k;
     }
     /* where the moment sits in the viewport: -1 entering from below, 0 centred, 1 leaving at the top */
     function prog(I) { var r = I.cv.getBoundingClientRect(), h = innerHeight / 2; return Math.max(-1, Math.min(1, (h - r.top - r.height / 2) / (h + r.height / 2))); }
@@ -3509,13 +3563,10 @@
       for (var i = 1; i < P - 1; i++) { var k = o + i * 2; ctx.quadraticCurveTo(a[k], a[k + 1], (a[k] + a[k + 2]) / 2, (a[k + 1] + a[k + 3]) / 2); }
       ctx.lineTo(a[o + (P - 1) * 2], a[o + (P - 1) * 2 + 1]);
     }
-    function draw(I) {
-      if (!I.W || !I.H) return;
-      var F = I.F, S = F.S, P = F.P, scr = I.scr, ctx = I.ctx, on = live();
-      var p = on ? I.p : 0, mx = on ? px : 0, my = on ? py : 0, ph = p * .9;
+    function project(I, p, mx, my, k, ox, oy) { /* the ribbon's strands, in canvas pixels, for one tilt */
+      var F = I.F, S = F.S, P = F.P, scr = I.scr, ph = p * .9;
       var ry = F.ry + p * .26 + mx * .4, rx = F.rx - p * .08 + my * .26;
       var cy = Math.cos(ry), sy = Math.sin(ry), cx = Math.cos(rx), sx = Math.sin(rx), cz = Math.cos(F.rz), sz = Math.sin(F.rz);
-      var k = I.H * F.zoom * I.d * Math.min(1, I.W / (F.fit || I.W)), ox = I.W * F.cx * I.d, oy = I.H * F.cy * I.d;
       for (var i = 0; i < P; i++) {
         var t = i / (P - 1), c = F.spine(t), a = F.spine(Math.max(0, t - .004)), b = F.spine(Math.min(1, t + .004));
         var Tx = b[0] - a[0], Ty = b[1] - a[1], Tz = b[2] - a[2], tl = Math.hypot(Tx, Ty, Tz) || 1; Tx /= tl; Ty /= tl; Tz /= tl;
@@ -3532,6 +3583,12 @@
           scr[n] = ox + x1 * q * k; scr[n + 1] = oy - y2 * q * k;
         }
       }
+    }
+    function draw(I) {
+      if (!I.W || !I.H) return;
+      var F = I.F, S = F.S, P = F.P, scr = I.scr, ctx = I.ctx, on = live();
+      if (I.k == null) fit(I);
+      project(I, on ? I.p : 0, on ? px : 0, on ? py : 0, I.k, I.ox, I.oy);
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, I.cv.width, I.cv.height);
       ctx.lineWidth = I.d; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       ctx.strokeStyle = I.col.r; ctx.beginPath();                  /* ribs: straight across the ribbon */
@@ -3640,10 +3697,13 @@
     var co = form.elements.company.value.trim(), nm = form.elements.name.value.trim();
     flabT.textContent = form.classList.contains('sent') ? (co || nm) + ' · On the board' : co ? co + ' · New job' : nm ? nm + ' · New job' : 'Untitled'; /* NEW COPY: frame names */
   }
-  form.addEventListener('focusin', function (e) { var el = e.target; if (!el.name || !flBtns[el.name]) return; FL.forEach(function (l) { flBtns[l[0]].classList.toggle('on', l[0] === el.name); }); moveYou(el); });
+  form.addEventListener('focusin', function (e) { var el = e.target; if (!el.name || !flBtns[el.name]) return; FL.forEach(function (l) { flBtns[l[0]].classList.toggle('on', l[0] === el.name); }); });
+  /* the "You" tag rides on the field under a resting mouse (shown only on a deliberate hover, see the CSS); never while typing, never on touch */
+  var youAt = null;
+  form.addEventListener('pointerover', function (e) { if (e.pointerType !== 'mouse') return; var el = e.target.closest('input, select, textarea'); if (!el || !flBtns[el.name] || el === youAt) return; youAt = el; moveYou(el); });
   form.addEventListener('focusout', function () { setTimeout(function () { if (!form.contains(document.activeElement)) FL.forEach(function (l) { flBtns[l[0]].classList.remove('on'); }); }, 0); });
   form.addEventListener('input', syncLayers); form.addEventListener('change', syncLayers);
-  if (window.ResizeObserver) new ResizeObserver(function () { dimEl.textContent = 'Frame · ' + Math.round(form.offsetWidth) + ' × ' + Math.round(form.offsetHeight); if (document.activeElement && form.contains(document.activeElement) && document.activeElement.name) moveYou(document.activeElement); }).observe(form);
+  if (window.ResizeObserver) new ResizeObserver(function () { dimEl.textContent = 'Frame · ' + Math.round(form.offsetWidth) + ' × ' + Math.round(form.offsetHeight); if (youAt) moveYou(youAt); }).observe(form);
   function goContact() {
     closeList();
     var c = $('contact'); if (!form.elements.help.value) { form.elements.help.value = 'Start a first job'; syncLayers(); }
