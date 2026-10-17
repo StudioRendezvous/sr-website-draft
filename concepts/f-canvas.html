@@ -156,12 +156,27 @@
   .kbtn:hover { border-color: var(--line-2); color: var(--ink); }
   .kbtn svg { width: 14px; height: 14px; }
   .kbtn kbd { border: 1px solid var(--line); border-radius: 999px; padding: 3px 7px 2px; color: var(--ink2); background: var(--paper); }
+  /* Preferences: theme and motion live in one small popover off a single icon button, so the bar keeps its breathing room */
+  .dbtn { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink2); cursor: pointer; flex: none; }
+  .dbtn:hover, .dbtn[aria-expanded="true"] { border-color: var(--line-2); color: var(--ink); }
+  .dbtn[aria-expanded="true"] { background: var(--hover); }
+  .dbtn svg { width: 16px; height: 16px; }
+  .dpop { position: fixed; inset: auto; margin: 0; width: 232px; padding: 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .5); }
+  .dpop:popover-open { display: grid; gap: 2px; }
+  .motion .dpop:popover-open { animation: pop .18s var(--ease); }
+  .dpop .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 4px 6px 4px 10px; border-radius: 8px; }
+  .dpop .row + .row { border-top: 1px solid var(--line); border-radius: 0 0 8px 8px; }
+  .dpop .row.sw { padding: 0; }
+  .dpop .lh { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); }
+  .dpop .switch { width: 100%; justify-content: space-between; padding: 4px 6px 4px 10px; min-height: 44px; border-radius: 8px; }
+  .dpop .switch:hover { background: var(--hover); }
+  .dpop .switch .tr { order: 3; }
+  .dpop .switch .st { order: 2; margin-left: auto; text-align: right; color: var(--muted); }
   .theme { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); flex: none; }
   .theme button { width: 28px; height: 28px; padding: 0; border-radius: 999px; border: 0; background: none; display: grid; place-items: center; color: var(--muted); cursor: pointer; }
   .theme button svg { width: 15px; height: 15px; }
   .theme button:hover { color: var(--ink); }
   .theme button[aria-pressed="true"] { background: var(--inv); color: var(--inv-ink); }
-  .theme .cyc { display: none; }
   .switch { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 6px 2px; cursor: pointer; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); flex: none; }
   .switch .tr { width: 34px; height: 20px; border-radius: 99px; background: var(--line-2); position: relative; transition: background .2s; }
   .switch .tr::after { content: ""; position: absolute; left: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .2s var(--ease); }
@@ -170,17 +185,15 @@
   .switch .st { min-width: 2.2em; }
   .top .cta { padding: 11px 15px 10px; font-size: 12px; flex: none; }
   @media (max-width: 1640px) { .file { display: none; } }
-  @media (max-width: 1360px) { .kbtn .t { display: none; } }
+  @media (max-width: 1279px) { .kbtn .t { display: none; } }
   /* six sections fit down to 1181: below 1280 the links tighten and the switch drops its On/Off word (its toggle shows it) */
-  @media (max-width: 1279px) { .nav { gap: 14px; } .nav a { font-size: 14.5px; } .switch .st { display: none; } }
+  @media (max-width: 1279px) { .nav { gap: 14px; } .nav a { font-size: 14.5px; } }
   @media (max-width: 1180px) { .nav { display: none; } .kbtn { margin-left: auto; } }
   @media (max-width: 640px) {
     .top { gap: 10px; }
-    .switch .lbl { display: none; }
     .kbtn { width: 34px; padding: 0; justify-content: center; } .kbtn kbd { display: none; }
-    .theme { border: 0; padding: 0; background: none; } .theme button:not(.cyc) { display: none; } .theme .cyc { display: grid; width: 34px; height: 34px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
   }
-  @media (max-width: 440px) { .top .home .wm { display: none; } .top .home .mk { display: block; height: 26px; } .switch .st { display: none; } .top .cta { padding-inline: 13px; } }
+  @media (max-width: 440px) { .top .home .wm { display: none; } .top .home .mk { display: block; height: 26px; } .top .cta { padding-inline: 13px; } }
 
   /* ---------- hero copy (in flow on small screens, a frame on the canvas on large ones) ---------- */
   .brief-slot { padding: 28px var(--gut) 22px; }
@@ -221,6 +234,14 @@
   .stage.full { position: fixed !important; inset: 0; z-index: 90; height: auto; border: 0; top: 0 !important; }
   .vp { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: pan-y pinch-zoom; background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px); background-size: 24px 24px; outline: none; -webkit-user-select: none; user-select: none; }
   .vp:focus-visible { box-shadow: inset 0 0 0 3px var(--cta); }
+  /* the start view: the bottom clear zone (the toolbar's) fades to the bare floor, dot grid and all (it inherits the grid's live
+     size and offset), so the second row shows only its name tabs and top edge, and the toolbar never sits on artwork.
+     It fades away the moment the camera leaves the start view. */
+  .vp::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background-color: var(--canvas); background-image: inherit; background-size: inherit; background-position: inherit;
+    -webkit-mask-image: linear-gradient(to bottom, transparent calc(100% - 92px), #000 calc(100% - 52px)); mask-image: linear-gradient(to bottom, transparent calc(100% - 92px), #000 calc(100% - 52px));
+    opacity: 0; transition: opacity .25s; }
+  .stage.home .vp::after { opacity: 1; }
+  .still .vp::after { transition: none; }
   .vp.drag { cursor: grabbing; }
   .stage.full .vp { touch-action: none; }
   .world { position: absolute; left: 0; top: 0; transform-origin: 0 0; --k: 1; --s: 1; }
@@ -239,9 +260,9 @@
 
   /* semantic zoom, level 1 (overview): the section names take over, poster size. They live in the band above each group
      (--lb-b tall, in world units, so they scale with the file and can never reach the work), two lines at most. */
-  .world { --lb-b: 184px; --lb-t: 64px; --lb-s: 30px; }
-  .world.narrow { --lb-t: 88px; }
-  .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 16px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .06s linear, visibility 0s .06s; z-index: 2; }
+  .world { --lb-b: 184px; --lb-t: 54px; --lb-s: 26px; } /* sized so two lines and the small line clear the row above by 24 (rows are one 184 gutter apart) */
+  .world.narrow { --lb-t: 80px; }
+  .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 40px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .06s linear, visibility 0s .06s; z-index: 2; }
   .sec-big small { display: block; font: 500 var(--lb-s)/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
   .world.narrow .sec-big small { display: none; }
   .sec-big b { display: block; font: 900 var(--lb-t)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
@@ -507,9 +528,10 @@
   :root { --cs-bg: #f0eee9; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
   :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
-  :root { --fl-ink: 28, 28, 28; --fl-a: .12; --fl-c: .05; --fl-o: .22; }
-  :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --fl-a: .11; --fl-c: .045; --fl-o: .34; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --fl-ink: 215, 212, 205; --fl-a: .11; --fl-c: .045; --fl-o: .34; } }
+  /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
+  :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
+  :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; } }
   /* the floor is its own layer (isolate) and its own clip, so the fixed line field inside it paints between the floor's dot grid
      and everything on it, and only where the floor is */
   .floor { position: relative; isolation: isolate; clip-path: inset(0); background: var(--canvas) radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px) 0 0 / 24px 24px; padding-bottom: 96px; transition: background-color .4s; }
@@ -517,6 +539,16 @@
   .field { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .6s; }
   .field.on { opacity: 1; }
   .still .field { transition: none; }
+  /* The field fades out behind headlines and paragraphs: each text block that sits straight on a section's fill carries a soft
+     patch of that fill (a feathered edge from its shadow), so the lines read in the open areas and margins and never cross
+     the copy. --fl-mask (from FIELD.mask) is how much of the field the patch hides: 1 hides it, 0 turns the masks off. */
+  @media (min-width: 700px) { /* (phones have no field) */
+    .floor .cs-in > h2, .floor .cs-in > .lede, .floor .cs-in > .proofline, .floor .fn, .floor .fl-rh, .floor .alt-mail, .floor .contact > div > h2, .floor .contact > div > .lede {
+      --fl-f: 20px; --fl-sp: 8px; /* the feather: it stays inside the section's own padding (32px here, 48px on desktop) */
+      background: rgb(var(--cs-rgb) / var(--fl-mask)); box-shadow: 0 0 var(--fl-f) var(--fl-sp) rgb(var(--cs-rgb) / var(--fl-mask)); }
+    .floor .fn { width: fit-content; }
+  }
+  @media (min-width: 960px) { .floor .cs-in > h2, .floor .cs-in > .lede, .floor .cs-in > .proofline, .floor .fn, .floor .fl-rh, .floor .alt-mail, .floor .contact > div > h2, .floor .contact > div > .lede { --fl-f: 28px; --fl-sp: 14px; } }
   .floor .wrap, .foot-site .wrap { max-width: calc(1312px + 2 * var(--gut)); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
@@ -565,36 +597,46 @@
     background-repeat: no-repeat; }
   .fx::after { content: attr(data-dims); position: absolute; left: 50%; top: 100%; z-index: 4; transform: translate(-50%, 8px); background: var(--accent); color: #1c1c1c; font: 500 11px/1 var(--mono); padding: 4px 6px 3px; border-radius: 3px; white-space: nowrap; pointer-events: none; opacity: 0; }
   .fx:not([data-dims])::after { display: none; }
-  .fx.is-sel, .fx:has(:focus-visible) { outline: 1.5px solid var(--accent); outline-offset: 0; z-index: 2; }
-  .fx.is-sel::before, .fx:has(:focus-visible)::before, .fx.is-sel::after, .fx:has(:focus-visible)::after { opacity: 1; }
-  .fx.is-sel > .cl, .fx:has(:focus-visible) > .cl { color: var(--accent-text); }
+  /* no component is ever selected by default: the selection shows only under a hovering mouse or keyboard focus */
+  .fx:has(:focus-visible) { outline: 1.5px solid var(--accent); outline-offset: 0; z-index: 2; }
+  .fx:has(:focus-visible)::before, .fx:has(:focus-visible)::after { opacity: 1; }
+  .fx:has(:focus-visible) > .cl { color: var(--accent-text); }
   @media (hover: hover) {
     .fx:hover { outline: 1.5px solid var(--accent); outline-offset: 0; z-index: 2; }
     .fx:hover::before, .fx:hover::after { opacity: 1; }
     .fx:hover > .cl { color: var(--accent-text); }
-    /* one selection at a time: hovering a sibling takes it from the default (Option / Start here) */
-    .frames:has(.fx:hover) .fx.is-sel:not(:hover):not(:has(:focus-visible)) { outline-color: transparent; }
-    .frames:has(.fx:hover) .fx.is-sel:not(:hover):not(:has(:focus-visible))::before,
-    .frames:has(.fx:hover) .fx.is-sel:not(:hover):not(:has(:focus-visible))::after { opacity: 0; }
-    .frames:has(.fx:hover) .fx.is-sel:not(:hover):not(:has(:focus-visible)) > .cl { color: var(--cl-ink); }
   }
   @media (hover: none) { .fx::after, .cs-t .dm { display: none; } } /* no size pills on touch */
   .motion .fx::after, .motion .cs-t .dm { transition: opacity .12s; }
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
   .frames.c3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: stretch; }
-  /* each row of components shares one height (auto layout: fill), and a card's CTA link sits on its bottom edge */
+  /* Option cards: a body (title, lead, the case) and a footer row under a hairline (Details, the CTA, or Hourly's billing line).
+     Each row of components shares one height (auto layout: fill); the footer is pinned to the bottom edge, so the actions and
+     hairlines line up across the row and the spare height sits between body and footer, never under the last line. */
+  .card .c-ft { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .card .c-ft details.more { margin-top: 0; }
+  .card .c-ft details.more[open] { flex-basis: 100%; } /* opened, the detail takes the row; the CTA drops under it */
+  .card .c-ft .move-link { margin-top: 0; }
+  .card .c-ft > p { margin: 0; font-size: 15.5px; line-height: 1.45; color: var(--muted); }
   @media (min-width: 641px) { /* (phones stack one card per row, as before) */
     .frames.c3 > .card, .frames.c4 > .card { display: flex; flex-direction: column; }
-    .frames.c3 > .card > .move-link { margin-top: auto; align-self: flex-start; }
-    .frames.c3 > .card > :has(+ .move-link) { margin-bottom: 16px; }
+    .frames.c3 > .card > .c-ft { margin-top: auto; }
+    .frames.c3 > .card > .c-bd { padding-bottom: 20px; }
+  }
+  /* three across (the whole row on one line): body and footer are two shared rows (subgrid), so every footer hairline sits on
+     one line even where a footer wraps to two */
+  @media (min-width: 1100px) {
+    .frames.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; row-gap: 0; }
+    .frames.c3 > .card { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+    .frames.c3 > .card > .c-ft { margin-top: 0; }
   }
   .frames.c4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); align-items: stretch; }
   .card h3 { font-size: clamp(25px, 2.4vw, 30px); }
   .card p { margin-top: 8px; color: var(--ink2); }
   .card .move-link { display: inline-block; margin-top: 16px; font: 500 12px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--accent-text); }
   /* the retainer's case, out where it can be read: two lines with the mark's small square */
-  .pts { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 8px; }
+  .pts { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; }
   .pts li { display: grid; grid-template-columns: 16px minmax(0, 1fr); align-items: baseline; font-size: 16.5px; line-height: 1.4; font-weight: 600; color: var(--ink); }
   .pts li::before { content: ""; width: 8px; height: 8px; background: var(--accent); transform: translateY(-1px); }
 
@@ -1303,8 +1345,8 @@
   /* phones and touch screens: every control is at least 44px to tap */
   @media (max-width: 640px), (pointer: coarse) {
     .top .home { min-width: 44px; min-height: 44px; }
-    .kbtn, .theme .cyc { width: 44px !important; height: 44px !important; }
-    .switch { min-height: 44px; min-width: 44px; justify-content: center; padding-inline: 4px; }
+    .kbtn, .dbtn { width: 44px !important; height: 44px !important; }
+    .dpop { width: 264px; } .dpop .theme button { width: 40px; height: 40px; }
     .top .cta { min-height: 44px; }
     .cta, .ghost, .fl-play, .sh-link, .sh-btn { min-height: 44px; }
     .stage { --tb-h: 52px; } /* toolbar segments 44px */
@@ -1329,10 +1371,13 @@
   </nav>
   <!-- NEW COPY: "Search" button, theme labels, "Search work and actions" -->
   <button class="kbtn" id="kbtn" type="button" aria-haspopup="dialog" aria-label="Search work and actions"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg><span class="t" aria-hidden="true">Search</span><kbd id="kbtnK" aria-hidden="true">⌘K</kbd></button>
-  <div class="theme" id="theme" role="group" aria-label="Theme">
-    <button type="button" data-theme-set="light" aria-pressed="false" aria-label="Light theme" title="Light"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 .8v2.1M8 13.1v2.1M.8 8h2.1M13.1 8h2.1M2.9 2.9l1.5 1.5M11.6 11.6l1.5 1.5M2.9 13.1l1.5-1.5M11.6 4.4l1.5-1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><button type="button" data-theme-set="dark" aria-pressed="false" aria-label="Dark theme" title="Dark"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 10.2A6 6 0 0 1 5.8 2.4a6 6 0 1 0 7.8 7.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button><button type="button" data-theme-set="system" aria-pressed="false" aria-label="Match system theme" title="System"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 14.5h5M8 11.5v3" stroke="currentColor" stroke-width="1.6"/></svg></button><button type="button" class="cyc" id="themeCyc" aria-label="Change theme"></button>
+  <!-- NEW COPY: the Preferences button's accessible name "Preferences: theme and motion" and the visible "Theme" row label
+       (it reuses the palette's "Preferences" group and the bar's own "Theme" and "Motion" labels) -->
+  <button class="dbtn" id="dispBtn" type="button" popovertarget="dispPop" aria-haspopup="true" aria-expanded="false" aria-label="Preferences: theme and motion" title="Preferences"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.5h7M12.5 4.5h2M1.5 11.5h2M7.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10.5" cy="4.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="5.5" cy="11.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <div class="dpop" id="dispPop" popover role="group" aria-label="Preferences">
+    <div class="row"><span class="lh" aria-hidden="true">Theme</span><div class="theme" id="theme" role="group" aria-label="Theme"><button type="button" data-theme-set="light" aria-pressed="false" aria-label="Light theme" title="Light"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 .8v2.1M8 13.1v2.1M.8 8h2.1M13.1 8h2.1M2.9 2.9l1.5 1.5M11.6 11.6l1.5 1.5M2.9 13.1l1.5-1.5M11.6 4.4l1.5-1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><button type="button" data-theme-set="dark" aria-pressed="false" aria-label="Dark theme" title="Dark"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 10.2A6 6 0 0 1 5.8 2.4a6 6 0 1 0 7.8 7.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button><button type="button" data-theme-set="system" aria-pressed="false" aria-label="Match system theme" title="System"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 14.5h5M8 11.5v3" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+    <div class="row sw"><button class="switch" id="motionSw" type="button" role="switch" aria-checked="true"><span class="lbl">Motion</span> <span class="st" aria-hidden="true">On</span><span class="tr" aria-hidden="true"></span></button></div>
   </div>
-  <button class="switch" id="motionSw" type="button" role="switch" aria-checked="true"><span class="tr" aria-hidden="true"></span><span class="lbl">Motion</span> <span class="st" aria-hidden="true">On</span></button>
   <a class="cta" href="#contact" data-help="first">Start a job</a>
 </header>
 <i id="bar-ready" hidden></i>
@@ -1400,26 +1445,25 @@
       /* Before first paint: on desktop the hero goes straight onto the canvas at the exact camera the canvas script starts from
          (it calls srHeroCam too), so nothing moves when it takes over. Tiny and blocking on purpose. */
       (function () {
-        var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + 240; /* the same file grid as the canvas script (ROW2: where the second row starts) */
+        var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + GAP; /* the same file grid as the canvas script: rows one gutter apart (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
-          var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too (was capped at .86, so 1920+ wide or zoomed-out Chrome showed extra groups) */
-          /* Vertically the pair is anchored near the top of the stage: its "Start here" tab (LBL tall) sits TOP under the bar,
-             so a tall screen reads as a whole canvas, not a card floating in the middle. Below it the second row either peeks in
-             (its name tabs and top edge, clear above the toolbar's zone) or starts below the stage's bottom edge; its tabs never
-             land on the toolbar. Where a little less width-fill (at most 12%, never under 74%, never so little that a third group's edge slips in
-             at the right) lets the second row peek, that wins. The pair itself never enters the clear zone along the bottom:
-             ZONE under the bars, MINI under the minimap's corner (it only ever meets the first group's last row). */
-          var TOP = 64, LBL = 35, ZONE = 88, MINI = 142, y0 = TOP + LBL;
+          var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too */
+          /* Vertically the pair is anchored near the top of the stage: its "Start here" tab (LBL tall) sits TOP under the bar.
+             The second row either peeks in or starts wholly below the stage. When it peeks, its name tabs and top edge sit right
+             on the line where the toolbar's clear zone (ZONE) begins, so they read above the toolbar; the zone itself is a soft
+             fade of the canvas floor at the start view (.vp::after, class "home"), so no artwork ever sits under the toolbar.
+             Spare height (up to SLACK) goes above the pair rather than showing more of row 2. Where a little less width-fill
+             (at most 12%, never under 74%, never so little that a third group's edge slips in at the right) lets the second row
+             peek, that wins. The pair itself never enters the zone: ZONE under the bars, MINI under the minimap's corner. */
+          var TOP = 64, LBL = 35, ZONE = 88, MINI = 142, SLACK = 64, y0 = TOP + LBL;
           var peekS = (vh - ZONE - y0) / ROW2; /* the largest scale at which the second row's top edge meets the zone at y0 */
           if (peekS < s && peekS >= Math.max(.74, s * .88) && peekS >= (vw + 16) / (4 * (SEC_W + GAP) - pair)) s = peekS; /* centred, the third column's left edge stays 8px past the right edge */
           var h = HERO_H * s, r2 = ROW2 * s, y;
-          if (y0 + r2 <= vh - ZONE) y = y0; /* the second row peeks in */
-          else y = Math.max(y0, vh + 52 - r2); /* the second row starts below the stage (its tabs never sit on the toolbar) */
+          if (y0 + r2 <= vh - ZONE) y = Math.min(y0 + SLACK, vh - ZONE - r2); /* the second row peeks in: its top edge on the zone line */
+          else y = Math.max(y0, vh + LBL + 8 - r2); /* the second row starts below the stage, its tabs too */
           return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
-        var pref = d.getAttribute('data-pref'), ic = document.querySelector('#theme [data-theme-set="' + pref + '"] svg'), cyc = $('themeCyc');
-        if (ic && cyc && !cyc.firstChild) cyc.innerHTML = ic.outerHTML; /* the phone theme button has its icon from the start */
         if (!d.classList.contains('cv')) return;
         var vp = $('vp'), world = $('world'), brief = $('brief'), slot = $('briefSlot');
         world.insertBefore(brief, world.firstChild); slot.hidden = true;
@@ -1428,6 +1472,7 @@
         world.style.setProperty('--k', (1 / c.s).toFixed(4)); world.style.setProperty('--s', c.s.toFixed(4));
         vp.style.backgroundSize = g + 'px ' + g + 'px'; vp.style.backgroundPosition = c.x + 'px ' + c.y + 'px';
         $('zPct').textContent = Math.round(c.s * 100) + '%';
+        $('stage').classList.add('home'); /* the start view: the toolbar's zone fades to the floor (see srHeroCam) */
       })();
     </script>
   </section>
@@ -1620,9 +1665,9 @@
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
            Hourly's one-line detail is shown in place; the cards hug their content. NEW COPY: none (approved sentences, re-split). -->
       <div class="frames c3">
-        <div class="card fx is-sel" data-l="Option / Start here"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div>
-        <div class="card fx" data-l="Option / Retainer"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul><details class="more"><summary>Details</summary><p>Your year is already on the calendar, so we commit to it. Invoiced at the start of the month. Hours and rates are reviewed each year.</p></details></div>
-        <div class="card fx" data-l="Option / Hourly"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p><p>Invoiced at month end for the hours used.</p></div>
+        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
+        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Your year is already on the calendar, so we commit to it. Invoiced at the start of the month. Hours and rates are reviewed each year.</p></details></div></div>
+        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><p>Invoiced at month end for the hours used.</p></div></div>
       </div>
       <!-- Content Matterz back out of the accordion (Shane: "seems buried"). Fix 4: a quiet partner frame, lighter than the work,
            the two marks as one lockup with "15 years together · 10,000+ deliverables"; distinct in both themes (ink mark on light). -->
@@ -1977,10 +2022,10 @@
   var secRects = {}, secEls = {};
   /* The file is a strict grid on an 8px base. Every section is the same width: 4 columns of 168 with 24 gutters inside 32 padding.
      Rows are 88 tall (two make a 200 row, four make a 424 row), so every frame is one of five sizes:
-     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, 184 apart side to side and 240 apart
-     top to bottom: every group's name lives in the 184 band above it (LB), clear of the work at every zoom.
+     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, one 184 gutter apart side to side and
+     top to bottom: every group's name lives in that 184 band above it (LB), clear of the work at every zoom.
      On phones the same groups stack into two columns (arrange), so the whole file reads at phone width. */
-  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 184, GAP_Y = 240, LB = 184, HERO_H = 712;
+  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 184, GAP_Y = 184, LB = 184, HERO_H = 712;
   function secH(rows) { return PAD * 2 + rows * (ROW + GUT) - GUT; }
   var CELL_Y = [0, HERO_H + GAP_Y, HERO_H + GAP_Y + secH(4) + GAP_Y]; /* row A, row B, the stacked half of row B */
   function cellX(c) { return c * (SEC_W + GAP); }
@@ -2043,7 +2088,7 @@
     world.classList.toggle('narrow', narrow);
     var pos = {};
     if (!narrow) { JOBS.forEach(function (j) { pos[j.id] = { x: cellX(j.cell[0]), y: CELL_Y[j.cell[1]] }; }); pos.start = { x: cellX(3), y: CELL_Y[2] }; }
-    else { var colY = [0, 0]; ORDER.concat(['start']).forEach(function (id) { var c = colY[0] <= colY[1] ? 0 : 1; pos[id] = { x: c * (SEC_W + GAP), y: colY[c] }; colY[c] += secRects[id].h + GAP_Y; }); }
+    else { var colY = [0, 0]; ORDER.concat(['start']).forEach(function (id) { var c = colY[0] <= colY[1] ? 0 : 1; pos[id] = { x: c * (SEC_W + GAP), y: colY[c] }; colY[c] += secRects[id].h + GAP_Y + 56; }); } /* (phones: the stacked names are bigger, so 240 apart as before) */
     for (var id in secEls) { var p = pos[id], r = secRects[id]; r.x = p.x; r.y = p.y; secEls[id].style.left = p.x + 'px'; secEls[id].style.top = p.y + 'px'; }
     frames.forEach(function (f) { var r = secRects[f.job]; f.x = r.x + f.ox; f.y = r.y + f.oy; });
     return true;
@@ -2114,6 +2159,7 @@
     vp.style.backgroundSize = g + 'px ' + g + 'px';
     vp.style.backgroundPosition = cam.x + 'px ' + cam.y + 'px';
     zPct.textContent = Math.round(cam.s * 100) + '%';
+    var atHome = briefIn && !full && !!homeCam && near(cam, homeCam); if (atHome !== stage.classList.contains('home')) stage.classList.toggle('home', atHome);
     miniView.style.cssText = 'left:' + (mm.ox + (-cam.x / cam.s) * mm.k) + 'px;top:' + (mm.oy + (-cam.y / cam.s) * mm.k) + 'px;width:' + (vw / cam.s * mm.k) + 'px;height:' + (vh / cam.s * mm.k) + 'px';
     if (openPin) closeThread();
     if (!loadT) loadT = setTimeout(loadVisible, 90);
@@ -3139,13 +3185,11 @@
 
   /* ------------------------------------------------------------------ theme: Light, Dark or System, with a circular reveal */
   var mqDark = matchMedia('(prefers-color-scheme: dark)'), themeEl = $('theme'), themeColor = $('themeColor');
-  var TNAME = { light: 'Light', dark: 'Dark', system: 'System' }, TICON = { light: ICON_SUN, dark: ICON_MOON, system: ICON_SYS };
   function resolve(pref) { return pref === 'dark' || (pref === 'system' && mqDark.matches) ? 'dark' : 'light'; }
   function applyTheme(pref) {
     var t = resolve(pref);
     html.setAttribute('data-theme', t); html.setAttribute('data-pref', pref);
     themeEl.querySelectorAll('[data-theme-set]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.themeSet === pref)); });
-    var cyc = $('themeCyc'); cyc.innerHTML = TICON[pref]; cyc.setAttribute('aria-label', 'Theme: ' + TNAME[pref] + '. Change theme');
     themeColor.setAttribute('content', t === 'dark' ? '#2c2c2c' : '#f4f2ed');
     if (field) field.redraw();
   }
@@ -3153,7 +3197,7 @@
     try { localStorage.setItem('sr-theme', pref); } catch (e) {}
     var changes = resolve(pref) !== html.getAttribute('data-theme');
     if (!changes || !MOTION || !document.startViewTransition) { applyTheme(pref); return; }
-    var el = from && from.getClientRects().length ? from : themeEl, r = el.getBoundingClientRect();
+    var el = from && from.getClientRects().length ? from : $('dispBtn'), r = el.getBoundingClientRect(); /* the reveal grows from the control (or the Preferences button) */
     var x = r.left + r.width / 2, y = r.top + r.height / 2, R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     var vt = document.startViewTransition(function () { applyTheme(pref); });
     vt.ready.then(function () {
@@ -3161,7 +3205,14 @@
     }).catch(function () {});
   }
   themeEl.querySelectorAll('[data-theme-set]').forEach(function (b) { b.addEventListener('click', function () { setTheme(b.dataset.themeSet, b); }); });
-  $('themeCyc').addEventListener('click', function (e) { var order = ['light', 'dark', 'system'], p = html.getAttribute('data-pref') || 'system'; setTheme(order[(order.indexOf(p) + 1) % 3], e.currentTarget); });
+  /* the Preferences popover (native popover: Esc and a click outside close it, Tab moves from the button into it):
+     placed under its button, right edges aligned, and closed on resize */
+  var dispBtn = $('dispBtn'), dispPop = $('dispPop');
+  dispPop.addEventListener('toggle', function (e) {
+    var open = e.newState === 'open'; dispBtn.setAttribute('aria-expanded', String(open));
+    if (open) { var r = dispBtn.getBoundingClientRect(); dispPop.style.top = Math.round(r.bottom + 10) + 'px'; var cw = document.documentElement.clientWidth; dispPop.style.right = Math.max(8, Math.round(Math.min(cw - r.right, cw - 8 - dispPop.offsetWidth))) + 'px'; } /* under the button, never past either edge */
+  });
+  addEventListener('resize', function () { if (dispPop.matches(':popover-open')) dispPop.hidePopover(); });
   mqDark.addEventListener('change', function () { if ((html.getAttribute('data-pref') || 'system') === 'system') applyTheme('system'); });
   applyTheme(html.getAttribute('data-pref') || 'system');
 
@@ -3483,10 +3534,25 @@
     return { state: function () { return { cur: cur && cur.id, pgl: pgl.classList.contains('on') }; } };
   })();
   /* ------------------------------------------------------------------ texture: the line field behind the page below the canvas
-     A 2D port of the studio site's line art: 52 polylines (one per week of last year's work, orange where it was motion-heavy) that
-     morph between figures built from the mark's circle, square and triangle as you scroll, and turn toward your cursor.
+     A 2D port of the studio site's line art: polylines (one per week of last year's work) that morph between figures built from
+     the mark's circle, square and triangle as you scroll, and turn a little toward your cursor. A quiet background: half the
+     strands, hairline weight, low contrast, a few orange ones, and a soft mask behind every headline and paragraph (CSS, above).
      Zero idle work: it draws only after a scroll or a pointer move, at about 30 fps, until it settles, then stops. Nothing runs
-     while the sections are off screen or the tab is hidden. With Motion off it is one still drawing. */
+     while the sections are off screen or the tab is hidden. With Motion off it is one still drawing. Off on phones. */
+  /* ===== FIELD: the one place to dial the line field up or down ==========================================================
+     strands   how many of the 52 polylines draw (26 = every other one; 52 = the original full density)
+     cross     cross-lines tying the strands together, as one every Nth point along them (0 = none; the original was 4)
+     width     line weight in CSS px (the original was 1)
+     ink       strand opacity, light / dark theme (the original was .12 / .11)
+     crossInk  cross-line opacity, light / dark (the original was .05 / .045)
+     orange    how many strands draw in the brand orange (the weeks with the most motion work; the original tinted about 20)
+     orangeInk opacity of those orange strands, light / dark (the original peaked at .22 / .34)
+     cursor    how far the figure turns toward the pointer, 0 to 1 (1 = the original turn)
+     follow    how quickly it follows the pointer, per frame (the original was .12; lower is slower and calmer)
+     mask      how much of the field the soft patch behind each headline and paragraph hides, 0 to 1 (0 = no masks)
+     minWidth  below this window width (phones) the field is off: there the copy runs edge to edge, so it would only sit behind text */
+  var FIELD = { strands: 26, cross: 8, width: .8, ink: [.1, .13], crossInk: [.035, .04], orange: 3, orangeInk: [.24, .34], cursor: .55, follow: .07, mask: .9, minWidth: 700 };
+  html.style.setProperty('--fl-mask', FIELD.mask);
   var field = (function () {
     var cv = $('field'); if (!cv || !cv.getContext) return null;
     var ctx = cv.getContext('2d');
@@ -3500,6 +3566,7 @@
     var SIDES = [0, 4, 3], ROT = [0, Math.PI / 4, Math.PI / 2], SIZE = [1, 1.25, 1.4];
     function setOf(r) { return r < 17 ? [0, r, 17] : r < 34 ? [1, r - 17, 17] : [2, r - 34, 18]; }
     function rotX(p, a) { var c = Math.cos(a), s = Math.sin(a), y = p[1] * c - p[2] * s, z = p[1] * s + p[2] * c; p[1] = y; p[2] = z; return p; }
+    /* the six figures, one per section: Clients, How it works, Why it works, What we make, Working together, Contact (unchanged) */
     var FORMS = [
       function (r, u) { var g = setOf(r), q = poly(SIDES[g[0]], u, ROT[g[0]]), k = SIZE[g[0]]; return [[-3, 0, 3][g[0]] + q[0] * k, q[1] * k, (g[1] / (g[2] - 1) - .5) * 2.4]; },
       /* How it works: a calm tunnel, replacing the week-driven ribbon. 52 evenly spaced rings of one size along a straight axis,
@@ -3513,6 +3580,10 @@
     ];
     var shapes = FORMS.map(function (fn) { var a = new Float32Array(N * 3), i = 0; for (var r = 0; r < R; r++) for (var s = 0; s < P; s++) { var p = fn(r, s / (P - 1)); a[i++] = p[0]; a[i++] = p[1]; a[i++] = p[2]; } return a; });
     var pos = new Float32Array(N * 3), scr = new Float32Array(N * 2);
+    /* the strands that draw: evenly spread over the 52 (so every figure keeps its whole outline), and the orange few among them */
+    var rows = [], step = R / Math.max(1, Math.min(R, FIELD.strands));
+    for (var q0 = 0; q0 < R; q0 += step) rows.push(Math.min(R - 1, Math.round(q0)));
+    var hot = rows.slice().sort(function (x, y) { return WK[y][1] - WK[x][1]; }).slice(0, FIELD.orange);
     var anchors = ['clients', 'how', 'why', 'make', 'together', 'contact'].map(function (id) { return $(id); }), tops = [];
     function measure() { tops = anchors.map(function (el) { return el ? el.getBoundingClientRect().top + scrollY : 0; }); }
     function target() {
@@ -3521,12 +3592,12 @@
       for (var i = 0; i < tops.length - 1; i++) if (y < tops[i + 1]) { var f = (y - tops[i]) / Math.max(1, tops[i + 1] - tops[i]); f = Math.max(0, Math.min(1, (f - .55) / .45)); return i + f * f * (3 - 2 * f); }
       return tops.length - 1;
     }
-    var on = false, raf = 0, last = 0, cur = 0, built = -1, px = 0, py = 0, tx = 0, ty = 0, W = 0, H = 0, dpr = 1, rowCol = [], colCol = '';
+    var on = false, raf = 0, last = 0, cur = 0, built = -1, px = 0, py = 0, tx = 0, ty = 0, W = 0, H = 0, dpr = 1, rowCol = {}, colCol = '';
+    function wide() { return innerWidth >= FIELD.minWidth; }
     function colours() {
-      var st = getComputedStyle(html), ink = st.getPropertyValue('--fl-ink').trim(), a = +st.getPropertyValue('--fl-a'), c = +st.getPropertyValue('--fl-c'), o = +st.getPropertyValue('--fl-o');
-      var rgb = ink.split(',').map(Number);
-      rowCol = WK.map(function (w) { var m = Math.min(1, w[1] * 2.4); return 'rgba(' + Math.round(rgb[0] + (254 - rgb[0]) * m) + ',' + Math.round(rgb[1] + (80 - rgb[1]) * m) + ',' + Math.round(rgb[2] + (0 - rgb[2]) * m) + ',' + (a + (o - a) * m).toFixed(3) + ')'; });
-      colCol = 'rgba(' + ink + ',' + c + ')';
+      var st = getComputedStyle(html), ink = st.getPropertyValue('--fl-ink').trim(), d = html.getAttribute('data-theme') === 'dark' ? 1 : 0;
+      rowCol = {}; rows.forEach(function (r) { rowCol[r] = hot.indexOf(r) >= 0 ? 'rgba(254,80,0,' + FIELD.orangeInk[d] + ')' : 'rgba(' + ink + ',' + FIELD.ink[d] + ')'; });
+      colCol = 'rgba(' + ink + ',' + FIELD.crossInk[d] + ')';
     }
     function size() {
       dpr = Math.min(2, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight;
@@ -3538,8 +3609,8 @@
         for (var k = 0; k < pos.length; k++) pos[k] = a[k] + (b[k] - a[k]) * f;
         built = cur;
       }
-      /* group: turned toward the cursor, then seen through a 36° camera at (0, .4, 12), like the original */
-      var fin = Math.max(0, Math.min(1, cur - 4)), ry = -.5 + px * (.6 + .7 * fin), rx = .18 + py * (.3 + .4 * fin);
+      /* group: turned toward the cursor (FIELD.cursor of the original turn), then seen through a 36° camera at (0, .4, 12) */
+      var fin = Math.max(0, Math.min(1, cur - 4)), ry = -.5 + px * (.6 + .7 * fin) * FIELD.cursor, rx = .18 + py * (.3 + .4 * fin) * FIELD.cursor;
       var cy = Math.cos(ry), sy = Math.sin(ry), cx = Math.cos(rx), sx = Math.sin(rx);
       var sc = W < 700 ? .62 : 1, gx = W > 1000 ? 1.4 : 0, fy = 1 / Math.tan(18 * Math.PI / 180), asp = W / H;
       for (var n = 0, j = 0; n < N; n++, j += 3) {
@@ -3550,12 +3621,14 @@
         scr[n * 2] = (1 + fy / asp * vx / -vz) * .5 * W * dpr; scr[n * 2 + 1] = (1 - fy * vy / -vz) * .5 * H * dpr;
       }
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
-      ctx.lineWidth = dpr; ctx.lineJoin = 'round';
-      ctx.strokeStyle = colCol; ctx.beginPath();
-      for (var s2 = 0; s2 < P; s2 += 4) for (var r2 = 0; r2 < R - 1; r2++) { if (r2 === 16 || r2 === 33) continue; var p0 = (r2 * P + s2) * 2, p1 = ((r2 + 1) * P + s2) * 2; ctx.moveTo(scr[p0], scr[p0 + 1]); ctx.lineTo(scr[p1], scr[p1 + 1]); }
-      ctx.stroke();
-      for (var r = 0; r < R; r++) {
-        ctx.strokeStyle = rowCol[r]; ctx.beginPath();
+      ctx.lineWidth = FIELD.width * dpr; ctx.lineJoin = 'round';
+      if (FIELD.cross > 0) { /* cross-lines between neighbouring drawn strands, never across a figure's sub-groups (rows 16|17 and 33|34) */
+        ctx.strokeStyle = colCol; ctx.beginPath();
+        for (var s2 = 0; s2 < P; s2 += FIELD.cross) for (var t = 0; t < rows.length - 1; t++) { var ra = rows[t], rb = rows[t + 1]; if ((ra <= 16) !== (rb <= 16) || (ra <= 33) !== (rb <= 33)) continue; var p0 = (ra * P + s2) * 2, p1 = (rb * P + s2) * 2; ctx.moveTo(scr[p0], scr[p0 + 1]); ctx.lineTo(scr[p1], scr[p1 + 1]); }
+        ctx.stroke();
+      }
+      for (var t2 = 0; t2 < rows.length; t2++) {
+        var r = rows[t2]; ctx.strokeStyle = rowCol[r]; ctx.beginPath();
         var q = r * P * 2; ctx.moveTo(scr[q], scr[q + 1]);
         for (var s = 1; s < P; s++) ctx.lineTo(scr[q + s * 2], scr[q + s * 2 + 1]);
         ctx.stroke();
@@ -3565,7 +3638,7 @@
       raf = 0; if (!on || document.hidden) return;
       if (now - last < 31) { raf = requestAnimationFrame(frame); return; } /* about 30 fps */
       last = now;
-      var tg = target(); cur += (tg - cur) * .14; px += (tx - px) * .12; py += (ty - py) * .12;
+      var tg = target(); cur += (tg - cur) * .14; px += (tx - px) * FIELD.follow; py += (ty - py) * FIELD.follow;
       draw();
       if (Math.abs(tg - cur) > .002 || Math.abs(tx - px) > .002 || Math.abs(ty - py) > .002) raf = requestAnimationFrame(frame); else { cur = tg; px = tx; py = ty; draw(); }
     }
@@ -3573,22 +3646,26 @@
     function still() { if (!on) return; cur = 0; px = py = 0; draw(); }
     addEventListener('scroll', kick, { passive: true });
     addEventListener('pointermove', function (e) { if (!MOTION || e.pointerType !== 'mouse') return; tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; kick(); }, { passive: true });
-    var rz = 0; addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); if (MOTION) { cur = target(); built = -1; } if (on) draw(); }, 150); });
+    var rz = 0; addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); sync(); if (MOTION) { cur = target(); built = -1; } if (on) draw(); }, 150); });
     document.addEventListener('visibilitychange', kick);
     document.addEventListener('toggle', function () { measure(); kick(); }, true); /* accordions change the section positions */
-    /* on only while the sections below the canvas are on screen */
+    /* on only while the sections below the canvas are on screen (and the window is wider than a phone) */
     var vis = new Set();
+    function sync() {
+      var was = on; on = vis.size > 0 && wide(); cv.classList.toggle('on', on);
+      if (on && !was) { measure(); if (MOTION) { cur = target(); built = -1; draw(); } else still(); }
+      else if (!on && was && raf) { cancelAnimationFrame(raf); raf = 0; }
+    }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) vis.add(en.target); else vis.delete(en.target); });
-      var was = on; on = vis.size > 0; cv.classList.toggle('on', on);
-      if (on && !was) { measure(); if (MOTION) { cur = target(); built = -1; draw(); } else still(); }
+      sync();
     });
     size(); colours();
     ['clients', 'how', 'why', 'make', 'together', 'team', 'contact'].forEach(function (id) { var el = $(id); if (el) io.observe(el); });
     return {
       redraw: function () { colours(); if (on) draw(); },
       motion: function (m) { if (!m) { if (raf) cancelAnimationFrame(raf); raf = 0; still(); } else { measure(); cur = target(); built = -1; if (on) draw(); } },
-      state: function () { return { on: on, raf: !!raf, cur: cur }; }
+      state: function () { return { on: on, raf: !!raf, cur: cur, strands: rows.length, orange: hot.length }; }
     };
   })();
 
