@@ -321,7 +321,7 @@
      (layers and zoom | the canvas actions | the minimap), so the middle bar is centred when there is room and can never touch
      the left one when there isn't (at narrower widths the labels fold to icons first, with tooltips). */
   .stage { --tb-h: 40px; --tb-pad: 3px; --tb-r: 10px; --tb-seg: calc(var(--tb-h) - 2 * var(--tb-pad) - 2px); }
-  .ui-dock { left: 16px; right: 16px; bottom: 16px; display: grid; grid-template-columns: 1fr auto 1fr; column-gap: 16px; align-items: end; pointer-events: none; }
+  .ui-dock { left: var(--gut); right: var(--gut); bottom: 16px; /* in line with the logo and the Start a job button above */ display: grid; grid-template-columns: 1fr auto 1fr; column-gap: 16px; align-items: end; pointer-events: none; }
   .ui-dock > * { pointer-events: auto; }
   .tgroup { display: inline-flex; align-items: center; gap: 2px; height: var(--tb-h); padding: var(--tb-pad); background: var(--glass); color: var(--ink); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); white-space: nowrap; }
   .ui-left { grid-column: 1; justify-self: start; }
@@ -1169,9 +1169,9 @@
   /* wide screens: a Layers panel in the left margin lists the page's sections, the one you are reading highlighted (like
      Figma's layers following the selection). Only where the margin can hold it with 16px to spare, only while the page below
      the canvas is on screen; it never covers content. */
-  .pgl { position: fixed; left: 16px; top: 76px; z-index: 30; width: 160px; padding: 4px; display: none; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0, 0, 0, .4); opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s .2s; }
+  .pgl { position: fixed; left: var(--gut); /* in line with the logo */ top: 76px; z-index: 30; width: 160px; padding: 4px; display: none; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0, 0, 0, .4); opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s .2s; }
   .pgl.on { opacity: 1; visibility: visible; transition: opacity .2s; }
-  @media (min-width: 1700px) { .pgl { display: block; } }
+  @media (min-width: 1940px) { .pgl { display: block; } } /* only where the margin fits it (gutter + 160px panel) without touching the sections */
   .pgl .lh { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
   .pgl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
   .pgl a { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font: 400 13px/1.2 var(--body); color: var(--ink2); text-decoration: none; }
