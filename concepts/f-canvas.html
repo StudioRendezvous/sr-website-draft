@@ -1112,7 +1112,10 @@
   .contact { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: 40px clamp(32px, 5vw, 64px); align-items: start; }
   @media (max-width: 640px) { .drop { margin-inline: -16px; border-inline: 0; border-radius: 0; } }
   @media (max-width: 960px) { .contact { grid-template-columns: 1fr; } }
-  .drop { position: relative; background: var(--canvas); background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px); background-size: 24px 24px; border: 1px solid var(--sec-line); border-radius: 6px; padding: 56px clamp(16px, 3vw, 40px); display: grid; grid-template-columns: 152px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .drop { position: relative; background: var(--canvas); background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px); background-size: 24px 24px; border: 1px solid var(--sec-line); border-radius: 6px; padding: 56px clamp(16px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+  /* the form sits centred on its patch at full width; the decorative Layers list is retired here (it only ever showed on hover and pushed the form off centre) */
+  .drop > .form { justify-self: center; width: 100%; max-width: 540px; }
+  .drop > .flayers { display: none !important; }
   @media (max-width: 1100px) { .drop { grid-template-columns: 1fr; } .flayers { display: none; } }
   .flayers { background: var(--glass); border: 1px solid var(--line); border-radius: 10px; padding: 6px; box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); }
   .flayers .lh { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
