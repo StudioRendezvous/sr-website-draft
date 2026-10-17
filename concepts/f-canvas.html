@@ -1241,7 +1241,7 @@
       (function () {
         var SEC_W = 808, GAP = 184, HERO_H = 712; /* the same file grid as the canvas script */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
-          var pair = SEC_W * 2 + GAP, s = Math.min(.86, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H);
+          var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too (was capped at .86, so 1920+ wide or zoomed-out Chrome showed extra groups) */
           return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(64, (vh - HERO_H * s) / 2 - 40)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
