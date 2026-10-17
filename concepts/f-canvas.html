@@ -21,10 +21,13 @@
     var d = document.documentElement, m = !matchMedia('(prefers-reduced-motion: reduce)').matches, t = 'system';
     try { var s = localStorage.getItem('sr-motion'); if (s === 'on') m = true; if (s === 'off') m = false; t = localStorage.getItem('sr-theme') || 'system'; } catch (e) {}
     var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
-    d.className = 'js ' + (m ? 'motion' : 'still') + (m && innerWidth >= 960 && innerHeight >= 560 ? ' reel-on' : '');
+    var cv = innerWidth >= 960 && innerHeight >= 560; /* desktop: the hero is a frame on the canvas (cv), placed before first paint by the script after the stage */
+    d.className = 'js ' + (m ? 'motion' : 'still') + (cv ? ' cv' : '') + (m && cv ? ' reel-on' : '');
     d.setAttribute('data-theme', dark ? 'dark' : 'light'); d.setAttribute('data-pref', t);
   })();
 </script>
+<!-- hold the first paint until the whole top bar is parsed (#bar-ready), so its links never paint half-built and slide over -->
+<link rel="expect" href="#bar-ready" blocking="render">
 <noscript><style>.reel, .tbar .tb-l { display: none !important; }</style></noscript>
 <style>
   /* Big Shoulders Display (SIL Open Font License), latin subset, one variable file for 700 to 900 */
@@ -192,6 +195,12 @@
   /* on the canvas */
   .world .brief { position: absolute; left: 0; top: 0; width: 808px; height: 712px; max-width: none; display: flex; flex-direction: column; justify-content: center; background: var(--surface); padding: 0 84px; box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 18px 40px -18px var(--sh2); cursor: default; }
   .world .brief .flb { display: block; }
+  /* desktop with script: the hero never paints in the page flow (the inline script after the stage moves it onto the canvas) */
+  .cv #briefSlot { display: none; }
+  /* a classic scrollbar can't change the canvas width mid-load (the hero's first camera is measured early) */
+  html:not(.lock) { scrollbar-gutter: stable; }
+  /* the first camera is set with no transitions, so nothing fades or slides on load */
+  .world.boot, .world.boot * { transition: none !important; }
 
   /* ---------- the canvas ---------- */
   .reel { position: relative; }
@@ -297,36 +306,47 @@
   .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--glass); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); }
   .chip button, .chip a { background: none; border: 0; padding: 9px 11px; cursor: pointer; font: 500 12px/1 var(--mono); letter-spacing: .04em; color: var(--ink); text-decoration: none; border-radius: 8px; }
   .chip button:hover, .chip a:hover { background: var(--hover); }
-  .ui-zoom { left: 16px; bottom: 16px; }
-  .ui-zoom .pct { min-width: 3.6em; text-align: center; font: 500 12px var(--mono); color: var(--ink2); }
-  .ui-zoom .lvl { font: 500 11px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--accent-text); padding: 0 10px 0 9px; border-left: 1px solid var(--line); line-height: 30px; min-width: 7.2em; }
-  .ui-zoom .ic { font-size: 17px; padding: 6px 12px; }
-  .ui-main { left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .tbar { display: flex; align-items: center; gap: 2px; padding: 5px; background: var(--glass); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 18px 40px -18px rgba(0,0,0,.55); }
-  .tbar .explore { box-shadow: none; padding: 13px 20px 12px 16px; }
-  .tbar .tb { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 15px; border-radius: 999px; border: 0; background: none; color: var(--ink); font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; cursor: pointer; white-space: nowrap; }
-  .tbar .tb:hover { background: var(--hover); }
-  .tbar .tb svg { width: 11px; height: 11px; color: var(--accent-text); }
-  @media (max-width: 640px) { .tbar .tb-p { display: none; } }
-  .explore { display: inline-flex; align-items: center; gap: 10px; background: var(--inv); color: var(--inv-ink); border: 0; border-radius: 999px; padding: 15px 22px 14px 18px; font: 500 13px/1 var(--mono); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; box-shadow: 0 14px 30px -14px rgba(0,0,0,.55); white-space: nowrap; transition: background .2s, color .2s; }
-  .explore:hover { background: var(--cta); color: var(--cta-ink); }
-  .explore svg { width: 18px; height: 18px; }
-  .explore.alt { background: var(--glass); color: var(--ink); box-shadow: 0 0 0 1px var(--line), 0 14px 30px -14px rgba(0,0,0,.45); padding-inline: 18px 20px; }
-  .explore.alt svg { width: 12px; height: 12px; color: var(--accent); }
-  .explore.alt:hover { background: var(--cta); color: var(--cta-ink); } .explore.alt:hover svg { color: currentColor; }
-  .aslist { font: 500 12px var(--mono); letter-spacing: .05em; color: var(--ink); background: var(--glass); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
-  .ui-mini { right: 16px; bottom: 16px; width: 176px; height: 112px; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); overflow: hidden; cursor: pointer; touch-action: none; transition: opacity .25s, visibility 0s; }
+  /* The canvas toolbar: one system, like Figma's own chrome. Every control is a segment in a glass bar of one height (--tb-h),
+     one radius, one type style (mono caps 12px) and 12px icons; all bars sit on one bottom inset line in a three-column dock
+     (layers and zoom | the canvas actions | the minimap), so the middle bar is centred when there is room and can never touch
+     the left one when there isn't (at narrower widths the labels fold to icons first, with tooltips). */
+  .stage { --tb-h: 40px; --tb-pad: 3px; --tb-r: 10px; --tb-seg: calc(var(--tb-h) - 2 * var(--tb-pad) - 2px); }
+  .ui-dock { left: 16px; right: 16px; bottom: 16px; display: grid; grid-template-columns: 1fr auto 1fr; column-gap: 16px; align-items: end; pointer-events: none; }
+  .ui-dock > * { pointer-events: auto; }
+  .tgroup { display: inline-flex; align-items: center; gap: 2px; height: var(--tb-h); padding: var(--tb-pad); background: var(--glass); color: var(--ink); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); white-space: nowrap; }
+  .ui-left { grid-column: 1; justify-self: start; }
+  .ui-main { grid-column: 2; justify-self: center; }
+  .tgroup .seg { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--tb-seg); min-width: var(--tb-seg); padding: 0 12px; border: 0; border-radius: calc(var(--tb-r) - var(--tb-pad)); background: none; color: var(--ink); font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+  .tgroup .seg:hover { background: var(--hover); }
+  .tgroup .seg svg { width: 12px; height: 12px; flex: none; color: var(--accent-text); }
+  .tgroup .seg.ic { padding: 0; }
+  .tgroup .seg.ic svg { color: var(--ink2); }
+  @media (max-width: 640px) { .tgroup .tb-p { display: none; } }
+  .tgroup .seg.pri { background: var(--inv); color: var(--inv-ink); padding: 0 14px 0 12px; } /* the primary action: filled, same height */
+  .tgroup .seg.pri:hover { background: var(--cta); color: var(--cta-ink); }
+  .tgroup .seg.pri svg { color: currentColor; }
+  .tgroup .seg.pri svg rect { fill: var(--accent); }
+  .tgroup .seg.pri:hover svg rect { fill: currentColor; }
+  .tgroup .sep { flex: none; width: 1px; height: calc(var(--tb-seg) - 12px); background: var(--line); margin: 0 3px; }
+  .tgroup .pct { min-width: 4.4ch; text-align: center; font: 500 12px/1 var(--mono); letter-spacing: .02em; color: var(--ink2); font-variant-numeric: tabular-nums; }
+  .tgroup .lvl { font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 0 10px 0 4px; min-width: 9ch; } /* the zoom level's name, a quiet suffix */
+  .ui-zoom { display: inline-flex; align-items: center; gap: 2px; }
+  .ui-layers { position: relative; display: inline-flex; }
+  .ui-layers .lh .cue { display: none; }
+  .ui-layers .lh .chev { color: var(--ink2); transition: transform .2s var(--ease); }
+  .ui-layers .lh[aria-expanded="true"] { background: var(--hover); }
+  .ui-layers .lh[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .ui-mini { position: relative; grid-column: 3; justify-self: end; width: 176px; height: 112px; background: var(--glass); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); overflow: hidden; cursor: pointer; touch-action: none; transition: opacity .25s, visibility 0s; }
   .ui-mini.off { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s, visibility 0s .25s; } /* the whole file is on screen: nothing to find */
   .ui-mini i { position: absolute; background: var(--mini); border-radius: 1px; }
   .ui-mini i.b { background: var(--ink); }
   .ui-mini i.p { background: var(--accent); }
   .ui-mini .view { position: absolute; border: 1.5px solid var(--cta); background: rgba(254, 80, 0, .08); border-radius: 2px; }
-  .ui-layers { left: 16px; bottom: 66px; }
-  .ui-layers .chip { flex-direction: column-reverse; align-items: stretch; gap: 0; padding: 4px; }
-  .ui-layers .lh { display: flex; align-items: center; justify-content: space-between; gap: 18px; text-transform: uppercase; }
-  .ui-layers ol { list-style: none; margin: 2px 0 2px; padding: 0; display: grid; }
+  /* the Layers list opens as a popover above the bar, from its left edge */
+  .ui-layers ol { position: absolute; left: calc(-1px - var(--tb-pad)); bottom: calc(100% + var(--tb-pad) + 9px); min-width: 240px; max-height: 60vh; overflow: auto; list-style: none; margin: 0; padding: 4px; display: grid; gap: 1px; background: var(--glass); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); }
   .ui-layers ol[hidden] { display: none; }
-  .ui-layers li button { width: 100%; display: flex; gap: 9px; align-items: center; text-align: left; font: 400 13px/1.2 var(--body); letter-spacing: 0; padding: 7px 10px; }
+  .ui-layers li button { width: 100%; display: flex; gap: 9px; align-items: center; text-align: left; background: none; border: 0; border-radius: calc(var(--tb-r) - var(--tb-pad)); color: var(--ink); cursor: pointer; font: 400 13px/1.2 var(--body); letter-spacing: 0; padding: 8px 10px; }
+  .ui-layers li button:hover { background: var(--hover); }
   .ui-layers li button svg { width: 12px; height: 12px; flex: none; color: var(--muted); }
   .ui-layers li button:hover svg { color: var(--accent); }
   .ui-layers li button[aria-current] { background: var(--hover); font-weight: 600; } .ui-layers li button[aria-current] svg { color: var(--accent); } /* the group you are in */
@@ -337,17 +357,23 @@
   .stage.full .done { display: inline-flex; }
   .skipc { left: 16px; top: 16px; z-index: 8; }
   .skipc:not(:focus) { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  /* narrower desktops: the quiet level name goes first, then labels fold to icons (tooltips name them) */
+  @media (max-width: 1299px) { .tgroup .lvl, .tgroup .lvl-sep { display: none; } }
+  @media (max-width: 1159px) { .tgroup .seg.fold .tl { display: none; } .tgroup .seg.fold { padding: 0; width: var(--tb-seg); } }
   @media (max-width: 959px) {
-    .ui-layers { display: none; }
-    .ui-zoom, .ui-mini { display: none; }
-    .stage.full .ui-zoom { display: inline-flex; }
+    .ui-layers, .ui-layers + .sep { display: none; }
+    .ui-left, .ui-mini { display: none; }
+    .stage.full .ui-left { display: inline-flex; }
     .stage.full .ui-mini { display: block; width: 130px; height: 86px; }
     @media (max-width: 599px) { .stage.full .ui-mini { display: none; } } /* phones: drag and pinch; the zoom bar keeps Zoom to fit */
     .stage.full .ui-main { display: none; }
-    .stage:not(.full) .ui-main { top: 12px; bottom: auto; }
-    .stage:not(.full) .tbar { box-shadow: none; }
+    .stage:not(.full) .ui-dock { top: calc((68px - var(--tb-h)) / 2); bottom: auto; } /* centred in the docked strip */
+    .stage:not(.full) .tgroup { box-shadow: none; }
     .stage:not(.full) .ui-crumb, .stage:not(.full) .hint { top: 80px; }
-    .ui-zoom .lvl { display: none; }
+    /* full screen: the tip sits top left, clear of Done (the camera leaves it a clear band, see enterFull) */
+    .stage.full .hint { left: 16px; transform: translateY(-8px); max-width: calc(100% - 152px); text-align: left; }
+    .stage.full .hint.on { transform: none; }
+    .tgroup .seg.fold .tl { display: inline; } .tgroup .seg.fold { width: auto; padding: 0 12px; }
   }
 
   /* ---------- the group breadcrumb: shown only while zoomed into a group; its first step pops the view stack ---------- */
@@ -1118,7 +1144,8 @@
     .kbtn, .theme .cyc { width: 44px !important; height: 44px !important; }
     .switch { min-height: 44px; min-width: 44px; justify-content: center; padding-inline: 4px; }
     .top .cta { min-height: 44px; }
-    .cta, .ghost, .explore, .tbar .tb, .fl-play, .sh-link, .sh-btn { min-height: 44px; }
+    .cta, .ghost, .fl-play, .sh-link, .sh-btn { min-height: 44px; }
+    .stage { --tb-h: 52px; } /* toolbar segments 44px */
     .sh-btn { min-width: 44px; }
     .card details.more { margin-top: 0; } .card details.more summary { padding-block: 15px; line-height: 14px; }
     .card .move-link { padding-block: 15px; margin-top: 1px; }
@@ -1147,6 +1174,7 @@
   <button class="switch" id="motionSw" type="button" role="switch" aria-checked="true"><span class="tr" aria-hidden="true"></span><span class="lbl">Motion</span> <span class="st" aria-hidden="true">On</span></button>
   <a class="cta" href="#contact" data-help="first">Start a job</a>
 </header>
+<i id="bar-ready" hidden></i>
 
 <main id="main">
   <section id="top" aria-labelledby="h1">
@@ -1172,32 +1200,34 @@
         <div class="world" id="world"></div>
       </div>
 
-      <div class="ui ui-layers" id="layers">
-        <div class="chip">
-          <button class="lh" type="button" id="layersBtn" aria-expanded="false" aria-controls="layersList"><span>Layers</span><span aria-hidden="true" id="layersCue">+</span></button>
-          <ol id="layersList" hidden></ol>
-        </div>
-      </div>
-
       <!-- NEW COPY: breadcrumb while zoomed into a group: first step "Overview" (or "Start here" / "Back", for the view you came from), landmark label "Breadcrumb". The current step reuses the job or industry name. -->
       <nav class="ui ui-crumb chip" id="crumb" aria-label="Breadcrumb">
         <button type="button" id="crumbBack"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6.5 2L2.5 6l4 4M2.5 6h8" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span id="crumbFrom">Overview</span></button><span class="sep" aria-hidden="true">/</span><span class="cur" id="crumbCur" aria-current="location"></span>
       </nav>
 
-      <div class="ui ui-zoom chip" role="group" aria-label="Zoom">
-        <button type="button" class="ic" id="zOut" aria-label="Zoom out">−</button>
-        <span class="pct" id="zPct" aria-live="off">100%</span>
-        <button type="button" class="ic" id="zIn" aria-label="Zoom in">+</button>
-        <button type="button" id="zFit">Zoom to fit</button>
-        <span class="lvl" id="zLvl" aria-hidden="true">Work</span>
-      </div>
-
-      <div class="ui ui-main">
+      <!-- the canvas toolbar: one dock along the bottom (layers and zoom | the canvas actions | the minimap) -->
+      <div class="ui ui-dock" id="dock">
+        <div class="tgroup ui-left">
+          <div class="ui-layers" id="layers">
+            <button class="seg lh" type="button" id="layersBtn" aria-expanded="false" aria-controls="layersList"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l4.8 2.5L6 6.2 1.2 3.7z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M1.2 6.3L6 8.8l4.8-2.5M1.2 8.7L6 11.2l4.8-2.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span>Layers</span><svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 7.5l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="cue" aria-hidden="true" id="layersCue">+</span></button>
+            <ol id="layersList" hidden></ol>
+          </div>
+          <span class="sep" aria-hidden="true"></span>
+          <div class="ui-zoom" role="group" aria-label="Zoom">
+            <button type="button" class="seg ic" id="zOut" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            <span class="pct" id="zPct" aria-live="off">100%</span>
+            <button type="button" class="seg ic" id="zIn" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8M6 2v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+            <span class="sep" aria-hidden="true"></span>
+            <button type="button" class="seg fold" id="zFit" aria-label="Zoom to fit" title="Zoom to fit"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 4.2V1h3.2M7.8 1H11v3.2M11 7.8V11H7.8M4.2 11H1V7.8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><span class="tl">Zoom to fit</span></button>
+            <span class="sep lvl-sep" aria-hidden="true"></span>
+            <span class="lvl" id="zLvl" aria-hidden="true">Work</span>
+          </div>
+        </div>
         <!-- NEW COPY: "Play reel" (accessible name "Play reel: watch the studio reel"), "List" (its accessible name keeps "See all work as a list") -->
-        <div class="tbar" role="group" aria-label="Canvas"><button class="explore" type="button" id="exploreBtn" data-explore><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="10" width="8" height="8" fill="#fe5000"/></svg><span id="exploreLbl">Explore the canvas</span></button><button class="tb tb-p" type="button" data-reel aria-haspopup="dialog" aria-label="Play reel: watch the studio reel"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Play reel</button><button class="tb tb-l" type="button" data-list aria-haspopup="dialog" aria-label="See all work as a list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12M0 6h12M0 10h12" stroke="currentColor" stroke-width="1.6"/></svg>List</button></div>
-      </div>
+        <div class="tgroup tbar ui-main" role="group" aria-label="Canvas"><button class="seg pri explore" type="button" id="exploreBtn" data-explore><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="10" width="8" height="8" fill="#fe5000"/></svg><span id="exploreLbl">Explore the canvas</span></button><button class="seg fold tb-p" type="button" data-reel aria-haspopup="dialog" aria-label="Play reel: watch the studio reel" title="Play reel"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="2,1 11,6 2,11" fill="currentColor"/></svg><span class="tl">Play reel</span></button><button class="seg fold tb-l" type="button" data-list aria-haspopup="dialog" aria-label="See all work as a list" title="List"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12M0 6h12M0 10h12" stroke="currentColor" stroke-width="1.6"/></svg><span class="tl">List</span></button></div>
 
-      <div class="ui ui-mini" id="mini" aria-hidden="true"><div class="view" id="miniView"></div></div>
+        <div class="ui-mini" id="mini" aria-hidden="true"><div class="view" id="miniView" style="display:none"></div></div>
+      </div>
       <div class="ui hint" id="hint" role="status" aria-live="polite"></div>
       <button class="ui done cta" type="button" id="doneBtn">Done</button>
 
@@ -1205,6 +1235,28 @@
       <div class="me" id="me" aria-hidden="true">You</div>
     </div>
     </div>
+    <script>
+      /* Before first paint: on desktop the hero goes straight onto the canvas at the exact camera the canvas script starts from
+         (it calls srHeroCam too), so nothing moves when it takes over. Tiny and blocking on purpose. */
+      (function () {
+        var SEC_W = 808, GAP = 184, HERO_H = 712; /* the same file grid as the canvas script */
+        window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
+          var pair = SEC_W * 2 + GAP, s = Math.min(.86, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H);
+          return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(64, (vh - HERO_H * s) / 2 - 40)) };
+        };
+        var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
+        var pref = d.getAttribute('data-pref'), ic = document.querySelector('#theme [data-theme-set="' + pref + '"] svg'), cyc = $('themeCyc');
+        if (ic && cyc && !cyc.firstChild) cyc.innerHTML = ic.outerHTML; /* the phone theme button has its icon from the start */
+        if (!d.classList.contains('cv')) return;
+        var vp = $('vp'), world = $('world'), brief = $('brief'), slot = $('briefSlot');
+        world.insertBefore(brief, world.firstChild); slot.hidden = true;
+        var c = srHeroCam(vp.clientWidth, vp.clientHeight), g = 24 * c.s; while (g < 12) g *= 2;
+        world.style.transform = 'translate3d(' + c.x + 'px,' + c.y + 'px,0) scale(' + c.s + ')';
+        world.style.setProperty('--k', (1 / c.s).toFixed(4)); world.style.setProperty('--s', c.s.toFixed(4));
+        vp.style.backgroundSize = g + 'px ' + g + 'px'; vp.style.backgroundPosition = c.x + 'px ' + c.y + 'px';
+        $('zPct').textContent = Math.round(c.s * 100) + '%';
+      })();
+    </script>
   </section>
 
   <!-- without script the canvas cannot be drawn, so the work is listed plainly (titles and lines reuse the job copy) -->
@@ -1960,11 +2012,7 @@
   }
 
   function home() {
-    if (briefIn) {
-      /* the hero and the first section side by side, tops aligned */
-      var pair = SEC_W * 2 + GAP, s = Math.min(.86, Math.max(.74, (vw - 96) / pair), (vh - 150) / briefH);
-      return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(64, (vh - briefH * s) / 2 - 40)) };
-    }
+    if (briefIn) return window.srHeroCam(vw, vh); /* the hero and the first section side by side: the same camera the first paint used (inline, after the stage) */
     if (arranged) return overview(); /* phones: the whole file, two groups across */
     var r = secRects.partner, s2 = Math.min(0.6, Math.max(0.4, (vw - 40) / r.w));
     return { s: s2, x: 20 - r.x * s2, y: Math.max(54, (vh - r.h * s2) / 2 - 40) - r.y * s2 };
@@ -1982,9 +2030,10 @@
     var wantIn = innerWidth >= 960 && innerHeight >= 560;
     if (wantIn !== briefIn) {
       briefIn = wantIn;
-      if (briefIn) { world.insertBefore(brief, world.firstChild); briefSlot.hidden = true; }
+      if (briefIn) { if (brief.parentNode !== world) world.insertBefore(brief, world.firstChild); briefSlot.hidden = true; } /* already there from the first paint */
       else { briefSlot.appendChild(brief); briefSlot.hidden = false; }
     }
+    html.classList.toggle('cv', briefIn);
     html.classList.toggle('reel-on', MOTION && briefIn);
     if (briefIn) {
       briefH = HERO_H;
@@ -2000,7 +2049,7 @@
     vw = vp.clientWidth; vh = vp.clientHeight;
     buildMini(); refreshOv();
     homeCam = home();
-    if (first) { cam = { x: homeCam.x, y: homeCam.y, s: homeCam.s }; apply(); }
+    if (first) { world.classList.add('boot'); cam = { x: homeCam.x, y: homeCam.y, s: homeCam.s }; apply(); requestAnimationFrame(function () { requestAnimationFrame(function () { world.classList.remove('boot'); }); }); }
     else { clamp(); apply(); }
     reelP = -1; reelTick();
   }
@@ -2277,8 +2326,12 @@
     full = true; takeCam(); stage.classList.add('full'); html.classList.add('lock');
     vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv();
     vp.focus({ preventScroll: true });
-    animateTo(fitRect(secRects.partner, 20), 0);
     hint('Drag with one finger. Pinch to zoom. Tap a frame to open it.', 3200); /* NEW COPY: hint */
+    /* the first group, with its name clear of the tip above it (the tip covers nothing) */
+    var to = fitRect(secRects.partner, 20), lab = secEls.partner.querySelector('.sec-t'), clear = hintEl.offsetTop + hintEl.offsetHeight + 12;
+    var nameTop = to.y + secRects.partner.y * to.s - (lab ? lab.offsetHeight : 36);
+    if (nameTop < clear) to.y += clear - nameTop;
+    animateTo(to, 0);
   }
   function exitFull() {
     full = false; stage.classList.remove('full'); html.classList.remove('lock');
