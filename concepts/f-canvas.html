@@ -1002,13 +1002,13 @@
      marks as one lockup with the line that proves it, then the offer in a smaller voice. Distinct in both themes. */
   .partner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px 48px; align-items: center; background: var(--pn-bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line); padding: 32px 40px; }
   .partner h3 { font-size: clamp(26px, 2.4vw, 32px); }
-  .partner h3 span { color: var(--accent-text); }
+  .partner h3 span { color: var(--accent); } /* brand orange for big type, like the hero's ALWAYS ON */
   .partner p { color: var(--ink2); margin-top: 8px; max-width: 60ch; font-size: 16px; }
   .partner .ghost { margin-top: 16px; padding: 11px 15px 10px; font-size: 12px; }
   .partner .lock { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
   .partner .lock svg { height: 24px; width: auto; color: var(--ink); }
-  .partner .lock img { height: 24px; width: auto; }
-  .partner .lock .plus { font: 300 28px/1 var(--body); color: var(--accent-text); }
+  .partner .lock img { height: 18px; width: auto; } /* optically matched to the Studio Rendezvous lockup */
+  .partner .lock .plus { font: 300 28px/1 var(--body); color: var(--accent); }
   .partner .lock .since { flex-basis: 100%; font: 500 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink2); padding-top: 16px; border-top: 1px solid var(--line); }
   .partner .cm-d { display: none; } :root[data-theme="dark"] .partner .cm-d { display: block; } :root[data-theme="dark"] .partner .cm-l { display: none; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) .partner .cm-d { display: block; } :root:not([data-theme]) .partner .cm-l { display: none; } }
@@ -1035,7 +1035,7 @@
   .acc summary:focus-visible { outline: 2px solid var(--cta); outline-offset: -2px; }
   .ac-k { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .ac-t { font: 800 clamp(22px, 2.1vw, 27px)/1 var(--display); text-transform: uppercase; }
-  .ac-t span { color: var(--accent-text); }
+  .ac-t span { color: var(--accent); }
   .ac-i { position: relative; width: 32px; height: 32px; justify-self: end; border-radius: 50%; border: 1.5px solid var(--ink); color: var(--ink); transition: background .2s, color .2s; }
   .ac-i::before, .ac-i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: currentColor; transform: translate(-50%, -50%); transition: transform .25s var(--ease); }
   .ac-i::after { transform: translate(-50%, -50%) rotate(90deg); }
@@ -1060,7 +1060,7 @@
   .reasons .card h3 { font-size: clamp(23px, 2.1vw, 27px); }
   .reasons .card p { margin-top: 8px; font-size: 16px; }
   .tenure { position: relative; margin: 0; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 24px clamp(16px, 2.4vw, 32px) 16px; }
-  .tenure .tag { display: inline-block; background: var(--tab); color: #1c1c1c; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; }
+  .tenure .tag { display: inline-block; background: var(--ink); color: var(--paper); font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; }
   #chTenure svg { display: block; width: 100%; height: auto; margin-top: 16px; }
   .tenure svg text { font-family: var(--mono); fill: var(--muted); letter-spacing: .04em; }
   .tenure svg .val { fill: var(--ink); }
@@ -1230,7 +1230,7 @@
   .sh-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: clamp(20px, 3.4vw, 44px); }
   .sh-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 48px; align-items: end; }
   @media (max-width: 860px) { .sh-head { grid-template-columns: 1fr; } }
-  .sh-head .ind { display: inline-block; background: var(--tab); color: #1c1c1c; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; }
+  .sh-head .ind { display: inline-block; background: var(--ink); color: var(--paper); font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; }
   .sh-head h2 { font-size: clamp(38px, 5.4vw, 72px); font-weight: 900; margin-top: 12px; }
   .sh-head .cnt { display: block; margin-top: 12px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   .sh-head .lede { margin: 0; }
