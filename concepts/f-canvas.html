@@ -756,9 +756,14 @@
   .js .fl-steps .tx { min-width: 0; }
   .js .fl-steps .tx b { font-size: 21px; padding: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .js .fl-steps .tx span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
-  .js .fl-steps button[aria-current] { background: var(--inv); border-color: var(--inv); color: var(--inv-ink); box-shadow: none; }
-  .js .fl-steps button[aria-current] .n { color: var(--inv-acc); }
-  .js .fl-steps button[aria-current] .tx span { position: static; width: auto; height: auto; clip: auto; white-space: normal; margin-top: 9px; font-size: 15px; line-height: 1.42; color: var(--inv-sub); }
+  /* three quiet states (Shane): steps still to come in grey, finished ones a step brighter with their check,
+     and the active one on a slightly lighter panel with full-strength text, instead of a solid white card */
+  .js .fl-steps button { color: var(--fl-pend, var(--muted)); }
+  :root[data-theme="light"] .flow { --fl-pend: #8c877d; } /* lighter grey for steps to come on light (large display type, 3.4:1) */
+  .flow.ge-2 .st-1 button, .flow.ge-3 .st-2 button, .flow.ge-4 .st-3 button, .flow.ge-5 .st-4 button, .flow.ge-6 .st-5 button { color: var(--ink2); }
+  .js .fl-steps button[aria-current] { background: var(--hover); border-color: var(--line-2); color: var(--ink); box-shadow: none; }
+  .js .fl-steps button[aria-current] .n { color: var(--accent-text); }
+  .js .fl-steps button[aria-current] .tx span { position: static; width: auto; height: auto; clip: auto; white-space: normal; margin-top: 9px; font-size: 15px; line-height: 1.42; color: var(--ink2); }
   /* the progress line: fills while a step plays, stays full once it is done */
   .js .fl-steps .bar { display: block; position: absolute; left: 14px; right: 14px; bottom: 8px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; pointer-events: none; }
   .js .fl-steps button[aria-current] .bar { background: rgba(127, 127, 127, .4); }
@@ -1592,12 +1597,12 @@
     <div class="wrap"><div class="cs-in" data-cs="How it works" data-ind="6 steps">
       <h2 id="howH">Put a job on the board. We’ve got it.</h2>
       <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
-      <!-- NEW COPY: "One job, start to finish", "Pause", "Play", "Paused", "Replay", "Step N of 6", step 4's second sentence
+      <!-- NEW COPY: "Your job, start to finish" (Shane, was "One job…"), "Pause", "Play", "Paused", "Replay", "Step N of 6", step 4's second sentence
            "Approve it, or ask for changes, right on the board.", step 6 title "Done" and "Marked complete."
            (every other step line is the approved five-step copy) -->
       <div class="flow at-6 ge-1 ge-2 ge-3 ge-4 ge-5 ge-6" id="flow">
         <div class="fl-rail">
-          <div class="fl-rh"><span class="mono">One job, start to finish</span><button class="fl-play" id="flPlay" type="button" hidden></button></div>
+          <div class="fl-rh"><span class="mono">Your job, start to finish</span><button class="fl-play" id="flPlay" type="button" hidden></button></div>
           <ol class="fl-steps" id="flSteps" aria-label="Steps">
             <li class="st-1" style="--d:4.2s"><button type="button" data-step="1"><span class="n">01</span><span class="tx"><b>Add a job</b><span>A brief, any files and the deadline.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
             <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n">02</span><span class="tx"><b>We’re on it</b><span>A senior creative who knows your brand picks it up, and you see when to expect a first look.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
