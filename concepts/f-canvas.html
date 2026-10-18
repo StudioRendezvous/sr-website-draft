@@ -560,16 +560,7 @@
   .field { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .6s; }
   .field.on { opacity: 1; }
   .still .field { transition: none; }
-  /* The field fades out behind headlines and paragraphs: each text block that sits straight on a section's fill carries a soft
-     patch of that fill (a feathered edge from its shadow), so the lines read in the open areas and margins and never cross
-     the copy. --fl-mask (from FIELD.mask) is how much of the field the patch hides: 1 hides it, 0 turns the masks off. */
-  @media (min-width: 700px) { /* (phones have no field) */
-    .floor .cs-in > h2, .floor .cs-in > .lede, .floor .cs-in > .proofline, .floor .fn, .floor .fl-rh, .floor .alt-mail, .floor .contact > div > h2, .floor .contact > div > .lede {
-      --fl-f: 20px; --fl-sp: 8px; /* the feather: it stays inside the section's own padding (32px here, 48px on desktop) */
-      background: rgb(var(--cs-rgb) / var(--fl-mask)); box-shadow: 0 0 var(--fl-f) var(--fl-sp) rgb(var(--cs-rgb) / var(--fl-mask)); }
-    .floor .fn { width: fit-content; }
-  }
-  @media (min-width: 960px) { .floor .cs-in > h2, .floor .cs-in > .lede, .floor .cs-in > .proofline, .floor .fn, .floor .fl-rh, .floor .alt-mail, .floor .contact > div > h2, .floor .contact > div > .lede { --fl-f: 28px; --fl-sp: 14px; } }
+  /* no patches behind text: the field is simply kept light enough to sit under the copy (Shane: the patches read as shadows) */
   .floor .wrap, .foot-site .wrap { max-width: calc(1312px + 2 * var(--gut)); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
@@ -3921,7 +3912,7 @@
      follow    how quickly it follows the pointer, per frame (the original was .12; lower is slower and calmer)
      mask      how much of the field the soft patch behind each headline and paragraph hides, 0 to 1 (0 = no masks)
      minWidth  below this window width (phones) the field is off: there the copy runs edge to edge, so it would only sit behind text */
-  var FIELD = { strands: 26, cross: 8, width: .8, ink: [.1, .13], crossInk: [.035, .04], orange: 3, orangeInk: [.24, .34], cursor: .55, follow: .07, mask: .9, minWidth: 700 };
+  var FIELD = { strands: 26, cross: 8, width: .8, ink: [.065, .085], crossInk: [.025, .03], orange: 3, orangeInk: [.16, .22], cursor: .55, follow: .07, mask: 0, minWidth: 700 }; /* lighter, no text patches (2026-10-17) */
   html.style.setProperty('--fl-mask', FIELD.mask);
   var field = (function () {
     var cv = $('field'); if (!cv || !cv.getContext) return null;
