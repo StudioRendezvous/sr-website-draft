@@ -530,10 +530,30 @@
   .pv-nav.prev { left: max(clamp(16px, 2.4vw, 32px), env(safe-area-inset-left)); } .pv-nav.next { right: max(clamp(16px, 2.4vw, 32px), env(safe-area-inset-right)); }
   .pv-nav svg { width: 13px; height: 13px; }
   dialog.pv .rp-bar[hidden] { display: none; }
-  @media (max-width: 640px) {
-    .pv-nav { width: 40px; height: 40px; margin-top: -20px; background: rgba(20, 20, 20, .62); }
-    .pv-nav.prev { left: 8px; } .pv-nav.next { right: 8px; }
+  /* phones held upright: the piece runs edge to edge with its name and place directly under it, and no control sits on the
+     art: close at the top, the steps in a bar at the bottom, a video's reel bar just above them (the script places the piece
+     between them, and the name under it through --capy) */
+  @media (max-width: 640px) and (min-height: 481px) {
+    dialog.pv .rp-top { justify-content: flex-end; padding-bottom: 0; background: none; }
+    .pv-t { position: absolute; top: var(--capy, 50%); left: max(var(--capx, 16px), env(safe-area-inset-left)); right: max(16px, env(safe-area-inset-right)); }
+    .pv-nav { top: auto; bottom: max(16px, env(safe-area-inset-bottom)); margin-top: 0; width: 48px; height: 48px; }
+    .pv-nav.prev { left: max(16px, env(safe-area-inset-left)); } .pv-nav.next { right: max(16px, env(safe-area-inset-right)); }
+    dialog.pv .rp-bar { bottom: calc(max(16px, env(safe-area-inset-bottom)) + 56px); padding: 0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)); background: none; }
+    dialog.pv.solo .rp-bar { bottom: max(16px, env(safe-area-inset-bottom)); }
   }
+  /* phones on their side: the piece as tall as the screen allows, the steps in the margins beside it */
+  @media (max-height: 480px) {
+    dialog.pv .rp-top { padding-bottom: 8px; background: none; }
+    dialog.pv .rp-bar { padding-top: 6px; background: none; } /* no scrim over the bottom of the art */
+    .pv-nav { width: 40px; height: 40px; margin-top: -20px; }
+    .pv-nav.prev { left: max(10px, env(safe-area-inset-left)); } .pv-nav.next { right: max(10px, env(safe-area-inset-right)); }
+  }
+  /* the piece you were just looking at, back in the sheet: only the small mark by its caption (and the outline that lets go),
+     never the selection's handles or size, until you move on */
+  .mo.back::before, .mo.back::after { opacity: 0 !important; }
+  .mo.back.hl:has(.mo-o:focus-visible), .mo.back.hl:hover { outline: 2px solid var(--accent) !important; outline-offset: 4px !important; box-shadow: none !important; transform: none !important; }
+  .mo.back.hl.was:has(.mo-o:focus-visible), .mo.back.hl.was:hover { outline-color: transparent !important; }
+  .mo.back.hl figcaption { color: var(--accent-text) !important; }
 
   /* ---------- page below the canvas: the same file, carried on down ----------
      Everything after the stage sits on the canvas floor (the same dot grid as the stage, both themes), in three tiers that
@@ -623,14 +643,13 @@
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
   .frames.c3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: stretch; }
-  /* Option cards: a body (title, lead, the case) and a footer row under a hairline (Details, the CTA, or Hourly's billing line).
+  /* Option cards: a body (title, lead, the case) and a footer row under a hairline (Details on every card, and the first card's CTA).
      Each row of components shares one height (auto layout: fill); the footer is pinned to the bottom edge, so the actions and
      hairlines line up across the row and the spare height sits between body and footer, never under the last line. */
   .card .c-ft { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
   .card .c-ft details.more { margin-top: 0; }
   .card .c-ft details.more[open] { flex-basis: 100%; } /* opened, the detail takes the row; the CTA drops under it */
   .card .c-ft .move-link { margin-top: 0; }
-  .card .c-ft > p { margin: 0; font-size: 15.5px; line-height: 1.45; color: var(--muted); }
   @media (min-width: 641px) { /* (phones stack one card per row, as before) */
     .frames.c3 > .card, .frames.c4 > .card { display: flex; flex-direction: column; }
     .frames.c3 > .card > .c-ft { margin-top: auto; }
@@ -1709,11 +1728,11 @@
     <div class="wrap"><div class="cs-in" data-cs="Engagement options" data-ind="3 options">
       <h2 id="togH">How we work together</h2>
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
-           Hourly's one-line detail is shown in place; the cards hug their content. NEW COPY: none (approved sentences, re-split). -->
+           Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
       <div class="frames c3">
         <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
         <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Your year is already on the calendar, so we commit to it. Invoiced at the start of the month. Hours and rates are reviewed each year.</p></details></div></div>
-        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><p>Invoiced at month end for the hours used.</p></div></div>
+        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Invoiced at month end for the hours used.</p></details></div></div>
       </div>
       <!-- Content Matterz back out of the accordion (Shane: "seems buried"). Fix 4: a quiet partner frame, lighter than the work,
            the two marks as one lockup with "15 years together · 10,000+ deliverables"; distinct in both themes (ink mark on light). -->
@@ -2879,6 +2898,10 @@
   var hlIO = null, hlT = 0;
   function hlStop() { if (hlIO) hlIO.disconnect(); hlIO = null; clearTimeout(hlT); hlT = 0; }
   function hlSettle() { hlStop(); var f = shMosaic.querySelector('.mo.hl:not(.was)'); if (f) f.classList.add('was'); }
+  /* back from the viewer, the piece holds only its mark until you move on: a key, a press, or the pointer leaving it */
+  function backOff() { var f = shMosaic.querySelector('.mo.back'); if (f) f.classList.remove('back'); }
+  sheet.addEventListener('keydown', backOff); sheet.addEventListener('pointerdown', backOff);
+  shMosaic.addEventListener('pointerout', function (e) { var f = e.target.closest && e.target.closest('.mo.back'); if (f && !f.contains(e.relatedTarget)) backOff(); });
   function hlArm(f) {
     hlIO = new IntersectionObserver(function (es) {
       if (!es[es.length - 1].isIntersecting) return;
@@ -3304,14 +3327,35 @@
   var pv = $('pv'), pvIn = $('pvIn'), pvStage = $('pvStage'), pvBar = $('pvBar'), pvSeek = $('pvSeek'), pvPlayB = $('pvPlay'), pvSnd = $('pvSnd'), pvFs = $('pvFs'), pvTime = $('pvTime'), pvLive = $('pvLive');
   var pvTiles = [], pvCur = null, pvAll = [], pvVid = null, pvBusy = 0, pvRaf = 0, pvDirty = false, pvLastT = '', pvScrub = null, pvPre = {}, pvSw = null, pvSwT = 0, pvOff = { x: 0, y: 0 };
   pvFs.hidden = !fsOK && !fsIOS; pvFs.innerHTML = ICON_FS;
-  /* the piece's box: as large as it fits between the top strip and the controls, at its own aspect */
+  /* the piece's box: as large as it fits between the controls, at its own aspect, and never past a picture's own pixels
+     (a small original shows at its natural size rather than blown up soft). Phones upright ('pp'): edge to edge, under the
+     close button and over the step bar (and a video's reel bar), with room for its name under it. Phones on their side
+     ('pl'): as tall as it can be, the steps in the side margins. */
+  var pvMQp = matchMedia('(max-width: 640px) and (min-height: 481px)'), pvMQl = matchMedia('(max-height: 480px)'), pvT = pv.querySelector('.pv-t'), pvNextB = $('pvNext'), pvPrevB = $('pvPrev');
+  function pvMode() { return pvMQl.matches ? 'pl' : pvMQp.matches ? 'pp' : 'd'; }
   function pvBox(d) {
-    var W0 = pvIn.clientWidth || innerWidth, H0 = pvIn.clientHeight || innerHeight, ph = W0 <= 640, vid = !!d[1];
-    var t = ph ? 64 : 80, b = vid ? (ph ? 124 : 136) : (ph ? 64 : 80), s = ph ? 0 : (W0 < 1000 ? 84 : 108);
-    var W = W0 - 2 * s, H = H0 - t - b, ar = d[2] / d[3], w = Math.min(W, H * ar), h = w / ar;
+    var W0 = pvIn.clientWidth || innerWidth, H0 = pvIn.clientHeight || innerHeight, m = pvMode(), vid = !!d[1], many = pvTiles.length > 1, cap = 0, t, b, s;
+    var R0 = pvIn.getBoundingClientRect(), xr = $('pvClose').getBoundingClientRect(), nr = pvNextB.getBoundingClientRect(), pr = pvPrevB.getBoundingClientRect();
+    if (m === 'pp') {
+      t = xr.bottom - R0.top + 12; cap = 44; s = 0;
+      b = (many && nr.height ? R0.bottom - nr.top + 12 : 24) + (vid ? 82 : 0);
+    } else {
+      t = m === 'pl' ? xr.bottom - R0.top + 6 : 80; b = vid ? (m === 'pl' ? 84 : 136) : (m === 'pl' ? 10 : 80);
+      s = m === 'pl' ? 12 : (W0 < 1000 ? 84 : 108);
+      if (many && nr.width) s = Math.max(s, R0.right - nr.left + 10, pr.right - R0.left + 10); /* the steps never sit on the art */
+    }
+    var W = W0 - 2 * s, H = H0 - t - b - cap, ar = d[2] / d[3], w = Math.min(W, H * ar);
+    if (!vid) w = Math.min(w, d[2]);
+    var h = w / ar;
     return { x: Math.round((W0 - w) / 2), y: Math.round(t + (H - h) / 2), w: Math.round(w), h: Math.round(h) };
   }
   function pvPlace(it) { var B = it.box; it.wrap.style.left = B.x + 'px'; it.wrap.style.top = B.y + 'px'; it.wrap.style.width = B.w + 'px'; it.wrap.style.height = B.h + 'px'; }
+  /* the piece's name and place ("3 / 8"): in the top strip, or on upright phones directly under the piece */
+  function pvCapSet(it) {
+    var n = pvTiles.length; $('pvCap').textContent = it.d[4]; $('pvPos').textContent = n > 1 ? (it.i + 1) + ' / ' + n : '';
+    pvCapAt(it);
+  }
+  function pvCapAt(it) { pvIn.style.setProperty('--capy', (it.box.y + it.box.h + 14) + 'px'); pvIn.style.setProperty('--capx', Math.max(16, it.box.x) + 'px'); } /* under it, from its left edge */
   function pvMake(i) {
     var fig = pvTiles[i], d = byId[curJob].items[+fig.dataset.i], w = document.createElement('div');
     var it = { i: i, fig: fig, d: d, wrap: w, box: pvBox(d), v: null };
@@ -3335,11 +3379,10 @@
     var k = pvAll.indexOf(it); if (k >= 0) pvAll.splice(k, 1);
     if (!pvCur || pvCur.fig !== it.fig) it.fig.classList.remove('lent');
   }
-  function pvShow(i) {
-    var it = pvCur = pvMake(i), n = pvTiles.length;
-    $('pvCap').textContent = it.d[4]; $('pvPos').textContent = n > 1 ? (i + 1) + ' / ' + n : '';
+  function pvShow(i, later) {
+    var it = pvCur = pvMake(i);
+    if (!later) pvCapSet(it);
     pvBar.hidden = !it.v; pvLastT = '';
-    pv.querySelectorAll('.pv-nav').forEach(function (b) { b.hidden = n < 2; });
     return it;
   }
   function pvPreload(i) {
@@ -3409,7 +3452,7 @@
     pvFs.innerHTML = on ? ICON_FS_X : ICON_FS; pvFs.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
     if (pv.open) requestAnimationFrame(pvRelayout);
   });
-  function pvRelayout() { pvAll.forEach(function (it) { it.box = pvBox(it.d); pvPlace(it); }); }
+  function pvRelayout() { pvAll.forEach(function (it) { it.box = pvBox(it.d); pvPlace(it); }); if (pvCur) pvCapAt(pvCur); }
   addEventListener('resize', function () { if (pv.open) pvRelayout(); });
   /* the grow: the piece's box travels from its tile's crop (object-fit: cover there) to its whole self, clipped to a window
      that opens from the tile's rect to the piece's own. transform and clip only. p = 0 at the tile, 1 in the viewer. */
@@ -3426,7 +3469,8 @@
     var R = boxR(fig.getBoundingClientRect());
     if (MOTION) { pv.style.setProperty('--bgo', 0); pv.style.setProperty('--ui', 0); }
     pv.showModal();
-    var it = pvShow(i);
+    pv.querySelectorAll('.pv-nav').forEach(function (b) { b.hidden = pvTiles.length < 2; }); pv.classList.toggle('solo', pvTiles.length < 2);
+    var it = pvShow(i); /* (a picture still on its thumbnail fetches the full file now and swaps it in once decoded: pvMake) */
     pvStart(it, true); /* you asked for this piece: a video plays (muted unless Sound is on), Motion on or off */
     $('pvClose').focus({ preventScroll: true });
     if (!MOTION) { pvPreload(i); return; }
@@ -3451,6 +3495,7 @@
     var R = boxR(fig.getBoundingClientRect()), F = { x: it.box.x + pvOff.x, y: it.box.y + pvOff.y, w: it.box.w, h: it.box.h };
     var bg0 = parseFloat(pv.style.getPropertyValue('--bgo')) || 1; pvOff = { x: 0, y: 0 };
     pvAll.slice().forEach(function (o) { if (o !== it) pvDrop(o); }); /* anything still sliding out goes now */
+    it.wrap.getAnimations().forEach(function (a) { a.cancel(); }); it.wrap.style.opacity = ''; /* mid-entrance: it travels home whole */
     pvBusy = 1; var t0 = performance.now(), dur = 380 * (window.__morphSlow || 1);
     function paint(t) { var p = 1 - EASE(t); pvFlip(it, p, R, F); pv.style.setProperty('--bgo', bg0 * smooth(0, .8, p)); pv.style.setProperty('--ui', 1 - smooth(0, .3, t)); }
     paint(0);
@@ -3461,7 +3506,7 @@
     })(t0);
   }
   pv.addEventListener('close', function () {
-    pvStop(); pvBusy = 0; pvScrub = null; pvSw = null;
+    pvStop(); pvBusy = 0; pvScrub = null; pvSw = null; clearTimeout(pvCapT); pvT.style.opacity = '';
     var it = pvCur, di = it && it.fig.dataset.i; pvCur = null;
     pvAll.slice().forEach(pvDrop);
     pvTiles.forEach(function (f) { f.classList.remove('lent'); });
@@ -3470,23 +3515,41 @@
     if (pvDirty && curJob) { pvDirty = false; renderMosaic(byId[curJob], -1); }
     /* focus back on the piece you were on (it becomes the mosaic's tab stop), and the sheet's videos pick up again */
     var fig = di != null && shMosaic.querySelector('.mo[data-i="' + di + '"]'), b = fig && fig.querySelector('.mo-o');
-    if (b) rove(b, true);
+    if (b) {
+      /* "you were here": the mark moves to this piece and settles as the arrival's does (the outline lets go after a beat,
+         or at the first touch, wheel or key); focus comes back with it but without the selection's handles or size */
+      hlStop(); shMosaic.querySelectorAll('.mo.hl, .mo.back').forEach(function (f) { if (f !== fig) f.classList.remove('hl', 'was', 'back'); });
+      fig.classList.remove('was'); fig.classList.add('hl', 'back');
+      rove(b, true); hlArm(fig);
+    }
     if (vidIO) shMosaic.querySelectorAll('video').forEach(function (v) { vidIO.unobserve(v); vidIO.observe(v); });
   });
   pv.addEventListener('cancel', function (e) { e.preventDefault(); pvClose(); }); /* Esc */
   /* stepping through the job's pieces: the old one slips away, the new one comes in from the side it was asked for */
-  function pvGo(dir, x0) {
+  /* in turn, never together: the old one slides on toward the way you are going and fades (100ms), then the new one slides
+     in from the other side (130ms). Two pieces of different shapes are never on screen at once. Transform and opacity only;
+     its name changes in the gap between them. Motion off: an instant swap. */
+  var PV_OUT = 100, PV_IN = 130, pvCapT = 0;
+  function pvGo(dir) {
     if (!pv.open || pvBusy || pvTiles.length < 2 || !pvCur) return;
     var old = pvCur, n = pvTiles.length, i = (old.i + dir + n) % n;
+    pvAll.slice().forEach(function (o) { if (o !== old) pvDrop(o); }); /* one still leaving goes now */
     if (old.v) old.v.pause();
-    var it = pvShow(i); pvOff = { x: 0, y: 0 };
+    /* from wherever the old one is now (under a finger mid-swipe, or still coming in) */
+    var cs = getComputedStyle(old.wrap), o0 = parseFloat(cs.opacity), tf0 = cs.transform === 'none' ? 'translateX(0px)' : cs.transform;
+    old.wrap.getAnimations().forEach(function (a) { a.cancel(); }); old.wrap.style.transform = ''; old.wrap.style.opacity = '';
+    var it = pvShow(i, MOTION); pvOff = { x: 0, y: 0 };
     pvStart(it, MOTION);
-    pvLive.textContent = it.d[4] + ', ' + $('pvPos').textContent;
+    pvLive.textContent = it.d[4] + (n > 1 ? ', ' + (i + 1) + ' / ' + n : '');
     pvPreload(i);
-    if (!MOTION) { pvDrop(old); return; }
-    var W = pvIn.clientWidth; x0 = x0 || 0; old.wrap.style.transform = '';
-    old.wrap.animate([{ transform: 'translateX(' + x0 + 'px)', opacity: 1 }, { transform: 'translateX(' + (x0 - dir * Math.max(120, W * .22)) + 'px)', opacity: 0 }], { duration: 260, easing: 'cubic-bezier(.4, 0, .7, .2)', fill: 'forwards' }).onfinish = function () { pvDrop(old); };
-    it.wrap.animate([{ transform: 'translateX(' + (dir * Math.max(64, W * .1)) + 'px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 440, delay: 50, easing: RP_EASE, fill: 'backwards' });
+    clearTimeout(pvCapT); pvT.getAnimations().forEach(function (a) { a.cancel(); });
+    if (!MOTION) { pvDrop(old); pvT.style.opacity = ''; return; }
+    var W = pvIn.clientWidth, D = Math.round(Math.max(36, Math.min(64, W * .045))), x0 = new DOMMatrix(tf0).m41;
+    old.wrap.animate([{ transform: tf0, opacity: o0 }, { transform: 'translateX(' + (x0 - dir * D) + 'px)', opacity: 0 }], { duration: PV_OUT, easing: 'cubic-bezier(.4, 0, 1, 1)', fill: 'forwards' }).onfinish = function () { pvDrop(old); };
+    it.wrap.animate([{ transform: 'translateX(' + (dir * D) + 'px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: PV_IN, delay: PV_OUT, easing: 'cubic-bezier(0, 0, .2, 1)', fill: 'backwards' });
+    var c0 = parseFloat(getComputedStyle(pvT).opacity); pvT.style.opacity = '';
+    pvT.animate([{ opacity: c0 }, { opacity: 0, offset: PV_OUT / (PV_OUT + PV_IN) }, { opacity: 1 }], { duration: PV_OUT + PV_IN, easing: 'linear' });
+    pvCapT = setTimeout(function () { if (pvCur === it) pvCapSet(it); }, PV_OUT);
   }
   $('pvPrev').addEventListener('click', function () { pvGo(-1); });
   $('pvNext').addEventListener('click', function () { pvGo(1); });
@@ -3503,12 +3566,20 @@
     pvSw = { id: e.pointerId, x: e.clientX, y: e.clientY, t0: performance.now(), ax: '' };
     try { pvStage.setPointerCapture(e.pointerId); } catch (_) {}
   });
+  /* the piece follows the finger (fading a little as it goes, its name with it), then completes or springs back */
   pvStage.addEventListener('pointermove', function (e) {
     if (!pvSw || pvSw.id !== e.pointerId || !pvCur) return;
-    var dx = e.clientX - pvSw.x, dy = e.clientY - pvSw.y;
-    if (!pvSw.ax) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; pvSw.ax = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; }
-    if (pvSw.ax === 'x') pvOff = { x: pvTiles.length > 1 ? dx : dx * .25, y: 0 };
-    else { pvOff = { x: 0, y: Math.max(0, dy) }; pv.style.setProperty('--bgo', 1 - Math.min(.55, pvOff.y / 420)); }
+    var dx = e.clientX - pvSw.x, dy = e.clientY - pvSw.y, W = pvIn.clientWidth;
+    if (!pvSw.ax) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; pvSw.ax = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      pvAll.slice().forEach(function (o) { if (o !== pvCur) pvDrop(o); }); /* caught mid-step: the step ends here */
+      pvCur.wrap.getAnimations().forEach(function (a) { a.cancel(); }); pvT.getAnimations().forEach(function (a) { a.cancel(); });
+      clearTimeout(pvCapT); pvCapSet(pvCur);
+    }
+    if (pvSw.ax === 'x') {
+      var many = pvTiles.length > 1; pvOff = { x: many ? dx : dx * .25, y: 0 };
+      if (many && MOTION) { var k = Math.min(1, Math.abs(dx) / (W * .5)); pvCur.wrap.style.opacity = 1 - .5 * k; pvT.style.opacity = 1 - Math.min(1, k * 2); }
+    } else { pvOff = { x: 0, y: Math.max(0, dy) }; pv.style.setProperty('--bgo', 1 - Math.min(.55, pvOff.y / 420)); pvT.style.opacity = 1 - Math.min(1, pvOff.y / 120); }
     pvCur.wrap.style.transform = 'translate(' + pvOff.x + 'px,' + pvOff.y + 'px)';
   });
   function pvSwEnd(e) {
@@ -3518,8 +3589,12 @@
     var W = pvIn.clientWidth, o = pvOff, fast = performance.now() - s.t0 < 260;
     if (e.type === 'pointerup' && s.ax === 'x' && pvTiles.length > 1 && (Math.abs(o.x) > Math.max(56, W * .16) || (fast && Math.abs(o.x) > 28))) { pvGo(o.x < 0 ? 1 : -1, o.x); return; }
     if (e.type === 'pointerup' && s.ax === 'y' && (o.y > 110 || (fast && o.y > 40))) { pvClose(); return; }
-    pvOff = { x: 0, y: 0 }; pvCur.wrap.style.transform = ''; pv.style.removeProperty('--bgo');
-    if (MOTION) pvCur.wrap.animate([{ transform: 'translate(' + o.x + 'px,' + o.y + 'px)' }, { transform: 'none' }], { duration: 300, easing: RP_EASE });
+    var op = parseFloat(pvCur.wrap.style.opacity) || 1, cp = pvT.style.opacity === '' ? 1 : parseFloat(pvT.style.opacity);
+    pvOff = { x: 0, y: 0 }; pvCur.wrap.style.transform = ''; pvCur.wrap.style.opacity = ''; pvT.style.opacity = ''; pv.style.removeProperty('--bgo');
+    if (MOTION) {
+      pvCur.wrap.animate([{ transform: 'translate(' + o.x + 'px,' + o.y + 'px)', opacity: op }, { transform: 'none', opacity: 1 }], { duration: 300, easing: RP_EASE });
+      if (cp < 1) pvT.animate([{ opacity: cp }, { opacity: 1 }], { duration: 200 });
+    }
   }
   pvStage.addEventListener('pointerup', pvSwEnd); pvStage.addEventListener('pointercancel', pvSwEnd);
   /* the dim under it never scrolls the sheet */
