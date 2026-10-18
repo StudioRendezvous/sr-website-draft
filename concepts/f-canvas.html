@@ -771,7 +771,29 @@
   .flow.ge-1 .st-1 .bar i, .flow.ge-2 .st-2 .bar i, .flow.ge-3 .st-3 .bar i, .flow.ge-4 .st-4 .bar i, .flow.ge-5 .st-5 .bar i, .flow.ge-6 .st-6 .bar i { transform: none; }
   .flow.auto .fl-steps button[aria-current] .bar i { transform: scaleX(0); animation: flfill var(--d, 4.5s) linear forwards; }
   .flow.auto:not(.run) .fl-steps button[aria-current] .bar i { animation-play-state: paused; }
-  @keyframes flfill { to { transform: none; } }
+  /* step progress as a ring around the number (Shane): the ring fills while a step plays, then the step turns into a check.
+     No underline bars. The fill animation keeps the name flfill: autoplay advances on its animationend. */
+  .js .fl-steps button { grid-template-columns: 44px minmax(0, 1fr); align-items: start; padding: 12px 14px 12px 10px; }
+  @media (min-width: 960px) { .js .fl-steps .tx { padding-top: 7px; } } /* the title's cap height sits centred on the ring */
+  .js .fl-steps .n-wrap { display: grid; place-items: center; }
+  .fl-steps .rg { position: relative; width: 32px; height: 32px; display: grid; place-items: center; }
+  .fl-steps .rg svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+  .fl-steps .rg circle { fill: none; stroke-width: 2; }
+  .fl-steps .rg .tr { stroke: var(--line-2); }
+  .fl-steps .rg .pg { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 100.53; stroke-dashoffset: 100.53; }
+  .js .fl-steps .rg .n { padding: 0; font: 500 11px/1 var(--mono); color: inherit; }
+  .js .fl-steps button[aria-current] .rg .n { color: var(--accent-text); }
+  .js .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 0; } /* the step you're on: a full ring */
+  .flow.auto .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 100.53; animation: flfill var(--d, 4.5s) linear forwards; }
+  .flow.auto:not(.run) .fl-steps button[aria-current] .rg .pg { animation-play-state: paused; }
+  @keyframes flfill { to { stroke-dashoffset: 0; } }
+  .js .fl-steps .rg .ck { position: absolute; inset: 0; width: auto; height: auto; top: 0; right: 0; display: grid; place-items: center; border-radius: 50%; background: var(--ok); transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.8, .5, 1); }
+  .js .fl-steps .rg .ck::after { content: ""; width: 10px; height: 5px; margin-top: -3px; border: solid #fff; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
+  :root[data-theme="dark"] .js .fl-steps .rg .ck::after { border-color: #1c1c1c; }
+  .flow.ge-2 .st-1 .rg .n, .flow.ge-3 .st-2 .rg .n, .flow.ge-4 .st-3 .rg .n, .flow.ge-5 .st-4 .rg .n, .flow.ge-6 .st-5 .rg .n, .flow.ge-6 .st-6 .rg .n { opacity: 0; }
+  .flow.ge-2 .st-1 .rg .pg, .flow.ge-3 .st-2 .rg .pg, .flow.ge-4 .st-3 .rg .pg, .flow.ge-5 .st-4 .rg .pg, .flow.ge-6 .st-5 .rg .pg, .flow.ge-6 .st-6 .rg .pg { stroke-dashoffset: 0; animation: none; }
+  .still .fl-steps .rg .ck { transition: none; }
+  @media (max-width: 959px) { .js .fl-steps button { grid-template-columns: 1fr; padding: 0; justify-items: center; } .fl-steps .rg { width: 30px; height: 30px; } }
   /* a small green check in the top-right corner of each step tab once it is done */
   .js .fl-steps .ck { display: grid; place-items: center; position: absolute; right: 9px; top: 9px; width: 18px; height: 18px; border-radius: 50%; background: var(--ok); transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.8, .5, 1); }
   .js .fl-steps .ck::after { content: ""; width: 7px; height: 3.5px; margin-top: -2px; border: solid #fff; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
@@ -1604,12 +1626,12 @@
         <div class="fl-rail">
           <div class="fl-rh"><span class="mono">Your job, start to finish</span><button class="fl-play" id="flPlay" type="button" hidden></button></div>
           <ol class="fl-steps" id="flSteps" aria-label="Steps">
-            <li class="st-1" style="--d:4.2s"><button type="button" data-step="1"><span class="n">01</span><span class="tx"><b>Add a job</b><span>A brief, any files and the deadline.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
-            <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n">02</span><span class="tx"><b>We’re on it</b><span>A senior creative who knows your brand picks it up, and you see when to expect a first look.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
-            <li class="st-3" style="--d:5s"><button type="button" data-step="3"><span class="n">03</span><span class="tx"><b>Best first draft</b><span>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
-            <li class="st-4" style="--d:6.5s"><button type="button" data-step="4"><span class="n">04</span><span class="tx"><b>Review</b><span>Proofs and revisions stay with the job. Approve it, or ask for changes, right on the board.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
-            <li class="st-5" style="--d:5.5s"><button type="button" data-step="5"><span class="n">05</span><span class="tx"><b>Delivered</b><span>Final files, ready to use, and source files on request.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
-            <li class="st-6" style="--d:5s"><button type="button" data-step="6" aria-current="step"><span class="n">06</span><span class="tx"><b>Done</b><span>Marked complete. The next job lands on a team that already knows your brand.</span></span><span class="ck" aria-hidden="true"></span><span class="bar" aria-hidden="true"><i></i></span></button></li>
+            <li class="st-1" style="--d:4.2s"><button type="button" data-step="1"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">01</span><span class="ck"></span></span></span><span class="tx"><b>Add a job</b><span>A brief, any files and the deadline.</span></span></button></li>
+            <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">02</span><span class="ck"></span></span></span><span class="tx"><b>We’re on it</b><span>A senior creative who knows your brand picks it up, and you see when to expect a first look.</span></span></button></li>
+            <li class="st-3" style="--d:5s"><button type="button" data-step="3"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">03</span><span class="ck"></span></span></span><span class="tx"><b>Best first draft</b><span>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</span></span></button></li>
+            <li class="st-4" style="--d:6.5s"><button type="button" data-step="4"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">04</span><span class="ck"></span></span></span><span class="tx"><b>Review</b><span>Proofs and revisions stay with the job. Approve it, or ask for changes, right on the board.</span></span></button></li>
+            <li class="st-5" style="--d:5.5s"><button type="button" data-step="5"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">05</span><span class="ck"></span></span></span><span class="tx"><b>Delivered</b><span>Final files, ready to use, and source files on request.</span></span></button></li>
+            <li class="st-6" style="--d:5s"><button type="button" data-step="6" aria-current="step"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">06</span><span class="ck"></span></span></span><span class="tx"><b>Done</b><span>Marked complete. The next job lands on a team that already knows your brand.</span></span></button></li>
           </ol>
           <p class="fl-cap" id="flCap" aria-hidden="true"></p>
         </div>
