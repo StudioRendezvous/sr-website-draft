@@ -514,6 +514,27 @@
     .rp-end svg.mk { width: 40px; height: 40px; } .rp-end h2 { font-size: 44px; margin-top: 12px; } .rp-end p { font-size: 17px; margin-top: 8px; } .rp-end .row { margin-top: 16px; }
   }
 
+  /* ---------- the piece viewer: one piece from a job sheet, large, over the sheet (the reel's dark stage and controls) ---------- */
+  dialog.rp.pv, dialog.rp.pv .rp-in { background: transparent; }
+  dialog.rp.pv .rp-in:fullscreen { background: #0b0b0b; }
+  .pv-bg { position: absolute; inset: 0; background: rgba(11, 11, 11, .9); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); opacity: var(--bgo, 1); } /* the sheet stays there, softly, underneath */
+  .pv-stage { position: absolute; inset: 0; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .pv-it { position: absolute; transform-origin: 0 0; background: var(--ph, #222); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+  .pv-it img, .pv-it video { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+  .pv-it.vid { cursor: pointer; }
+  dialog.pv .rp-top, dialog.pv .rp-bar, dialog.pv .pv-nav { opacity: var(--ui, 1); }
+  dialog.pv .rp-top { padding-bottom: 28px; }
+  .pv-t { min-width: 0; } .pv-t b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+  .pv-t span { font-variant-numeric: tabular-nums; }
+  .pv-nav { position: absolute; top: 50%; z-index: 5; margin-top: -23px; width: 46px; height: 46px; }
+  .pv-nav.prev { left: max(clamp(16px, 2.4vw, 32px), env(safe-area-inset-left)); } .pv-nav.next { right: max(clamp(16px, 2.4vw, 32px), env(safe-area-inset-right)); }
+  .pv-nav svg { width: 13px; height: 13px; }
+  dialog.pv .rp-bar[hidden] { display: none; }
+  @media (max-width: 640px) {
+    .pv-nav { width: 40px; height: 40px; margin-top: -20px; background: rgba(20, 20, 20, .62); }
+    .pv-nav.prev { left: 8px; } .pv-nav.next { right: 8px; }
+  }
+
   /* ---------- page below the canvas: the same file, carried on down ----------
      Everything after the stage sits on the canvas floor (the same dot grid as the stage, both themes), in three tiers that
      mirror Figma's own: a SECTION (.cs: a dark name chip above-left, a tinted area), FRAMES inside it (.fg: a mono frame name
@@ -1283,9 +1304,43 @@
   .mo img, .mo video { width: 100%; height: 100%; object-fit: cover; }
   .mo figcaption { position: absolute; left: 0; bottom: 100%; padding-bottom: 6px; font: 400 11px var(--mono); letter-spacing: .03em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .mo.hl { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .mo { scroll-margin: 40px 0; }
   .mo .play { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; background: rgba(28,28,28,.86); color: #fff; border: 0; border-radius: 999px; padding: 9px 14px 8px 12px; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
   .mo .play svg { width: 9px; height: 9px; }
   .motion .mo .play.auto { display: none; }
+  .mo .play { z-index: 2; pointer-events: none; } /* a label now: the whole tile opens the piece */
+  /* every piece in the sheet answers like a frame on the canvas: the selection (orange outline, four handles, the live W × H
+     pill) under a hovering mouse or keyboard focus, a small lift, and a click opens it large in the viewer */
+  .mo-o { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; padding: 0; border: 0; background: none; cursor: zoom-in; -webkit-tap-highlight-color: transparent; }
+  .mo-o:focus-visible { outline: none; }
+  .mo::before { content: ""; position: absolute; inset: -5px; z-index: 3; pointer-events: none; opacity: 0;
+    background: linear-gradient(var(--surface) 0 0) 1.5px 1.5px / 6px 6px, linear-gradient(var(--surface) 0 0) right 1.5px top 1.5px / 6px 6px,
+      linear-gradient(var(--surface) 0 0) left 1.5px bottom 1.5px / 6px 6px, linear-gradient(var(--surface) 0 0) right 1.5px bottom 1.5px / 6px 6px,
+      linear-gradient(var(--accent) 0 0) 0 0 / 9px 9px, linear-gradient(var(--accent) 0 0) 100% 0 / 9px 9px,
+      linear-gradient(var(--accent) 0 0) 0 100% / 9px 9px, linear-gradient(var(--accent) 0 0) 100% 100% / 9px 9px;
+    background-repeat: no-repeat; }
+  .mo::after { content: attr(data-dims); position: absolute; left: 50%; top: 100%; z-index: 4; transform: translate(-50%, 8px); background: var(--accent); color: #1c1c1c; font: 500 11px/1 var(--mono); padding: 4px 6px 3px; border-radius: 3px; white-space: nowrap; pointer-events: none; opacity: 0; }
+  .mo:not([data-dims])::after { display: none; }
+  .mo:has(.mo-o:focus-visible) { outline: 1.5px solid var(--accent); outline-offset: 0; z-index: 2; box-shadow: 0 18px 36px -18px var(--sh2); }
+  .mo:has(.mo-o:focus-visible)::before, .mo:has(.mo-o:focus-visible)::after { opacity: 1; }
+  .mo:has(.mo-o:focus-visible) figcaption { color: var(--accent-text); }
+  @media (hover: hover) {
+    dialog.sheet:not(.mph) .mo:hover { outline: 1.5px solid var(--accent); outline-offset: 0; z-index: 2; box-shadow: 0 18px 36px -18px var(--sh2); }
+    dialog.sheet:not(.mph) .mo:hover::before, dialog.sheet:not(.mph) .mo:hover::after { opacity: 1; }
+    dialog.sheet:not(.mph) .mo:hover figcaption { color: var(--accent-text); }
+    .motion dialog.sheet:not(.mph) .mo:hover { transform: translateY(-2px); }
+  }
+  @media (hover: none) { .mo::after { display: none; } } /* no size pills on touch */
+  .motion .mo { transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+  .motion .mo::before, .motion .mo::after { transition: opacity .12s; }
+  .motion .mo:has(.mo-o:focus-visible) { transform: translateY(-2px); }
+  /* "you came from here": the piece you tapped arrives outlined, then the outline lets go (after a beat, or the first touch,
+     wheel or key) and a small orange mark stays by its caption */
+  .mo.hl figcaption { color: var(--accent-text); }
+  .mo.hl figcaption::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 1px 0; background: var(--accent); }
+  .mo.hl.was { outline-color: transparent; }
+  .motion .mo.hl { transition: outline-color .9s ease, transform .2s var(--ease), box-shadow .2s var(--ease); }
+  .mo.lent { visibility: hidden; } /* while its picture is up in the viewer, or travelling to and from it */
   /* version history: drag to compare rounds */
   .vh-wrap { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 14px; }
   @media (max-width: 760px) { .vh-wrap { grid-template-columns: 1fr; } }
@@ -1808,6 +1863,33 @@
     </div>
   </div>
   <div class="morph" id="morph" aria-hidden="true"><img alt="" decoding="sync"></div>
+</dialog>
+
+<!-- The piece viewer: one piece from the job sheet, large, over the sheet. Its name is the piece's own caption.
+     Controls reuse the reel's labels ("Play", "Pause", "Seek", "Sound", "On", "Off", "Full screen", "Exit full screen", "Close").
+     NEW COPY: "Previous piece", "Next piece" (button labels) -->
+<dialog class="rp pv" id="pv" aria-labelledby="pvCap">
+ <div class="rp-in" id="pvIn">
+  <div class="pv-bg"></div>
+  <div class="pv-stage" id="pvStage"></div>
+  <div class="rp-top">
+    <p class="rp-t pv-t"><svg viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></svg><b id="pvCap"></b><span id="pvPos"></span></p>
+    <button class="rp-b x" type="button" id="pvClose" aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  </div>
+  <button class="rp-b pv-nav prev" type="button" id="pvPrev" aria-label="Previous piece"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1L3 6l5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  <button class="rp-b pv-nav next" type="button" id="pvNext" aria-label="Next piece"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  <div class="rp-bar" id="pvBar" hidden>
+    <div class="rp-seek" id="pvSeek" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00"><span class="tk"><span class="bf"></span><span class="pl"></span></span><span class="th"></span></div>
+    <div class="rp-row">
+      <button class="rp-b pp" type="button" id="pvPlay" aria-label="Play"></button>
+      <span class="rp-time" id="pvTime" aria-hidden="true">0:00<span> / 0:00</span></span>
+      <span class="sp"></span>
+      <button class="rp-snd" type="button" id="pvSnd" role="switch" aria-checked="false"><span id="pvSndI"></span><span class="lbl">Sound</span><span class="tr" aria-hidden="true"></span><span class="st" aria-hidden="true">Off</span></button>
+      <button class="rp-b" type="button" id="pvFs" aria-label="Full screen" hidden></button>
+    </div>
+  </div>
+  <span class="vh" id="pvLive" aria-live="polite" aria-atomic="true"></span>
+ </div>
 </dialog>
 
 <!-- the list: every job as a popup. NEW COPY: "Close the list"; the heading, label and rows reuse "Selected work", "List view · every job on the canvas", the job titles, captions and counts -->
@@ -2602,7 +2684,7 @@
   /* Every way the sheet closes goes through here. The dialog hands focus back to the frame it opened from as it closes; that
      hand-back (and the one in the close handler) must never read as keyboard focus and fly the camera to the frame, which on a
      phone left the canvas half empty and the next tap landing nowhere. */
-  function shutSheet() { if (!sheet.open) return; quietUntil = performance.now() + 120; quietFocus = true; try { sheet.close(); } finally { quietFocus = false; } }
+  function shutSheet() { if (!sheet.open) return; if (pv.open) pv.close(); quietUntil = performance.now() + 120; quietFocus = true; try { sheet.close(); } finally { quietFocus = false; } }
   /* and however a dialog lets go of focus (a browser-forced close included), what lands on a frame next is a hand-back, not navigation */
   document.addEventListener('focusout', function (e) { if (e.target.closest && e.target.closest('dialog')) quietUntil = performance.now() + 120; }, true);
   /* Frame -> sheet is one gesture on one clock: the sheet's window grows out of the frame while the frame's picture travels,
@@ -2800,7 +2882,37 @@
     }, wait);
   }
   /* a touch, click, wheel or key anywhere in the sheet, or a scroll of your own while the title holds, cancels the glide */
-  ['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(function (ev) { sheet.addEventListener(ev, function () { if (glideT || glideRaf) glideStop(); }, { passive: true }); });
+  ['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(function (ev) { sheet.addEventListener(ev, function () { if (glideT || glideRaf) glideStop(); if (hlIO || hlT) hlSettle(); }, { passive: true }); });
+  /* "you came from here": the tapped piece's outline holds for a beat once it is on screen (after the morph lands), then lets
+     go, leaving the small mark by its caption. The first touch, wheel or key in the sheet lets it go at once. */
+  var hlIO = null, hlT = 0;
+  function hlStop() { if (hlIO) hlIO.disconnect(); hlIO = null; clearTimeout(hlT); hlT = 0; }
+  function hlSettle() { hlStop(); var f = shMosaic.querySelector('.mo.hl:not(.was)'); if (f) f.classList.add('was'); }
+  function hlArm(f) {
+    hlIO = new IntersectionObserver(function (es) {
+      if (!es[es.length - 1].isIntersecting) return;
+      hlIO.disconnect(); hlIO = null; hlT = setTimeout(hlSettle, 1200 + (morphing ? 520 : 0));
+    }, { root: shScroll, threshold: .3 });
+    hlIO.observe(f);
+  }
+  /* the mosaic: hover or focus shows a piece's live size; arrows move between pieces (one tab stop); a click opens the viewer */
+  function rove(b, focus) { shMosaic.querySelectorAll('.mo-o').forEach(function (x) { x.tabIndex = x === b ? 0 : -1; }); if (focus) b.focus({ preventScroll: true }); }
+  function moDims(fig) { if (fig) fig.setAttribute('data-dims', fig.offsetWidth + ' × ' + fig.offsetHeight); }
+  shMosaic.addEventListener('pointerover', function (e) { if (e.pointerType === 'mouse') moDims(e.target.closest && e.target.closest('.mo')); });
+  shMosaic.addEventListener('focusin', function (e) { var b = e.target.closest && e.target.closest('.mo-o'); if (!b) return; moDims(b.parentNode); if (b.tabIndex !== 0) rove(b); });
+  shMosaic.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.mo-o'); if (b) pvOpen(b.parentNode); });
+  shMosaic.addEventListener('keydown', function (e) {
+    var b = e.target.closest && e.target.closest('.mo-o'), k = e.key; if (!b || e.metaKey || e.ctrlKey || e.altKey) return;
+    var all = [].slice.call(shMosaic.querySelectorAll('.mo-o')), i = all.indexOf(b), to = null;
+    if (k === 'ArrowRight') to = all[i + 1]; else if (k === 'ArrowLeft') to = all[i - 1];
+    else if (k === 'Home') to = all[0]; else if (k === 'End') to = all[all.length - 1];
+    else if (k === 'ArrowDown' || k === 'ArrowUp') {
+      var rows = [].slice.call(shMosaic.querySelectorAll('.mrow')), row = rows[rows.indexOf(b.closest('.mrow')) + (k === 'ArrowDown' ? 1 : -1)];
+      if (row) { var r0 = b.getBoundingClientRect(), cx = r0.left + r0.width / 2, bd = 1e9; row.querySelectorAll('.mo-o').forEach(function (x) { var r = x.getBoundingClientRect(), dd = Math.abs(r.left + r.width / 2 - cx); if (dd < bd) { bd = dd; to = x; } }); }
+    } else return;
+    e.preventDefault();
+    if (to && to !== b) { rove(to, true); to.parentNode.scrollIntoView({ block: 'nearest', behavior: MOTION ? 'smooth' : 'auto' }); }
+  });
   shScroll.addEventListener('scroll', function () { if (glideT && Math.abs(shScroll.scrollTop - holdTop) > 4) glideStop(); }, { passive: true });
   function closeSheet() {
     if (!sheet.open || morphing) return;
@@ -2895,7 +3007,8 @@
     vidIO = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         var v = en.target;
-        if (en.isIntersecting) { if (MOTION) { if (!v.getAttribute('src')) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function () {}); } }
+        if (v === pvVid) return; /* up in the viewer: the viewer runs it */
+        if (en.isIntersecting && !pv.open) { if (MOTION) { if (!v.getAttribute('src')) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function () {}); } }
         else v.pause();
       });
     }, { root: shScroll, threshold: 0.2 });
@@ -2911,19 +3024,24 @@
           var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.poster = T + d[0]; v.dataset.src = M + d[1]; sharpen(v, M + d[0]);
           v.setAttribute('aria-label', d[4]);
           fig.appendChild(v);
-          var pb = document.createElement('button'); pb.type = 'button'; pb.className = 'play auto'; pb.innerHTML = ICON_PLAY + '<span>Play</span>';
-          pb.addEventListener('click', function () { if (!v.getAttribute('src')) v.src = v.dataset.src; if (v.paused) { v.play(); v.controls = true; pb.hidden = true; } });
-          fig.appendChild(pb);
+          var pb = document.createElement('span'); pb.className = 'play auto'; pb.setAttribute('aria-hidden', 'true'); pb.innerHTML = ICON_PLAY + '<span>Play</span>';
+          fig.appendChild(pb); fig._v = v;
           vidIO.observe(v);
         } else {
           var im = document.createElement('img'); im.decoding = 'async'; im.src = T + d[0]; im.alt = d[4]; fig.appendChild(im); sharpen(im, M + d[0]);
         }
         var cap = document.createElement('figcaption'); cap.textContent = d[4]; fig.appendChild(cap);
+        /* the whole tile is one button that opens the piece in the viewer (one tab stop for the mosaic: arrows move inside it) */
+        var ob = document.createElement('button'); ob.type = 'button'; ob.className = 'mo-o'; ob.tabIndex = -1; ob.setAttribute('aria-haspopup', 'dialog'); ob.setAttribute('aria-label', d[4]);
+        fig.appendChild(ob);
         row.appendChild(fig);
       });
       shMosaic.appendChild(row);
       if (ri === 0 && j.versions) shMosaic.appendChild(versionBlock(j, hl));
     });
+    shMosaic._w = W;
+    var stop = shMosaic.querySelector('.mo.hl .mo-o') || shMosaic.querySelector('.mo-o'); if (stop) stop.tabIndex = 0;
+    hlStop(); var hf = shMosaic.querySelector('.mo.hl'); if (hf) hlArm(hf);
     /* the full pictures start only once every thumbnail is in, so the thumbnails never queue behind them */
     var q = fullQ; fullQ = [];
     var thumbs = [].slice.call(shMosaic.querySelectorAll('.mo img')).map(function (im) { return im.complete ? Promise.resolve() : new Promise(function (r) { im.addEventListener('load', r, { once: true }); im.addEventListener('error', r, { once: true }); }); });
@@ -2946,6 +3064,8 @@
   ['wheel', 'touchmove'].forEach(function (t) { sheet.addEventListener(t, function (e) { if (!shScroll.contains(e.target)) e.preventDefault(); }, { passive: false }); });
   sheet.addEventListener('cancel', function (e) { e.preventDefault(); closeSheet(); }); /* Esc */
   sheet.addEventListener('close', function () {
+    if (pv.open) pv.close();
+    hlStop();
     if (vidIO) vidIO.disconnect();
     shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
     shMosaic.innerHTML = '';
@@ -2960,7 +3080,7 @@
     requestAnimationFrame(function () { sel.classList.remove('hush'); }); /* the selection fades back once the frame has landed */
   });
   var rT = 0; addEventListener('resize', function () {
-    clearTimeout(rT); rT = setTimeout(function () { if (!full) layout(false); else { vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv(); apply(); } if (sheet.open && curJob) renderMosaic(byId[curJob], -1); }, 120);
+    clearTimeout(rT); rT = setTimeout(function () { if (!full) layout(false); else { vw = vp.clientWidth; vh = vp.clientHeight; buildMini(); refreshOv(); apply(); } if (sheet.open && curJob && shMosaic.clientWidth !== shMosaic._w) { if (pv.open) pvDirty = true; else renderMosaic(byId[curJob], -1); } }, 120);
   });
 
   /* ------------------------------------------------------------------ the reel: the studio's motion and design reel, full screen
@@ -3182,6 +3302,256 @@
   var rpPosterImg = null;
   function rpPoster() { if (rpPosterImg) return; rpPosterImg = new Image(); rpPosterImg.src = rpV.dataset.poster; }
   addEventListener('load', function () { setTimeout(function () { (window.requestIdleCallback || setTimeout)(rpPoster); }, 1500); }); /* 25 KB, once, after the page has settled */
+
+  /* ------------------------------------------------------------------ the piece viewer
+     A click (or Enter, Space, a tap) on any piece in a job sheet opens it large over the sheet, on the reel's dark stage:
+     the picture grows out of its tile on the sheet's curve and settles back into it on close (Motion off: no travel).
+     Pictures load at full size; a video is the tile's own player, carried up into the viewer and handed back, so it never
+     restarts. Arrows, the side buttons or a swipe step through the job's pieces (the next and previous are fetched ahead);
+     Esc, the close button, a click on the dark or a swipe down go back to the sheet, with focus on the piece you were on.
+     Closed, it does no work at all; open on a picture, none either; a video's seek bar runs one rAF loop only while it plays. */
+  var pv = $('pv'), pvIn = $('pvIn'), pvStage = $('pvStage'), pvBar = $('pvBar'), pvSeek = $('pvSeek'), pvPlayB = $('pvPlay'), pvSnd = $('pvSnd'), pvFs = $('pvFs'), pvTime = $('pvTime'), pvLive = $('pvLive');
+  var pvTiles = [], pvCur = null, pvAll = [], pvVid = null, pvBusy = 0, pvRaf = 0, pvDirty = false, pvLastT = '', pvScrub = null, pvPre = {}, pvSw = null, pvSwT = 0, pvOff = { x: 0, y: 0 };
+  pvFs.hidden = !fsOK && !fsIOS; pvFs.innerHTML = ICON_FS;
+  /* the piece's box: as large as it fits between the top strip and the controls, at its own aspect */
+  function pvBox(d) {
+    var W0 = pvIn.clientWidth || innerWidth, H0 = pvIn.clientHeight || innerHeight, ph = W0 <= 640, vid = !!d[1];
+    var t = ph ? 64 : 80, b = vid ? (ph ? 124 : 136) : (ph ? 64 : 80), s = ph ? 0 : (W0 < 1000 ? 84 : 108);
+    var W = W0 - 2 * s, H = H0 - t - b, ar = d[2] / d[3], w = Math.min(W, H * ar), h = w / ar;
+    return { x: Math.round((W0 - w) / 2), y: Math.round(t + (H - h) / 2), w: Math.round(w), h: Math.round(h) };
+  }
+  function pvPlace(it) { var B = it.box; it.wrap.style.left = B.x + 'px'; it.wrap.style.top = B.y + 'px'; it.wrap.style.width = B.w + 'px'; it.wrap.style.height = B.h + 'px'; }
+  function pvMake(i) {
+    var fig = pvTiles[i], d = byId[curJob].items[+fig.dataset.i], w = document.createElement('div');
+    var it = { i: i, fig: fig, d: d, wrap: w, box: pvBox(d), v: null };
+    w.className = 'pv-it' + (d[1] ? ' vid' : ''); w.style.setProperty('--ph', d[5]); pvPlace(it);
+    if (d[1] && fig._v) {
+      var v = it.v = pvVid = fig._v; v.controls = false;
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      w.appendChild(v); pvBind(v);
+    } else {
+      var own = fig.querySelector('img'), im = document.createElement('img'); im.alt = d[4]; im.decoding = 'async';
+      im.src = (own && own.currentSrc) || T + d[0]; w.appendChild(im);
+      if (im.src.indexOf('/thumbs/') >= 0) sharpenNow(im, M + d[0]); /* the full-size file, swapped in once decoded */
+    }
+    fig.classList.add('lent'); pvStage.appendChild(w); pvAll.push(it);
+    return it;
+  }
+  /* an item leaves: its video goes home to its tile (muted, as the sheet plays it), its tile shows again */
+  function pvDrop(it) {
+    if (it.v && it.v.parentNode === it.wrap) { it.v.pause(); it.v.muted = true; it.fig.insertBefore(it.v, it.fig.firstChild); if (pvVid === it.v) pvVid = null; }
+    if (it.wrap.parentNode) it.wrap.remove();
+    var k = pvAll.indexOf(it); if (k >= 0) pvAll.splice(k, 1);
+    if (!pvCur || pvCur.fig !== it.fig) it.fig.classList.remove('lent');
+  }
+  function pvShow(i) {
+    var it = pvCur = pvMake(i), n = pvTiles.length;
+    $('pvCap').textContent = it.d[4]; $('pvPos').textContent = n > 1 ? (i + 1) + ' / ' + n : '';
+    pvBar.hidden = !it.v; pvLastT = '';
+    pv.querySelectorAll('.pv-nav').forEach(function (b) { b.hidden = n < 2; });
+    return it;
+  }
+  function pvPreload(i) {
+    var n = pvTiles.length; if (n < 2) return;
+    [i + 1, i - 1].forEach(function (k) { var f = pvTiles[(k + n) % n], u = M + byId[curJob].items[+f.dataset.i][0]; if (pvPre[u]) return; pvPre[u] = 1; var im = new Image(); im.decoding = 'async'; im.src = u; });
+  }
+  /* video: the reel's controls, bound to whichever piece is up */
+  function pvSync() { var on = pvVid && !pvVid.paused && !pvVid.ended; pvPlayB.innerHTML = on ? ICON_PAUSE : ICON_PLAY; pvPlayB.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+  function pvSndSync() { var on = !!(pvVid && !pvVid.muted); pvSnd.setAttribute('aria-checked', String(on)); pvSnd.querySelector('.st').textContent = on ? 'On' : 'Off'; $('pvSndI').innerHTML = on ? ICON_SND_ON : ICON_SND_OFF; }
+  function pvDur() { var d = pvVid && pvVid.duration; return isFinite(d) && d > 0 ? d : 0; }
+  function pvPaint() {
+    if (!pvVid) return;
+    var d = pvDur(), t = pvVid.currentTime || 0;
+    pvSeek.style.setProperty('--p', d ? Math.min(1, t / d).toFixed(4) : 0);
+    var txt = fmt(t) + '|' + fmt(d); if (txt === pvLastT) return; pvLastT = txt;
+    pvTime.innerHTML = fmt(t) + '<span> / ' + fmt(d) + '</span>';
+    pvSeek.setAttribute('aria-valuemax', String(Math.round(d))); pvSeek.setAttribute('aria-valuenow', String(Math.floor(t))); pvSeek.setAttribute('aria-valuetext', fmt(t) + ' of ' + fmt(d));
+  }
+  function pvBuffered() {
+    if (!pvVid) return; var b = pvVid.buffered, d = pvDur(), e = 0, t = pvVid.currentTime || 0;
+    for (var i = 0; i < b.length; i++) if (b.start(i) <= t + .5) e = Math.max(e, b.end(i));
+    pvSeek.style.setProperty('--b', d ? Math.min(1, e / d).toFixed(4) : 0);
+  }
+  function pvLoop() { pvRaf = 0; if (!pv.open || !pvVid || pvVid.paused) return; pvPaint(); pvRaf = requestAnimationFrame(pvLoop); }
+  function pvKick() { if (!pvRaf && pv.open && pvVid && !pvVid.paused) pvRaf = requestAnimationFrame(pvLoop); }
+  function pvStop() { cancelAnimationFrame(pvRaf); pvRaf = 0; }
+  function pvBind(v) {
+    if (v._pvb) return; v._pvb = 1;
+    function mine(f) { return function () { if (v === pvVid && pv.open) f(); }; }
+    v.addEventListener('play', mine(function () { pvSync(); pvKick(); }));
+    v.addEventListener('pause', mine(function () { pvSync(); pvPaint(); }));
+    v.addEventListener('timeupdate', mine(function () { if (pvVid.paused) pvPaint(); }));
+    v.addEventListener('volumechange', mine(pvSndSync));
+    ['progress', 'loadedmetadata', 'durationchange', 'seeked'].forEach(function (ev) { v.addEventListener(ev, mine(function () { pvBuffered(); pvPaint(); })); });
+  }
+  function pvPlay() {
+    var v = pvVid; if (!v) return;
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function (err) { if (err && err.name === 'NotAllowedError' && !v.muted) { v.muted = true; pvSndSync(); v.play().catch(function () {}); } });
+  }
+  function pvToggle() { if (!pvVid) return; if (pvVid.paused || pvVid.ended) pvPlay(); else pvVid.pause(); }
+  function pvStart(it, play) {
+    if (!it.v) { pvStop(); return; }
+    it.v.muted = !soundPref(); pvSndSync();
+    if (play) pvPlay(); else it.v.pause();
+    pvSync(); pvBuffered(); pvPaint(); pvKick();
+  }
+  function pvSeekTo(t) { var d = pvDur(); if (!d) return; try { pvVid.currentTime = Math.max(0, Math.min(d - .05, t)); } catch (_) {} pvPaint(); pvBuffered(); }
+  function pvSeekAt(e) { var r = pvSeek.querySelector('.tk').getBoundingClientRect(), d = pvDur(); if (d && r.width) pvSeekTo(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * d); }
+  pvSeek.addEventListener('pointerdown', function (e) { if (e.button) return; e.preventDefault(); pvScrub = { id: e.pointerId }; pvSeek.classList.add('drag'); try { pvSeek.setPointerCapture(e.pointerId); } catch (_) {} pvSeek.focus({ preventScroll: true }); pvSeekAt(e); });
+  pvSeek.addEventListener('pointermove', function (e) { if (pvScrub && pvScrub.id === e.pointerId) pvSeekAt(e); });
+  function pvScrubEnd() { if (!pvScrub) return; pvScrub = null; pvSeek.classList.remove('drag'); }
+  pvSeek.addEventListener('pointerup', pvScrubEnd); pvSeek.addEventListener('pointercancel', pvScrubEnd);
+  pvPlayB.addEventListener('click', pvToggle);
+  pvSnd.addEventListener('click', function () {
+    if (!pvVid) return; var on = pvVid.muted; pvVid.muted = !on; pvSndSync();
+    try { sessionStorage.setItem('sr-reel-sound', on ? 'on' : 'off'); } catch (e) {}
+    pvLive.textContent = on ? 'Sound on' : 'Sound off';
+  });
+  function pvFull() {
+    if (fsOK) { if (document.fullscreenElement) document.exitFullscreen().catch(function () {}); else pvIn.requestFullscreen().catch(function () {}); }
+    else if (fsIOS && pvVid) pvVid.webkitEnterFullscreen();
+  }
+  pvFs.addEventListener('click', pvFull);
+  document.addEventListener('fullscreenchange', function () {
+    var on = document.fullscreenElement === pvIn;
+    pvFs.innerHTML = on ? ICON_FS_X : ICON_FS; pvFs.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+    if (pv.open) requestAnimationFrame(pvRelayout);
+  });
+  function pvRelayout() { pvAll.forEach(function (it) { it.box = pvBox(it.d); pvPlace(it); }); }
+  addEventListener('resize', function () { if (pv.open) pvRelayout(); });
+  /* the grow: the piece's box travels from its tile's crop (object-fit: cover there) to its whole self, clipped to a window
+     that opens from the tile's rect to the piece's own. transform and clip only. p = 0 at the tile, 1 in the viewer. */
+  function pvFlip(it, p, R, F) {
+    var B = it.box, C = cover(R, it.d[2] / it.d[3], '50% 50%'), I = lerpR(C, F, p), k = I.w / B.w, Wn = lerpR(R, F, p);
+    it.wrap.style.transform = 'translate(' + (I.x - B.x) + 'px,' + (I.y - B.y) + 'px) scale(' + k + ')';
+    it.wrap.style.clipPath = 'inset(' + Math.max(0, (Wn.y - I.y) / k) + 'px ' + Math.max(0, (I.x + I.w - Wn.x - Wn.w) / k) + 'px ' + Math.max(0, (I.y + I.h - Wn.y - Wn.h) / k) + 'px ' + Math.max(0, (Wn.x - I.x) / k) + 'px)';
+  }
+  function pvOpen(fig) {
+    if (pv.open || pvBusy || morphing || !sheet.open) return;
+    pvTiles = [].slice.call(shMosaic.querySelectorAll('.mo')); var i = pvTiles.indexOf(fig); if (i < 0) return;
+    hlSettle(); glideStop(); pvDirty = false; pvOff = { x: 0, y: 0 };
+    shMosaic.querySelectorAll('video').forEach(function (v) { if (v !== fig._v) v.pause(); });
+    var R = boxR(fig.getBoundingClientRect());
+    if (MOTION) { pv.style.setProperty('--bgo', 0); pv.style.setProperty('--ui', 0); }
+    pv.showModal();
+    var it = pvShow(i);
+    pvStart(it, true); /* you asked for this piece: a video plays (muted unless Sound is on), Motion on or off */
+    $('pvClose').focus({ preventScroll: true });
+    if (!MOTION) { pvPreload(i); return; }
+    pvBusy = 1; var t0 = performance.now(), dur = 420 * (window.__morphSlow || 1);
+    function paint(t) { pvFlip(it, EASE(t), R, it.box); pv.style.setProperty('--bgo', smooth(0, .55, t)); pv.style.setProperty('--ui', smooth(.4, 1, t)); }
+    paint(0);
+    (function tick(now) {
+      var t = Math.min(1, (now - t0) / dur); paint(t);
+      if (t < 1 && pv.open) { requestAnimationFrame(tick); return; }
+      pvBusy = 0; it.wrap.style.transform = ''; it.wrap.style.clipPath = ''; pv.style.removeProperty('--bgo'); pv.style.removeProperty('--ui');
+      pvPreload(i);
+    })(t0);
+  }
+  function pvClose() {
+    if (!pv.open || pvBusy) return;
+    var it = pvCur; pvStop();
+    var wasFull = document.fullscreenElement === pvIn; if (wasFull) document.exitFullscreen().catch(function () {});
+    if (!it || !MOTION || pvDirty || wasFull || !it.fig.isConnected) { pv.close(); return; }
+    /* the tile comes on screen in the sheet first (under the viewer, so the jump is never seen) */
+    var fig = it.fig, r = fig.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
+    if (r.top < sr.top + 8 || r.bottom > sr.bottom - 8) shScroll.scrollTop += r.top - sr.top - Math.max(24, (sr.height - r.height) / 2);
+    var R = boxR(fig.getBoundingClientRect()), F = { x: it.box.x + pvOff.x, y: it.box.y + pvOff.y, w: it.box.w, h: it.box.h };
+    var bg0 = parseFloat(pv.style.getPropertyValue('--bgo')) || 1; pvOff = { x: 0, y: 0 };
+    pvAll.slice().forEach(function (o) { if (o !== it) pvDrop(o); }); /* anything still sliding out goes now */
+    pvBusy = 1; var t0 = performance.now(), dur = 380 * (window.__morphSlow || 1);
+    function paint(t) { var p = 1 - EASE(t); pvFlip(it, p, R, F); pv.style.setProperty('--bgo', bg0 * smooth(0, .8, p)); pv.style.setProperty('--ui', 1 - smooth(0, .3, t)); }
+    paint(0);
+    (function tick(now) {
+      var t = Math.min(1, (now - t0) / dur); paint(t);
+      if (t < 1 && pv.open) { requestAnimationFrame(tick); return; }
+      pvBusy = 0; if (pv.open) pv.close();
+    })(t0);
+  }
+  pv.addEventListener('close', function () {
+    pvStop(); pvBusy = 0; pvScrub = null; pvSw = null;
+    var it = pvCur, di = it && it.fig.dataset.i; pvCur = null;
+    pvAll.slice().forEach(pvDrop);
+    pvTiles.forEach(function (f) { f.classList.remove('lent'); });
+    pv.style.removeProperty('--bgo'); pv.style.removeProperty('--ui');
+    if (!sheet.open) return;
+    if (pvDirty && curJob) { pvDirty = false; renderMosaic(byId[curJob], -1); }
+    /* focus back on the piece you were on (it becomes the mosaic's tab stop), and the sheet's videos pick up again */
+    var fig = di != null && shMosaic.querySelector('.mo[data-i="' + di + '"]'), b = fig && fig.querySelector('.mo-o');
+    if (b) rove(b, true);
+    if (vidIO) shMosaic.querySelectorAll('video').forEach(function (v) { vidIO.unobserve(v); vidIO.observe(v); });
+  });
+  pv.addEventListener('cancel', function (e) { e.preventDefault(); pvClose(); }); /* Esc */
+  /* stepping through the job's pieces: the old one slips away, the new one comes in from the side it was asked for */
+  function pvGo(dir, x0) {
+    if (!pv.open || pvBusy || pvTiles.length < 2 || !pvCur) return;
+    var old = pvCur, n = pvTiles.length, i = (old.i + dir + n) % n;
+    if (old.v) old.v.pause();
+    var it = pvShow(i); pvOff = { x: 0, y: 0 };
+    pvStart(it, MOTION);
+    pvLive.textContent = it.d[4] + ', ' + $('pvPos').textContent;
+    pvPreload(i);
+    if (!MOTION) { pvDrop(old); return; }
+    var W = pvIn.clientWidth; x0 = x0 || 0; old.wrap.style.transform = '';
+    old.wrap.animate([{ transform: 'translateX(' + x0 + 'px)', opacity: 1 }, { transform: 'translateX(' + (x0 - dir * Math.max(120, W * .22)) + 'px)', opacity: 0 }], { duration: 260, easing: 'cubic-bezier(.4, 0, .7, .2)', fill: 'forwards' }).onfinish = function () { pvDrop(old); };
+    it.wrap.animate([{ transform: 'translateX(' + (dir * Math.max(64, W * .1)) + 'px)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 440, delay: 50, easing: RP_EASE, fill: 'backwards' });
+  }
+  $('pvPrev').addEventListener('click', function () { pvGo(-1); });
+  $('pvNext').addEventListener('click', function () { pvGo(1); });
+  $('pvClose').addEventListener('click', pvClose);
+  /* the stage: a click on the dark goes back; on a video, plays or pauses. Touch: swipe sideways to step, down to go back */
+  pvStage.addEventListener('click', function (e) {
+    if (pvBusy || performance.now() - pvSwT < 400) return;
+    var w = e.target.closest('.pv-it');
+    if (!w) { pvClose(); return; }
+    if (pvCur && pvCur.v && w === pvCur.wrap) pvToggle();
+  });
+  pvStage.addEventListener('pointerdown', function (e) {
+    if (pvBusy || !pvCur || e.button || e.pointerType === 'mouse') return;
+    pvSw = { id: e.pointerId, x: e.clientX, y: e.clientY, t0: performance.now(), ax: '' };
+    try { pvStage.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  pvStage.addEventListener('pointermove', function (e) {
+    if (!pvSw || pvSw.id !== e.pointerId || !pvCur) return;
+    var dx = e.clientX - pvSw.x, dy = e.clientY - pvSw.y;
+    if (!pvSw.ax) { if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return; pvSw.ax = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; }
+    if (pvSw.ax === 'x') pvOff = { x: pvTiles.length > 1 ? dx : dx * .25, y: 0 };
+    else { pvOff = { x: 0, y: Math.max(0, dy) }; pv.style.setProperty('--bgo', 1 - Math.min(.55, pvOff.y / 420)); }
+    pvCur.wrap.style.transform = 'translate(' + pvOff.x + 'px,' + pvOff.y + 'px)';
+  });
+  function pvSwEnd(e) {
+    if (!pvSw || pvSw.id !== e.pointerId) return;
+    var s = pvSw; pvSw = null; if (!s.ax || !pvCur) return;
+    pvSwT = performance.now();
+    var W = pvIn.clientWidth, o = pvOff, fast = performance.now() - s.t0 < 260;
+    if (e.type === 'pointerup' && s.ax === 'x' && pvTiles.length > 1 && (Math.abs(o.x) > Math.max(56, W * .16) || (fast && Math.abs(o.x) > 28))) { pvGo(o.x < 0 ? 1 : -1, o.x); return; }
+    if (e.type === 'pointerup' && s.ax === 'y' && (o.y > 110 || (fast && o.y > 40))) { pvClose(); return; }
+    pvOff = { x: 0, y: 0 }; pvCur.wrap.style.transform = ''; pv.style.removeProperty('--bgo');
+    if (MOTION) pvCur.wrap.animate([{ transform: 'translate(' + o.x + 'px,' + o.y + 'px)' }, { transform: 'none' }], { duration: 300, easing: RP_EASE });
+  }
+  pvStage.addEventListener('pointerup', pvSwEnd); pvStage.addEventListener('pointercancel', pvSwEnd);
+  /* the dim under it never scrolls the sheet */
+  ['wheel', 'touchmove'].forEach(function (t) { pv.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
+  /* keys: arrows step (on the seek bar they seek 5s), Space or K play and pause, M sound, F full screen, Esc goes back; Tab stays inside */
+  pv.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab') {
+      var list = Array.prototype.filter.call(pv.querySelectorAll('button, [tabindex="0"]'), function (el) { return !el.disabled && !el.hidden && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden'; });
+      if (!list.length) return;
+      var i = list.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); list[list.length - 1].focus(); }
+      else if (!e.shiftKey && i === list.length - 1) { e.preventDefault(); list[0].focus(); }
+      return;
+    }
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key, onBtn = e.target.closest && e.target.closest('button'), v = pvCur && pvCur.v;
+    if (k === 'ArrowRight' || k === 'ArrowLeft') { e.preventDefault(); var d = k === 'ArrowRight' ? 1 : -1; if (e.target === pvSeek && v) pvSeekTo((v.currentTime || 0) + 5 * d); else pvGo(d); return; }
+    if (!v) return;
+    if (k === 'm' || k === 'M') { e.preventDefault(); pvSnd.click(); }
+    else if ((k === 'f' || k === 'F') && !pvFs.hidden) { e.preventDefault(); pvFull(); }
+    else if (k === ' ' || k === 'k' || k === 'K') { if (k === ' ' && onBtn) return; e.preventDefault(); pvToggle(); }
+    else if ((k === 'Home' || k === 'End') && e.target === pvSeek) { e.preventDefault(); pvSeekTo(k === 'Home' ? 0 : pvDur()); }
+  });
 
   /* ------------------------------------------------------------------ theme: Light, Dark or System, with a circular reveal */
   var mqDark = matchMedia('(prefers-color-scheme: dark)'), themeEl = $('theme'), themeColor = $('themeColor');
@@ -3698,6 +4068,7 @@
     sw.setAttribute('aria-checked', String(on)); sw.querySelector('.st').textContent = on ? 'On' : 'Off';
     if (!on) { stopFrame(); stopTween(); document.querySelectorAll('video').forEach(function (v) { v.pause(); }); }
     if (rp.open) rpWake();
+    else if (pv.open) pvDirty = true;
     else if (sheet.open && curJob) renderMosaic(byId[curJob], -1);
     flMotion(on);
     if (field) field.motion(on);
