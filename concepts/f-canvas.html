@@ -189,9 +189,12 @@
   /* six sections fit down to 1181: below 1280 the links tighten and the switch drops its On/Off word (its toggle shows it) */
   @media (max-width: 1279px) { .nav { gap: 14px; } .nav a { font-size: 14.5px; } }
   @media (max-width: 1180px) { .nav { display: none; } .kbtn { margin-left: auto; } }
+  /* without the nav the search button is the page's menu: it says so (its palette opens with the sections first) */
+  .kbtn .mi, .kbtn .m { display: none; }
+  @media (max-width: 1180px) { .kbtn .sv, .kbtn kbd { display: none; } .kbtn .mi { display: block; } .kbtn .m { display: inline; color: var(--ink); font-weight: 500; } .kbtn { padding: 0 14px 0 12px; } }
   @media (max-width: 640px) {
     .top { gap: 10px; }
-    .kbtn { width: 34px; padding: 0; justify-content: center; } .kbtn kbd { display: none; }
+    .kbtn { padding: 0 13px 0 11px; } .kbtn kbd { display: none; }
   }
   @media (max-width: 440px) { .top .home .wm { display: none; } .top .home .mk { display: block; height: 26px; } .top .cta { padding-inline: 13px; } }
 
@@ -212,6 +215,18 @@
   /* on the canvas */
   .world .brief { position: absolute; left: 0; top: 0; width: 808px; height: 712px; max-width: none; display: flex; flex-direction: column; justify-content: center; background: var(--surface); padding: 0 84px; box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 18px 40px -18px var(--sh2); cursor: default; }
   .world .brief .flb { display: block; }
+  /* the start view shrinks the hero to fit small laptops (74% at 1440): its smaller type is scaled back up by --tk (set with
+     the start camera, 1 from about 85% up, at most 1.3) so the lede reads at 15px+ and the mono lines at 11px+ on screen */
+  .world .brief .eb { font-size: calc(12px * var(--tk, 1)); }
+  .world .brief .eb svg { width: calc(15px * var(--tk, 1)); height: calc(15px * var(--tk, 1)); }
+  .world .brief .lede { font-size: calc(17.5px * var(--tk, 1)); }
+  .world .brief .proof { font-size: calc(12.5px * var(--tk, 1)); }
+  .world .brief .ctas .cta, .world .brief .ctas .ghost { font-size: calc(13px * var(--tk, 1)); padding: calc(14px * var(--tk, 1)) calc(18px * var(--tk, 1)) calc(13px * var(--tk, 1)); }
+  .world .brief .ctas .ghost { padding: calc(13px * var(--tk, 1)) calc(17px * var(--tk, 1)) calc(12px * var(--tk, 1)); }
+  .world .brief .ctas { margin-top: calc(24px * var(--tk, 1)); }
+  /* scaled up, the proof line no longer fits one line: it breaks after its second point, with no square left hanging */
+  .world .brief.tk-up .proof i:nth-of-type(2) { display: none; }
+  .world .brief.tk-up .proof span:last-child { display: block; }
   /* desktop with script: the hero never paints in the page flow (the inline script after the stage moves it onto the canvas) */
   .cv #briefSlot { display: none; }
   /* a classic scrollbar can't change the canvas width mid-load (the hero's first camera is measured early) */
@@ -374,7 +389,7 @@
   .ui-mini i.p { background: var(--accent); }
   .ui-mini .view { position: absolute; border: 1.5px solid var(--cta); background: rgba(254, 80, 0, .08); border-radius: 2px; }
   /* the Layers list opens as a popover above the bar, from its left edge */
-  .ui-layers ol { position: absolute; left: calc(-1px - var(--tb-pad)); bottom: calc(100% + var(--tb-pad) + 9px); min-width: 240px; max-height: 60vh; overflow: auto; list-style: none; margin: 0; padding: 4px; display: grid; gap: 1px; background: var(--glass); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); }
+  .ui-layers ol { position: absolute; left: calc(-1px - var(--tb-pad)); bottom: calc(100% + var(--tb-pad) + 9px); min-width: 240px; max-height: 60vh; overflow: auto; list-style: none; margin: 0; padding: 4px; display: grid; gap: 1px; background: var(--surface); /* solid: the hero copy showed through it */ border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 18px 40px -18px rgba(0,0,0,.5); }
   .ui-layers ol[hidden] { display: none; }
   .ui-layers li button { width: 100%; display: flex; gap: 9px; align-items: center; text-align: left; background: none; border: 0; border-radius: calc(var(--tb-r) - var(--tb-pad)); color: var(--ink); cursor: pointer; font: 400 13px/1.2 var(--body); letter-spacing: 0; padding: 8px 10px; }
   .ui-layers li button:hover { background: var(--hover); }
@@ -581,9 +596,11 @@
   .field.on { opacity: 1; }
   .still .field { transition: none; }
   /* no patches behind text: the field is simply kept light enough to sit under the copy (Shane: the patches read as shadows) */
-  .floor .wrap, .foot-site .wrap { max-width: calc(1312px + 2 * var(--gut)); }
+  /* the section frames run gutter to gutter up to 1600px, so on 16" screens their edges line up with the logo and the toolbar */
+  .floor .wrap, .foot-site .wrap { max-width: calc(1600px + 2 * var(--gut)); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
+  #contactH { font-size: clamp(40px, 4.6vw, 68px); } /* two lines, "Start now / with one job.", clear of the form beside it */
   .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 24px; }
 
@@ -1185,10 +1202,13 @@
   .person .ph { display: block; width: 76px; height: 76px; border-radius: 50%; background: #888 center/cover; border: 3px solid var(--c); }
   .person b { display: block; margin-top: 16px; font: 800 24px/1 var(--display); text-transform: uppercase; }
   .person p { margin-top: 8px; font-size: 15px; color: var(--muted); }
-  /* the only headshot on file for Shane is a duotone: the same untone filter the board uses, so it sits with the team */
+  /* the only headshot on file for Shane is a duotone, so every team portrait wears the same untone filter the board uses
+     (one treatment across the row); the others come back to full colour on hover. Rings: orange, ink and greys only. */
   .ph.untone, .pin.untone { position: relative; overflow: hidden; }
   .ph.untone::before, .pin.untone::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; filter: url(#srUntone); }
   .pin.untone::before { border-radius: 50% 50% 50% 0; }
+  .person .ph.untone::before { transition: opacity .35s; }
+  .person:hover .ph.untone::before { opacity: 0; }
   @media (max-width: 600px) { .team { grid-template-columns: 1fr 1fr; gap: 16px; } .person { padding: 16px; } .person .ph { width: 60px; height: 60px; } .person b { font-size: 20px; margin-top: 12px; } .person p { font-size: 14px; } }
 
   /* ---------- contact: a new job, dropped onto its own patch of canvas ---------- */
@@ -1271,7 +1291,7 @@
      the canvas is on screen; it never covers content. */
   .pgl { position: fixed; left: var(--gut); /* in line with the logo */ top: 76px; z-index: 30; width: 160px; padding: 4px; display: none; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0, 0, 0, .4); opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s .2s; }
   .pgl.on { opacity: 1; visibility: visible; transition: opacity .2s; }
-  @media (min-width: 1940px) { .pgl { display: block; } } /* only where the margin fits it (gutter + 160px panel) without touching the sections */
+  @media (min-width: 2160px) { .pgl { display: block; } } /* only where the margin fits it (gutter + 160px panel) without touching the sections */
   .pgl .lh { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
   .pgl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
   .pgl a { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font: 400 13px/1.2 var(--body); color: var(--ink2); text-decoration: none; }
@@ -1441,6 +1461,7 @@
     .dpop { width: 264px; } .dpop .theme button { width: 40px; height: 40px; }
     .top .cta { min-height: 44px; }
     .cta, .ghost, .fl-play, .sh-link, .sh-btn { min-height: 44px; }
+    .top .kbtn { width: auto !important; }
     .stage { --tb-h: 52px; } /* toolbar segments 44px */
     .sh-btn { min-width: 44px; }
     .card details.more { margin-top: 0; } .card details.more summary { padding-block: 15px; line-height: 14px; }
@@ -1462,7 +1483,7 @@
     <a href="#work">Work</a><a href="#how">How it works</a><a href="#make">What we make</a><a href="#together">Working together</a><a href="#team">Team</a><a href="#contact">Contact</a>
   </nav>
   <!-- NEW COPY: "Search" button, theme labels, "Search work and actions" -->
-  <button class="kbtn" id="kbtn" type="button" aria-haspopup="dialog" aria-label="Search work and actions"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg><span class="t" aria-hidden="true">Search</span><kbd id="kbtnK" aria-hidden="true">⌘K</kbd></button>
+  <button class="kbtn" id="kbtn" type="button" aria-haspopup="dialog" aria-label="Menu: search sections, work and actions"><svg class="mi" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.7"/></svg><span class="m" aria-hidden="true">Menu</span><svg class="sv" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg><span class="t" aria-hidden="true">Search</span><kbd id="kbtnK" aria-hidden="true">⌘K</kbd></button>
   <!-- NEW COPY: the Preferences button's accessible name "Preferences: theme and motion" and the visible "Theme" row label
        (it reuses the palette's "Preferences" group and the bar's own "Theme" and "Motion" labels) -->
   <button class="dbtn" id="dispBtn" type="button" popovertarget="dispPop" aria-haspopup="true" aria-expanded="false" aria-label="Preferences: theme and motion" title="Preferences"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.5h7M12.5 4.5h2M1.5 11.5h2M7.5 11.5h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10.5" cy="4.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="5.5" cy="11.5" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
@@ -1547,12 +1568,14 @@
              Spare height (up to SLACK) goes above the pair rather than showing more of row 2. Where a little less width-fill
              (at most 12%, never under 74%, never so little that a third group's edge slips in at the right) lets the second row
              peek, that wins. The pair itself never enters the zone: ZONE under the bars, MINI under the minimap's corner. */
-          var TOP = 64, LBL = 35, ZONE = 88, MINI = 142, SLACK = 64, y0 = TOP + LBL;
+          var TOP = 28, LBL = 35, ZONE = 88, MINI = 142, SLACK = 0, y0 = TOP + LBL;
           var peekS = (vh - ZONE - y0) / ROW2; /* the largest scale at which the second row's top edge meets the zone at y0 */
           if (peekS < s && peekS >= Math.max(.74, s * .88) && peekS >= (vw + 16) / (4 * (SEC_W + GAP) - pair)) s = peekS; /* centred, the third column's left edge stays 8px past the right edge */
           var h = HERO_H * s, r2 = ROW2 * s, y;
           if (y0 + r2 <= vh - ZONE) y = Math.min(y0 + SLACK, vh - ZONE - r2); /* the second row peeks in: its top edge on the zone line */
           else y = Math.max(y0, vh + LBL + 8 - r2); /* the second row starts below the stage, its tabs too */
+          var b = document.getElementById('brief'), tk = Math.min(1.3, Math.max(1, .85 / s)); /* the hero's small type, scaled back up (see .world .brief) */
+          if (b) { b.style.setProperty('--tk', tk.toFixed(3)); b.classList.toggle('tk-up', tk > 1.04); }
           return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
@@ -1587,7 +1610,7 @@
   </noscript>
 
   <!-- the page below the canvas: one canvas floor, each section a Figma-style section on it (chip, area, frames, components).
-       NEW COPY (section name rows, built by script from data-cs / data-ind): "Clients", "10 current"; "How it works", "6 steps";
+       NEW COPY (section name rows, built by script from data-cs / data-ind): "Clients", "Current"; "How it works", "6 steps";
        "Why it works", "3 reasons"; "What we make", "9 services"; "Engagement options", "3 options"; "Team", "The people on your board" (no headcount: studio rule); "Contact".
        Component labels (data-l): "Board / Example", "Chart / Tenure", "Reason / 01–03", "Option / Start here", "Option / Retainer",
        "Option / Hourly", "Partner / Content and strategy", "Compare / Freelancer", "Compare / New hire", "Compare / Big agency",
@@ -1596,8 +1619,7 @@
   <canvas class="field" id="field" aria-hidden="true"></canvas>
   <!-- ================================================================ clients -->
   <section class="band cs" id="clients" aria-label="Clients">
-    <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="10 current">
-      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
+    <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="Current">
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Clients we’re helping every month</p>
       <div class="logos" role="list" aria-label="Current clients">
         <div role="listitem" class="fx"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
@@ -1753,7 +1775,7 @@
   <!-- ================================================================ working together -->
   <section class="band cs" id="together" aria-labelledby="togH">
     <div class="wrap"><div class="cs-in" data-cs="Engagement options" data-ind="3 options">
-      <h2 id="togH">How we work together</h2>
+      <h2 id="togH">How we work together.</h2>
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
            Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
       <div class="frames c3">
@@ -1788,7 +1810,7 @@
         <!-- the two items below: copy approved by Shane 2026-10-16 -->
         <details><summary><span class="ac-k">Timing</span><span class="ac-t">How fast?</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div></details>
         <details><summary><span class="ac-k">Onboarding</span><span class="ac-t">Getting started</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We get right to work on your highest priorities, then schedule everything else around your calendar. Once the schedule is locked, we move.</p></div></details>
-        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Senior team, need to know</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
+        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Who sees your work</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Compliance review</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Busy months</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div></details>
       </div></div>
@@ -1798,14 +1820,14 @@
   <!-- ================================================================ team -->
   <section class="band cs" id="team" aria-labelledby="teamH">
     <div class="wrap"><div class="cs-in" data-cs="Team" data-ind="The people on your board">
-      <h2 id="teamH">The people on your board</h2>
+      <h2 id="teamH">The people on your board.</h2>
       <p class="lede">Every client gets the whole team. Have your own creative director? We work to their direction.</p>
       <div class="team">
         <div class="person fx" style="--c:#fe5000;--t:#1c1c1c"><span class="ph untone" data-bg="../media/team/shane-french.png"></span><b>Shane French</b><p>Creative Director, Design, UX and Motion</p></div>
-        <div class="person fx" style="--c:var(--p-tom);--t:var(--p-tom-t)"><span class="ph" data-bg="../media/team/tom-larsen.png"></span><b>Tom Larsen</b><p>Senior Designer</p></div>
-        <div class="person fx" style="--c:#ffd300;--t:#1c1c1c"><span class="ph" data-bg="../media/team/andrew-baldwin.png"></span><b>Andrew Baldwin</b><p>Senior UX/UI Designer</p></div>
-        <div class="person fx" style="--c:#d24100;--t:#fff"><span class="ph" data-bg="../media/team/joel-bender.png"></span><b>Joel Bender</b><p>Senior Designer</p></div>
-        <div class="person fx" style="--c:#6f6b62;--t:#fff"><span class="ph" data-bg="../media/team/gui-freitas.png"></span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
+        <div class="person fx" style="--c:var(--p-tom);--t:var(--p-tom-t)"><span class="ph untone" data-bg="../media/team/tom-larsen.png"></span><b>Tom Larsen</b><p>Senior Designer</p></div>
+        <div class="person fx" style="--c:#a8a397;--t:#1c1c1c"><span class="ph untone" data-bg="../media/team/andrew-baldwin.png"></span><b>Andrew Baldwin</b><p>Senior UX/UI Designer</p></div>
+        <div class="person fx" style="--c:#d24100;--t:#fff"><span class="ph untone" data-bg="../media/team/joel-bender.png"></span><b>Joel Bender</b><p>Senior Designer</p></div>
+        <div class="person fx" style="--c:#6f6b62;--t:#fff"><span class="ph untone" data-bg="../media/team/gui-freitas.png"></span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
       </div>
       <figure class="cmt r"><span class="pin" aria-hidden="true">BR</span><div class="bub"><blockquote>“When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><figcaption><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</figcaption></div></figure>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Past clients · thousands of projects over the years</p>
@@ -1830,7 +1852,7 @@
   <section class="band cs" id="contact" aria-labelledby="contactH">
     <div class="wrap"><div class="cs-in contact" data-cs="Contact">
       <div>
-        <h2 id="contactH">Start now with one job.</h2>
+        <h2 id="contactH">Start&nbsp;now with&nbsp;one&nbsp;job.</h2>
         <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
         <p class="alt-mail">Prefer email? <a href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a></p>
       </div>
@@ -1981,10 +2003,10 @@
  </div>
 </dialog>
 
-<!-- command palette. NEW COPY: placeholder "Jump to a job or an industry, or start a job", footer hints, empty state (in script) -->
+<!-- command palette. NEW COPY: placeholder "Jump to a section or a job", footer hints, empty state (in script) -->
 <dialog class="cmdk" id="cmdk" aria-label="Search work and actions">
   <div class="in"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg>
-    <input id="cmdkIn" type="text" role="combobox" aria-expanded="true" aria-controls="cmdkList" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Jump to a job or an industry, or start a job"><kbd aria-hidden="true">Esc</kbd></div>
+    <input id="cmdkIn" type="text" role="combobox" aria-expanded="true" aria-controls="cmdkList" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Jump to a section or a job"><kbd aria-hidden="true">Esc</kbd></div>
   <ul id="cmdkList" role="listbox" aria-label="Results"></ul>
   <div class="ft" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd>Move</span><span><kbd>Enter</kbd>Open</span><span><kbd>Esc</kbd>Close</span><span><kbd>/</kbd>Open from anywhere</span></div>
 </dialog>
@@ -2131,7 +2153,18 @@
         rows.push({ items: cur, h: h }); cur = []; sum = 0; target = row;
       }
     }
-    if (cur.length) rows.push({ items: cur, h: Math.min((W - gap * (cur.length - 1)) / sum, target), last: true });
+    if (cur.length) {
+      var last = { items: cur, h: Math.min((W - gap * (cur.length - 1)) / sum, target), last: true };
+      if (cur.length === 1 && last.h * sum < W * .6) { /* a lone last piece: it grows (up to 520 tall), or joins the row above */
+        var big = Math.min(W / sum, Math.max(target, 520)), prev = rows[rows.length - 1];
+        if (prev && big * sum < W * .6) {
+          var ps = prev.items.reduce(function (a, b) { return a + b.ar; }, sum), mh = (W - gap * prev.items.length) / ps;
+          if (mh >= row * .6) { prev.items = prev.items.concat(cur); prev.h = mh; return rows; }
+        }
+        last.h = big;
+      }
+      rows.push(last);
+    }
     return rows;
   }
   /* ------------------------------------------------------------------ build the canvas */
@@ -2278,7 +2311,7 @@
     vp.style.backgroundSize = g + 'px ' + g + 'px';
     vp.style.backgroundPosition = cam.x + 'px ' + cam.y + 'px';
     zPct.textContent = Math.round(cam.s * 100) + '%';
-    var atHome = briefIn && !full && !!homeCam && near(cam, homeCam); if (atHome !== stage.classList.contains('home')) stage.classList.toggle('home', atHome);
+    var atHome = briefIn && !full && !!homeCam && near(cam, homeCam); if (atHome !== stage.classList.contains('home')) { stage.classList.toggle('home', atHome); ambSync(); }
     miniView.style.cssText = 'left:' + (mm.ox + (-cam.x / cam.s) * mm.k) + 'px;top:' + (mm.oy + (-cam.y / cam.s) * mm.k) + 'px;width:' + (vw / cam.s * mm.k) + 'px;height:' + (vh / cam.s * mm.k) + 'px';
     if (openPin) closeThread();
     if (!loadT) loadT = setTimeout(loadVisible, 90);
@@ -2614,13 +2647,30 @@
   var meEl = $('me');
   vp.addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; var r = stage.getBoundingClientRect(); meEl.style.transform = 'translate(' + Math.round(e.clientX - r.left + 14) + 'px,' + Math.round(e.clientY - r.top + 20) + 'px)'; if (!meEl.classList.contains('on')) meEl.classList.add('on'); });
   vp.addEventListener('pointerleave', function () { meEl.classList.remove('on'); });
-  function playFrame(f) {
-    if (playing === f) return; stopFrame();
+  function frameVideo(f) {
     var v = f.v;
     if (!v) { v = f.v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto'; v.src = f.vsrc; v.addEventListener('playing', function () { v.classList.add('in'); }); f.el.insertBefore(v, f.img.nextSibling); }
-    playing = f; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+    var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+    return v;
   }
-  function stopFrame() { if (!playing) return; var v = playing.v; if (v) { v.pause(); v.classList.remove('in'); } playing = null; }
+  function playFrame(f) { if (playing === f) return; stopFrame(); playing = f; frameVideo(f); }
+  function stopFrame() { if (!playing) return; var v = playing.v; if (v && amb.list.indexOf(playing) < 0) { v.pause(); v.classList.remove('in'); } playing = null; }
+  /* the start view moves on its own: with Motion on, the video frames in view play muted, one after another, and stop the
+     moment the camera leaves the start view (scroll, zoom, a group, a sheet), the tab is hidden or Motion goes off */
+  var amb = { on: false, list: [], t: [] };
+  function ambSync() {
+    var want = MOTION && briefIn && !full && !!homeCam && !document.hidden && stage.classList.contains('home');
+    if (want === amb.on) return; amb.on = want;
+    amb.t.forEach(clearTimeout); amb.t = [];
+    if (want) {
+      var x0 = -cam.x / cam.s, y0 = -cam.y / cam.s, x1 = (vw - cam.x) / cam.s, y1 = (vh - 88 - cam.y) / cam.s; /* above the toolbar's zone */
+      frames.filter(function (f) { var cx = f.x + f.w / 2, cy = f.y + f.h / 2; return f.vsrc && cx > x0 && cx < x1 && cy > y0 && cy < y1; }) /* at least half on screen */
+        .forEach(function (f, i) { amb.t.push(setTimeout(function () { if (amb.on) { amb.list.push(f); frameVideo(f); } }, 900 + i * 600)); });
+    } else {
+      amb.list.forEach(function (f) { if (f !== playing && f.v) { f.v.pause(); f.v.classList.remove('in'); } }); amb.list = [];
+    }
+  }
+  document.addEventListener('visibilitychange', ambSync);
 
   /* comment threads (Popover API) */
   var thread = $('thread');
@@ -3529,7 +3579,8 @@
     (function tick(now) {
       var t = Math.min(1, (now - t0) / dur); paint(t);
       if (t < 1 && pv.open) { requestAnimationFrame(tick); return; }
-      pvBusy = 0; if (pv.open) pv.close();
+      /* the tile shows again in the same frame the flying copy goes (the close event only fires a task later: a blank frame) */
+      pvBusy = 0; pvTiles.forEach(function (f) { f.classList.remove('lent'); }); if (pv.open) pv.close();
     })(t0);
   }
   pv.addEventListener('close', function () {
@@ -3712,10 +3763,13 @@
     { g: 'Actions', label: 'Back to the start', hint: '0', icon: ICON_SEC, kw: 'home hero', run: function () { scrollToStage(goHome); } },
     { g: 'Actions', label: 'See all work as a list', icon: ICON_SEC, kw: 'list index all jobs', run: function () { openList(); } },
     { g: 'Actions', label: 'Copy email address', hint: 'hello@', icon: ICON_SQ, kw: 'email mail contact', run: copyEmail },
+    { g: 'On this page', label: 'Clients', icon: ICON_SEC, kw: 'logos customers who', run: function () { go('#clients'); } },
     { g: 'On this page', label: 'How it works', icon: ICON_SEC, kw: 'process board monday review status steps', run: function () { go('#how'); } },
+    { g: 'On this page', label: 'Why it works', icon: ICON_SEC, kw: 'tenure years reasons why', run: function () { go('#why'); } },
     { g: 'On this page', label: 'What we make', icon: ICON_SEC, kw: 'services capabilities website websites web design ux figma', run: function () { go('#make'); } },
     { g: 'On this page', label: 'Working together', icon: ICON_SEC, kw: 'retainer hourly engagement options', run: function () { go('#together'); } },
     { g: 'On this page', label: 'The team', icon: ICON_SEC, kw: 'people person who', run: function () { go('#team'); } },
+    { g: 'On this page', label: 'Contact', icon: ICON_SEC, kw: 'form email hello', run: function () { go('#contact'); } },
     { g: 'Preferences', label: 'Theme: Light', icon: ICON_SUN, kw: 'appearance mode', run: function () { setTheme('light'); } },
     { g: 'Preferences', label: 'Theme: Dark', icon: ICON_MOON, kw: 'appearance mode night', run: function () { setTheme('dark'); } },
     { g: 'Preferences', label: 'Theme: Match system', icon: ICON_SYS, kw: 'appearance mode auto', run: function () { setTheme('system'); } },
@@ -3743,7 +3797,7 @@
       out.push({ c: c, l: l, sc: sc });
     });
     var byG = {}; out.forEach(function (o) { (byG[o.c.g] = byG[o.c.g] || []).push(o); });
-    var gs = GROUPS.filter(function (g) { return byG[g]; });
+    var gs = (innerWidth <= 1180 ? ['On this page', 'Actions', 'Work', 'Industries', 'Preferences'] : GROUPS).filter(function (g) { return byG[g]; }); /* no nav: the palette is the menu, so the sections come first */
     if (words.length) { gs.forEach(function (g) { byG[g].sort(function (a, b) { return b.sc - a.sc; }); }); gs.sort(function (a, b) { return byG[b][0].sc - byG[a][0].sc; }); }
     cList.innerHTML = ''; cItems = [];
     if (!out.length) { cList.innerHTML = '<li class="empty" role="presentation">No matches. Try an industry or “start”.</li>'; cIn.removeAttribute('aria-activedescendant'); return; } /* NEW COPY */
@@ -3973,7 +4027,7 @@
     var pgl = $('pgl'), pglOl = pgl.querySelector('ol'), rows = {};
     secs.forEach(function (sec) {
       var li = document.createElement('li'), a = document.createElement('a'); a.href = '#' + sec.id; a.innerHTML = SEC + '<span></span>'; a.lastChild.textContent = sec._name;
-      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .proofline'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
+      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .fn'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
       li.appendChild(a); pglOl.appendChild(li); rows[sec.id] = a;
     });
     var cur = null, inMid = new Set();
@@ -4160,6 +4214,7 @@
     html.classList.toggle('reel-on', on && briefIn && !userCam);
     sw.setAttribute('aria-checked', String(on)); sw.querySelector('.st').textContent = on ? 'On' : 'Off';
     if (!on) { stopFrame(); stopTween(); document.querySelectorAll('video').forEach(function (v) { v.pause(); }); }
+    ambSync();
     if (rp.open) rpWake();
     else if (pv.open) pvDirty = true;
     else if (sheet.open && curJob) renderMosaic(byId[curJob], -1);
@@ -4237,7 +4292,7 @@
   })();
 
   /* ------------------------------------------------------------------ go */
-  layout(true);
+  layout(true); ambSync();
   document.fonts && document.fonts.ready.then(function () { if (!full) { var keep = { x: cam.x, y: cam.y, s: cam.s }, h0 = homeCam; layout(false); if (h0 && keep.x === h0.x && keep.y === h0.y && keep.s === h0.s) { cam = home(); apply(); } reelP = -1; reelTick(); } });
   /* deep links: #job=events opens that job */
   var dl = /^#job=(\w+)/.exec(location.hash); if (dl && byId[dl[1]]) setTimeout(function () { openJob(dl[1], 0, null); }, 60);
