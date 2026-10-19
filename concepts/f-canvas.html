@@ -4396,6 +4396,15 @@
     });
   })();
 
+  /* the contact headline never runs past its column: whatever the browser's font metrics (Safari set it wider than the CSS
+     estimate and the form covered "job."), it steps down until its longest line fits */
+  (function () {
+    var h = $('contactH'); if (!h) return;
+    function fit() { h.style.fontSize = ''; var fs = parseFloat(getComputedStyle(h).fontSize); while (h.scrollWidth > h.clientWidth + 1 && fs > 26) { fs -= 1; h.style.fontSize = fs + 'px'; } }
+    fit(); if (document.fonts) document.fonts.ready.then(fit);
+    var t = 0; addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 120); });
+  })();
+
   /* ------------------------------------------------------------------ go */
   layout(true); ambSync();
   document.fonts && document.fonts.ready.then(function () { if (!full) { var keep = { x: cam.x, y: cam.y, s: cam.s }, h0 = homeCam; layout(false); if (h0 && keep.x === h0.x && keep.y === h0.y && keep.s === h0.s) { cam = home(); apply(); } reelP = -1; reelTick(); } });
