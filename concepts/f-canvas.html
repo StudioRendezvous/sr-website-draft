@@ -3048,8 +3048,24 @@
     if (to && to !== b) { rove(to, true); to.parentNode.scrollIntoView({ block: 'nearest', behavior: MOTION ? 'smooth' : 'auto' }); }
   });
   shScroll.addEventListener('scroll', function () { if (glideT && Math.abs(shScroll.scrollTop - holdTop) > 4) glideStop(); }, { passive: true });
+  /* the piece you last looked at (in the viewer) is where the sheet goes home to: its frame on the canvas, if it has one in
+     view, takes the closing move, the focus and the selection, not the frame you first opened (Shane) */
+  var shLast = null;
+  function retarget(m, idx) {
+    var f = frameOf(m.job, idx); if (!f || !m.cam0) return null;
+    var c0 = m.cam0, s1 = m.cam1.s, cx = f.x + f.w / 2, cy = f.y + f.h / 2, r = vp.getBoundingClientRect();
+    var x0 = r.left + f.x * c0.s + c0.x, y0 = r.top + f.y * c0.s + c0.y;
+    if (x0 + f.w * c0.s < r.left + 8 || x0 > r.right - 8 || y0 + f.h * c0.s < r.top + 8 || y0 > r.bottom - 8) return null; /* not on screen where you left the canvas */
+    return { el: f.el, img: f.img.currentSrc || f.src, full: f.src, ar: f.ar, op: f.op, ph: f.ph, cam0: c0, job: m.job, idx: idx,
+      cam1: { s: s1, x: c0.x + cx * c0.s - cx * s1, y: c0.y + cy * c0.s - cy * s1 },
+      rect: function (c) { return { x: r.left + f.x * c.s + c.x, y: r.top + f.y * c.s + c.y, w: f.w * c.s, h: f.h * c.s }; } };
+  }
   function closeSheet() {
     if (!sheet.open || morphing) return;
+    if (shLast != null && curJob) {
+      if (mo && mo.job === curJob && mo.idx !== shLast) { var m2 = retarget(mo, shLast); if (m2) { mo.el.style.visibility = ''; mo = m2; lastFocus = m2.el; } }
+      else if (!mo && lastFocus && lastFocus.classList && lastFocus.classList.contains('fr')) { var f2 = frameOf(curJob, shLast); if (f2 && onScreen(f2.el)) lastFocus = f2.el; }
+    }
     var m = mo;
     if (!MOTION) { shutSheet(); return; }
     if (m && m.job === curJob && document.contains(m.el) && (!m.cam0 || vp.contains(m.el))) {
@@ -3086,7 +3102,7 @@
     if (!hDepth) try { history.scrollRestoration = 'auto'; } catch (_) {}
   });
   function showJob(id, idx, still, top) {
-    var j = byId[id]; curJob = id;
+    var j = byId[id]; curJob = id; shLast = null;
     $('shCrumb').innerHTML = '<span class="wk">Work / </span><b></b>'; document.querySelector('#shCrumb b').textContent = j.title; /* the job, so a sheet opened mid-way still says where you are */
     $('shInd').textContent = j.ind;
     $('shTitle').textContent = j.title;
@@ -3649,7 +3665,7 @@
   pv.addEventListener('close', function () {
     hSettle(sheet.open ? 1 : 0);
     pvStop(); pvBusy = 0; pvScrub = null; pvSw = null; clearTimeout(pvCapT); pvT.style.opacity = '';
-    var it = pvCur, di = it && it.fig.dataset.i; pvCur = null;
+    var it = pvCur, di = it && it.fig.dataset.i; pvCur = null; if (di != null) shLast = +di;
     pvAll.slice().forEach(pvDrop);
     pvTiles.forEach(function (f) { f.classList.remove('lent'); });
     pv.style.removeProperty('--bgo'); pv.style.removeProperty('--ui');
