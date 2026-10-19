@@ -745,6 +745,8 @@
   .proofline { font: 500 clamp(12px, 1.2vw, 14px)/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
   .proofline i { display: inline-block; width: 5px; height: 5px; background: var(--accent); margin: 0 10px 2px; vertical-align: middle; }
   .proofline span { white-space: nowrap; }
+  @media (max-width: 719px) { .proofline i:nth-of-type(2) { display: none; } .proofline span:last-child { display: block; } } /* phones: a clean break, no square left hanging */
+  #clients .fg { margin-top: 40px; } /* the proof line (moved here from the hero, Shane), then the logos */
 
   /* ---------- How it works: one job on the shared board, start to finish ----------
      Modelled on the studio's real job board (generic jobs; the studio column shows the real team). A numbered rail on the left
@@ -1531,7 +1533,6 @@
         <h1 id="h1">Design and motion, <em>always on.</em></h1>
         <p class="tag">When you need a team that delivers every day.</p>
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
-        <p class="proof mono"><span>Senior team</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
         <!-- NEW COPY: "Watch the reel" -->
         <div class="ctas"><a class="cta" href="#contact" data-help="first">Start a job</a><button class="ghost" type="button" data-reel aria-haspopup="dialog"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Watch the reel</button></div>
       </div>
@@ -1653,6 +1654,7 @@
   <!-- ================================================================ clients -->
   <section class="band cs" id="clients" aria-label="Clients">
     <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="Current">
+      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>Built for tight deadlines</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Clients we’re helping every month</p>
       <div class="logos" role="list" aria-label="Current clients">
         <div role="listitem" class="fx"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
@@ -4121,7 +4123,7 @@
     var pgl = $('pgl'), pglOl = pgl.querySelector('ol'), rows = {};
     secs.forEach(function (sec) {
       var li = document.createElement('li'), a = document.createElement('a'); a.href = '#' + sec.id; a.innerHTML = SEC + '<span></span>'; a.lastChild.textContent = sec._name;
-      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .fn'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
+      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .proofline, .fn'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
       li.appendChild(a); pglOl.appendChild(li); rows[sec.id] = a;
     });
     var cur = null, inMid = new Set();
