@@ -1579,7 +1579,7 @@
       /* Before first paint: on desktop the hero goes straight onto the canvas at the exact camera the canvas script starts from
          (it calls srHeroCam too), so nothing moves when it takes over. Tiny and blocking on purpose. */
       (function () {
-        var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + GAP; /* the same file grid as the canvas script: rows one gutter apart (ROW2: where the second row starts) */
+        var SEC_W = 808, GAP = 120, HERO_H = 712, ROW2 = HERO_H + 184; /* the same file grid as the canvas script: columns 120 apart, rows 184 apart (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
           /* the pair runs from the page edge (the logo's left, L) to the page edge on the right (the Start a job button's right),
              so the start view sits on the same lines as the bar and the sections below; under 1366 it may go down to 64% so
@@ -2202,10 +2202,10 @@
   var secRects = {}, secEls = {};
   /* The file is a strict grid on an 8px base. Every section is the same width: 4 columns of 168 with 24 gutters inside 32 padding.
      Rows are 88 tall (two make a 200 row, four make a 424 row), so every frame is one of five sizes:
-     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, one 184 gutter apart side to side and
-     top to bottom: every group's name lives in that 184 band above it (LB), clear of the work at every zoom.
+     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, 120 apart side to side (closer, Shane) and 184
+     apart top to bottom: every group's name lives in that 184 band above it (LB), clear of the work at every zoom.
      On phones the same groups stack into two columns (arrange), so the whole file reads at phone width. */
-  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 184, GAP_Y = 184, LB = 184, HERO_H = 712;
+  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 120, GAP_Y = 184, LB = 184, HERO_H = 712;
   function secH(rows) { return PAD * 2 + rows * (ROW + GUT) - GUT; }
   var CELL_Y = [0, HERO_H + GAP_Y, HERO_H + GAP_Y + secH(4) + GAP_Y]; /* row A, row B, the stacked half of row B */
   function cellX(c) { return c * (SEC_W + GAP); }
