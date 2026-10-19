@@ -899,7 +899,7 @@
   @keyframes newpress { 0% { box-shadow: 0 0 0 0 rgba(27, 111, 214, .55); } 20% { transform: scale(.95); } 45% { transform: none; box-shadow: 0 0 0 7px rgba(27, 111, 214, 0); } }
   .bd-tl { display: inline-flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 5px; }
   .bd-tl svg { width: 15px; height: 15px; color: var(--b-ink); }
-  .bd-body { position: relative; padding: 10px 18px 16px; --cols: 34px minmax(0, 1fr) 84px 36px 70px 84px 130px 100px 100px 88px; }
+  .bd-body { position: relative; padding: 10px 18px 16px; --cols: 34px minmax(150px, 1fr) 84px 36px 70px 84px 130px 100px 100px 88px; }
   .bd-gh { display: flex; align-items: center; gap: 10px; margin: 0 0 8px 2px; color: var(--b-group); }
   .bd-gh svg { width: 12px; height: 12px; }
   .bd-gh b { font: 600 17px/1 var(--body); }
@@ -916,7 +916,7 @@
   .bd-r > span { height: var(--rh); padding: 0 8px; }
   .bd-r > .cb, .bd-cols > .cb, .bd-add > .cb { border-left: 0; }
   .cb i { width: 15px; height: 15px; border: 1.5px solid var(--b-line); border-radius: 3px; }
-  .bd-r > .j { justify-content: flex-start; gap: 8px; padding-left: 12px; }
+  .bd-r > .j { justify-content: flex-start; gap: 8px; padding-left: 12px; overflow: hidden; } /* the item column never squeezes below 150 (cols) and never spills its tag under the next column (Shane, Safari) */
   .bd-r .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bd-r .sb { flex: none; padding: 1px 6px; border-radius: 4px; background: var(--b-hover); color: var(--b-muted); font-size: 12px; }
   .bd-r .cv { flex: none; width: 10px; height: 10px; color: var(--b-muted); margin-right: -2px; }
@@ -1047,11 +1047,11 @@
   .fl-foot p { color: var(--muted); font-size: 15.5px; }
 
   /* narrower boards drop the columns a buyer needs least (by the board's own width) */
-  @container board (max-width: 1060px) { .c-no, .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 80px 64px 76px 120px 100px 100px; } }
-  @container board (max-width: 900px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(0, 1fr) 80px 64px 76px 118px 98px; } .bd-tl.x2 { display: none; } }
-  @container board (max-width: 780px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(0, 1fr) 56px 64px 100px 88px; } .bd-tl span { display: none; } .bd-share > span { display: none; } }
+  @container board (max-width: 1060px) { .c-no, .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 64px 76px 120px 100px 100px; } }
+  @container board (max-width: 900px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 64px 76px 118px 98px; } .bd-tl.x2 { display: none; } }
+  @container board (max-width: 780px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(150px, 1fr) 56px 64px 100px 88px; } .bd-tl span { display: none; } .bd-share > span { display: none; } }
   @container board (max-width: 720px) { .bd-pan { width: 64%; } }
-  @container board (max-width: 660px) { .c-fi { display: none !important; } .bd-body { --cols: 32px minmax(0, 1fr) 54px 100px 88px; } }
+  @container board (max-width: 660px) { .c-fi { display: none !important; } .bd-body { --cols: 32px minmax(150px, 1fr) 54px 100px 88px; } }
   /* phones: every row as a stacked card, the updates pane as a bottom sheet */
   @container board (max-width: 560px) {
     .bd-top { height: 48px; padding: 4px 14px 0; } .bd-name { font-size: 19px; }
