@@ -78,6 +78,7 @@
     --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(.22, .8, .2, 1);
     --gut: clamp(16px, 4.5vw, 64px);
+    --edge: max(var(--gut), calc((100vw - 1792px) / 2)); /* the one page edge: logo, toolbar, start view and section frames (a 1792px column on very wide screens) */
   }
   /* Dark: Figma's dark UI. Canvas #1e1e1e, panels a step lighter, hairlines, the work stays vivid. */
   :root[data-theme="dark"] {
@@ -141,7 +142,7 @@
   .ghost svg { width: 11px; height: 11px; }
 
   /* ---------- top bar: the file's toolbar ---------- */
-  .top { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 14px; height: 60px; padding-inline: var(--gut); background: var(--top-bg); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--line); }
+  .top { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 14px; height: 60px; padding-inline: var(--edge); background: var(--top-bg); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--line); }
   .top .home { display: flex; align-items: center; color: var(--ink); flex: none; }
   .top .home svg { height: 22px; width: auto; display: block; }
   .top .home .mk { display: none; }
@@ -216,17 +217,18 @@
   .world .brief { position: absolute; left: 0; top: 0; width: 808px; height: 712px; max-width: none; display: flex; flex-direction: column; justify-content: center; background: var(--surface); padding: 0 84px; box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 18px 40px -18px var(--sh2); cursor: default; }
   .world .brief .flb { display: block; }
   /* the start view shrinks the hero to fit small laptops (74% at 1440): its smaller type is scaled back up by --tk (set with
-     the start camera, 1 from about 85% up, at most 1.3) so the lede reads at 15px+ and the mono lines at 11px+ on screen */
-  .world .brief .eb { font-size: calc(12px * var(--tk, 1)); }
-  .world .brief .eb svg { width: calc(15px * var(--tk, 1)); height: calc(15px * var(--tk, 1)); }
+     the start camera, 1 from about 85% up, at most 1.3) so the lede reads at 15px+; the mono lines have their own --tkm (11.5px on screen) */
+  .world .brief .eb { font-size: calc(12px * var(--tkm, 1)); }
+  .world .brief .eb svg { width: calc(15px * var(--tkm, 1)); height: calc(15px * var(--tkm, 1)); }
   .world .brief .lede { font-size: calc(17.5px * var(--tk, 1)); }
-  .world .brief .proof { font-size: calc(12.5px * var(--tk, 1)); }
-  .world .brief .ctas .cta, .world .brief .ctas .ghost { font-size: calc(13px * var(--tk, 1)); padding: calc(14px * var(--tk, 1)) calc(18px * var(--tk, 1)) calc(13px * var(--tk, 1)); }
+  .world .brief .proof { font-size: calc(12.5px * var(--tkm, 1)); }
+  .world .brief .ctas .cta, .world .brief .ctas .ghost { font-size: calc(13px * var(--tkm, 1)); padding: calc(14px * var(--tk, 1)) calc(18px * var(--tk, 1)) calc(13px * var(--tk, 1)); }
   .world .brief .ctas .ghost { padding: calc(13px * var(--tk, 1)) calc(17px * var(--tk, 1)) calc(12px * var(--tk, 1)); }
   .world .brief .ctas { margin-top: calc(24px * var(--tk, 1)); }
   /* scaled up, the proof line no longer fits one line: it breaks after its second point, with no square left hanging */
   .world .brief.tk-up .proof i:nth-of-type(2) { display: none; }
   .world .brief.tk-up .proof span:last-child { display: block; }
+  @media (max-width: 719px) { .brief-slot .brief .proof i:nth-of-type(2) { display: none; } .brief-slot .brief .proof span:last-child { display: block; } } /* phones: the same clean break */
   /* desktop with script: the hero never paints in the page flow (the inline script after the stage moves it onto the canvas) */
   .cv #briefSlot { display: none; }
   /* a classic scrollbar can't change the canvas width mid-load (the hero's first camera is measured early) */
@@ -357,7 +359,7 @@
      (layers and zoom | the canvas actions | the minimap), so the middle bar is centred when there is room and can never touch
      the left one when there isn't (at narrower widths the labels fold to icons first, with tooltips). */
   .stage { --tb-h: 40px; --tb-pad: 3px; --tb-r: 10px; --tb-seg: calc(var(--tb-h) - 2 * var(--tb-pad) - 2px); }
-  .ui-dock { left: var(--gut); right: var(--gut); bottom: 16px; /* in line with the logo and the Start a job button above */ display: grid; grid-template-columns: 1fr auto 1fr; column-gap: 16px; align-items: end; pointer-events: none; }
+  .ui-dock { left: var(--edge); right: var(--edge); bottom: 16px; /* in line with the logo and the Start a job button above */ display: grid; grid-template-columns: 1fr auto 1fr; column-gap: 16px; align-items: end; pointer-events: none; }
   .ui-dock > * { pointer-events: auto; }
   .tgroup { display: inline-flex; align-items: center; gap: 2px; height: var(--tb-h); padding: var(--tb-pad); background: var(--glass); color: var(--ink); border: 1px solid var(--line); border-radius: var(--tb-r); box-shadow: 0 8px 22px -14px rgba(0,0,0,.4); white-space: nowrap; }
   .ui-left { grid-column: 1; justify-self: start; }
@@ -596,8 +598,8 @@
   .field.on { opacity: 1; }
   .still .field { transition: none; }
   /* no patches behind text: the field is simply kept light enough to sit under the copy (Shane: the patches read as shadows) */
-  /* the section frames run gutter to gutter up to 1600px, so on 16" screens their edges line up with the logo and the toolbar */
-  .floor .wrap, .foot-site .wrap { max-width: calc(1600px + 2 * var(--gut)); }
+  /* the section frames run edge to edge (gutter to gutter, up to a 1792px column), so they line up with the logo, the toolbar and the start view at every width */
+  .floor .wrap, .foot-site .wrap { max-width: none; padding-inline: var(--edge); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
   #contactH { font-size: clamp(40px, 4.6vw, 68px); } /* two lines, "Start now / with one job.", clear of the form beside it */
@@ -725,7 +727,6 @@
   :root[data-theme="dark"] .logos img { opacity: .86; }
   .proofline { font: 500 clamp(12px, 1.2vw, 14px)/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
   .proofline i { display: inline-block; width: 5px; height: 5px; background: var(--accent); margin: 0 10px 2px; vertical-align: middle; }
-  #clients .fg { margin-top: 40px; }
   .proofline span { white-space: nowrap; }
 
   /* ---------- How it works: one job on the shared board, start to finish ----------
@@ -800,7 +801,12 @@
   .fl-steps .rg .pg { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 100.53; stroke-dashoffset: 100.53; }
   .js .fl-steps .rg .n { padding: 0; font: 500 11px/1 var(--mono); color: inherit; }
   .js .fl-steps button[aria-current] .rg .n { color: var(--accent-text); }
-  .js .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 0; } /* the step you're on: a full ring */
+  .js .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 0; stroke-width: 3; } /* the step you're on: a full ring, its progress a touch heavier than the track */
+  .fl-steps .rg .tr { stroke-width: 1.5; }
+  /* light theme: the steps sit open on the floor and the active one is the only card, a step lighter than the floor
+     (dark theme already reads that way: the active panel is the lighter grey) */
+  :root[data-theme="light"].js .fl-steps button { background: transparent; }
+  :root[data-theme="light"].js .fl-steps button[aria-current] { background: var(--surface); border-color: var(--line-2); }
   .flow.auto .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 100.53; animation: flfill var(--d, 4.5s) linear forwards; }
   .flow.auto:not(.run) .fl-steps button[aria-current] .rg .pg { animation-play-state: paused; }
   @keyframes flfill { to { stroke-dashoffset: 0; } }
@@ -837,17 +843,15 @@
     .fl-cap b { display: block; margin-bottom: 6px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
     .fl-cap .ti { display: block; font: 800 26px/1 var(--display); text-transform: uppercase; margin-bottom: 8px; }
   }
-  /* wide screens: the rail runs exactly from the board's top edge to its bottom edge. The active step's card takes up the
-     slack (its progress line rides its bottom edge), so the steps above it never move to make the ends meet. */
+  /* wide screens: the rail starts at the board's top edge; every step, the active one too, is only as tall as its text,
+     and whatever height is left over stays below the list (an active card stretched to fill it read as dead space) */
   @media (min-width: 960px) {
     .js .flow { align-items: stretch; }
     .js .flow .bd { margin-top: 0; }
     .js .fl-rail { display: flex; flex-direction: column; min-height: 0; }
     .js .fl-steps { flex: 1 1 auto; display: flex; flex-direction: column; }
     .js .fl-steps li { display: flex; flex-direction: column; }
-    .js .fl-steps li > button { flex: 1 1 auto; align-content: start; }
-    .flow.at-1 .st-1, .flow.at-2 .st-2, .flow.at-3 .st-3, .flow.at-4 .st-4, .flow.at-5 .st-5, .flow.at-6 .st-6 { flex: 1 1 auto; }
-    .flow.at-0 .fl-steps { justify-content: space-between; }
+    .js .fl-steps li > button { align-content: start; }
   }
 
   /* the board */
@@ -1295,9 +1299,9 @@
   /* wide screens: a Layers panel in the left margin lists the page's sections, the one you are reading highlighted (like
      Figma's layers following the selection). Only where the margin can hold it with 16px to spare, only while the page below
      the canvas is on screen; it never covers content. */
-  .pgl { position: fixed; left: var(--gut); /* in line with the logo */ top: 76px; z-index: 30; width: 160px; padding: 4px; display: none; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0, 0, 0, .4); opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s .2s; }
+  .pgl { position: fixed; left: 24px; /* in the margin outside the 1792px column */ top: 76px; z-index: 30; width: 160px; padding: 4px; display: none; background: var(--glass); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 22px -14px rgba(0, 0, 0, .4); opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s .2s; }
   .pgl.on { opacity: 1; visibility: visible; transition: opacity .2s; }
-  @media (min-width: 2160px) { .pgl { display: block; } } /* only where the margin fits it (gutter + 160px panel) without touching the sections */
+  @media (min-width: 2224px) { .pgl { display: block; } } /* only where the margin outside the column fits it (24 + 160 + 24) */
   .pgl .lh { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
   .pgl ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
   .pgl a { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font: 400 13px/1.2 var(--body); color: var(--ink2); text-decoration: none; }
@@ -1566,23 +1570,27 @@
       (function () {
         var SEC_W = 808, GAP = 184, HERO_H = 712, ROW2 = HERO_H + GAP; /* the same file grid as the canvas script: rows one gutter apart (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
-          var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.74, (vw - 96) / pair), (vh - 150) / HERO_H); /* fill the width on big screens too */
+          /* the pair runs from the page edge (the logo's left, L) to the page edge on the right (the Start a job button's right),
+             so the start view sits on the same lines as the bar and the sections below; under 1366 it may go down to 64% so
+             the first group fits rather than being cut off */
+          var tb = document.querySelector('.top'), L = (tb && parseFloat(getComputedStyle(tb).paddingLeft)) || 64;
+          var pair = SEC_W * 2 + GAP, s = Math.min(1.5, Math.max(.64, (vw - 2 * L) / pair), (vh - 150) / HERO_H);
           /* Vertically the pair is anchored near the top of the stage: its "Start here" tab (LBL tall) sits TOP under the bar.
              The second row either peeks in or starts wholly below the stage. When it peeks, its name tabs and top edge sit right
              on the line where the toolbar's clear zone (ZONE) begins, so they read above the toolbar; the zone itself is a soft
              fade of the canvas floor at the start view (.vp::after, class "home"), so no artwork ever sits under the toolbar.
              Spare height (up to SLACK) goes above the pair rather than showing more of row 2. Where a little less width-fill
-             (at most 12%, never under 74%, never so little that a third group's edge slips in at the right) lets the second row
+             (at most 12%, never under 64%, never so little that a third group's edge slips in at the right) lets the second row
              peek, that wins. The pair itself never enters the zone: ZONE under the bars, MINI under the minimap's corner. */
           var TOP = 28, LBL = 35, ZONE = 88, MINI = 142, SLACK = 0, y0 = TOP + LBL;
           var peekS = (vh - ZONE - y0) / ROW2; /* the largest scale at which the second row's top edge meets the zone at y0 */
-          if (peekS < s && peekS >= Math.max(.74, s * .88) && peekS >= (vw + 16) / (4 * (SEC_W + GAP) - pair)) s = peekS; /* centred, the third column's left edge stays 8px past the right edge */
+          if (peekS < s && peekS >= Math.max(.64, s * .88) && L + 2 * (SEC_W + GAP) * peekS >= vw + 8) s = peekS; /* the third column's left edge stays 8px past the right edge */
           var h = HERO_H * s, r2 = ROW2 * s, y;
           if (y0 + r2 <= vh - ZONE) y = Math.min(y0 + SLACK, vh - ZONE - r2); /* the second row peeks in: its top edge on the zone line */
           else y = Math.max(y0, vh + LBL + 8 - r2); /* the second row starts below the stage, its tabs too */
-          var b = document.getElementById('brief'), tk = Math.min(1.3, Math.max(1, .85 / s)); /* the hero's small type, scaled back up (see .world .brief) */
-          if (b) { b.style.setProperty('--tk', tk.toFixed(3)); b.classList.toggle('tk-up', tk > 1.04); }
-          return { s: s, x: Math.max(32, (vw - pair * s) / 2), y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
+          var b = document.getElementById('brief'), tk = Math.min(1.3, Math.max(1, .85 / s)), tkm = Math.min(1.6, Math.max(1, 11.5 / (12 * s))); /* the hero's small type, scaled back up (see .world .brief): the lede to 15px+, the mono lines to 11.5px on screen */
+          if (b) { b.style.setProperty('--tk', tk.toFixed(3)); b.style.setProperty('--tkm', tkm.toFixed(3)); b.classList.toggle('tk-up', tkm > 1.04); }
+          return { s: s, x: L, y: Math.max(40, Math.min(y, vh - ZONE - h, vh - MINI - (HERO_H - 32) * s)) };
         };
         var d = document.documentElement, $ = function (id) { return document.getElementById(id); };
         if (!d.classList.contains('cv')) return;
@@ -1805,7 +1813,7 @@
       <!-- NEW COPY: "Why Studio Rendezvous?" (was "Why a studio like ours") -->
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Why Studio Rendezvous?</p>
       <div class="frames c4" style="margin-top:40px">
-        <div class="card fx" data-l="Compare / Freelancer"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, UX, print and apparel, with someone ready for every job.</p></div>
+        <div class="card fx" data-l="Compare / Freelancer"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, web, UX, sales decks, print and apparel, with someone ready for every job.</p></div>
         <div class="card fx" data-l="Compare / New hire"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, with no payroll when it slows.</p></div>
         <div class="card fx" data-l="Compare / Big agency"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
         <div class="card fx" data-l="Compare / Your team"><h3>Alongside your team</h3><p>More hands, same brand. We step into your process, take the overflow and the deadline crunch, and help the brand look its best along the way.</p></div>
@@ -2161,13 +2169,16 @@
     }
     if (cur.length) {
       var last = { items: cur, h: Math.min((W - gap * (cur.length - 1)) / sum, target), last: true };
-      if (cur.length === 1 && last.h * sum < W * .6) { /* a lone last piece: it grows (up to 520 tall), or joins the row above */
-        var big = Math.min(W / sum, Math.max(target, 520)), prev = rows[rows.length - 1];
-        if (prev && big * sum < W * .6) {
-          var ps = prev.items.reduce(function (a, b) { return a + b.ar; }, sum), mh = (W - gap * prev.items.length) / ps;
-          if (mh >= row * .6) { prev.items = prev.items.concat(cur); prev.h = mh; return rows; }
+      if (cur.length === 1) { /* a lone last piece never reads as a leftover: */
+        var full = W / sum, cap = Math.max(target, 520), prev = rows[rows.length - 1];
+        if (W < 600 || full <= cap * 1.3) last.h = full; /* it runs full width, like the rows above (always, in the phone's single column) */
+        else { /* too tall for that: centred at 520 tall, or, if that is still narrow, it joins the row above */
+          if (cap * sum < W * .6 && prev) {
+            var ps = prev.items.reduce(function (a, b) { return a + b.ar; }, sum), mh = (W - gap * prev.items.length) / ps;
+            if (mh >= row * .6) { prev.items = prev.items.concat(cur); prev.h = mh; return rows; }
+          }
+          last.h = cap; last.center = true;
         }
-        last.h = big;
       }
       rows.push(last);
     }
@@ -3031,17 +3042,36 @@
       morphing = 0; shutSheet(); sheet.style.opacity = ''; sheet.style.transform = ''; sheet.style.removeProperty('--bd');
     })(t0);
   }
+  /* history: the sheet and the piece viewer each add a step, so Back (the iPhone edge swipe included) closes the top one
+     (viewer first, then sheet) instead of leaving the site. Closing with X or Esc steps back over what was pushed;
+     a #job= link on the page, or Forward, opens that job. */
+  var hDepth = 0, hSkip = 0, hNoPush = false;
+  function hPush(kind, url) { try { history.scrollRestoration = 'manual'; history.pushState({ sr: kind }, '', url); hDepth++; } catch (_) {} }
+  function hSettle(target) {
+    var n = hDepth - target;
+    if (n > 0) { hDepth = target; hSkip++; try { history.go(-n); } catch (_) { hSkip--; } }
+    else if (!target && /^#job=/.test(location.hash)) { try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {} }
+  }
+  addEventListener('popstate', function () {
+    if (hSkip) { hSkip--; }
+    else if (pv.open) { hDepth = Math.max(0, hDepth - 1); pvClose(); }
+    else if (sheet.open) { hDepth = 0; closeSheet(); }
+    else { var m = /^#job=(\w+)/.exec(location.hash); if (m && byId[m[1]]) { hDepth = 1; hNoPush = true; openJob(m[1], 0, null); } }
+    if (!hDepth) try { history.scrollRestoration = 'auto'; } catch (_) {}
+  });
   function showJob(id, idx, still, top) {
     var j = byId[id]; curJob = id;
-    $('shCrumb').innerHTML = '<span class="wk">Work / </span><b></b>'; document.querySelector('#shCrumb b').textContent = j.ind;
+    $('shCrumb').innerHTML = '<span class="wk">Work / </span><b></b>'; document.querySelector('#shCrumb b').textContent = j.title; /* the job, so a sheet opened mid-way still says where you are */
     $('shInd').textContent = j.ind;
     $('shTitle').textContent = j.title;
     $('shCnt').textContent = j.cnt;
     $('shLede').textContent = j.lede;
     var sub = $('shSub'); sub.textContent = j.sub || ''; sub.hidden = !j.sub;
     var n = byId[ORDER[(ORDER.indexOf(id) + 1) % ORDER.length]]; $('shNextT').textContent = n.title;
+    var wasOpen = sheet.open;
     if (!sheet.open) { sheet.showModal(); }
-    try { history.replaceState(null, '', '#job=' + id); } catch (_) {}
+    if (!wasOpen && !hNoPush) hPush('sheet', '#job=' + id); else try { history.replaceState(history.state, '', '#job=' + id); } catch (_) {}
+    hNoPush = false;
     renderMosaic(j, idx);
     shScroll.scrollTop = 0; glideStop();
     if (idx > 0 && !top) {
@@ -3113,6 +3143,7 @@
       var row = document.createElement('div'); row.className = 'mrow';
       if (r.last && r.items.length) { /* keep a short last row at its own height */
         var sum = r.items.reduce(function (a, b) { return a + b.ar; }, 0); row.style.width = Math.min(W, r.h * sum + 14 * (r.items.length - 1)) + 'px';
+        if (r.center) row.style.marginInline = 'auto';
       }
       r.items.forEach(function (it) {
         var d = it.d, fig = document.createElement('figure'); fig.className = 'mo' + (it.i === hl && hl > 0 ? ' hl' : ''); fig.dataset.i = it.i;
@@ -3166,7 +3197,7 @@
     if (vidIO) vidIO.disconnect();
     shMosaic.querySelectorAll('video').forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
     shMosaic.innerHTML = '';
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
+    hSettle(0);
     /* whatever closed it, the frame comes back and the canvas is where it was */
     sheet.classList.remove('mph', 'landed'); morphEl.classList.remove('hold'); morphEl.style.clipPath = ''; morphEl.style.opacity = ''; sheet.style.opacity = ''; sheet.style.transform = '';
     unmorph([sheet.querySelector('.sh-bar'), shScroll]);
@@ -3551,7 +3582,7 @@
     shMosaic.querySelectorAll('video').forEach(function (v) { if (v !== fig._v) v.pause(); });
     var R = boxR(fig.getBoundingClientRect());
     if (MOTION) { pv.style.setProperty('--bgo', 0); pv.style.setProperty('--ui', 0); }
-    pv.showModal();
+    pv.showModal(); hPush('pv', location.href);
     pv.querySelectorAll('.pv-nav').forEach(function (b) { b.hidden = pvTiles.length < 2; }); pv.classList.toggle('solo', pvTiles.length < 2);
     var it = pvShow(i); /* (a picture still on its thumbnail fetches the full file now and swaps it in once decoded: pvMake) */
     pvStart(it, true); /* you asked for this piece: a video plays (muted unless Sound is on), Motion on or off */
@@ -3590,6 +3621,7 @@
     })(t0);
   }
   pv.addEventListener('close', function () {
+    hSettle(sheet.open ? 1 : 0);
     pvStop(); pvBusy = 0; pvScrub = null; pvSw = null; clearTimeout(pvCapT); pvT.style.opacity = '';
     var it = pvCur, di = it && it.fig.dataset.i; pvCur = null;
     pvAll.slice().forEach(pvDrop);
@@ -3769,6 +3801,7 @@
     { g: 'Actions', label: 'Back to the start', hint: '0', icon: ICON_SEC, kw: 'home hero', run: function () { scrollToStage(goHome); } },
     { g: 'Actions', label: 'See all work as a list', icon: ICON_SEC, kw: 'list index all jobs', run: function () { openList(); } },
     { g: 'Actions', label: 'Copy email address', hint: 'hello@', icon: ICON_SQ, kw: 'email mail contact', run: copyEmail },
+    { g: 'On this page', label: 'Work', icon: ICON_SEC, kw: 'canvas start home top', run: function () { scrollToStage(goHome); } },
     { g: 'On this page', label: 'Clients', icon: ICON_SEC, kw: 'logos customers who', run: function () { go('#clients'); } },
     { g: 'On this page', label: 'How it works', icon: ICON_SEC, kw: 'process board monday review status steps', run: function () { go('#how'); } },
     { g: 'On this page', label: 'Why it works', icon: ICON_SEC, kw: 'tenure years reasons why', run: function () { go('#why'); } },
@@ -4301,7 +4334,7 @@
   layout(true); ambSync();
   document.fonts && document.fonts.ready.then(function () { if (!full) { var keep = { x: cam.x, y: cam.y, s: cam.s }, h0 = homeCam; layout(false); if (h0 && keep.x === h0.x && keep.y === h0.y && keep.s === h0.s) { cam = home(); apply(); } reelP = -1; reelTick(); } });
   /* deep links: #job=events opens that job */
-  var dl = /^#job=(\w+)/.exec(location.hash); if (dl && byId[dl[1]]) setTimeout(function () { openJob(dl[1], 0, null); }, 60);
+  var dl = /^#job=(\w+)/.exec(location.hash); if (dl && byId[dl[1]]) setTimeout(function () { hNoPush = true; openJob(dl[1], 0, null); }, 60); /* arrived on the job's link: no step to add, closing just clears the hash */
   if (location.hash === '#list') setTimeout(openList, 60);
   window.__canvas = { cam: function () { return cam; }, frames: frames, openJob: openJob, fitAll: fitAll, home: goHome, sheet: sheet, bounds: function () { return bounds; },
     zoomTo: function (s) { takeCam(); var c = { x: vw / 2, y: vh / 2 }, wx = (c.x - cam.x) / cam.s, wy = (c.y - cam.y) / cam.s; cam = { s: s, x: c.x - wx * s, y: c.y - wy * s }; apply(); },
