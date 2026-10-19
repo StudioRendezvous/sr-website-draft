@@ -322,6 +322,7 @@
   /* no editor chrome on the first screen: the hero's handles and size pill wait until you start exploring (pre),
      and the selection steps aside while a job sheet grows out of, or settles back into, its frame (hush) */
   .sel.pre, .sel.hush { opacity: 0; transition: none; }
+  .sel.idle { opacity: 0; } /* a frame left selected (say, the one a job sheet closed back onto) lets go once the mouse moves on to another */
 
   /* comment pins: open a thread */
   .cpin { position: absolute; width: 0; height: 0; padding: 0; border: 0; background: none; z-index: 4; cursor: pointer; transition: opacity .2s; }
@@ -2305,7 +2306,7 @@
   world.appendChild(sel);
   var selPre = true;
   function selWake() { if (selPre) { selPre = false; sel.classList.remove('pre'); } } /* the first move, zoom, Explore, a frame picked, or a hover on the hero */
-  function select(x, y, w, h, label, quiet) { sel.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px'; sel.lastChild.textContent = label; if (!quiet) selWake(); }
+  function select(x, y, w, h, label, quiet) { sel.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px'; sel.lastChild.textContent = label; sel.classList.remove('idle'); if (!quiet) selWake(); }
   brief.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && briefIn) selWake(); });
 
   /* ------------------------------------------------------------------ camera */
@@ -2668,6 +2669,13 @@
   });
 
   /* hover: video frames play (only when big enough to see) */
+  /* the mouse moving on to another frame (or the hero) releases a frame that still holds focus and the selection, so only
+     one thing is ever highlighted: the one under the pointer (Shane: the old one "stuck") */
+  world.addEventListener('pointerover', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    var b = e.target.closest('.fr'), a = document.activeElement;
+    if (a && a !== b && a.classList && a.classList.contains('fr') && world.contains(a)) { a.blur(); sel.classList.add('idle'); }
+  });
   world.addEventListener('pointerover', function (e) {
     if (e.pointerType !== 'mouse' || drag || !MOTION) return;
     var b = e.target.closest('.fr'); if (!b) return;
