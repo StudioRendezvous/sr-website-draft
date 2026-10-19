@@ -709,6 +709,17 @@
   .cmt figcaption { margin-top: 12px; font-size: 14px; color: var(--muted); }
   .cmt figcaption b { color: var(--ink); font-weight: 600; }
   .cmt.r { margin-left: auto; }
+  /* hanging quotes: the opening mark sits outside the text block, so every line (the first included) starts on one edge.
+     A leading capital I or E carries extra left sidebearing in Source Sans, so those lines are nudged back by it. */
+  .cmt blockquote, .thread blockquote { position: relative; }
+  .hq { position: absolute; right: 100%; }
+  blockquote.opt-i { text-indent: -.06em; } blockquote.opt-i .hq { margin-right: .06em; }
+  /* Shane's line is not a testimonial: it reads as an update on the board (no quote marks, a name line above, body size) */
+  .cmt.upd .bub { border-radius: 12px 12px 12px 4px; padding: 16px 20px 18px; }
+  .cmt.upd figcaption { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+  .cmt.upd figcaption b { font-size: 15px; }
+  .cmt.upd figcaption span { font-size: 13.5px; }
+  .cmt.upd p { font-size: 17px; line-height: 1.5; color: var(--ink2); }
 
   /* no-script list of the work (the canvas needs script) */
   .nos-list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--ink); }
@@ -1742,8 +1753,8 @@
       <span class="vh" id="flLive" aria-live="polite" aria-atomic="true"></span>
       <div class="fl-foot"><a class="cta" href="#contact" data-help="first">Put a first job on the board</a></div>
       <div class="cmts">
-      <figure class="cmt"><span class="pin o untone" aria-hidden="true" data-bg="../media/team/shane-french.png" style="background-color:var(--accent);background-size:cover;background-position:center;color:transparent">SF</span><div class="bub"><blockquote>“Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.”</blockquote><figcaption><b>Shane French</b>, Creative Director</figcaption></div></figure>
-      <figure class="cmt r"><span class="pin" aria-hidden="true">PI</span><div class="bub"><blockquote>“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><figcaption><b>Phil Iaccarino</b>, Director, Product Marketing, Guidewire</figcaption></div></figure>
+      <figure class="cmt upd"><span class="pin o untone" aria-hidden="true" data-bg="../media/team/shane-french.png" style="background-color:var(--accent);background-size:cover;background-position:center;color:transparent">SF</span><div class="bub"><figcaption><b>Shane French</b><span>Creative Director, on every new job</span></figcaption><p>Every job gets my eyes the moment it lands. I assign it to the right senior creative and let the client know we’re on it.</p></div></figure>
+      <figure class="cmt r"><span class="pin" aria-hidden="true">PI</span><div class="bub"><blockquote class="opt-i"><span class="hq">“</span>I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><figcaption><b>Phil Iaccarino</b>, Director, Product Marketing, Guidewire</figcaption></div></figure>
       </div>
     </div></div>
   </section>
@@ -1763,7 +1774,7 @@
         <div class="card fx" data-l="Reason / 03"><h3>Straight to work</h3><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
         </div>
       </div>
-      <figure class="cmt r"><span class="pin" aria-hidden="true">MC</span><div class="bub"><blockquote>“I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</blockquote><figcaption><b>Marc Chouaniere</b>, VP Marketing, MoxiWorks</figcaption></div></figure>
+      <figure class="cmt r"><span class="pin" aria-hidden="true">MC</span><div class="bub"><blockquote class="opt-i"><span class="hq">“</span>I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</blockquote><figcaption><b>Marc Chouaniere</b>, VP Marketing, MoxiWorks</figcaption></div></figure>
     </div></div>
   </section>
 
@@ -1843,7 +1854,7 @@
         <div class="person fx" style="--c:#d24100;--t:#fff"><span class="ph untone" data-bg="../media/team/joel-bender.png"></span><b>Joel Bender</b><p>Senior Designer</p></div>
         <div class="person fx" style="--c:#6f6b62;--t:#fff"><span class="ph untone" data-bg="../media/team/gui-freitas.png"></span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
       </div>
-      <figure class="cmt r"><span class="pin" aria-hidden="true">BR</span><div class="bub"><blockquote>“When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><figcaption><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</figcaption></div></figure>
+      <figure class="cmt r"><span class="pin" aria-hidden="true">BR</span><div class="bub"><blockquote><span class="hq">“</span>When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><figcaption><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</figcaption></div></figure>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Past clients · thousands of projects over the years</p>
       <div class="logos sm" role="list" aria-label="Past long-term clients">
         <div role="listitem" class="fx"><img style="--ls:1.16" data-src="../media/logos/vertafore.png" alt="Vertafore" width="480" height="226"></div>
@@ -1867,7 +1878,7 @@
     <div class="wrap"><div class="cs-in contact" data-cs="Contact">
       <div>
         <h2 id="contactH">Start&nbsp;now with&nbsp;one&nbsp;job.</h2>
-        <p class="lede">See how easy it is. Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
+        <p class="lede">Ask for an estimate, get more information, or put a first job on the board. Getting started takes one meeting: share your brand book, recent work and a few examples of the brand done right, and we hit the ground running.</p>
         <p class="alt-mail">Prefer email? <a href="mailto:hello@studiorendezvous.net">hello@studiorendezvous.net</a></p>
       </div>
       <!-- NEW COPY: "Layers", "Untitled", "You", frame size pill; the reply reuses the approved thank-you line -->
@@ -2009,7 +2020,7 @@
     </div>
   </div>
   <div class="rp-end" id="rpEnd" hidden>
-    <div><svg class="mk" viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></svg><h2>That’s the reel.</h2><p>Start now with one job. See how easy it is.</p>
+    <div><svg class="mk" viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><rect y="67.84255" width="9.69403" height="9.69403"/><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/></svg><h2>That’s the reel.</h2><p>Start now with one job.</p>
       <div class="row"><a class="cta" href="#contact" id="rpStart">Start a job</a><button class="ghost" type="button" id="rpExplore">Explore the canvas</button><button class="ghost" type="button" id="rpAgain">Watch again</button></div></div>
   </div>
   <div class="rp-err" id="rpErr" hidden><div><p>The reel didn’t load.</p><div class="row"><button class="ghost" type="button" id="rpRetry">Try again</button></div></div></div>
@@ -2694,7 +2705,7 @@
   function openThread(pin) {
     var p = pin._pin; if (!thread.showPopover) return;
     if (openPin === pin) { closeThread(); return; }
-    $('thAv').textContent = p.ini; $('thName').textContent = p.name; $('thRole').textContent = p.role; $('thQ').textContent = p.q;
+    $('thAv').textContent = p.ini; $('thName').textContent = p.name; $('thRole').textContent = p.role; var q = $('thQ'), lead = /^“/.test(p.q); q.textContent = lead ? p.q.slice(1) : p.q; q.classList.toggle('opt-i', lead && /^“[IE]/.test(p.q)); if (lead) { var hm = document.createElement('span'); hm.className = 'hq'; hm.textContent = '“'; q.insertBefore(hm, q.firstChild); } /* the opening mark hangs */
     if (thread.matches(':popover-open')) thread.hidePopover();
     thread.showPopover();
     var r = pin.firstChild.getBoundingClientRect(), tw = thread.offsetWidth, th = thread.offsetHeight;
