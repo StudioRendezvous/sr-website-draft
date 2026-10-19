@@ -278,7 +278,7 @@
 
   /* semantic zoom, level 1 (overview): the section names take over, poster size. They live in the band above each group
      (--lb-b tall, in world units, so they scale with the file and can never reach the work), two lines at most. */
-  .world { --lb-b: 184px; --lb-t: 54px; --lb-s: 26px; } /* sized so two lines and the small line clear the row above by 24 (rows are one 184 gutter apart) */
+  .world { --lb-b: 248px; --lb-t: 54px; --lb-s: 26px; } /* two lines and the small line leave clear air under the row above (rows are 248 apart: at 184 the zoomed-out names crowded it, Shane) */
   .world.narrow { --lb-t: 80px; }
   .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 40px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .06s linear, visibility 0s .06s; z-index: 2; }
   .sec-big small { display: block; font: 500 var(--lb-s)/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
@@ -1580,7 +1580,7 @@
       /* Before first paint: on desktop the hero goes straight onto the canvas at the exact camera the canvas script starts from
          (it calls srHeroCam too), so nothing moves when it takes over. Tiny and blocking on purpose. */
       (function () {
-        var SEC_W = 808, GAP = 120, HERO_H = 712, ROW2 = HERO_H + 184; /* the same file grid as the canvas script: columns 120 apart, rows 184 apart (ROW2: where the second row starts) */
+        var SEC_W = 808, GAP = 120, HERO_H = 712, ROW2 = HERO_H + 248; /* the same file grid as the canvas script: columns 120 apart, rows 248 apart (ROW2: where the second row starts) */
         window.srHeroCam = function (vw, vh) { /* the hero and the first group side by side, tops aligned */
           /* the pair starts on the page edge (the logo's left, L), so the start view sits on the same line as the bar and the
              sections below. On the right it stops well short of the edge (R: the page edge plus about 5.5% of the width), so the
@@ -2205,10 +2205,10 @@
   var secRects = {}, secEls = {};
   /* The file is a strict grid on an 8px base. Every section is the same width: 4 columns of 168 with 24 gutters inside 32 padding.
      Rows are 88 tall (two make a 200 row, four make a 424 row), so every frame is one of five sizes:
-     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, 120 apart side to side (closer, Shane) and 184
-     apart top to bottom: every group's name lives in that 184 band above it (LB), clear of the work at every zoom.
+     744 × 424, 552 × 424, 360 × 200, 168 × 200 and 168 × 88. Sections sit on a 4 × 2 grid, 120 apart side to side (closer, Shane) and 248
+     apart top to bottom: every group's name lives in that 248 band above it (LB), clear of the work at every zoom.
      On phones the same groups stack into two columns (arrange), so the whole file reads at phone width. */
-  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 120, GAP_Y = 184, LB = 184, HERO_H = 712;
+  var PAD = 32, COL = 168, ROW = 88, GUT = 24, SEC_W = 808, GAP = 120, GAP_Y = 248, LB = 248, HERO_H = 712;
   function secH(rows) { return PAD * 2 + rows * (ROW + GUT) - GUT; }
   var CELL_Y = [0, HERO_H + GAP_Y, HERO_H + GAP_Y + secH(4) + GAP_Y]; /* row A, row B, the stacked half of row B */
   function cellX(c) { return c * (SEC_W + GAP); }
