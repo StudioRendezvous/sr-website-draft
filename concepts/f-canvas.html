@@ -608,7 +608,10 @@
   .floor .wrap, .foot-site .wrap { max-width: none; padding-inline: var(--edge); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
   .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
-  #contactH { font-size: clamp(40px, 4.6vw, 68px); } /* two lines, "Start now / with one job.", clear of the form beside it */
+  /* two lines, "Start now / with one job.", always inside its own column (sized to the column, so it can never run under
+     the form beside it); under 1100 the form drops below the text instead of squeezing it */
+  .contact > div:has(> #contactH) { container-type: inline-size; min-width: 0; }
+  #contactH { font-size: min(clamp(40px, 4.6vw, 68px), 16cqi); }
   .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 24px; }
 
@@ -1243,7 +1246,7 @@
   /* ---------- contact: a new job, dropped onto its own patch of canvas ---------- */
   .contact { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: 40px clamp(32px, 5vw, 64px); align-items: start; }
   @media (max-width: 640px) { .drop { margin-inline: -16px; border-inline: 0; border-radius: 0; } }
-  @media (max-width: 960px) { .contact { grid-template-columns: 1fr; } }
+  @media (max-width: 1100px) { .contact { grid-template-columns: 1fr; } }
   .drop { position: relative; background: var(--canvas); background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.5px); background-size: 24px 24px; border: 1px solid var(--sec-line); border-radius: 6px; padding: 56px clamp(16px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
   /* the form sits centred on its patch at full width; the decorative Layers list is retired here (it only ever showed on hover and pushed the form off centre) */
   .drop > .form { justify-self: center; width: 100%; max-width: 540px; }
@@ -1294,7 +1297,13 @@
   .fields input, .fields select, .fields textarea { width: 100%; font: 400 16px var(--body); color: var(--ink); background: var(--field); border: 1px solid var(--line-2); border-radius: 6px; padding: 12px 14px; }
   .fields input::placeholder, .fields textarea::placeholder { color: var(--muted); opacity: 1; }
   .fields input:focus, .fields select:focus, .fields textarea:focus { border-color: var(--accent); outline: 2px solid rgba(254, 80, 0, .25); outline-offset: 0; }
-  .fields textarea { resize: vertical; min-height: 120px; }
+  .fields textarea { resize: vertical; min-height: 120px; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: break-word; } /* Safari showed a sideways scrollbar */
+  /* the select drawn like the inputs beside it (Safari's native one was shorter and carried its own arrows) */
+  .fields select { -webkit-appearance: none; appearance: none; height: 48px; padding-right: 40px; cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+  .fields select:invalid, .fields select:has(option[value=""]:checked) { color: var(--muted); }
+  .fields select option { color: var(--ink); background: var(--field); }
   .fields [aria-invalid="true"] { border-color: #e5484d; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .form .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 16px; }
