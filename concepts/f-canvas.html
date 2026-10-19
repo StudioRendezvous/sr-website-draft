@@ -309,6 +309,10 @@
   .world.z-near .fr .spec { opacity: 1; }
   .fr:hover, .fr:focus-visible { outline: calc(2px * var(--k)) solid var(--accent); outline-offset: 0; }
   .fr:hover .lb, .fr:focus-visible .lb, .fr.on .lb { color: var(--accent-text); opacity: 1; }
+  /* hovered or selected, the name becomes a solid chip on top of everything around it: zoomed out, the gutter above a frame
+     is narrower than the name, which used to sit over the picture above and get lost in it (Shane) */
+  .fr:hover, .fr:focus-visible, .fr.on { z-index: 3; }
+  .fr:hover .lb, .fr:focus-visible .lb, .fr.on .lb { bottom: 100%; margin-bottom: calc(3px * var(--k)); padding: 4px 6px 3px; background: var(--accent); color: #1c1c1c; font-weight: 500; overflow: hidden; }
 
   /* selection box with handles and a size pill */
   .sel { position: absolute; pointer-events: none; border: calc(1.5px * var(--k)) solid var(--accent); z-index: 3; transition: opacity .2s; }
