@@ -787,11 +787,11 @@
   .flow.auto .fl-steps button[aria-current] .rg .pg { stroke-dashoffset: 100.53; animation: flfill var(--d, 4.5s) linear forwards; }
   .flow.auto:not(.run) .fl-steps button[aria-current] .rg .pg { animation-play-state: paused; }
   @keyframes flfill { to { stroke-dashoffset: 0; } }
-  .js .fl-steps .rg .ck { position: absolute; inset: 0; width: auto; height: auto; top: 0; right: 0; display: grid; place-items: center; border-radius: 50%; background: var(--ok); transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.8, .5, 1); }
-  .js .fl-steps .rg .ck::after { content: ""; width: 10px; height: 5px; margin-top: -3px; border: solid #fff; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
+  .js .fl-steps .rg .ck { position: absolute; inset: 7px; width: auto; height: auto; top: 7px; right: 7px; display: grid; place-items: center; border-radius: 50%; background: var(--ok); transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.8, .5, 1); }
+  .js .fl-steps .rg .ck::after { content: ""; width: 7px; height: 3.5px; margin-top: -2px; border: solid #fff; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
   :root[data-theme="dark"] .js .fl-steps .rg .ck::after { border-color: #1c1c1c; }
   .flow.ge-2 .st-1 .rg .n, .flow.ge-3 .st-2 .rg .n, .flow.ge-4 .st-3 .rg .n, .flow.ge-5 .st-4 .rg .n, .flow.ge-6 .st-5 .rg .n, .flow.ge-6 .st-6 .rg .n { opacity: 0; }
-  .flow.ge-2 .st-1 .rg .pg, .flow.ge-3 .st-2 .rg .pg, .flow.ge-4 .st-3 .rg .pg, .flow.ge-5 .st-4 .rg .pg, .flow.ge-6 .st-5 .rg .pg, .flow.ge-6 .st-6 .rg .pg { stroke-dashoffset: 0; animation: none; }
+  .flow.ge-2 .st-1 .rg .pg, .flow.ge-3 .st-2 .rg .pg, .flow.ge-4 .st-3 .rg .pg, .flow.ge-5 .st-4 .rg .pg, .flow.ge-6 .st-5 .rg .pg, .flow.ge-6 .st-6 .rg .pg { stroke-dashoffset: 0; animation: none; stroke: var(--ok); } /* done: the ring closes in green around a small solid check */
   .still .fl-steps .rg .ck { transition: none; }
   @media (max-width: 959px) { .js .fl-steps button { grid-template-columns: 1fr; padding: 0; justify-items: center; } .fl-steps .rg { width: 30px; height: 30px; } }
   /* a small green check in the top-right corner of each step tab once it is done */
