@@ -1181,6 +1181,7 @@
   /* Good to know, compact: four short answers in two even rows, small titles; one column on phones */
   .acc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); box-shadow: 0 0 0 1px var(--line), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
   .ac-r { background: var(--surface); padding: 20px 22px; }
+  .ac-r:last-child:nth-child(odd) { grid-column: 1 / -1; } /* an odd count: the last answer runs the full width */
   .ac-t { font: 800 21px/1 var(--display); text-transform: uppercase; }
   .ac-r p { margin-top: 8px; font-size: 15.5px; line-height: 1.5; color: var(--ink2); }
   @media (max-width: 640px) { .acc { grid-template-columns: 1fr; } .ac-r { padding: 16px; } }
@@ -1862,6 +1863,7 @@
       <div class="acc">
         <!-- "How fast?" approved by Shane 2026-10-16; "Getting started" cut 2026-11-03 (Contact already says it) -->
         <div class="ac-r"><h3 class="ac-t">How fast?</h3><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div>
+        <div class="ac-r"><h3 class="ac-t">Quick questions</h3><p>Not everything needs to go on the board. We join your Slack or Teams channel, so a quick question or a “can you handle this today?” is just a message away.</p></div>
         <div class="ac-r"><h3 class="ac-t">Who sees your work</h3><p>Every job, including launches and unreleased products, is done by our senior team, never outside freelancers. Unreleased work is seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
         <div class="ac-r"><h3 class="ac-t">Compliance review</h3><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div>
         <div class="ac-r"><h3 class="ac-t">Busy months</h3><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div>
