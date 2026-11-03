@@ -747,7 +747,7 @@
   :root { --q-bg: #edf2f6; --q-line: #1f78dc; --q-pin: #1f78dc; }
   :root[data-theme="dark"] { --q-bg: #1e2830; --q-line: #3a8ef0; --q-pin: #1f78dc; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --q-bg: #1e2830; --q-line: #3a8ef0; --q-pin: #1f78dc; } }
-  .cmt:not(.upd) .bub { background: var(--q-bg); border: 1.5px solid var(--q-line); }
+  .cmt:not(.upd) .bub { background: var(--surface-h); border: 1.5px solid var(--q-line); } /* the card-hover grey, not a blue fill (Shane); the blue stays in the stroke and pin */
   .cmt:not(.upd) .pin { background: var(--q-pin); color: #fff; }
   .cmt.upd figcaption { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
   .cmt.upd figcaption b { font-size: 15px; }
