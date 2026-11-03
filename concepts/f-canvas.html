@@ -607,11 +607,11 @@
   /* the section frames run edge to edge (gutter to gutter, up to a 1792px column), so they line up with the logo, the toolbar and the start view at every width */
   .floor .wrap, .foot-site .wrap { max-width: none; padding-inline: var(--edge); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
-  .band h2 { font-size: clamp(40px, 6vw, 76px); font-weight: 900; max-width: 18ch; }
+  .band h2 { font-size: clamp(36px, 4.6vw, 60px); /* a notch down (Shane: headlines a little large) */ font-weight: 900; max-width: 18ch; }
   /* two lines, "Start now / with one job.", always inside its own column (sized to the column, so it can never run under
      the form beside it); under 1100 the form drops below the text instead of squeezing it */
   .contact > div:has(> #contactH) { container-type: inline-size; min-width: 0; }
-  #contactH { font-size: min(clamp(40px, 4.6vw, 68px), 16cqi); }
+  #contactH { font-size: min(clamp(36px, 4.2vw, 60px), 16cqi); }
   .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 24px; }
 
@@ -694,6 +694,12 @@
   .trial { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 48px; align-items: start; }
   .trial .tr-b p:first-child { margin-top: 0; }
   .trial .cta { margin-top: 20px; padding: 12px 16px 11px; font-size: 12px; }
+  /* How we work together runs a size smaller than the rest of the cards (Shane: all a bit big) */
+  #together .card { padding: 20px 22px; }
+  #together .card h3 { font-size: clamp(22px, 1.9vw, 26px); }
+  #together .card p, #together .card .c-bd > p:not(.lead) { font-size: 15.5px; }
+  #together .card .lead { font-size: 16px; }
+  #together .pts li { font-size: 15.5px; }
   @media (max-width: 860px) { .trial { display: flex; flex-direction: column; gap: 0; } .trial .tr-a { display: contents; } .trial .tr-b { order: 1; margin-top: 12px; } .trial .tr-b p:first-child { margin-top: 8px; } .trial .cta { order: 2; align-self: flex-start; } } /* stacked: title, lead, the two lines, then the button */
   .frames.c4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); align-items: stretch; }
   .card h3 { font-size: clamp(25px, 2.4vw, 30px); }
@@ -1178,6 +1184,15 @@
   .card .lead { margin-top: 8px; }
   .card .c-bd > p:not(.lead) { margin-top: 12px; font-size: 16px; } /* the detail lines, shown (no Details fold: Shane, too little text to hide) */
   .card .c-bd > .pts + p { margin-top: 14px; }
+  /* Good to know folds as one set, closed (Shane: it was in the way of who we are and starting a job) */
+  .gtk > summary { list-style: none; cursor: pointer; width: fit-content; margin-bottom: 0; }
+  .gtk > summary::-webkit-details-marker { display: none; }
+  .gtk[open] > summary { margin-bottom: 16px; }
+  .gtk-b { margin-left: 6px; padding: 6px 11px 5px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--muted); letter-spacing: .05em; transition: background .2s, color .2s, border-color .2s; }
+  .gtk-b::after { content: " +"; } .gtk[open] .gtk-b::after { content: " \2212"; }
+  .gtk .gtk-b .c, .gtk[open] .gtk-b .o { display: none; } .gtk[open] .gtk-b .c { display: inline; }
+  .gtk > summary:hover .gtk-b { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .gtk > summary:focus-visible { outline: 2px solid var(--cta); outline-offset: 4px; }
   /* Good to know, compact: four short answers in two even rows, small titles; one column on phones */
   .acc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); box-shadow: 0 0 0 1px var(--line), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
   .ac-r { background: var(--surface); padding: 20px 22px; }
@@ -1225,10 +1240,10 @@
   .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 24px; margin-top: 48px; }
   @media (min-width: 1100px) { .team { grid-template-columns: repeat(5, minmax(0, 1fr)); } } /* our five in a row; the partner three on the same columns */
   #team .fg { margin-top: 48px; } #team .fg .team { margin-top: 0; }
-  .person { position: relative; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 24px; }
-  .person .ph { display: block; width: 76px; height: 76px; border-radius: 50%; background: #888 center/cover; border: 3px solid var(--c); }
-  .person b { display: block; margin-top: 16px; font: 800 24px/1 var(--display); text-transform: uppercase; }
-  .person p { margin-top: 8px; font-size: 15px; color: var(--muted); }
+  .person { position: relative; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 20px; }
+  .person .ph { display: block; width: 64px; height: 64px; border-radius: 50%; background: #888 center/cover; border: 3px solid var(--c); }
+  .person b { display: block; margin-top: 14px; font: 800 21px/1 var(--display); text-transform: uppercase; }
+  .person p { margin-top: 6px; font-size: 14.5px; color: var(--muted); }
   /* the only headshot on file for Shane is a duotone, so every team portrait wears the same untone filter the board uses
      (one treatment across the row); the others come back to full colour on hover. Rings: orange, ink and greys only. */
   .ph.untone, .pin.untone { position: relative; overflow: hidden; }
@@ -1859,7 +1874,7 @@
         <div class="card fx" data-l="Compare / Your team"><h3>When your team is stretched</h3><p>Added creative capacity within your process. We handle the overflow while keeping everything on-brand.</p></div>
       </div></div>
       <!-- NEW COPY: "Good to know" (was "Before you sign"); the answers are shown open, no fold (Shane 2026-11-03) -->
-      <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Good to know</p>
+      <details class="fg gtk"><summary class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Good to know<span class="gtk-b" aria-hidden="true"><span class="o">Show 5 answers</span><span class="c">Hide</span></span></summary>
       <div class="acc">
         <!-- "How fast?" approved by Shane 2026-10-16; "Getting started" cut 2026-11-03 (Contact already says it) -->
         <div class="ac-r"><h3 class="ac-t">How fast?</h3><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div>
@@ -1867,7 +1882,7 @@
         <div class="ac-r"><h3 class="ac-t">Who sees your work</h3><p>Every job, including launches and unreleased products, is done by our senior team, never outside freelancers. Unreleased work is seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
         <div class="ac-r"><h3 class="ac-t">Compliance review</h3><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div>
         <div class="ac-r"><h3 class="ac-t">Busy months</h3><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div>
-      </div></div>
+      </div></details>
     </div></div>
   </section>
 
