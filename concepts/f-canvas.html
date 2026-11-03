@@ -592,11 +592,6 @@
   :root { --cs-bg: #f0eee9; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
   :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
-  /* "What we make" and "How we work together": a warm, orange-tinted ground with the brand orange (Shane 2026-11-03, after trying
-     light blue); frames stay lighter than the ground (raised), as everywhere else */
-  #make, #together { --cs-bg: #f6e9df; --pn-bg: #fdf7f2; --sec-line: rgba(210, 65, 0, .18); }
-  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #2a1f19; --surface: #34281f; --pn-bg: #34281f; --hover: #3e3026; --line: #4b3a2e; --ring: rgba(254, 80, 0, .1); --sec-line: rgba(254, 80, 0, .2); }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #2a1f19; --surface: #34281f; --pn-bg: #34281f; --hover: #3e3026; --line: #4b3a2e; --ring: rgba(254, 80, 0, .1); --sec-line: rgba(254, 80, 0, .2); } }
   /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
   :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
   :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
