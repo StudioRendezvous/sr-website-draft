@@ -556,6 +556,11 @@
   .pv-it { position: absolute; transform-origin: 0 0; background: var(--ph, #222); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
   .pv-it img, .pv-it video { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; }
   .pv-it.vid { cursor: pointer; }
+  /* zoom: a picture larger than its box zooms in on a click; zoomed, it fills the stage and drags around */
+  .pv-it.cz { cursor: zoom-in; }
+  .pv-it.zm { background: none; box-shadow: none; overflow: hidden; cursor: grab; }
+  dialog.pv.panning .pv-it.zm { cursor: grabbing; }
+  .pv-it.zm img { will-change: transform; }
   dialog.pv .rp-top, dialog.pv .rp-bar, dialog.pv .pv-nav { opacity: var(--ui, 1); }
   dialog.pv .rp-top { padding-bottom: 28px; }
   .pv-t { min-width: 0; } .pv-t b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
@@ -3626,14 +3631,14 @@
   function pvPlace(it) { var B = it.box; it.wrap.style.left = B.x + 'px'; it.wrap.style.top = B.y + 'px'; it.wrap.style.width = B.w + 'px'; it.wrap.style.height = B.h + 'px'; }
   /* the piece's name and place ("3 / 8"): in the top strip, or on upright phones directly under the piece */
   function pvCapSet(it) {
-    var n = pvTiles.length; $('pvCap').textContent = it.d[4]; $('pvPos').textContent = n > 1 ? (it.i + 1) + ' / ' + n : '';
+    var n = pvTiles.length; $('pvCap').textContent = it.d[4]; $('pvPos').textContent = (n > 1 ? (it.i + 1) + ' / ' + n : '') + (pvZ && pvZ.it === it ? ' · Drag to move, click to zoom out' : pvCanZoom(it) ? ' · Click to zoom' : ''); /* NEW COPY: zoom hints */
     pvCapAt(it);
   }
   function pvCapAt(it) { pvIn.style.setProperty('--capy', (it.box.y + it.box.h + 14) + 'px'); pvIn.style.setProperty('--capx', Math.max(16, it.box.x) + 'px'); } /* under it, from its left edge */
   function pvMake(i) {
     var fig = pvTiles[i], d = byId[curJob].items[+fig.dataset.i], w = document.createElement('div');
     var it = { i: i, fig: fig, d: d, wrap: w, box: pvBox(d), v: null };
-    w.className = 'pv-it' + (d[1] ? ' vid' : ''); w.style.setProperty('--ph', d[5]); pvPlace(it);
+    w.className = 'pv-it' + (d[1] ? ' vid' : '') + (!d[1] && d[2] > it.box.w * 1.2 ? ' cz' : ''); w.style.setProperty('--ph', d[5]); pvPlace(it);
     if (d[1] && fig._v) {
       var v = it.v = pvVid = fig._v; v.controls = false;
       if (!v.getAttribute('src')) v.src = v.dataset.src;
@@ -3726,7 +3731,7 @@
     pvFs.innerHTML = on ? ICON_FS_X : ICON_FS; pvFs.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
     if (pv.open) requestAnimationFrame(pvRelayout);
   });
-  function pvRelayout() { pvAll.forEach(function (it) { it.box = pvBox(it.d); pvPlace(it); }); if (pvCur) pvCapAt(pvCur); }
+  function pvRelayout() { if (pvZ) pvZout(true); pvAll.forEach(function (it) { it.box = pvBox(it.d); pvPlace(it); }); if (pvCur) pvCapAt(pvCur); }
   addEventListener('resize', function () { if (pv.open) pvRelayout(); });
   /* the grow: the piece's box travels from its tile's crop (object-fit: cover there) to its whole self, clipped to a window
      that opens from the tile's rect to the piece's own. transform and clip only. p = 0 at the tile, 1 in the viewer. */
@@ -3760,6 +3765,7 @@
   }
   function pvClose() {
     if (!pv.open || pvBusy) return;
+    if (pvZ) pvZout(true);
     var it = pvCur; pvStop();
     var wasFull = document.fullscreenElement === pvIn; if (wasFull) document.exitFullscreen().catch(function () {});
     if (!it || !MOTION || pvDirty || wasFull || !it.fig.isConnected) { pv.close(); return; }
@@ -3781,6 +3787,7 @@
     })(t0);
   }
   pv.addEventListener('close', function () {
+    if (pvZ) pvZout(true);
     hSettle(sheet.open ? 1 : 0);
     pvStop(); pvBusy = 0; pvScrub = null; pvSw = null; clearTimeout(pvCapT); pvT.style.opacity = '';
     var it = pvCur, di = it && it.fig.dataset.i; pvCur = null; if (di != null) shLast = +di;
@@ -3800,7 +3807,7 @@
     }
     if (vidIO) shMosaic.querySelectorAll('video').forEach(function (v) { vidIO.unobserve(v); vidIO.observe(v); });
   });
-  pv.addEventListener('cancel', function (e) { e.preventDefault(); pvClose(); }); /* Esc */
+  pv.addEventListener('cancel', function (e) { e.preventDefault(); if (pvZ) pvZout(); else pvClose(); }); /* Esc: zoomed, it zooms out first */
   /* stepping through the job's pieces: the old one slips away, the new one comes in from the side it was asked for */
   /* in turn, never together: the old one slides on toward the way you are going and fades (100ms), then the new one slides
      in from the other side (130ms). Two pieces of different shapes are never on screen at once. Transform and opacity only;
@@ -3808,6 +3815,7 @@
   var PV_OUT = 100, PV_IN = 130, pvCapT = 0;
   function pvGo(dir) {
     if (!pv.open || pvBusy || pvTiles.length < 2 || !pvCur) return;
+    if (pvZ) pvZout(true);
     var old = pvCur, n = pvTiles.length, i = (old.i + dir + n) % n;
     pvAll.slice().forEach(function (o) { if (o !== old) pvDrop(o); }); /* one still leaving goes now */
     if (old.v) old.v.pause();
@@ -3832,13 +3840,15 @@
   $('pvClose').addEventListener('click', pvClose);
   /* the stage: a click on the dark goes back; on a video, plays or pauses. Touch: swipe sideways to step, down to go back */
   pvStage.addEventListener('click', function (e) {
+    if (pvZ) { if (pvZ.moved) pvZ.moved = false; else pvZout(); return; }
     if (pvBusy || performance.now() - pvSwT < 400) return;
     var w = e.target.closest('.pv-it');
     if (!w) { pvClose(); return; }
     if (pvCur && pvCur.v && w === pvCur.wrap) pvToggle();
+    else if (pvCur && w === pvCur.wrap && pvCanZoom(pvCur)) pvZin(e.clientX, e.clientY);
   });
   pvStage.addEventListener('pointerdown', function (e) {
-    if (pvBusy || !pvCur || e.button || e.pointerType === 'mouse') return;
+    if (pvBusy || !pvCur || pvZ || e.button || e.pointerType === 'mouse') return;
     pvSw = { id: e.pointerId, x: e.clientX, y: e.clientY, t0: performance.now(), ax: '' };
     try { pvStage.setPointerCapture(e.pointerId); } catch (_) {}
   });
@@ -3873,6 +3883,62 @@
     }
   }
   pvStage.addEventListener('pointerup', pvSwEnd); pvStage.addEventListener('pointercancel', pvSwEnd);
+  /* zoom (pictures only, Shane): a click zooms in under the pointer, to the picture's own pixels or at least filling the
+     width; drag (mouse or finger) or scroll to move around, pinch or ctrl-scroll to zoom further; click again, Esc, a step
+     or the close button zooms back out. Transform only while it moves. */
+  var pvZ = null, pvPan = null;
+  function pvCanZoom(it) { return !!it && !it.v && it.d[2] > it.box.w * 1.2; }
+  function pvZclamp() {
+    var z = pvZ, W = pvIn.clientWidth, H = pvIn.clientHeight;
+    z.tx = z.iw <= W ? (W - z.iw) / 2 : Math.min(0, Math.max(W - z.iw, z.tx));
+    z.ty = z.ih <= H ? (H - z.ih) / 2 : Math.min(0, Math.max(H - z.ih, z.ty));
+  }
+  function pvZpaint(anim) { var z = pvZ; z.im.style.transition = anim ? 'transform .38s cubic-bezier(.22, .8, .2, 1)' : 'none'; z.im.style.transform = 'translate(' + z.tx + 'px,' + z.ty + 'px)'; }
+  function pvZin(cx, cy) {
+    var it = pvCur; if (!pvCanZoom(it) || pvBusy) return;
+    var R = pvIn.getBoundingClientRect(), B = it.box, W = R.width, im = it.wrap.querySelector('img');
+    var iw = Math.min(it.d[2], Math.max(W - 160, B.w * 2)), s = iw / B.w, ih = B.h * s;
+    var fx = (cx - R.left - B.x) / B.w, fy = (cy - R.top - B.y) / B.h;
+    pvZ = { it: it, im: im, s: s, iw: iw, ih: ih, tx: cx - R.left - fx * iw, ty: cy - R.top - fy * ih, moved: false };
+    pvZclamp();
+    it.wrap.classList.add('zm'); pv.classList.add('zoomed');
+    it.wrap.style.left = '0px'; it.wrap.style.top = '0px'; it.wrap.style.width = W + 'px'; it.wrap.style.height = R.height + 'px';
+    im.style.position = 'absolute'; im.style.left = '0'; im.style.top = '0'; im.style.width = iw + 'px'; im.style.height = ih + 'px'; im.style.transformOrigin = '0 0';
+    im.style.transition = 'none'; im.style.transform = 'translate(' + B.x + 'px,' + B.y + 'px) scale(' + (1 / s) + ')';
+    void im.offsetWidth; pvZpaint(MOTION);
+    if (im.src.indexOf('/thumbs/') >= 0) sharpenNow(im, M + it.d[0]);
+    pvCapSet(it);
+  }
+  function pvZout(now) {
+    var z = pvZ; if (!z) return; pvZ = null; pvPan = null; pv.classList.remove('panning');
+    var it = z.it, B = it.box, im = z.im;
+    function done() { if (pvZ) return; im.removeAttribute('style'); it.wrap.classList.remove('zm'); pvPlace(it); pv.classList.remove('zoomed'); if (pvCur === it) pvCapSet(it); }
+    if (now || !MOTION) { done(); return; }
+    im.style.transition = 'transform .32s cubic-bezier(.22, .8, .2, 1)'; im.style.transform = 'translate(' + B.x + 'px,' + B.y + 'px) scale(' + (1 / z.s) + ')';
+    setTimeout(done, 330);
+  }
+  pvStage.addEventListener('pointerdown', function (e) {
+    if (!pvZ || e.button) return;
+    pvPan = { id: e.pointerId, x: e.clientX, y: e.clientY, tx: pvZ.tx, ty: pvZ.ty, moved: false };
+    try { pvStage.setPointerCapture(e.pointerId); } catch (_) {}
+    pv.classList.add('panning');
+  });
+  pvStage.addEventListener('pointermove', function (e) {
+    if (!pvPan || pvPan.id !== e.pointerId || !pvZ) return;
+    var dx = e.clientX - pvPan.x, dy = e.clientY - pvPan.y; if (Math.abs(dx) + Math.abs(dy) > 4) pvPan.moved = true;
+    pvZ.tx = pvPan.tx + dx; pvZ.ty = pvPan.ty + dy; pvZclamp(); pvZpaint(false);
+  });
+  function pvPanEnd(e) { if (!pvPan || pvPan.id !== e.pointerId) return; if (pvZ) pvZ.moved = pvPan.moved; pvPan = null; pv.classList.remove('panning'); }
+  pvStage.addEventListener('pointerup', pvPanEnd); pvStage.addEventListener('pointercancel', pvPanEnd);
+  pvStage.addEventListener('wheel', function (e) {
+    var z = pvZ; if (!z) return;
+    if (e.ctrlKey) { /* pinch / ctrl-scroll: zoom about the pointer, between the fitted size and 1.5x the picture's pixels */
+      var R = pvIn.getBoundingClientRect(), px = e.clientX - R.left, py = e.clientY - R.top;
+      var nw = Math.max(z.it.box.w, Math.min(z.it.d[2] * 1.5, z.iw * Math.exp(-e.deltaY * .01))), k = nw / z.iw;
+      z.tx = px - (px - z.tx) * k; z.ty = py - (py - z.ty) * k; z.iw = nw; z.ih *= k; z.im.style.width = z.iw + 'px'; z.im.style.height = z.ih + 'px';
+    } else { z.tx -= e.deltaX; z.ty -= e.deltaY; }
+    pvZclamp(); pvZpaint(false);
+  }, { passive: true });
   /* the dim under it never scrolls the sheet */
   ['wheel', 'touchmove'].forEach(function (t) { pv.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
   /* keys: arrows step (on the seek bar they seek 5s), Space or K play and pause, M sound, F full screen, Esc goes back; Tab stays inside */
