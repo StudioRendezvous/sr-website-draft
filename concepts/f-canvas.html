@@ -592,6 +592,10 @@
   :root { --cs-bg: #f0eee9; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
   :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
+  /* "What we make" and "How we work together" share a cool light-blue treatment in place of the warm grey and orange (Shane, 2026-11-03) */
+  #make, #together { --cs-bg: #e2edf5; --pn-bg: #f2f7fb; --accent: #2b8fe0; --accent-text: #11609f; --cta: #11609f; --cta-hover: #0c4f85; --cta-ink: #ffffff; --sec-line: rgba(17, 96, 159, .2); }
+  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #1d262e; --pn-bg: #222c35; --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #1d262e; --pn-bg: #222c35; --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); } }
   /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
   :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
   :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
@@ -675,8 +679,6 @@
      Each row of components shares one height (auto layout: fill); the footer is pinned to the bottom edge, so the actions and
      hairlines line up across the row and the spare height sits between body and footer, never under the last line. */
   .card .c-ft { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
-  .card .c-ft details.more { margin-top: 0; }
-  .card .c-ft details.more[open] { flex-basis: 100%; } /* opened, the detail takes the row; the CTA drops under it */
   .card .c-ft .move-link { margin-top: 0; }
   @media (min-width: 641px) { /* (phones stack one card per row, as before) */
     .frames.c3 > .card, .frames.c4 > .card { display: flex; flex-direction: column; }
@@ -890,6 +892,8 @@
   .bd-tabs { display: flex; gap: 24px; margin: 0 18px; border-bottom: 1px solid var(--b-line); font-size: 13.5px; color: var(--b-ink); white-space: nowrap; overflow: hidden; }
   .bd-tabs span { padding: 8px 2px 8px; }
   .bd-tabs .on { box-shadow: inset 0 -2px 0 var(--b-blue); padding-inline: 8px; }
+  /* the other views and the tools are set back (Shane: barely there), so the eye goes to Main table, New item and the table */
+  .bd-tabs span:not(.on), .bd-tl { color: color-mix(in srgb, var(--b-muted) 45%, var(--b-bg)); }
   .bd-tools { display: flex; align-items: center; gap: 4px; padding: 10px 18px 4px; font-size: 13.5px; color: var(--b-ink); white-space: nowrap; }
   .bd-new { display: inline-flex; align-items: stretch; height: 32px; margin-right: 12px; border-radius: 5px; overflow: hidden; background: var(--b-blue); color: #fff; }
   .bd-new span { display: flex; align-items: center; padding: 0 12px; }
@@ -898,8 +902,8 @@
   .motion .flow.at-1 .bd-new { animation: newpress .9s ease; }
   @keyframes newpress { 0% { box-shadow: 0 0 0 0 rgba(27, 111, 214, .55); } 20% { transform: scale(.95); } 45% { transform: none; box-shadow: 0 0 0 7px rgba(27, 111, 214, 0); } }
   .bd-tl { display: inline-flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 5px; }
-  .bd-tl svg { width: 15px; height: 15px; color: var(--b-ink); }
-  .bd-body { position: relative; padding: 10px 18px 16px; --cols: 34px minmax(150px, 1fr) 84px 36px 70px 84px 130px 100px 100px 88px; }
+  .bd-tl svg { width: 15px; height: 15px; color: currentColor; }
+  .bd-body { position: relative; padding: 10px 18px 16px; --cols: 34px minmax(150px, 1fr) 84px 36px 70px 130px 100px 100px 88px; }
   .bd-gh { display: flex; align-items: center; gap: 10px; margin: 0 0 8px 2px; color: var(--b-group); }
   .bd-gh svg { width: 12px; height: 12px; }
   .bd-gh b { font: 600 17px/1 var(--body); }
@@ -942,7 +946,7 @@
   .pill { display: grid; place-items: center; grid-auto-flow: column; gap: 6px; width: 100%; height: 100%; padding: 0 8px; font: 400 13.5px/1 var(--body); font-style: normal; color: #fff; white-space: nowrap; }
   .p-new { background: var(--st-new); } .p-des { background: var(--st-des); } .p-rev { background: var(--st-rev); color: var(--st-ink); } .p-del { background: var(--st-del); } .p-done { background: var(--st-done); color: var(--st-ink); } .p-hold { background: var(--st-hold); color: var(--st-ink); }
   .p-hi { background: var(--pr-hi); color: var(--st-ink); } .p-no { background: var(--pr-no); }
-  .p-hi svg { width: 13px; height: 13px; color: #ffd300; }
+  .p-hi { position: relative; } .p-hi svg { position: absolute; right: 8px; top: 50%; width: 13px; height: 13px; margin-top: -6.5px; color: #ffd300; }
   .bd-r .nd, .bd-r .d { font-size: 13px; color: var(--b-ink); white-space: nowrap; }
   .fi { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--b-muted); white-space: nowrap; }
   .fi svg { width: 13px; height: 15px; color: var(--b-muted); }
@@ -1047,11 +1051,11 @@
   .fl-foot p { color: var(--muted); font-size: 15.5px; }
 
   /* narrower boards drop the columns a buyer needs least (by the board's own width) */
-  @container board (max-width: 1060px) { .c-no, .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 64px 76px 120px 100px 100px; } }
-  @container board (max-width: 900px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 64px 76px 118px 98px; } .bd-tl.x2 { display: none; } }
-  @container board (max-width: 780px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(150px, 1fr) 56px 64px 100px 88px; } .bd-tl span { display: none; } .bd-share > span { display: none; } }
+  @container board (max-width: 1000px) { .c-no { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 84px 70px 130px 100px 100px 88px; } }
+  @container board (max-width: 860px) { .c-pr { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 70px 120px 100px 100px; } }
+  @container board (max-width: 760px) { .c-du { display: none !important; } .bd-body { --cols: 34px minmax(150px, 1fr) 80px 70px 118px 98px; } .bd-tl.x2 { display: none; } }
   @container board (max-width: 720px) { .bd-pan { width: 64%; } }
-  @container board (max-width: 660px) { .c-fi { display: none !important; } .bd-body { --cols: 32px minmax(150px, 1fr) 54px 100px 88px; } }
+  @container board (max-width: 680px) { .c-yt { display: none !important; } .bd-body { --cols: 32px minmax(150px, 1fr) 56px 100px 88px; } .bd-tl span { display: none; } .bd-share > span { display: none; } }
   /* phones: every row as a stacked card, the updates pane as a bottom sheet */
   @container board (max-width: 560px) {
     .bd-top { height: 48px; padding: 4px 14px 0; } .bd-name { font-size: 19px; }
@@ -1060,19 +1064,18 @@
     .bd-body { padding: 10px 12px 14px; }
     .bd-cols, .bd-sum, .bd-add > .cb { display: none; }
     .bd-tbl { border-left-width: 5px; }
-    .bd-r { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "o j f" "o s d"; gap: 7px 10px; padding: 10px 10px 10px 9px; border-top: 1px solid var(--b-line); }
+    .bd-r { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "o j j" "o s d"; gap: 7px 10px; padding: 10px 10px 10px 9px; border-top: 1px solid var(--b-line); }
     .bd-r > span { height: auto; padding: 0; border: 0 !important; }
     .bd-r > .cb, .bd-r > .c-yt, .bd-r > .c-no, .bd-r > .nd, .bd-r > .pr { display: none; }
     .bd-r > .j { grid-area: j; padding-left: 0; } .bd-r > .o { grid-area: o; align-self: start; }
-    .bd-r > .s { grid-area: s; justify-items: start; } .bd-r > .f { grid-area: f; justify-items: end; }
+    .bd-r > .s { grid-area: s; justify-items: start; }
     .bd-r > .c-du { display: flex !important; grid-area: d; justify-content: flex-end; font-size: 12.5px; color: var(--b-muted); }
     .bd-r .pill { width: auto; height: 26px; padding: 0 11px; border-radius: 4px; font-size: 13px; }
     .bd-r .up, .bd-r .sb, .bd-r .cv { display: none; }
     .bd-r.nw > .j { flex-wrap: wrap; row-gap: 5px; } .bd-r.nw .t { white-space: normal; }
     .bd-add { display: block; } .bd-add > span:nth-child(2) { border-left: 0; padding-left: 10px; }
     .bd-r.bd-more { grid-template-areas: "o j s"; align-items: center; } .bd-r.bd-more .cv { display: block; } .bd-r.bd-more > .j { gap: 6px; } .bd-r.bd-more > .s { justify-items: end; }
-    .bd-r .f.c-fi { display: grid !important; }
-    .bd-r.bd-more > .f, .bd-r.bd-more > .d { display: none !important; }
+    .bd-r.bd-more > .d { display: none !important; }
     .bd-pan { top: auto; left: 0; width: auto; height: min(92%, 560px); border-left: 0; border-top: 1px solid var(--b-line); border-radius: 14px 14px 0 0; transform: translateY(104%); box-shadow: 0 -24px 48px -26px var(--b-shadow); }
     .bd-pan::before { content: ""; position: absolute; left: 50%; top: 7px; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--b-line); }
     .pn-h { padding: 20px 12px 0 16px; } .pn-h b { font-size: 18px; }
@@ -1166,43 +1169,15 @@
 
   /* option cards: the lead line stays visible, the detail folds open (Shane: collapse How we work together) */
   .card .lead { margin-top: 8px; }
-  .card details.more { margin-top: 16px; }
-  /* Amber: "Details" was easy to overlook, so it reads as a button */
-  .card details.more summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 14px 0 16px; border: 1.5px solid var(--ink); font: 600 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); transition: background .2s, color .2s; }
-  .card details.more summary:hover, .card details.more[open] summary { background: var(--ink); color: var(--paper); }
-  .card details.more summary::-webkit-details-marker { display: none; }
-  .card details.more summary::after { content: "+"; font-size: 18px; line-height: 1; transition: transform .25s var(--ease); }
-  .card details.more[open] summary::after { transform: rotate(45deg); }
-  .card details.more summary:focus-visible { outline: 2px solid var(--cta); outline-offset: 3px; }
-  .card details.more p { margin-top: 12px; }
-  .card details.more p + p { margin-top: 8px; }
-  .motion .card details.more[open] p { animation: acin .3s var(--ease); }
-  /* Good to know: a plain-English accordion in the canvas language (native details/summary: keyboard and screen readers for free) */
+  .card .c-bd > p:not(.lead) { margin-top: 12px; font-size: 16px; } /* the detail lines, shown (no Details fold: Shane, too little text to hide) */
+  .card .c-bd > .pts + p { margin-top: 14px; }
+  /* Good to know: short answers, all shown (a question on the left, the answer beside it; stacked on phones) */
   .acc { background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
-  .acc details { background: var(--surface); }
-  .acc details + details { border-top: 1px solid var(--line); }
-  .acc summary { list-style: none; display: grid; grid-template-columns: 96px minmax(0, 1fr) 32px; align-items: center; gap: 16px; padding: 16px 16px 16px 24px; cursor: pointer; transition: background .2s; }
-  .acc summary::-webkit-details-marker { display: none; }
-  .acc summary:hover { background: var(--hover); }
-  .acc summary:focus-visible { outline: 2px solid var(--cta); outline-offset: -2px; }
-  .ac-k { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .ac-r { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 8px 32px; align-items: baseline; padding: 22px 24px; }
+  .ac-r + .ac-r { border-top: 1px solid var(--line); }
   .ac-t { font: 800 clamp(22px, 2.1vw, 27px)/1 var(--display); text-transform: uppercase; }
-  .ac-t span { color: var(--accent); }
-  .ac-i { position: relative; width: 32px; height: 32px; justify-self: end; border-radius: 50%; border: 1.5px solid var(--ink); color: var(--ink); transition: background .2s, color .2s; }
-  .ac-i::before, .ac-i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.5px; background: currentColor; transform: translate(-50%, -50%); transition: transform .25s var(--ease); }
-  .ac-i::after { transform: translate(-50%, -50%) rotate(90deg); }
-  .acc details[open] .ac-i { background: var(--ink); color: var(--paper); }
-  .acc details[open] .ac-i::after { transform: translate(-50%, -50%); }
-  .ac-b { padding: 0 24px 24px 136px; }
-  .ac-b p { max-width: 64ch; color: var(--ink2); }
-  .motion .acc details[open] > .ac-b { animation: acin .32s var(--ease); }
-  @keyframes acin { from { opacity: 0; transform: translateY(-6px); } }
-  @media (max-width: 760px) {
-    .acc summary { grid-template-columns: minmax(0, 1fr) 32px; gap: 6px 12px; padding-left: 16px; }
-    .ac-k, .ac-t { grid-column: 1; } .ac-i { grid-column: 2; grid-row: 1 / span 2; }
-    .ac-b { padding: 0 16px 24px; }
-  }
-  .still .acc *, .still .acc *::before, .still .acc *::after { transition: none !important; animation: none !important; }
+  .ac-r p { max-width: 64ch; color: var(--ink2); }
+  @media (max-width: 760px) { .ac-r { grid-template-columns: 1fr; padding: 18px 16px; } }
 
   /* Clients stay for years: the tenure chart (one row per current client) beside the three reasons */
   /* Amber (Content Matterz review): the reasons lead with their value, the chart supports them and draws itself in */
@@ -1512,7 +1487,6 @@
     .top .kbtn { width: auto !important; }
     .stage { --tb-h: 52px; } /* toolbar segments 44px */
     .sh-btn { min-width: 44px; }
-    .card details.more { margin-top: 0; } .card details.more summary { padding-block: 15px; line-height: 14px; }
     .card .move-link { padding-block: 15px; margin-top: 1px; }
     .foot-site ul { gap: 0; } .foot-site ul a, .foot-site .base a, .foot-site a[aria-label] { display: inline-flex; align-items: center; min-height: 44px; }
   }
@@ -1749,18 +1723,18 @@
           <div class="bd-body">
             <div class="bd-gh"><svg><use href="#i-cd"/></svg><b>Your current jobs</b><span class="c5">13 active</span><span class="c6">14 active</span></div>
             <div class="bd-tbl">
-              <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span class="c-fi">Files</span><span>Status</span><span class="c-nd">Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
-              <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="tj">This job</span><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi f1"><svg><use href="#i-do"/></svg>Brief</i><i class="fi f3"><img class="dr" data-src="../media/thumbs/arx-booth.jpg" alt="" width="38" height="22"></i><i class="fi fin f5"><svg><use href="#i-do"/></svg>3</i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd c-nd"><span class="n0"></span><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd c-nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph untone" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>2</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av ph" data-bg="../media/thumbs/andrew-baldwin.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>4</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Customer story one-pager</span><span class="up on"><svg><use href="#i-bu"/></svg><em>1</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi"><svg><use href="#i-do"/></svg>1</i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Tue, Oct 20</span><span class="d c-du">Fri, Oct 23</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r bd-more"><span class="cb"></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Show 7 more</span></span><span class="yt c-yt"></span><span class="no c-no"></span><span class="o"></span><span class="f c-fi"></span><span class="s"><em class="pill p-rev">In Review<b>7</b></em></span><span class="nd c-nd"></span><span class="d c-du"></span><span class="pr c-pr"></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Event signage refresh</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">13</span><span class="o"><i class="av ph" data-bg="../media/thumbs/joel-bender.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"></span><span class="s"><em class="pill p-hold">On Hold</em></span><span class="nd c-nd"></span><span class="d c-du">Thu, Nov 12</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
-              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">14</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="f c-fi"><i class="fi fin"><svg><use href="#i-do"/></svg>9</i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd c-nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-cols"><span class="cb"><i></i></span><span class="j">Item</span><span class="c-yt">Your team</span><span class="c-no">#</span><span>Design</span><span>Status</span><span class="c-nd">Next draft</span><span class="c-du">Due date</span><span class="c-pr">Priority</span></div>
+              <div class="bd-nw"><div class="bd-r nw"><span class="cb"><i></i></span><span class="j"><span class="tj">This job</span><span class="t">Trade show booth loop</span><span class="chk"></span><span class="up"><svg><use href="#i-bu"/></svg><em class="u2">2</em><em class="u4">4</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">1</span><span class="o"><i class="av ae"><svg><use href="#i-pe"/></svg></i><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-new">New</em><em class="pill p-des">In Design</em><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em><em class="pill p-done">Complete</em></span><span class="nd c-nd"><span class="n0"></span><span class="n1">Tue, Oct 27</span></span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Q4 webinar social posts</span><span class="sb">4</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">2</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-des">In Design</em></span><span class="nd c-nd">Mon, Oct 26</span><span class="d c-du">Fri, Nov 6</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Product launch explainer</span><span class="up on"><svg><use href="#i-bu"/></svg><em>3</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">3</span><span class="o"><i class="av ph untone" data-bg="../media/thumbs/shane-french.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Thu, Oct 22</span><span class="d c-du">Fri, Oct 30</span><span class="pr c-pr"><em class="pill p-hi">High<svg><use href="#i-wa"/></svg></em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Partner email templates (Mac + PC)</span><span class="up on"><svg><use href="#i-bu"/></svg><em>2</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="1"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">4</span><span class="o"><i class="av ph" data-bg="../media/thumbs/andrew-baldwin.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Wed, Oct 21</span><span class="d c-du">Tue, Oct 27</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Customer story one-pager</span><span class="up on"><svg><use href="#i-bu"/></svg><em>1</em></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">5</span><span class="o"><i class="av ph" data-bg="../media/thumbs/gui-freitas.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-rev">In Review</em></span><span class="nd c-nd">Tue, Oct 20</span><span class="d c-du">Fri, Oct 23</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r bd-more"><span class="cb"></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">Show 7 more</span></span><span class="yt c-yt"></span><span class="no c-no"></span><span class="o"></span><span class="s"><em class="pill p-rev">In Review<b>7</b></em></span><span class="nd c-nd"></span><span class="d c-du"></span><span class="pr c-pr"></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><span class="t">Event signage refresh</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="2"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">13</span><span class="o"><i class="av ph" data-bg="../media/thumbs/joel-bender.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-hold">On Hold</em></span><span class="nd c-nd"></span><span class="d c-du">Thu, Nov 12</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
+              <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">14</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd c-nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
               <div class="bd-add"><span class="cb"><i></i></span><span>+ Add item</span></div>
             </div>
-            <div class="bd-sum"><span class="cb"></span><span class="j"></span><span class="c-yt"></span><span class="c-no"></span><span class="o"></span><span class="f c-fi"></span><span class="s"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:10"></i><i style="background:var(--st-hold)"></i></span><span class="c-nd"></span><span class="c-du"></span><span class="pr c-pr"><i></i><i></i></span></div>
+            <div class="bd-sum"><span class="cb"></span><span class="j"></span><span class="c-yt"></span><span class="c-no"></span><span class="o"></span><span class="s"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:10"></i><i style="background:var(--st-hold)"></i></span><span class="c-nd"></span><span class="c-du"></span><span class="pr c-pr"><i></i><i></i></span></div>
           </div>
           <div class="bd-pan">
             <div class="pn-h"><b>Trade show booth loop</b><span class="ps"><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em></span><span class="pn-x"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></span></div>
@@ -1833,9 +1807,9 @@
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
            Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
       <div class="frames c3">
-        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
-        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We plan around your annual marketing calendar, so you can count on us anytime you need us. Billing happens at the start of the month, with hours and rates reviewed annually.</p></details></div></div>
-        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Get the creative support you need, when you need it, without a fixed monthly commitment. Pay at the end of the month only for the hours you use.</p></details></div></div>
+        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></div><div class="c-ft"><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
+        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul><p>We plan around your annual marketing calendar, so you can count on us anytime you need us. Billing happens at the start of the month, with hours and rates reviewed annually.</p></div></div>
+        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p><p>Get the creative support you need, when you need it, without a fixed monthly commitment. Pay at the end of the month only for the hours you use.</p></div></div>
       </div>
       <!-- Content Matterz back out of the accordion (Shane: "seems buried"). Fix 4: a quiet partner frame, lighter than the work,
            the two marks as one lockup with "15 years together · 10,000+ deliverables"; distinct in both themes (ink mark on light). -->
@@ -1858,15 +1832,15 @@
         <div class="card fx" data-l="Compare / Big agency"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
         <div class="card fx" data-l="Compare / Your team"><h3>When your team is stretched</h3><p>Added creative capacity within your process. We handle overflow and tight deadlines while keeping everything on-brand.</p></div>
       </div></div>
-      <!-- NEW COPY: "Good to know" (was "Before you sign"); the three answers and the partner block are unchanged, now folded -->
+      <!-- NEW COPY: "Good to know" (was "Before you sign"); the answers are shown open, no fold (Shane 2026-11-03) -->
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Good to know</p>
       <div class="acc">
         <!-- the two items below: copy approved by Shane 2026-10-16 -->
-        <details><summary><span class="ac-k">Timing</span><span class="ac-t">How fast?</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div></details>
-        <details><summary><span class="ac-k">Onboarding</span><span class="ac-t">Getting started</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We get right to work on your highest priorities, then schedule everything else around your calendar. Once the schedule is locked, we move.</p></div></details>
-        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Who sees your work</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, including launches and unreleased products, is done by our senior team, never outside freelancers. Unreleased work is seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
-        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Compliance review</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div></details>
-        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Busy months</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div></details>
+        <div class="ac-r"><h3 class="ac-t">How fast?</h3><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div>
+        <div class="ac-r"><h3 class="ac-t">Getting started</h3><p>We get right to work on your highest priorities, then schedule everything else around your calendar. Once the schedule is locked, we move.</p></div>
+        <div class="ac-r"><h3 class="ac-t">Who sees your work</h3><p>Every job, including launches and unreleased products, is done by our senior team, never outside freelancers. Unreleased work is seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div>
+        <div class="ac-r"><h3 class="ac-t">Compliance review</h3><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div>
+        <div class="ac-r"><h3 class="ac-t">Busy months</h3><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div>
       </div></div>
     </div></div>
   </section>
