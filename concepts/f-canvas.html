@@ -593,9 +593,10 @@
   :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
   /* "What we make" and "How we work together" share a cool light-blue treatment in place of the warm grey and orange (Shane, 2026-11-03) */
+  /* dark theme: the frames in these two go a deep navy, not grey (grey on the blue ground vibrated: Shane) */
   #make, #together { --cs-bg: #e2edf5; --pn-bg: #f2f7fb; --accent: #2b8fe0; --accent-text: #11609f; --cta: #11609f; --cta-hover: #0c4f85; --cta-ink: #ffffff; --sec-line: rgba(17, 96, 159, .2); }
-  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #1d262e; --pn-bg: #222c35; --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #1d262e; --pn-bg: #222c35; --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); } }
+  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #1d262e; --pn-bg: #142029; --surface: #142029; --hover: #1b2a36; --line: #26394a; --ring: rgba(124, 196, 245, .1); --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #1d262e; --pn-bg: #142029; --surface: #142029; --hover: #1b2a36; --line: #26394a; --ring: rgba(124, 196, 245, .1); --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); } }
   /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
   :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
   :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
@@ -1174,13 +1175,14 @@
   .card .lead { margin-top: 8px; }
   .card .c-bd > p:not(.lead) { margin-top: 12px; font-size: 16px; } /* the detail lines, shown (no Details fold: Shane, too little text to hide) */
   .card .c-bd > .pts + p { margin-top: 14px; }
-  /* Good to know: short answers, all shown (a question on the left, the answer beside it; stacked on phones) */
-  .acc { background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
-  .ac-r { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 8px 32px; align-items: baseline; padding: 22px 24px; }
-  .ac-r + .ac-r { border-top: 1px solid var(--line); }
-  .ac-t { font: 800 clamp(22px, 2.1vw, 27px)/1 var(--display); text-transform: uppercase; }
-  .ac-r p { max-width: 64ch; color: var(--ink2); }
-  @media (max-width: 760px) { .ac-r { grid-template-columns: 1fr; padding: 18px 16px; } }
+  /* Good to know, compact: three across then two (a 6-column grid, so no empty cell), small titles; two across on tablets, one on phones */
+  .acc { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); box-shadow: 0 0 0 1px var(--line), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
+  .ac-r { grid-column: span 2; background: var(--surface); padding: 20px 22px; }
+  .ac-r:nth-child(n+4) { grid-column: span 3; }
+  .ac-t { font: 800 21px/1 var(--display); text-transform: uppercase; }
+  .ac-r p { margin-top: 8px; font-size: 15.5px; line-height: 1.5; color: var(--ink2); }
+  @media (max-width: 1099px) { .acc { grid-template-columns: 1fr 1fr; } .ac-r, .ac-r:nth-child(n+4) { grid-column: auto; } .ac-r:last-child { grid-column: 1 / -1; } }
+  @media (max-width: 640px) { .acc { grid-template-columns: 1fr; } .ac-r { padding: 16px; } }
 
   /* Clients stay for years: the tenure chart (one row per current client) beside the three reasons */
   /* Amber (Content Matterz review): the reasons lead with their value, the chart supports them and draws itself in */
@@ -1737,7 +1739,6 @@
               <div class="bd-r"><span class="cb"><i></i></span><span class="j"><svg class="cv"><use href="#i-cr"/></svg><span class="t">October social posts</span><span class="sb">9</span><span class="up"><svg><use href="#i-bu"/></svg></span></span><span class="yt c-yt"><i class="av ay" data-cav="0"><svg><use href="#i-pe"/></svg></i></span><span class="no c-no">14</span><span class="o"><i class="av ph" data-bg="../media/thumbs/tom-larsen.png"><svg><use href="#srmk"/></svg></i></span><span class="s"><em class="pill p-done">Complete</em></span><span class="nd c-nd"></span><span class="d c-du">Fri, Oct 16</span><span class="pr c-pr"><em class="pill p-no">Normal</em></span></div>
               <div class="bd-add"><span class="cb"><i></i></span><span>+ Add item</span></div>
             </div>
-            <div class="bd-sum"><span class="cb"></span><span class="j"></span><span class="c-yt"></span><span class="c-no"></span><span class="o"></span><span class="s"><i style="background:var(--st-done)"></i><i class="nwseg"></i><i style="background:var(--st-des)"></i><i style="background:var(--st-rev);flex:10"></i><i style="background:var(--st-hold)"></i></span><span class="c-nd"></span><span class="c-du"></span><span class="pr c-pr"><i></i><i></i></span></div>
           </div>
           <div class="bd-pan">
             <div class="pn-h"><b>Trade show booth loop</b><span class="ps"><em class="pill p-rev">In Review</em><em class="pill p-del">Delivered</em></span><span class="pn-x"><svg viewBox="0 0 12 12"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8"/></svg></span></div>
