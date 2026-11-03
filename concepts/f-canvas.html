@@ -711,6 +711,12 @@
   /* Try us first: a strip above the two ways to keep going (it replaces the third card: Shane / CMO review) */
   .trial { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 48px; align-items: start; }
   .trial .tr-b p:first-child { margin-top: 0; }
+  /* wide screens: the two detail lines sit side by side as their own columns, so no line runs the full strip (Shane: looked strange) */
+  @media (min-width: 1100px) {
+    .trial { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
+    .trial .tr-b { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; padding-top: 4px; }
+    .trial .tr-b p { margin-top: 0; max-width: 46ch; }
+  }
   .trial .cta { margin-top: 20px; padding: 12px 16px 11px; font-size: 12px; }
   /* How we work together runs a size smaller than the rest of the cards (Shane: all a bit big) */
   #together .card { padding: 20px 22px; }
