@@ -674,13 +674,16 @@
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --surface-h: #232323; } }
   .card.fx, .person.fx, .tenure.fx, .partner.fx, .make li.fx, .logos .fx { transition: background-color .2s; }
   @media (hover: hover) { .card.fx:hover, .person.fx:hover, .tenure.fx:hover, .partner.fx:hover, .make li.fx:hover, .logos .fx:hover { background-color: var(--surface-h); } }
-  /* no hover selection on the example board or the reason cards in Clients stay for years (Shane); keyboard focus still shows */
+  /* no hover selection on the example board, the reason cards in Clients stay for years, or How we work together except the
+     Content Matterz panel (Shane); keyboard focus still shows */
   @media (hover: hover) {
-    .bdx.fx:hover:not(:has(:focus-visible)), .reasons .card.fx:hover:not(:has(:focus-visible)) { outline: none; }
+    .bdx.fx:hover:not(:has(:focus-visible)), .reasons .card.fx:hover:not(:has(:focus-visible)), #together .fx:not(.partner):hover:not(:has(:focus-visible)) { outline: none; }
     .bdx.fx:hover:not(:has(:focus-visible))::before, .bdx.fx:hover:not(:has(:focus-visible))::after,
-    .reasons .card.fx:hover:not(:has(:focus-visible))::before, .reasons .card.fx:hover:not(:has(:focus-visible))::after { opacity: 0; }
-    .bdx.fx:hover > .cl, .reasons .card.fx:hover > .cl { color: var(--cl-ink); }
-    .reasons .card.fx:hover { background-color: var(--surface); }
+    .reasons .card.fx:hover:not(:has(:focus-visible))::before, .reasons .card.fx:hover:not(:has(:focus-visible))::after,
+    #together .fx:not(.partner):hover:not(:has(:focus-visible))::before, #together .fx:not(.partner):hover:not(:has(:focus-visible))::after { opacity: 0; }
+    .bdx.fx:hover > .cl, .reasons .card.fx:hover > .cl, #together .fx:not(.partner):hover > .cl { color: var(--cl-ink); }
+    .reasons .card.fx:hover, #together .card.fx:hover { background-color: var(--surface); }
+    #together .fg:hover > .fn { color: var(--ink); }
   }
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
