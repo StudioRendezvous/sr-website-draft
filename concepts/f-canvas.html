@@ -589,9 +589,9 @@
      own layer, over the dot grid and the section areas and under every component, clipped to the floor so it never shows over
      the canvas above or the footer below. */
   .wrap { max-width: 1240px; margin: 0 auto; padding-inline: var(--gut); }
-  :root { --cs-bg: #f0eee9; --cs-bg-h: #e3dfd6; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
-  :root[data-theme="dark"] { --cs-bg: #242424; --cs-bg-h: #121212; --pn-bg: #282828; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --cs-bg-h: #121212; --pn-bg: #282828; } }
+  :root { --cs-bg: #f0eee9; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
+  :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
   /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
   :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
   :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
@@ -632,7 +632,6 @@
   @media (hover: hover) {
     .cs-in:hover:not(:has(.fx:hover, .fg:hover, .drop:hover)) { border-color: color-mix(in srgb, var(--accent) 45%, var(--sec-line)); }
     .cs-in:hover:not(:has(.fx:hover, .fg:hover, .drop:hover)) > .cs-t .dm { opacity: 1; }
-    .cs-in:hover:not(:has(.fx:hover, .fg:hover, .drop:hover))::before { background: var(--cs-bg-h); transition-duration: .2s; } /* the highlighted section also dips a shade darker (Shane) */
   }
   .cs-in:has(:focus-visible):not(:has(.fx :focus-visible, .fg :focus-visible, .drop :focus-visible)) { border-color: var(--accent); box-shadow: 0 0 0 .5px var(--accent); }
   .cs-in:has(:focus-visible):not(:has(.fx :focus-visible, .fg :focus-visible, .drop :focus-visible)) > .cs-t .dm { opacity: 1; }
@@ -669,6 +668,12 @@
   }
   @media (hover: none) { .fx::after, .cs-t .dm { display: none; } } /* no size pills on touch */
   .motion .fx::after, .motion .cs-t .dm { transition: opacity .12s; }
+  /* the card under the pointer also goes nearly black (light: a warm grey), with its orange selection (Shane) */
+  :root { --surface-h: #ebe8e1; }
+  :root[data-theme="dark"] { --surface-h: #161616; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --surface-h: #161616; } }
+  .card.fx, .person.fx, .tenure.fx, .partner.fx, .make li.fx, .logos .fx { transition: background-color .2s; }
+  @media (hover: hover) { .card.fx:hover, .person.fx:hover, .tenure.fx:hover, .partner.fx:hover, .make li.fx:hover, .logos .fx:hover { background-color: var(--surface-h); } }
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
   .frames.c3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); align-items: stretch; }
