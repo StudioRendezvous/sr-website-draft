@@ -674,7 +674,7 @@
   /* Option cards: a body (title, lead, the case) and a footer row under a hairline (Details on every card, and the first card's CTA).
      Each row of components shares one height (auto layout: fill); the footer is pinned to the bottom edge, so the actions and
      hairlines line up across the row and the spare height sits between body and footer, never under the last line. */
-  .card .c-ft { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .card .c-ft { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
   .card .c-ft details.more { margin-top: 0; }
   .card .c-ft details.more[open] { flex-basis: 100%; } /* opened, the detail takes the row; the CTA drops under it */
   .card .c-ft .move-link { margin-top: 0; }
@@ -1167,12 +1167,15 @@
   /* option cards: the lead line stays visible, the detail folds open (Shane: collapse How we work together) */
   .card .lead { margin-top: 8px; }
   .card details.more { margin-top: 16px; }
-  .card details.more summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
+  /* Amber: "Details" was easy to overlook, so it reads as a button */
+  .card details.more summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 14px 0 16px; border: 1.5px solid var(--ink); font: 600 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); transition: background .2s, color .2s; }
+  .card details.more summary:hover, .card details.more[open] summary { background: var(--ink); color: var(--paper); }
   .card details.more summary::-webkit-details-marker { display: none; }
-  .card details.more summary::after { content: "+"; font-size: 15px; line-height: 1; transition: transform .25s var(--ease); }
+  .card details.more summary::after { content: "+"; font-size: 18px; line-height: 1; transition: transform .25s var(--ease); }
   .card details.more[open] summary::after { transform: rotate(45deg); }
   .card details.more summary:focus-visible { outline: 2px solid var(--cta); outline-offset: 3px; }
-  .card details.more p { margin-top: 10px; }
+  .card details.more p { margin-top: 12px; }
+  .card details.more p + p { margin-top: 8px; }
   .motion .card details.more[open] p { animation: acin .3s var(--ease); }
   /* Good to know: a plain-English accordion in the canvas language (native details/summary: keyboard and screen readers for free) */
   .acc { background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); }
@@ -1202,14 +1205,20 @@
   .still .acc *, .still .acc *::before, .still .acc *::after { transition: none !important; animation: none !important; }
 
   /* Clients stay for years: the tenure chart (one row per current client) beside the three reasons */
-  .why { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 48px 24px; margin-top: 48px; align-items: start; }
+  /* Amber (Content Matterz review): the reasons lead with their value, the chart supports them and draws itself in */
+  .why { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px 32px; margin-top: 48px; align-items: start; }
   @media (max-width: 960px) { .why { grid-template-columns: 1fr; } }
   .reasons { display: grid; gap: 40px; }
   .reasons .card { padding: 24px; }
-  .reasons .card h3 { font-size: clamp(23px, 2.1vw, 27px); }
+  .reasons .card h3 { font-size: clamp(26px, 2.5vw, 34px); line-height: 1.02; }
   .reasons .card p { margin-top: 8px; font-size: 16px; }
   .tenure { position: relative; margin: 0; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 24px clamp(16px, 2.4vw, 32px) 16px; }
-  .tenure .tag { display: inline-block; background: var(--ink); color: var(--paper); font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px 3px; }
+  .tenure .ttl { display: block; font: 800 clamp(22px, 2vw, 28px)/1.05 var(--display); text-transform: uppercase; }
+  .tenure svg .bar { stroke-dasharray: var(--l); stroke-dashoffset: 0; }
+  .motion .tenure svg .bar { transition: stroke-dashoffset 1s cubic-bezier(.3, .7, .2, 1) calc(var(--i) * 90ms); }
+  .motion .tenure svg .mk, .motion .tenure svg .val.e { transition: opacity .35s ease calc(var(--i) * 90ms + .75s); }
+  .motion .tenure:not(.seen) svg .bar { stroke-dashoffset: var(--l); }
+  .motion .tenure:not(.seen) svg .mk, .motion .tenure:not(.seen) svg .val.e { opacity: 0; }
   #chTenure svg { display: block; width: 100%; height: auto; margin-top: 16px; }
   .tenure svg text { font-family: var(--mono); fill: var(--muted); letter-spacing: .04em; }
   .tenure svg .val { fill: var(--ink); }
@@ -1230,6 +1239,7 @@
 
   /* team */
   .team { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 24px; margin-top: 48px; }
+  @media (min-width: 900px) { .team { grid-template-columns: repeat(4, minmax(0, 1fr)); } } /* eight people: two even rows */
   .person { position: relative; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 24px; }
   .person .ph { display: block; width: 76px; height: 76px; border-radius: 50%; background: #888 center/cover; border: 3px solid var(--c); }
   .person b { display: block; margin-top: 16px; font: 800 24px/1 var(--display); text-transform: uppercase; }
@@ -1541,7 +1551,7 @@
         <p class="eb mono"><svg viewBox="0 0 78 78" fill="currentColor" aria-hidden="true"><path d="m76.69568,67.00165C70.93737,33.13381,44.35214,6.27016,10.54195.15327l-.84793-.15327v67.84255h67.14368l-.14202-.8409Zm-62.028-4.13276V6.07892c6.18825,1.55506,12.0666,3.91023,17.57285,6.88255h-12.47624l-.27148.01705.27148,44.9082,44.81627.01705v-11.82694c2.69565,5.29198,4.8304,10.9058,6.23869,16.79207H14.66769Z"/><path d="m64.58056,27.79885v-14.85444h-14.41991c5.67569,4.48923,10.01927,9.10914,14.41991,14.85444Z"/><rect y="67.84255" width="9.69403" height="9.69403"/></svg> Studio Rendezvous, Inc. <span>B2B design and motion studio</span></p>
         <h1 id="h1">Design and motion, <em>always on.</em></h1>
         <p class="tag">When you need a team that delivers every day.</p>
-        <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, from a single job to big campaigns and a whole year of marketing goals.</p>
+        <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Drop a job on the board and we get straight to work, on brand and on deadline, whether it’s a single banner, a big campaign or a whole year of marketing goals.</p>
         <!-- NEW COPY: "Watch the reel" -->
         <div class="ctas"><a class="cta" href="#contact" data-help="first">Start a job</a><button class="ghost" type="button" data-reel aria-haspopup="dialog"><svg viewBox="0 0 10 10" aria-hidden="true"><polygon points="1,0 10,5 1,10" fill="currentColor"/></svg>Watch the reel</button></div>
       </div>
@@ -1684,7 +1694,7 @@
   <section class="band cs" id="how" aria-labelledby="howH">
     <div class="wrap"><div class="cs-in" data-cs="How it works" data-ind="6 steps">
       <h2 id="howH">Put a job on the board. We’ve got it.</h2>
-      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries and review process? We work in yours. Tight deadline? We plan for it, and when something truly can’t wait, we make room.</p>
+      <p class="lede">Every client gets a shared monday.com board, free to join. It’s where jobs come in, where reviews happen and where nothing gets lost in an inbox. Already have your own board, Figma libraries or review process? We work in yours. Tight deadline? We plan for it. And when something truly can’t wait, we make room.</p>
       <!-- NEW COPY: "Your job, start to finish" (Shane, was "One job…"), "Pause", "Play", "Paused", "Replay", "Step N of 6", step 4's second sentence
            "Approve it, or ask for changes, right on the board.", step 6 title "Done" and "Marked complete."
            (every other step line is the approved five-step copy) -->
@@ -1693,10 +1703,10 @@
           <div class="fl-rh"><span class="mono">Your job, start to finish</span><button class="fl-play" id="flPlay" type="button" hidden></button></div>
           <ol class="fl-steps" id="flSteps" aria-label="Steps">
             <li class="st-1" style="--d:4.2s"><button type="button" data-step="1"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">01</span><span class="ck"></span></span></span><span class="tx"><b>Add a job</b><span>A brief, any files and the deadline.</span></span></button></li>
-            <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">02</span><span class="ck"></span></span></span><span class="tx"><b>We’re on it</b><span>A senior creative who knows your brand picks it up, and you see when to expect a first look.</span></span></button></li>
-            <li class="st-3" style="--d:5s"><button type="button" data-step="3"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">03</span><span class="ck"></span></span></span><span class="tx"><b>Best first draft</b><span>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</span></span></button></li>
+            <li class="st-2" style="--d:5s"><button type="button" data-step="2"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">02</span><span class="ck"></span></span></span><span class="tx"><b>We’re on it</b><span>Assigned to a senior creative who knows your brand. You’ll know when to expect the first draft.</span></span></button></li>
+            <li class="st-3" style="--d:5s"><button type="button" data-step="3"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">03</span><span class="ck"></span></span></span><span class="tx"><b>Best first draft delivered</b><span>Refined by a senior designer before it reaches you. About nine in ten need only light changes.</span></span></button></li>
             <li class="st-4" style="--d:6.5s"><button type="button" data-step="4"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">04</span><span class="ck"></span></span></span><span class="tx"><b>Review</b><span>Proofs and revisions stay with the job. Approve it, or ask for changes, right on the board.</span></span></button></li>
-            <li class="st-5" style="--d:5.5s"><button type="button" data-step="5"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">05</span><span class="ck"></span></span></span><span class="tx"><b>Delivered</b><span>Final files, ready to use, and source files on request.</span></span></button></li>
+            <li class="st-5" style="--d:5.5s"><button type="button" data-step="5"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">05</span><span class="ck"></span></span></span><span class="tx"><b>Delivered</b><span>Final files, ready to use. Source files on request.</span></span></button></li>
             <li class="st-6" style="--d:5s"><button type="button" data-step="6" aria-current="step"><span class="n-wrap"><span class="rg" aria-hidden="true"><svg viewBox="0 0 36 36"><circle class="tr" cx="18" cy="18" r="16"/><circle class="pg" cx="18" cy="18" r="16"/></svg><span class="n">06</span><span class="ck"></span></span></span><span class="tx"><b>Done</b><span>Marked complete. The next job lands on a team that already knows your brand.</span></span></button></li>
           </ol>
           <p class="fl-cap" id="flCap" aria-hidden="true"></p>
@@ -1783,15 +1793,15 @@
     <div class="wrap"><div class="cs-in" data-cs="Why it works" data-ind="3 reasons">
       <h2 id="whyH">Clients stay for years.</h2>
       <div class="why frames">
+        <div class="reasons">
+        <div class="card fx" data-l="Reason / 01"><h3>Your brand is second nature</h3><p>After dozens of projects, we know your brand the way your own team does. Many clients now work from the brand books and templates we built.</p></div>
+        <div class="card fx" data-l="Reason / 02"><h3>The longer we work together, the faster it goes</h3><p>Years of source files and past projects mean every new job starts ahead.</p></div>
+        <div class="card fx" data-l="Reason / 03"><h3>Senior attention on every deadline</h3><p>Every job is assigned and prioritized the moment it lands, so tight deadlines get our best people, not shortcuts.</p></div>
+        </div>
         <figure class="tenure fx" data-l="Chart / Tenure">
-          <span class="tag">Current clients · years with us</span>
+          <span class="ttl">Current clients · years with us</span>
           <div id="chTenure"></div>
         </figure>
-        <div class="reasons">
-        <div class="card fx" data-l="Reason / 01"><h3>Second nature</h3><p>After hundreds of projects, we know your brand the way your own team does. Many clients now work from brand books and templates we built.</p></div>
-        <div class="card fx" data-l="Reason / 02"><h3>It compounds</h3><p>Years of source files and past projects mean every new job starts ahead. The longer we work together, the faster it goes.</p></div>
-        <div class="card fx" data-l="Reason / 03"><h3>Straight to work</h3><p>Every job is assigned and prioritized as it lands, so even tight deadlines get senior attention, not shortcuts.</p></div>
-        </div>
       </div>
       <figure class="cmt r"><span class="pin" aria-hidden="true">MC</span><div class="bub"><blockquote class="opt-i"><span class="hq">“</span>I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”</blockquote><figcaption><b>Marc Chouaniere</b>, VP Marketing, MoxiWorks</figcaption></div></figure>
     </div></div>
@@ -1803,15 +1813,15 @@
       <h2 id="makeH">What marketing teams ask us for.</h2>
       <p class="lede">Everything a B2B marketing team ships, from a banner to a booth, made by the same senior team.</p>
       <ol class="make">
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Websites and web pages, designed in Figma for your developers or built by us, plus landing pages, banners and email templates.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="14" width="30" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="20" y="8" width="30" height="36"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="50,8 50,20 38,8" class="o"/></svg></span></span><span class="cat">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><polygon pathLength="1" points="30,10 52,50 8,50"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="34" r="7" class="o"/></svg></span></span><span class="cat">Events</span><h3>Trade shows and stages</h3><p>Booths, stage graphics and loops, badges, wayfinding and event apps.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="12" y="12" width="36" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="13" class="o"/></svg></span></span><span class="cat">Digital</span><h3>Web and email</h3><p>Custom websites and web pages, designed in Figma for your developers or built by us, plus landing pages, banners and email templates.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="14" width="30" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="20" y="8" width="30" height="36"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="50,8 50,20 38,8" class="o"/></svg></span></span><span class="cat">Print</span><h3>Collateral</h3><p>Brochures, one-pagers, catalogs, direct mail and signage, print-ready and on brand.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><polygon pathLength="1" points="30,10 52,50 8,50"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="34" r="7" class="o"/></svg></span></span><span class="cat">Events</span><h3>Trade shows and stages</h3><p>Custom booths, stage graphics and loops, badges, wayfinding and event apps, turned around on show deadlines.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="30" r="21"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="25,21 25,39 40,30" class="o"/></svg></span></span><span class="cat">Video</span><h3>Motion and video</h3><p>Explainers, motion graphics, product and training videos, campaign and social video, and trade show booth loops, finished with professional voiceover, music and sound.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="17" cy="40" r="7"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="16" r="7"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="43" cy="40" r="7" class="o"/></svg></span></span><span class="cat">Social</span><h3>Social programs</h3><p>Static and animated posts, campaign kits and monthly programs.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>UX for companies with large websites. We design and build out your pages in Figma, plus product UI, prototypes and design systems.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="17" cy="40" r="7"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><circle pathLength="1" cx="30" cy="16" r="7"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><circle pathLength="1" cx="43" cy="40" r="7" class="o"/></svg></span></span><span class="cat">Social</span><h3>Social programs</h3><p>Static posts, carousels, reels, motion graphics, paid social creative and full campaign kits, from one-off posts to always-on monthly programs.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="10" width="18" height="18"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="10" y="32" width="18" height="18"/></svg><svg class="ly" style="--z:3" viewBox="0 0 60 60"><rect pathLength="1" x="32" y="32" width="18" height="18" class="o"/></svg></span></span><span class="cat">UX</span><h3>UX and interactive</h3><p>UX for sites of any size, from a single landing page to large multi-section sites, designed and built out in Figma, plus product UI, prototypes and design systems.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><circle pathLength="1" cx="14" cy="30" r="9"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="46,21 55,39 37,39"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><rect pathLength="1" x="21" y="21" width="18" height="18" class="o"/></svg></span></span><span class="cat">Brand</span><h3>Brand systems</h3><p>Brand books, logo families, templates and shared asset libraries your whole team can work from.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
-        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts, designed in-house for kickoffs and events.</p></li>
+        <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts, custom-designed for kickoffs and events.</p></li>
       </ol>
     </div></div>
   </section>
@@ -1823,9 +1833,9 @@
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
            Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
       <div class="frames c3">
-        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and, where you want it, help sharpen them as we go. Most retainer clients began this way.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
-        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Your year is already on the calendar, so we commit to it. Invoiced at the start of the month. Hours and rates are reviewed each year.</p></details></div></div>
-        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Invoiced at month end for the hours used.</p></details></div></div>
+        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></details><a class="move-link" href="#contact">Put a first job on the board</a></div></div>
+        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul></div><div class="c-ft"><details class="more"><summary>Details</summary><p>We plan around your annual marketing calendar, so you can count on us whenever you need us. Invoiced at the start of the month, with hours and rates reviewed each year.</p></details></div></div>
+        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p></div><div class="c-ft"><details class="more"><summary>Details</summary><p>Creative support when you need it, with no monthly commitment. Invoiced at month end for the hours used.</p></details></div></div>
       </div>
       <!-- Content Matterz back out of the accordion (Shane: "seems buried"). Fix 4: a quiet partner frame, lighter than the work,
            the two marks as one lockup with "15 years together · 10,000+ deliverables"; distinct in both themes (ink mark on light). -->
@@ -1844,9 +1854,9 @@
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Why Studio Rendezvous?</p>
       <div class="frames c4" style="margin-top:40px">
         <div class="card fx" data-l="Compare / Freelancer"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, web, UX, sales decks, print and apparel, with someone ready for every job.</p></div>
-        <div class="card fx" data-l="Compare / New hire"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, with no payroll when it slows.</p></div>
+        <div class="card fx" data-l="Compare / New hire"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, without the overhead of a full-time hire.</p></div>
         <div class="card fx" data-l="Compare / Big agency"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
-        <div class="card fx" data-l="Compare / Your team"><h3>Alongside your team</h3><p>More hands, same brand. We step into your process, take the overflow and the deadline crunch, and help the brand look its best along the way.</p></div>
+        <div class="card fx" data-l="Compare / Your team"><h3>When your team is stretched</h3><p>More hands, same brand. We step into your process and take the overflow and the deadline crunch, keeping everything on brand.</p></div>
       </div></div>
       <!-- NEW COPY: "Good to know" (was "Before you sign"); the three answers and the partner block are unchanged, now folded -->
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Good to know</p>
@@ -1854,7 +1864,7 @@
         <!-- the two items below: copy approved by Shane 2026-10-16 -->
         <details><summary><span class="ac-k">Timing</span><span class="ac-t">How fast?</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We work to your timelines, and we’re fast. Bigger pieces like video with voiceover or storyboards get planned with you up front.</p></div></details>
         <details><summary><span class="ac-k">Onboarding</span><span class="ac-t">Getting started</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>We get right to work on your highest priorities, then schedule everything else around your calendar. Once the schedule is locked, we move.</p></div></details>
-        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Who sees your work</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, released or not, is done by our senior team, never outside freelancers. Launches and unreleased products are seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
+        <details><summary><span class="ac-k">Trust</span><span class="ac-t">Who sees your work</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Every job, including launches and unreleased products, is done by our senior team, never outside freelancers. Unreleased work is seen only by the people on your jobs. Send us your vendor security review and we’ll complete it before the first job.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Compliance review</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>Legal and compliance rounds are expected and built into the schedule from day one.</p></div></details>
         <details><summary><span class="ac-k">Trust</span><span class="ac-t">Busy months</span><span class="ac-i" aria-hidden="true"></span></summary><div class="ac-b"><p>When your month spikes, the whole team picks it up. Share your launch calendar and we plan around it.</p></div></details>
       </div></div>
@@ -1865,13 +1875,17 @@
   <section class="band cs" id="team" aria-labelledby="teamH">
     <div class="wrap"><div class="cs-in" data-cs="Team" data-ind="The people on your board">
       <h2 id="teamH">The people on your board.</h2>
-      <p class="lede">Every client gets the whole team. Have your own creative director? We work to their direction.</p>
+      <p class="lede">Every client gets the whole team, with our partners at Content Matterz on strategy and writing. Have your own creative director? We work to their direction.</p>
       <div class="team">
         <div class="person fx" style="--c:#fe5000;--t:#1c1c1c"><span class="ph untone" data-bg="../media/team/shane-french.png"></span><b>Shane French</b><p>Creative Director, Design, UX and Motion</p></div>
         <div class="person fx" style="--c:var(--p-tom);--t:var(--p-tom-t)"><span class="ph untone" data-bg="../media/team/tom-larsen.png"></span><b>Tom Larsen</b><p>Senior Designer</p></div>
         <div class="person fx" style="--c:#a8a397;--t:#1c1c1c"><span class="ph untone" data-bg="../media/team/andrew-baldwin.png"></span><b>Andrew Baldwin</b><p>Senior UX/UI Designer</p></div>
         <div class="person fx" style="--c:#d24100;--t:#fff"><span class="ph untone" data-bg="../media/team/joel-bender.png"></span><b>Joel Bender</b><p>Senior Designer</p></div>
         <div class="person fx" style="--c:#6f6b62;--t:#fff"><span class="ph untone" data-bg="../media/team/gui-freitas.png"></span><b>Gui Freitas</b><p>Senior Motion Designer</p></div>
+        <!-- Content Matterz (partner) team, per Amber's review and Shane 2026-11-03; headshots from contentmatterz.com/our-team; grey rings: no CM blue beside SR orange -->
+        <div class="person fx cm" style="--c:#a8a397;--t:#1c1c1c"><span class="ph untone" data-bg="../media/team/cara-mcdonald.png"></span><b>Cara McDonald</b><p>Founder and CEO, Content Matterz</p></div>
+        <div class="person fx cm" style="--c:#6f6b62;--t:#fff"><span class="ph untone" data-bg="../media/team/amber-maechler.png"></span><b>Amber Maechler</b><p>Director of Content Strategy, Content Matterz</p></div>
+        <div class="person fx cm" style="--c:var(--p-tom);--t:var(--p-tom-t)"><span class="ph untone" data-bg="../media/team/joni-dold.png"></span><b>Joni Dold</b><p>Senior Content Strategist, Content Matterz</p></div>
       </div>
       <figure class="cmt r"><span class="pin" aria-hidden="true">BR</span><div class="bub"><blockquote><span class="hq">“</span>When that call comes in from Apple, asking for artwork for a product feature by the end of the week, it is incredibly reassuring to know there is someone we can call who is intimately familiar with the product.”</blockquote><figcaption><b>Brak Rak</b>, CEO and Founder, Brak Software, maker of Human Japanese and Satori Reader</figcaption></div></figure>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Past clients · thousands of projects over the years</p>
@@ -4005,9 +4019,10 @@
       clients.forEach(function (y, i) {
         var cy = T + i * rowH + rowH / 2, xe = x(y);
         out.push('<text x="' + (L - 12) + '" y="' + (cy + 4) + '" text-anchor="end" font-size="12">' + String(i + 1).padStart(2, '0') + '</text>');
-        out.push('<line class="ln" x1="' + x(0) + '" x2="' + xe + '" y1="' + cy + '" y2="' + cy + '" stroke-width="1.5"/>');
-        out.push('<rect class="mk" x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10"/>');
-        out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + Math.round(y) + ' yrs</text>');
+        var st = ' style="--i:' + i + ';--l:' + (xe - x(0)).toFixed(1) + '"';
+        out.push('<line class="ln bar" x1="' + x(0) + '" x2="' + xe + '" y1="' + cy + '" y2="' + cy + '" stroke-width="1.5"' + st + '/>');
+        out.push('<rect class="mk" x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10"' + st + '/>');
+        out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val e"' + st + '>' + Math.round(y) + ' yrs</text>');
       });
       out.push('<line class="ln" x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke-width="1"/>');
       for (var yr = 0; yr <= 20; yr++) {
@@ -4021,6 +4036,10 @@
     }
     var was = draw();
     addEventListener('resize', function () { if ((el.clientWidth < 560) !== was) was = draw(); });
+    /* each bar draws from year 0 to its tenure the first time the chart is on screen (motion on only; CSS gates it) */
+    var fig = el.closest('.tenure');
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { fig.classList.add('seen'); o.disconnect(); } }, { threshold: .35 }).observe(fig);
+    else fig.classList.add('seen');
   })();
 
   /* ------------------------------------------------------------------ How it works: one job on the shared board
