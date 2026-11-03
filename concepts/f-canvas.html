@@ -1448,7 +1448,7 @@
   .mosaic { margin-top: 36px; display: grid; gap: 34px 14px; }
   .mrow { display: flex; gap: 14px; }
   .mo { position: relative; margin: 0; flex: var(--ar) 1 0; aspect-ratio: var(--ar); background: var(--ph, #ccc); min-width: 0; }
-  .mo img, .mo video { width: 100%; height: 100%; object-fit: cover; }
+  .mo img, .mo video { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); }
   .mo figcaption { position: absolute; left: 0; bottom: 100%; padding-bottom: 6px; font: 400 11px var(--mono); letter-spacing: .03em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .mo.hl { outline: 2px solid var(--accent); outline-offset: 4px; }
   .mo { scroll-margin: 40px 0; }
@@ -1714,7 +1714,7 @@
         <li><small>Cybersecurity · 8 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, animated banners and the launch film for a new executive offering.</p></li>
         <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>Explainers, event loops, social, product and brand motion.</p></li>
         <li><small>Recent jobs · 8 pieces</small><b>Fresh off the board</b><p>A few recent jobs, straight off client boards: ads, sales sheets, guides, event signage and toolkits.</p></li>
-        <li><small>Software · 6 pieces</small><b>Product launches</b><p>Series art for a Japanese reading app, seen where learners meet it in the product, plus product and sales videos built from a product’s own UI.</p></li>
+        <li><small>Software · 5 pieces</small><b>Product launches</b><p>Series art for a Japanese reading app, seen where learners meet it in the product, plus product and sales videos built from a product’s own UI.</p></li>
         <li><small>Commercial HVAC group · 47 logos</small><b>Logo systems</b><p>47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p></li>
       </ol>
     </div></section>
@@ -2247,14 +2247,13 @@
         ['fresh-smart-info.jpg', '', 800, 1000, 'Infographic', '#8b9cad'],
         ['fresh-gw.jpg', '', 870, 1000, 'Brand library', '#c1cbd2'],
         ['fresh-hi-peo.jpg', '', 773, 1000, 'Guide', '#ebf1f1'] ] },          /* NEW COPY: the eight captions above */
-    { id: 'product', ind: 'Software', title: 'Product launches', cnt: '6 pieces', /* NEW COPY: industry, title, lede, the four Satori Reader captions (Shane 2026-11-03: show Satori Reader here) */
+    { id: 'product', ind: 'Software', title: 'Product launches', cnt: '5 pieces', /* NEW COPY: industry, title, lede, the Satori Reader captions (Shane 2026-11-03: show Satori Reader here, the series tall) */
       lede: 'Series art for a Japanese reading app, seen where learners meet it in the product, plus product and sales videos built from a product’s own UI.',
-      cell: [2, 2], g: [[0,0,0,2,3,'50% 0'],[1,2,0,2,3,'50% 0'],[4,0,3,2,2],[5,2,3,2,2],[2,0,5,2,3,'50% 0'],[3,2,5,2,3,'50% 0']],
+      cell: [2, 2], g: [[0,0,0,2,8,'50% 0'],[1,2,0,2,4,'50% 0'],[2,2,4,2,4,'50% 0'],[3,0,8,2,2],[4,2,8,2,2]],
       items: [
-        ['satori-series.jpg', '', 1321, 762, 'Series library', '#e88a35'],
-        ['satori-reader.jpg', '', 1204, 972, 'Reader', '#2b2c30'],
-        ['satori-dashboard.jpg', '', 1204, 925, 'Dashboard', '#151515'],
-        ['satori-series-grid.jpg', '', 1204, 885, 'Series art', '#2f3a52'],
+        ['satori-series.jpg', '', 1239, 4133, 'Series library', '#1a1a1a', .62],
+        ['satori-reader.jpg', '', 1271, 952, 'Reader', '#2b2c30'],
+        ['satori-dashboard.jpg', '', 1271, 952, 'Dashboard', '#151515'],
         ['marchex-aps.jpg', 'marchex-aps.mp4', 960, 540, 'Product video', '#133b6b'],
         ['marchex-nada.jpg', 'marchex-nada.mp4', 960, 540, 'Sales video', '#606a79'] ] },
     { id: 'logos', ind: 'Commercial HVAC group', title: 'Logo systems', cnt: '47 logos',
@@ -3290,7 +3289,7 @@
     shMosaic.innerHTML = '';
     var W = shMosaic.clientWidth || Math.max(280, Math.min(1240, innerWidth - 32) - 88), phone = W < 600;
     var skip = j.versions || [];
-    var its = j.items.map(function (d, i) { return { d: d, i: i, ar: d[2] / d[3] }; }).filter(function (it) { return skip.indexOf(it.i) < 0; });
+    var its = j.items.map(function (d, i) { return { d: d, i: i, ar: d[6] || d[2] / d[3] }; }) /* d[6]: a taller piece can show as a top crop here */.filter(function (it) { return skip.indexOf(it.i) < 0; });
     var rows = justify(its, W, 14, phone ? 240 : Math.min(520, W * .42), phone ? 170 : 240);
     vidIO = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
@@ -3308,7 +3307,7 @@
       }
       r.items.forEach(function (it) {
         var d = it.d, fig = document.createElement('figure'); fig.className = 'mo' + (it.i === hl && hl > 0 ? ' hl' : ''); fig.dataset.i = it.i;
-        fig.style.cssText = '--ar:' + it.ar.toFixed(4) + ';--ph:' + d[5];
+        fig.style.cssText = '--ar:' + it.ar.toFixed(4) + ';--ph:' + d[5] + (d[6] ? ';--op:50% 0' : '');
         if (d[1]) {
           var v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.poster = T + d[0]; v.dataset.src = M + d[1]; sharpen(v, M + d[0]);
           v.setAttribute('aria-label', d[4]);
