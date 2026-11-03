@@ -669,9 +669,9 @@
   @media (hover: none) { .fx::after, .cs-t .dm { display: none; } } /* no size pills on touch */
   .motion .fx::after, .motion .cs-t .dm { transition: opacity .12s; }
   /* the card under the pointer also goes nearly black (light: a warm grey), with its orange selection (Shane) */
-  :root { --surface-h: #ebe8e1; }
-  :root[data-theme="dark"] { --surface-h: #161616; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --surface-h: #161616; } }
+  :root { --surface-h: #f4f2ed; }
+  :root[data-theme="dark"] { --surface-h: #232323; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --surface-h: #232323; } }
   .card.fx, .person.fx, .tenure.fx, .partner.fx, .make li.fx, .logos .fx { transition: background-color .2s; }
   @media (hover: hover) { .card.fx:hover, .person.fx:hover, .tenure.fx:hover, .partner.fx:hover, .make li.fx:hover, .logos .fx:hover { background-color: var(--surface-h); } }
 
