@@ -592,11 +592,11 @@
   :root { --cs-bg: #f0eee9; --pn-bg: #fbfaf7; --cl-ink: var(--muted); }
   :root[data-theme="dark"] { --cs-bg: #242424; --pn-bg: #282828; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --cs-bg: #242424; --pn-bg: #282828; } }
-  /* "What we make" and "How we work together" share a cool light-blue treatment in place of the warm grey and orange (Shane, 2026-11-03) */
-  /* dark theme: the frames in these two go a deep navy, not grey (grey on the blue ground vibrated: Shane) */
-  #make, #together { --cs-bg: #e2edf5; --pn-bg: #f2f7fb; --accent: #2b8fe0; --accent-text: #11609f; --cta: #11609f; --cta-hover: #0c4f85; --cta-ink: #ffffff; --sec-line: rgba(17, 96, 159, .2); }
-  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #1d262e; --pn-bg: #142029; --surface: #142029; --hover: #1b2a36; --line: #26394a; --ring: rgba(124, 196, 245, .1); --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #1d262e; --pn-bg: #142029; --surface: #142029; --hover: #1b2a36; --line: #26394a; --ring: rgba(124, 196, 245, .1); --accent: #7cc4f5; --accent-text: #8fcdf7; --cta: #7cc4f5; --cta-hover: #a3d6fa; --cta-ink: #141414; --sec-line: rgba(124, 196, 245, .2); } }
+  /* "What we make" and "How we work together": a warm, orange-tinted ground with the brand orange (Shane 2026-11-03, after trying
+     light blue); frames stay lighter than the ground (raised), as everywhere else */
+  #make, #together { --cs-bg: #f6e9df; --pn-bg: #fdf7f2; --sec-line: rgba(210, 65, 0, .18); }
+  :root[data-theme="dark"] #make, :root[data-theme="dark"] #together { --cs-bg: #2a1f19; --surface: #34281f; --pn-bg: #34281f; --hover: #3e3026; --line: #4b3a2e; --ring: rgba(254, 80, 0, .1); --sec-line: rgba(254, 80, 0, .2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) #make, :root:not([data-theme]) #together { --cs-bg: #2a1f19; --surface: #34281f; --pn-bg: #34281f; --hover: #3e3026; --line: #4b3a2e; --ring: rgba(254, 80, 0, .1); --sec-line: rgba(254, 80, 0, .2); } }
   /* the line field's ink, and the section fill as rgb for the soft masks behind text (its strengths live in the FIELD config in the script) */
   :root { --fl-ink: 28, 28, 28; --cs-rgb: 240 238 233; --fl-mask: .9; }
   :root[data-theme="dark"] { --fl-ink: 215, 212, 205; --cs-rgb: 36 36 36; }
@@ -693,7 +693,13 @@
     .frames.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; row-gap: 0; }
     .frames.c3 > .card { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
     .frames.c3 > .card > .c-ft { margin-top: 0; }
+    .frames.c3.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
+  /* Try us first: a strip above the two ways to keep going (it replaces the third card: Shane / CMO review) */
+  .trial { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 48px; align-items: start; }
+  .trial .tr-b p:first-child { margin-top: 0; }
+  .trial .cta { margin-top: 20px; padding: 12px 16px 11px; font-size: 12px; }
+  @media (max-width: 860px) { .trial { display: flex; flex-direction: column; gap: 0; } .trial .tr-a { display: contents; } .trial .tr-b { order: 1; margin-top: 12px; } .trial .tr-b p:first-child { margin-top: 8px; } .trial .cta { order: 2; align-self: flex-start; } } /* stacked: title, lead, the two lines, then the button */
   .frames.c4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); align-items: stretch; }
   .card h3 { font-size: clamp(25px, 2.4vw, 30px); }
   .card p { margin-top: 8px; color: var(--ink2); }
@@ -1825,12 +1831,12 @@
 
   <!-- ================================================================ working together -->
   <section class="band cs" id="together" aria-labelledby="togH">
-    <div class="wrap"><div class="cs-in" data-cs="Engagement options" data-ind="3 options">
+    <div class="wrap"><div class="cs-in" data-cs="Engagement options" data-ind="2 options">
       <h2 id="togH">How we work together.</h2>
       <!-- Fix 1: the retainer's case is visible by default (two lines lifted from its approved Details copy, the rest still folds);
            Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
-      <div class="frames c3">
-        <div class="card fx" data-l="Option / Start here"><div class="c-bd"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></div><div class="c-ft"><a class="cta" href="#contact" data-help="first">Put a first job on the board</a></div></div>
+      <div class="card fx trial" data-l="Option / Start here"><div class="tr-a"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p><a class="cta" href="#contact" data-help="first">Put a first job on the board</a></div><div class="tr-b"><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></div></div>
+      <div class="frames c3 c2">
         <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul><p>We plan around your annual marketing calendar, so you can count on us anytime you need us. Billing happens at the start of the month, with hours and rates reviewed annually.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about a retainer</a></div></div>
         <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p><p>Get the creative support you need, when you need it, without a fixed monthly commitment. Pay at the end of the month only for the hours you use.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about hourly</a></div></div>
       </div>
