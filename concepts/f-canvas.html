@@ -120,7 +120,8 @@
   * { box-sizing: border-box; }
   html { background: var(--paper); overflow-x: clip; scroll-padding-top: 72px; }
   html.lock { overflow: hidden; }
-  body { margin: 0; background: transparent; color: var(--ink); font: 400 17px/1.55 var(--body); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+  /* body copy leading tightened a touch (Shane): 1.55 -> 1.46, ledes 1.5 -> 1.42 */
+  body { margin: 0; background: transparent; color: var(--ink); font: 400 17px/1.46 var(--body); overflow-x: clip; -webkit-font-smoothing: antialiased; }
   a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
   img, video { display: block; max-width: 100%; }
   button { font: inherit; color: inherit; }
@@ -207,7 +208,7 @@
   .brief h1 { font-size: clamp(44px, 10vw, 76px); /* down from 92 (Shane) */ font-weight: 900; margin-top: 14px; }
   .brief h1 em { font-style: normal; color: var(--accent); display: block; }
   .brief .tag { font-size: clamp(21px, 2.4vw, 26px); font-weight: 400; line-height: 1.25; margin-top: 16px; }
-  .brief .lede { font-size: 17.5px; font-weight: 400; line-height: 1.5; color: var(--ink2); margin-top: 24px; max-width: 58ch; } /* clear air under the tagline (Shane) */
+  .brief .lede { font-size: 17.5px; font-weight: 400; line-height: 1.44; color: var(--ink2); margin-top: 24px; max-width: 58ch; } /* clear air under the tagline (Shane) */
   .brief .proof { color: var(--ink2); margin-top: 18px; line-height: 1.75; font-size: 12.5px; }
   .brief .proof span { white-space: nowrap; }
   .brief .proof i { display: inline-block; width: 5px; height: 5px; background: var(--accent); margin: 0 9px 2px; vertical-align: middle; }
@@ -612,7 +613,7 @@
      the form beside it); under 1100 the form drops below the text instead of squeezing it */
   .contact > div:has(> #contactH) { container-type: inline-size; min-width: 0; }
   #contactH { font-size: min(clamp(34px, 3.9vw, 54px), 16cqi); }
-  .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
+  .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.42; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 24px; }
 
   /* SECTION: the name chip above-left (the canvas groups' own chip), the tinted area, and the section's live size on hover */
@@ -763,7 +764,7 @@
   .cmt.upd figcaption { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
   .cmt.upd figcaption b { font-size: 15px; }
   .cmt.upd figcaption span { font-size: 13.5px; }
-  .cmt.upd p { font-size: 17px; line-height: 1.5; color: var(--ink2); }
+  .cmt.upd p { font-size: 17px; line-height: 1.44; color: var(--ink2); }
 
   /* no-script list of the work (the canvas needs script) */
   .nos-list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--ink); }
@@ -1222,7 +1223,7 @@
   .ac-r { background: var(--surface); padding: 20px 22px; }
   .ac-r:last-child:nth-child(odd) { grid-column: 1 / -1; } /* an odd count: the last answer runs the full width */
   .ac-t { font: 800 21px/1 var(--display); text-transform: uppercase; }
-  .ac-r p { margin-top: 8px; font-size: 15.5px; line-height: 1.5; color: var(--ink2); }
+  .ac-r p { margin-top: 8px; font-size: 15.5px; line-height: 1.44; color: var(--ink2); }
   @media (max-width: 640px) { .acc { grid-template-columns: 1fr; } .ac-r { padding: 16px; } }
 
   /* Clients stay for years: the tenure chart (one row per current client) beside the three reasons */
