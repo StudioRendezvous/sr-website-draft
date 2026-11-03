@@ -207,7 +207,7 @@
   .brief h1 { font-size: clamp(44px, 10vw, 76px); /* down from 92 (Shane) */ font-weight: 900; margin-top: 14px; }
   .brief h1 em { font-style: normal; color: var(--accent); display: block; }
   .brief .tag { font-size: clamp(21px, 2.4vw, 26px); font-weight: 400; line-height: 1.25; margin-top: 16px; }
-  .brief .lede { font-size: 17.5px; font-weight: 400; line-height: 1.5; color: var(--ink2); margin-top: 14px; max-width: 58ch; }
+  .brief .lede { font-size: 17.5px; font-weight: 400; line-height: 1.5; color: var(--ink2); margin-top: 24px; max-width: 58ch; } /* clear air under the tagline (Shane) */
   .brief .proof { color: var(--ink2); margin-top: 18px; line-height: 1.75; font-size: 12.5px; }
   .brief .proof span { white-space: nowrap; }
   .brief .proof i { display: inline-block; width: 5px; height: 5px; background: var(--accent); margin: 0 9px 2px; vertical-align: middle; }
@@ -607,11 +607,11 @@
   /* the section frames run edge to edge (gutter to gutter, up to a 1792px column), so they line up with the logo, the toolbar and the start view at every width */
   .floor .wrap, .foot-site .wrap { max-width: none; padding-inline: var(--edge); }
   .band { padding-top: 96px; scroll-margin-top: 16px; }
-  .band h2 { font-size: clamp(36px, 4.6vw, 60px); /* a notch down (Shane: headlines a little large) */ font-weight: 900; max-width: 18ch; }
+  .band h2 { font-size: clamp(34px, 4.2vw, 54px); /* a notch down (Shane: headlines a little large) */ font-weight: 900; max-width: 18ch; }
   /* two lines, "Start now / with one job.", always inside its own column (sized to the column, so it can never run under
      the form beside it); under 1100 the form drops below the text instead of squeezing it */
   .contact > div:has(> #contactH) { container-type: inline-size; min-width: 0; }
-  #contactH { font-size: min(clamp(36px, 4.2vw, 60px), 16cqi); }
+  #contactH { font-size: min(clamp(34px, 3.9vw, 54px), 16cqi); }
   .lede { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.5; font-weight: 400; max-width: 62ch; color: var(--ink2); }
   .band .lede { margin-top: 24px; }
 
@@ -696,13 +696,13 @@
   .trial .cta { margin-top: 20px; padding: 12px 16px 11px; font-size: 12px; }
   /* How we work together runs a size smaller than the rest of the cards (Shane: all a bit big) */
   #together .card { padding: 20px 22px; }
-  #together .card h3 { font-size: clamp(22px, 1.9vw, 26px); }
+  #together .card h3 { font-size: clamp(21px, 1.8vw, 24px); }
   #together .card p, #together .card .c-bd > p:not(.lead) { font-size: 15.5px; }
   #together .card .lead { font-size: 16px; }
   #together .pts li { font-size: 15.5px; }
   @media (max-width: 860px) { .trial { display: flex; flex-direction: column; gap: 0; } .trial .tr-a { display: contents; } .trial .tr-b { order: 1; margin-top: 12px; } .trial .tr-b p:first-child { margin-top: 8px; } .trial .cta { order: 2; align-self: flex-start; } } /* stacked: title, lead, the two lines, then the button */
   .frames.c4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 232px), 1fr)); align-items: stretch; }
-  .card h3 { font-size: clamp(25px, 2.4vw, 30px); }
+  .card h3 { font-size: clamp(23px, 2.1vw, 27px); }
   .card p { margin-top: 8px; color: var(--ink2); }
   .card .move-link { display: inline-block; margin-top: 16px; font: 500 12px var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--accent-text); }
   /* the retainer's case, out where it can be read: two lines with the mark's small square */
@@ -1161,7 +1161,7 @@
   .motion .make li:hover .ly .o { animation-delay: .2s; }
   @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   .make .cat { display: block; margin-top: 14px; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); }
-  .make h3 { font-size: 26px; margin-top: 6px; }
+  .make h3 { font-size: 24px; margin-top: 6px; }
   .make p { margin-top: 8px; font-size: 15.5px; color: var(--ink2); }
   @media (min-width: 900px) { .make { grid-template-columns: repeat(3, minmax(0, 1fr)); } .make li { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-content: start; gap: 0 16px; padding: 24px; } .make li > :not(.mw) { grid-column: 2; } .make .mw { grid-row: 1 / span 3; width: 40px; height: 40px; } .make .cat { margin-top: 2px; } }
   @media (max-width: 899px) { .make { grid-template-columns: repeat(2, minmax(0, 1fr)); } .make li:last-child:nth-child(odd) { grid-column: 1 / -1; } } /* two across: the ninth runs the full width, no empty cell */
@@ -1171,7 +1171,7 @@
   /* partner (Content Matterz): a quiet panel, below the work in weight. A flat recessed frame (no shadow, a hairline), the two
      marks as one lockup with the line that proves it, then the offer in a smaller voice. Distinct in both themes. */
   .partner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px 48px; align-items: center; background: var(--pn-bg); color: var(--ink); box-shadow: 0 0 0 1px var(--line); padding: 32px 40px; }
-  .partner h3 { font-size: clamp(26px, 2.4vw, 32px); }
+  .partner h3 { font-size: clamp(24px, 2.1vw, 29px); }
   .partner h3 span { color: var(--accent); } /* brand orange for big type, like the hero's ALWAYS ON */
   .partner p { color: var(--ink2); margin-top: 8px; max-width: 60ch; font-size: 16px; }
   .partner .ghost { margin-top: 16px; padding: 11px 15px 10px; font-size: 12px; }
@@ -1212,10 +1212,10 @@
   @media (max-width: 960px) { .why { grid-template-columns: 1fr; } }
   .reasons { display: grid; gap: 40px; }
   .reasons .card { padding: 24px; }
-  .reasons .card h3 { font-size: clamp(26px, 2.5vw, 34px); line-height: 1.02; }
+  .reasons .card h3 { font-size: clamp(24px, 2.2vw, 30px); line-height: 1.02; }
   .reasons .card p { margin-top: 8px; font-size: 16px; }
   .tenure { position: relative; margin: 0; background: var(--surface); box-shadow: 0 0 0 1px var(--ring), 0 1px 2px var(--sh1), 0 8px 22px -12px var(--sh2); padding: 24px clamp(16px, 2.4vw, 32px) 16px; }
-  .tenure .ttl { display: block; font: 800 clamp(22px, 2vw, 28px)/1.05 var(--display); text-transform: uppercase; }
+  .tenure .ttl { display: block; font: 800 clamp(21px, 1.8vw, 25px)/1.05 var(--display); text-transform: uppercase; }
   .tenure svg .bar { stroke-dasharray: var(--l); stroke-dashoffset: 0; }
   .motion .tenure svg .bar { transition: stroke-dashoffset 1s cubic-bezier(.3, .7, .2, 1) calc(var(--i) * 90ms); }
   .motion .tenure svg .mk, .motion .tenure svg .val.e { transition: opacity .35s ease calc(var(--i) * 90ms + .75s); }
