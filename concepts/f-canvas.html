@@ -737,10 +737,12 @@
   /* Shane's line is not a testimonial: it reads as an update on the board (no quote marks, a name line above, body size) */
   .cmt.upd .bub { border-radius: 12px 12px 12px 4px; padding: 16px 20px 18px; }
   /* client quotes (not Shane's board update) sit on a quiet dark blue, so they read as their own voice (Shane) */
-  :root { --q-bg: #edf2f6; --q-line: #d2dde6; }
-  :root[data-theme="dark"] { --q-bg: #1e2830; --q-line: #2d3b47; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --q-bg: #1e2830; --q-line: #2d3b47; } }
-  .cmt:not(.upd) .bub { background: var(--q-bg); border-color: var(--q-line); }
+  /* a saturated medium-blue stroke and the same blue on the quote's initials pin (Shane: good energy) */
+  :root { --q-bg: #edf2f6; --q-line: #1f78dc; --q-pin: #1f78dc; }
+  :root[data-theme="dark"] { --q-bg: #1e2830; --q-line: #3a8ef0; --q-pin: #1f78dc; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --q-bg: #1e2830; --q-line: #3a8ef0; --q-pin: #1f78dc; } }
+  .cmt:not(.upd) .bub { background: var(--q-bg); border: 1.5px solid var(--q-line); }
+  .cmt:not(.upd) .pin { background: var(--q-pin); color: #fff; }
   .cmt.upd figcaption { margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
   .cmt.upd figcaption b { font-size: 15px; }
   .cmt.upd figcaption span { font-size: 13.5px; }
