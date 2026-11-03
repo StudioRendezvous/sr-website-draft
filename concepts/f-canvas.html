@@ -25,6 +25,16 @@
     d.className = 'js ' + (m ? 'motion' : 'still') + (cv ? ' cv' : '') + (m && cv ? ' reel-on' : '');
     d.setAttribute('data-theme', dark ? 'dark' : 'light'); d.setAttribute('data-pref', t);
   })();
+  /* Type comparison (review only): ?type=b|c|d swaps the type system; no param = the current one (a). */
+  (function () {
+    var F = { b: 'Inter+Tight:wght@600;700&family=Inter:wght@400;600;700', c: 'Instrument+Serif&family=Instrument+Sans:wght@400;600;700', d: 'Archivo:wdth,wght@62..125,400..800' };
+    var t = new URLSearchParams(location.search).get('type');
+    window.srType = function (k) {
+      if (F[k] && !document.getElementById('tf-' + k)) { var l = document.createElement('link'); l.id = 'tf-' + k; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + F[k] + '&display=swap'; document.head.appendChild(l); }
+      if (F[k]) document.documentElement.setAttribute('data-type', k); else document.documentElement.removeAttribute('data-type');
+    };
+    if (t) { window.srTypeOn = true; srType(t); }
+  })();
 </script>
 <!-- hold the first paint until the whole top bar is parsed (#bar-ready), so its links never paint half-built and slide over -->
 <link rel="expect" href="#bar-ready" blocking="render">
@@ -1550,6 +1560,23 @@
   @media (prefers-reduced-motion: reduce) { .switch .tr, .switch .tr::after, .hint, .toast { transition: none; } }
   .still *, .still *::before, .still *::after { scroll-behavior: auto !important; }
   .still .hint, .still .toast, .still .fr, .still .sec-big, .still .sec-t, .still .form { transition: none !important; }
+  /* ---- type comparison (review only; ?type=b|c|d). A = Big Shoulders Display caps + Source Sans 3 (the page as designed) ---- */
+  /* B, Grotesk: Inter Tight bold in sentence case, Inter body (Figma's own UI family) */
+  :root[data-type="b"] { --display: "Inter Tight", "Helvetica Neue", Arial, sans-serif; --body: "Inter", "Helvetica Neue", Arial, sans-serif; }
+  :root[data-type="b"] h1, :root[data-type="b"] h2, :root[data-type="b"] h3, :root[data-type="b"] .sec-big b, :root[data-type="b"] .nj b, :root[data-type="b"] .nos-list b, :root[data-type="b"] .fl-steps .tx b, :root[data-type="b"] .fl-cap .ti, :root[data-type="b"] .ld-t b, :root[data-type="b"] .ld-next b, :root[data-type="b"] .ac-t, :root[data-type="b"] .tenure .ttl, :root[data-type="b"] .person b, :root[data-type="b"] .sh-next b { font-weight: 700; text-transform: none; letter-spacing: -.025em; line-height: 1.02; font-size-adjust: .45; }
+  :root[data-type="b"] body { font-size: 16px; }
+  /* C, Editorial: Instrument Serif headlines in sentence case, Instrument Sans body */
+  :root[data-type="c"] { --display: "Instrument Serif", Georgia, serif; --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif; }
+  :root[data-type="c"] h1, :root[data-type="c"] h2, :root[data-type="c"] h3, :root[data-type="c"] .sec-big b, :root[data-type="c"] .nj b, :root[data-type="c"] .nos-list b, :root[data-type="c"] .fl-steps .tx b, :root[data-type="c"] .fl-cap .ti, :root[data-type="c"] .ld-t b, :root[data-type="c"] .ld-next b, :root[data-type="c"] .ac-t, :root[data-type="c"] .tenure .ttl, :root[data-type="c"] .person b, :root[data-type="c"] .sh-next b { font-weight: 400; text-transform: none; letter-spacing: -.01em; line-height: .98; font-size-adjust: .5; }
+  /* D, Extended: Archivo at its widest, bold caps; Archivo body */
+  :root[data-type="d"] { --display: "Archivo", "Helvetica Neue", Arial, sans-serif; --body: "Archivo", "Helvetica Neue", Arial, sans-serif; }
+  :root[data-type="d"] h1, :root[data-type="d"] h2, :root[data-type="d"] h3, :root[data-type="d"] .sec-big b, :root[data-type="d"] .nj b, :root[data-type="d"] .nos-list b, :root[data-type="d"] .fl-steps .tx b, :root[data-type="d"] .fl-cap .ti, :root[data-type="d"] .ld-t b, :root[data-type="d"] .ld-next b, :root[data-type="d"] .ac-t, :root[data-type="d"] .tenure .ttl, :root[data-type="d"] .person b, :root[data-type="d"] .sh-next b { font-weight: 800; font-stretch: 125%; letter-spacing: -.005em; line-height: .96; font-size-adjust: .36; }
+  :root[data-type="d"] body { font-size: 16.5px; }
+  /* the switcher (only with ?type=) */
+  .tsw { position: fixed; left: 50%; transform: translateX(-50%); top: 64px; z-index: 90; display: flex; align-items: center; gap: 4px; padding: 4px; background: var(--glass); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 8px 22px -12px rgba(0, 0, 0, .5); font: 500 11px var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+  .tsw span { padding: 0 8px 0 10px; color: var(--muted); }
+  .tsw button { border: 0; background: none; color: var(--ink); padding: 8px 11px; border-radius: 999px; cursor: pointer; font: inherit; letter-spacing: inherit; }
+  .tsw button[aria-pressed="true"] { background: var(--cta); color: var(--cta-ink); }
 </style>
 </head>
 <body>
@@ -4488,6 +4515,19 @@
     reel: openReel, closeReel: closeReel, rp: rp, group: function () { return { inGroup: inGroup, views: views.length }; }, exitGroup: exitGroup, palette: openCmdk, setTheme: setTheme, pins: PINS, secRects: secRects, lvl: function () { return lvl; }, tiers: function () { return frames.map(function (f) { return f.tier; }); }, field: function () { return field && field.state(); },
     list: openList, closeList: closeList, flow: function (n) { fl.auto = false; flSet(n); }, flState: function () { return { step: fl.step, auto: fl.auto, run: flow.classList.contains('run'), inView: fl.inView, hidden: document.hidden, vid: !flVid.paused }; }, flPlay: function () { flStart(); } };
 })();
+</script>
+<script>
+  if (window.srTypeOn) (function () {
+    var N = { a: 'Current', b: 'Grotesk', c: 'Editorial', d: 'Extended' }, w = document.createElement('div'), cur = document.documentElement.getAttribute('data-type') || 'a';
+    w.className = 'tsw'; w.setAttribute('role', 'group'); w.setAttribute('aria-label', 'Type comparison');
+    w.innerHTML = '<span>Type</span>' + Object.keys(N).map(function (k) { return '<button type="button" data-k="' + k + '" aria-pressed="' + (k === cur) + '">' + k.toUpperCase() + ' · ' + N[k] + '</button>'; }).join('');
+    w.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return; var k = b.getAttribute('data-k');
+      srType(k); w.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      history.replaceState(null, '', location.pathname + '?type=' + k + location.hash);
+    });
+    document.body.appendChild(w);
+  })();
 </script>
 </body>
 </html>
