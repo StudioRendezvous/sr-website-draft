@@ -674,13 +674,13 @@
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --surface-h: #232323; } }
   .card.fx, .person.fx, .tenure.fx, .partner.fx, .make li.fx, .logos .fx { transition: background-color .2s; }
   @media (hover: hover) { .card.fx:hover, .person.fx:hover, .tenure.fx:hover, .partner.fx:hover, .make li.fx:hover, .logos .fx:hover { background-color: var(--surface-h); } }
-  /* no hover selection on the example board or the reason cards in Clients stay for years (Shane); keyboard focus still shows */
+  /* no hover selection on the example board or anything in Clients stay for years (reasons and chart) (Shane); keyboard focus still shows */
   @media (hover: hover) {
-    .bdx.fx:hover:not(:has(:focus-visible)), .reasons .card.fx:hover:not(:has(:focus-visible)) { outline: none; }
+    .bdx.fx:hover:not(:has(:focus-visible)), .why .fx:hover:not(:has(:focus-visible)) { outline: none; }
     .bdx.fx:hover:not(:has(:focus-visible))::before, .bdx.fx:hover:not(:has(:focus-visible))::after,
-    .reasons .card.fx:hover:not(:has(:focus-visible))::before, .reasons .card.fx:hover:not(:has(:focus-visible))::after { opacity: 0; }
-    .bdx.fx:hover > .cl, .reasons .card.fx:hover > .cl { color: var(--cl-ink); }
-    .reasons .card.fx:hover { background-color: var(--surface); }
+    .why .fx:hover:not(:has(:focus-visible))::before, .why .fx:hover:not(:has(:focus-visible))::after { opacity: 0; }
+    .bdx.fx:hover > .cl, .why .fx:hover > .cl { color: var(--cl-ink); }
+    .why .fx:hover { background-color: var(--surface); }
   }
 
   .frames { display: grid; gap: 48px 24px; margin-top: 48px; align-items: start; } /* components hug their content (auto layout: hug) */
