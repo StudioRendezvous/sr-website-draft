@@ -880,7 +880,7 @@
   }
 
   /* the board */
-  .bd { position: relative; height: 584px; /* the table (now ending at 552) and the review pane (535) with room under them */ margin-top: 12px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 13.5px/1.25 var(--body); container: board / inline-size; }
+  .bd { position: relative; height: 576px; /* the table (now ending at 544) and the review pane (535) with room under them */ margin-top: 12px; background: var(--b-bg); color: var(--b-ink); border: 1px solid var(--b-line); border-radius: 12px; box-shadow: 0 1px 2px var(--sh1), 0 34px 70px -40px var(--b-shadow); overflow: hidden; font: 400 13.5px/1.25 var(--body); container: board / inline-size; }
   @media (max-width: 959px) { .bd { margin-top: 0; } }
   .bd svg { flex: none; }
   .bd-top { display: flex; align-items: center; gap: 16px; height: 52px; padding: 4px 18px 0; }
@@ -904,7 +904,7 @@
   @keyframes newpress { 0% { box-shadow: 0 0 0 0 rgba(27, 111, 214, .55); } 20% { transform: scale(.95); } 45% { transform: none; box-shadow: 0 0 0 7px rgba(27, 111, 214, 0); } }
   .bd-tl { display: inline-flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 5px; }
   .bd-tl svg { width: 15px; height: 15px; color: currentColor; }
-  .bd-body { position: relative; padding: 36px 18px 16px; /* clear air between New item and the group title (Shane) */ --cols: 34px minmax(0, 1fr) 84px 36px 70px 130px 100px 100px 88px; }
+  .bd-body { position: relative; padding: 28px 18px 16px; /* clear air between New item and the group title (Shane) */ --cols: 34px minmax(0, 1fr) 84px 36px 70px 130px 100px 100px 88px; }
   .bd-gh { display: flex; align-items: center; gap: 10px; margin: 0 0 8px 2px; color: var(--b-group); }
   .bd-gh svg { width: 12px; height: 12px; }
   .bd-gh b { font: 600 17px/1 var(--body); }
@@ -1065,7 +1065,7 @@
     .bd-top { height: 48px; padding: 4px 14px 0; } .bd-name { font-size: 19px; }
     .bd-tabs { margin: 0 14px; gap: 18px; } .bd-tabs .x3 { display: none; }
     .bd-tools { padding: 10px 14px 4px; } .bd-tl.x1 { display: none; }
-    .bd-body { padding: 28px 12px 14px; }
+    .bd-body { padding: 22px 12px 14px; }
     .bd-cols, .bd-sum, .bd-add > .cb { display: none; }
     .bd-tbl { border-left-width: 5px; }
     .bd-r { grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "o j j" "o s d"; gap: 7px 10px; padding: 10px 10px 10px 9px; border-top: 1px solid var(--b-line); }
