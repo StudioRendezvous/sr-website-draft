@@ -42,17 +42,19 @@
     --line: #d5d0c5;
     --line-2: #b9b3a6;
     --accent: #fe5000;  /* large type, marks, selection */
-    --cta: #d24100;     /* buttons: white text 4.7:1 */
-    --cta-hover: #b33700;
-    --cta-ink: #ffffff;
-    --accent-text: #b13900; /* small orange text on light: 5.6:1 */
+    /* ONE orange (Joel/Shane 2026-11-03): buttons are the brand orange with near-black text (5.2:1) in both themes; on light,
+       small text that used a darker orange-brown is ink instead (brand orange is too light for small text on a light ground) */
+    --cta: #fe5000;
+    --cta-hover: #ff7a33;
+    --cta-ink: #141414;
+    --accent-text: #1c1c1c;
     --on-accent: #1c1c1c;
     --tab: #ffd300;
     --chip: #1c1c1c; --chip-ink: #ffffff;   /* section tabs, hints */
     --inv: #1c1c1c; --inv-ink: #ffffff;     /* the primary canvas pill */
     --sec-bg: rgba(255, 255, 255, .38); --sec-line: rgba(28, 28, 28, .14);
     --sh1: rgba(0, 0, 0, .08); --sh2: rgba(0, 0, 0, .28); --ring: rgba(0, 0, 0, 0);
-    --top-bg: rgba(244, 242, 237, .88);
+    --top-bg: rgba(244, 242, 237, .97); /* near-solid: no backdrop blur (scroll performance) */
     --glass: rgba(255, 255, 255, .94);
     --block: #1c1c1c; --block-ink: #ffffff; --block-muted: #d9d6cf; --block-line: #1c1c1c;
     --foot: #1c1c1c; --foot-ink: #ffffff; --foot-muted: #c9c5bc; --foot-line: #3a3a3a;
@@ -75,11 +77,11 @@
     --paper: #191919; --canvas: #1e1e1e; --dot: #3a3a3a;
     --surface: #2c2c2c; --surface-2: #212121; --hover: #383838;
     --ink: #f3f1ec; --ink2: #d7d4cd; --muted: #a8a49b; --line: #383838; --line-2: #555;
-    --cta: #fe5000; --cta-hover: #ff7a33; --cta-ink: #141414; --accent-text: #ff8a4c;
+    --cta: #fe5000; --cta-hover: #ff7a33; --cta-ink: #141414; --accent-text: #fe5000; /* 4.7:1 on the dark sections */
     --chip: #3d3d3d; --chip-ink: #f3f1ec; --inv: #f3f1ec; --inv-ink: #1c1c1c;
     --sec-bg: rgba(255, 255, 255, .03); --sec-line: rgba(255, 255, 255, .1);
     --sh1: rgba(0, 0, 0, .35); --sh2: rgba(0, 0, 0, .7); --ring: rgba(255, 255, 255, .07);
-    --top-bg: rgba(44, 44, 44, .9); --glass: rgba(44, 44, 44, .95);
+    --top-bg: rgba(44, 44, 44, .97); --glass: rgba(44, 44, 44, .95);
     --block: #2c2c2c; --block-ink: #f3f1ec; --block-muted: #c9c5bc; --block-line: #3d3d3d;
     --foot: #111111; --foot-ink: #f3f1ec; --foot-muted: #b3afa6; --foot-line: #2e2e2e;
     --field: #1e1e1e; --logo-f: none; --backdrop: rgba(0, 0, 0, .66); --mini: #4a4a4a; --scrim: 24, 24, 24;
@@ -91,11 +93,11 @@
       color-scheme: dark;
       --paper: #191919; --canvas: #1e1e1e; --dot: #3a3a3a; --surface: #2c2c2c; --surface-2: #212121; --hover: #383838;
       --ink: #f3f1ec; --ink2: #d7d4cd; --muted: #a8a49b; --line: #383838; --line-2: #555;
-      --cta: #fe5000; --cta-hover: #ff7a33; --cta-ink: #141414; --accent-text: #ff8a4c;
+      --cta: #fe5000; --cta-hover: #ff7a33; --cta-ink: #141414; --accent-text: #fe5000; /* 4.7:1 on the dark sections */
       --chip: #3d3d3d; --chip-ink: #f3f1ec; --inv: #f3f1ec; --inv-ink: #1c1c1c;
       --sec-bg: rgba(255, 255, 255, .03); --sec-line: rgba(255, 255, 255, .1);
       --sh1: rgba(0, 0, 0, .35); --sh2: rgba(0, 0, 0, .7); --ring: rgba(255, 255, 255, .07);
-      --top-bg: rgba(44, 44, 44, .9); --glass: rgba(44, 44, 44, .95);
+      --top-bg: rgba(44, 44, 44, .97); --glass: rgba(44, 44, 44, .95);
       --block: #2c2c2c; --block-ink: #f3f1ec; --block-muted: #c9c5bc; --block-line: #3d3d3d;
       --foot: #111111; --foot-ink: #f3f1ec; --foot-muted: #b3afa6; --foot-line: #2e2e2e;
       --field: #1e1e1e; --logo-f: none; --backdrop: rgba(0, 0, 0, .66); --mini: #4a4a4a; --scrim: 24, 24, 24;
@@ -132,7 +134,7 @@
   .ghost svg { width: 11px; height: 11px; }
 
   /* ---------- top bar: the file's toolbar ---------- */
-  .top { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 14px; height: 60px; padding-inline: var(--edge); background: var(--top-bg); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--line); }
+  .top { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 14px; height: 60px; padding-inline: var(--edge); background: var(--top-bg); border-bottom: 1px solid var(--line); }
   .top .home { display: flex; align-items: center; color: var(--ink); flex: none; }
   .top .home svg { height: 22px; width: auto; display: block; }
   .top .home .mk { display: none; }
@@ -362,7 +364,7 @@
   .ui-main { grid-column: 2; justify-self: center; }
   .tgroup .seg { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: var(--tb-seg); min-width: var(--tb-seg); padding: 0 12px; border: 0; border-radius: calc(var(--tb-r) - var(--tb-pad)); background: none; color: var(--ink); font: 500 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
   .tgroup .seg:hover { background: var(--hover); }
-  .tgroup .seg svg { width: 12px; height: 12px; flex: none; color: var(--accent-text); }
+  .tgroup .seg svg { width: 12px; height: 12px; flex: none; color: var(--accent); }
   .tgroup .seg.ic { padding: 0; }
   .tgroup .seg.ic svg { color: var(--ink2); }
   @media (max-width: 640px) { .tgroup .tb-p { display: none; } }
@@ -425,7 +427,7 @@
   .ui-crumb.on { opacity: 1; visibility: visible; transform: none; transition: opacity .2s, transform .28s var(--ease); }
   .still .ui-crumb { transition: none; }
   .ui-crumb button { display: inline-flex; align-items: center; gap: 7px; flex: none; }
-  .ui-crumb button svg { width: 12px; height: 12px; color: var(--accent-text); transition: transform .2s var(--ease); }
+  .ui-crumb button svg { width: 12px; height: 12px; color: var(--accent); transition: transform .2s var(--ease); }
   .ui-crumb button:hover svg { transform: translateX(-2px); }
   .ui-crumb .sep { color: var(--line-2); font: 400 13px/1 var(--mono); padding: 0 2px; }
   .ui-crumb .cur { min-width: 0; padding: 9px 11px 9px 6px; font: 600 13px/1 var(--body); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -792,7 +794,7 @@
      drives it; the board sits beside it, sized so board and review pane fit one screen. Only the change animates.
      State lives in classes on .flow: at-N is the current step, ge-1 … ge-N are every step reached so far. */
   /* the board's greys are the site's own tokens (white frames and warm lines in light, the canvas greys in dark), so it reads as part of the page */
-  .bd { --b-bg: var(--surface); --b-line: color-mix(in srgb, var(--line) 62%, var(--surface)); --b-ink: var(--ink); --b-muted: var(--muted); --b-hover: var(--paper); --b-sub: var(--paper); --b-blue: #1b6fd6; --b-group: var(--accent-text); --b-shadow: rgba(0, 0, 0, .16); --b-dim: rgba(28, 28, 28, .26); --rh: 36px; }
+  .bd { --b-bg: var(--surface); --b-line: color-mix(in srgb, var(--line) 62%, var(--surface)); --b-ink: var(--ink); --b-muted: var(--muted); --b-hover: var(--paper); --b-sub: var(--paper); --b-blue: #1b6fd6; --b-group: var(--accent); --b-shadow: rgba(0, 0, 0, .16); --b-dim: rgba(28, 28, 28, .26); --rh: 36px; }
   :root[data-theme="dark"] .bd { --b-line: color-mix(in srgb, var(--line-2) 52%, var(--surface)); --b-hover: var(--hover); --b-sub: var(--surface-2); --b-blue: #2f7ff0; --b-shadow: rgba(0, 0, 0, .6); --b-dim: rgba(0, 0, 0, .38); --st-des: #69696f; --st-new: #5a6a92; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme]) .bd { --b-line: color-mix(in srgb, var(--line-2) 52%, var(--surface)); --b-hover: var(--hover); --b-sub: var(--surface-2); --b-blue: #2f7ff0; --b-shadow: rgba(0, 0, 0, .6); --b-dim: rgba(0, 0, 0, .38); --st-des: #69696f; --st-new: #5a6a92; } }
   /* status colours from the studio's real board. Light fills carry near-black text and dark fills white, so every label passes AA.
@@ -807,7 +809,7 @@
   .fl-rh .mono { font-size: 11.5px; color: var(--ink); }
   .fl-play { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px 0 12px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink); font: 500 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
   .fl-play:hover { border-color: var(--ink); }
-  .fl-play svg { width: 10px; height: 10px; color: var(--accent-text); }
+  .fl-play svg { width: 10px; height: 10px; color: var(--accent); }
   .fl-play .pz { color: var(--muted); }
   .fl-play.paused { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
   .fl-play[hidden] { display: none; }
@@ -2813,7 +2815,7 @@
     if (want) {
       var x0 = -cam.x / cam.s, y0 = -cam.y / cam.s, x1 = (vw - cam.x) / cam.s, y1 = (vh - 88 - cam.y) / cam.s; /* above the toolbar's zone */
       frames.filter(function (f) { var cx = f.x + f.w / 2, cy = f.y + f.h / 2; return f.vsrc && cx > x0 && cx < x1 && cy > y0 && cy < y1; }) /* at least half on screen */
-        .forEach(function (f, i) { amb.t.push(setTimeout(function () { if (amb.on) { amb.list.push(f); frameVideo(f); } }, 900 + i * 600)); });
+        .forEach(function (f, i) { amb.t.push(setTimeout(function () { if (!amb.on) return; amb.list.push(f); frameVideo(f); while (amb.list.length > 2) { var o = amb.list.shift(); if (o !== playing && o.v) { o.v.pause(); o.v.classList.remove('in'); } } }, 900 + i * 900)); }); /* two at a time (Joel: too many loops at once) */
     } else {
       amb.list.forEach(function (f) { if (f !== playing && f.v) { f.v.pause(); f.v.classList.remove('in'); } }); amb.list = [];
     }
@@ -4413,7 +4415,7 @@
     }
     function kick() { if (MOTION && on && !raf && !document.hidden) raf = requestAnimationFrame(frame); }
     function still() { if (!on) return; cur = 0; px = py = 0; draw(); }
-    addEventListener('scroll', kick, { passive: true });
+    var scT = 0; addEventListener('scroll', function () { clearTimeout(scT); scT = setTimeout(kick, 160); }, { passive: true }); /* never redraws mid-scroll (Joel: Chrome scroll felt heavy); it glides to the next shape once you stop */
     addEventListener('pointermove', function (e) { if (!MOTION || e.pointerType !== 'mouse') return; tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; kick(); }, { passive: true });
     var rz = 0; addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); sync(); if (MOTION) { cur = target(); built = -1; } if (on) draw(); }, 150); });
     document.addEventListener('visibilitychange', kick);
@@ -4556,6 +4558,8 @@
 
   /* ------------------------------------------------------------------ go */
   layout(true); ambSync();
+  /* fetch and decode what the zoom-out will show while the page is idle, so the first scroll never does it (Joel: scroll felt heavy) */
+  (function () { var go = function () { if (!reelPre && briefIn && !full) { reelPre = true; loadVisible(overview()); } }; setTimeout(function () { if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 2000 }); else go(); }, 2500); })();
   document.fonts && document.fonts.ready.then(function () { if (!full) { var keep = { x: cam.x, y: cam.y, s: cam.s }, h0 = homeCam; layout(false); if (h0 && keep.x === h0.x && keep.y === h0.y && keep.s === h0.s) { cam = home(); apply(); } reelP = -1; reelTick(); } });
   /* deep links: #job=events opens that job */
   var dl = /^#job=(\w+)/.exec(location.hash); if (dl && byId[dl[1]]) setTimeout(function () { hNoPush = true; openJob(dl[1], 0, null); }, 60); /* arrived on the job's link: no step to add, closing just clears the hash */
