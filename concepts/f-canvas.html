@@ -1685,7 +1685,7 @@
         <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>Explainers, event loops, social, product and brand motion.</p></li>
         <li><small>Recent jobs · 8 pieces</small><b>Fresh off the board</b><p>A few recent jobs, straight off client boards: ads, sales sheets, guides, event signage and toolkits.</p></li>
         <li><small>Software · 5 pieces</small><b>Product launches</b><p>Series art for a Japanese reading app, seen where learners meet it in the product, plus product and sales videos built from a product’s own UI.</p></li>
-        <li><small>Commercial HVAC group · 47 logos</small><b>Logo systems</b><p>47 company logos brought into one family, with a self-serve site where each company downloads its own files.</p></li>
+        <li><small>Brand identity · 11 logos</small><b>Logo design</b><p>Logos for clients across software, infrastructure, lending, construction and events, from a startup’s first mark to a sales kickoff identity.</p></li>
       </ol>
     </div></section>
   </noscript>
@@ -2226,10 +2226,21 @@
         ['satori-dashboard.jpg', '', 2344, 1758, 'Dashboard', '#151515'],
         ['marchex-aps.jpg', 'marchex-aps.mp4', 960, 540, 'Product video', '#133b6b'],
         ['marchex-nada.jpg', 'marchex-nada.mp4', 960, 540, 'Sales video', '#606a79'] ] },
-    { id: 'logos', ind: 'Commercial HVAC group', title: 'Logo systems', cnt: '47 logos',
-      lede: '47 company logos brought into one family, with a self-serve site where each company downloads its own files.',
-      cell: [3, 1], g: [[0,0,0,4,4]],
-      items: [ ['air-logo-wall.jpg', '', 2400, 1440, 'Logo family', '#e6e5e6'] ] }
+    { id: 'logos', ind: 'Brand identity', title: 'Logo design', cnt: '11 logos', cols: 4, /* NEW COPY: industry, title, lede, captions (Shane 2026-11-03: replaces the HVAC logo-family wall) */
+      lede: 'Logos for clients across software, infrastructure, lending, construction and events, from a startup’s first mark to a sales kickoff identity.',
+      cell: [3, 1], g: [[0,0,0,2,1],[1,2,0,2,1],[2,0,1,2,1],[3,2,1,2,1],[4,0,2,1,2],[5,1,2,1,2],[6,2,2,1,2],[7,3,2,1,2]], /* the board shows 8; the sheet opens all 11 */
+      items: [
+        ['logo-arx.jpg', '', 1200, 900, 'ARX Infrastructure', '#ffffff'],
+        ['logo-jetson.jpg', '', 1200, 900, 'Jetson', '#ffffff'],
+        ['logo-asg.jpg', '', 1200, 900, 'All Systems Grow, sales kickoff', '#1c1c1c'],
+        ['logo-dorse.jpg', '', 1200, 900, 'Dorse', '#ffffff'],
+        ['logo-good-lender.jpg', '', 1200, 900, 'The Good Lender', '#1c1c1c'],
+        ['logo-bedrock.jpg', '', 1200, 900, 'Bedrock Pavers & Concrete', '#ffffff'],
+        ['logo-curious-caudle.jpg', '', 1200, 900, 'The Curious Caudle', '#ffffff'],
+        ['logo-satori.jpg', '', 1200, 900, 'Satori Reader', '#ffffff'],
+        ['logo-stack.jpg', '', 1200, 900, 'Stack', '#ffffff'],
+        ['logo-avaldus.jpg', '', 1200, 900, 'Avaldus', '#ffffff'],
+        ['logo-peckman.jpg', '', 1200, 900, 'Peckman Partners', '#ffffff'] ] }
   ];
   var ORDER = ['partner', 'brand', 'events', 'exec', 'motion', 'fresh', 'product', 'logos']; /* list + sheet order */
   var byId = {}; JOBS.forEach(function (j) { byId[j.id] = j; });
@@ -2247,6 +2258,12 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* ------------------------------------------------------------------ justified rows: equal heights, true aspect ratios */
+  /* a job with cols (same-shape pieces, like the logos) lays out as an even grid: every tile one size, the last row left-aligned */
+  function gridRows(items, W, gap, n) {
+    var rows = [], h = (W - gap * (n - 1)) / n / items[0].ar;
+    for (var i = 0; i < items.length; i += n) rows.push({ items: items.slice(i, i + n), h: h, last: i + n >= items.length && items.length % n !== 0 });
+    return rows;
+  }
   function justify(items, W, gap, first, row) {
     var rows = [], cur = [], sum = 0, target = first || row;
     for (var i = 0; i < items.length; i++) {
@@ -3260,7 +3277,7 @@
     var W = shMosaic.clientWidth || Math.max(280, Math.min(1240, innerWidth - 32) - 88), phone = W < 600;
     var skip = j.versions || [];
     var its = j.items.map(function (d, i) { return { d: d, i: i, ar: d[6] || d[2] / d[3] }; }) /* d[6]: a taller piece can show as a top crop here */.filter(function (it) { return skip.indexOf(it.i) < 0; });
-    var rows = justify(its, W, 14, phone ? 240 : Math.min(520, W * .42), phone ? 170 : 240);
+    var rows = j.cols ? gridRows(its, W, 14, phone ? 2 : j.cols) : justify(its, W, 14, phone ? 240 : Math.min(520, W * .42), phone ? 170 : 240);
     vidIO = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         var v = en.target;
