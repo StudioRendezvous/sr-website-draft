@@ -705,6 +705,7 @@
   /* Try us first: a strip above the two ways to keep going (it replaces the third card: Shane / CMO review) */
   .trial { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px 48px; align-items: start; }
   .trial .tr-b p:first-child { margin-top: 0; }
+  #together .frames.c2 { margin-top: 24px; } /* the Retainer and Hourly cards carry no labels: they sit close under the strip */
   /* wide screens: the two detail lines sit side by side as their own columns, so no line runs the full strip (Shane: looked strange) */
   @media (min-width: 1100px) {
     .trial { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
@@ -1230,7 +1231,7 @@
   /* Amber (Content Matterz review): the reasons lead with their value, the chart supports them and draws itself in */
   .why { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px 32px; margin-top: 48px; align-items: start; }
   @media (max-width: 960px) { .why { grid-template-columns: 1fr; } }
-  .reasons { display: grid; gap: 40px; }
+  .reasons { display: grid; gap: 16px; } /* no component labels between the reasons any more (Shane: drop the numbered ones) */
   .reasons .card { padding: 24px; }
   .reasons .card h3 { font-size: clamp(21px, 1.8vw, 25px); line-height: 1.02; } /* Shane: a size down again */
   .reasons .card p { margin-top: 8px; font-size: 16px; }
@@ -1835,9 +1836,9 @@
       <h2 id="whyH">Clients stay for years.</h2>
       <div class="why frames">
         <div class="reasons">
-        <div class="card fx" data-l="Reason / 01"><h3>Your brand is second nature</h3><p>After dozens of projects, we know your brand the way your own team does. Many clients now work from the brand books and templates we built.</p></div>
-        <div class="card fx" data-l="Reason / 02"><h3>The longer we work together, the faster it goes</h3><p>Years of source files and past projects mean every new job starts with zero ramp-up time.</p></div>
-        <div class="card fx" data-l="Reason / 03"><h3>Senior attention on every job</h3><p>Every job is assigned and prioritized the moment it lands, so the right designer gets straight to work.</p></div>
+        <div class="card fx"><h3>Your brand is second nature</h3><p>After dozens of projects, we know your brand the way your own team does. Many clients now work from the brand books and templates we built.</p></div>
+        <div class="card fx"><h3>The longer we work together, the faster it goes</h3><p>Years of source files and past projects mean every new job starts with zero ramp-up time.</p></div>
+        <div class="card fx"><h3>Senior attention on every job</h3><p>Every job is assigned and prioritized the moment it lands, so the right designer gets straight to work.</p></div>
         </div>
         <figure class="tenure fx" data-l="Chart / Tenure">
           <span class="ttl">Current clients · years with us</span>
@@ -1875,8 +1876,8 @@
            Hourly's billing line folds under Details like the retainer's, so all three footers lead with the same Details row. NEW COPY: none (approved sentences, re-split). -->
       <div class="card fx trial" data-l="Option / Start here"><div class="tr-a"><h3>Try us first</h3><p class="lead">A job or two at our hourly rate, with an estimate before we start.</p><a class="cta" href="#contact" data-help="first">Put a first job on the board</a></div><div class="tr-b"><p>We start from your guidelines and past work, and help sharpen them as we go. Most retainer clients began this way.</p><p>No brand book? No problem. We can work from your existing materials or help create guidelines that give your brand a consistent, distinct look.</p></div></div>
       <div class="frames c3 c2">
-        <div class="card fx" data-l="Option / Retainer"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul><p>We plan around your annual marketing calendar, so you can count on us anytime you need us. Billing happens at the start of the month, with hours and rates reviewed annually.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about a retainer</a></div></div>
-        <div class="card fx" data-l="Option / Hourly"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p><p>Get the creative support you need, when you need it, without a fixed monthly commitment. Pay at the end of the month only for the hours you use.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about hourly</a></div></div>
+        <div class="card fx"><div class="c-bd"><h3>Annual retainer</h3><p class="lead">A team you can count on all year.</p><ul class="pts"><li>A set block of hours each month at our best rate</li><li>Unused hours roll over and stay yours until they’re used</li></ul><p>We plan around your annual marketing calendar, so you can count on us anytime you need us. Billing happens at the start of the month, with hours and rates reviewed annually.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about a retainer</a></div></div>
+        <div class="card fx"><div class="c-bd"><h3>Hourly</h3><p class="lead">Room to flex when needs swing month to month.</p><p>Get the creative support you need, when you need it, without a fixed monthly commitment. Pay at the end of the month only for the hours you use.</p></div><div class="c-ft"><a class="ghost" href="#contact" data-help="info">Ask about hourly</a></div></div>
       </div>
       <!-- Phil's quote moved here from beside Shane's board update (Shane: side by side they could be confused) -->
       <figure class="cmt r"><span class="pin" aria-hidden="true">PI</span><div class="bub"><blockquote class="opt-i"><span class="hq">“</span>I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”</blockquote><figcaption><b>Phil Iaccarino</b>, Director, Product Marketing, Guidewire</figcaption></div></figure>
@@ -1895,11 +1896,11 @@
       </div>
       <!-- NEW COPY: "Why Studio Rendezvous?" (was "Why a studio like ours") -->
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Why Studio Rendezvous?</p>
-      <div class="frames c4" style="margin-top:40px">
-        <div class="card fx" data-l="Compare / Freelancer"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, web, UX, sales decks, print and apparel, with someone ready for every job.</p></div>
-        <div class="card fx" data-l="Compare / New hire"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, without the overhead of a full-time hire.</p></div>
-        <div class="card fx" data-l="Compare / Big agency"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
-        <div class="card fx" data-l="Compare / Your team"><h3>When your team is stretched</h3><p>Added creative capacity within your process. We handle the overflow while keeping everything on-brand.</p></div>
+      <div class="frames c4" style="margin-top:0">
+        <div class="card fx"><h3>Instead of a freelancer</h3><p>A full senior team across design, motion, web, UX, sales decks, print and apparel, with someone ready for every job.</p></div>
+        <div class="card fx"><h3>Instead of a new hire</h3><p>No ramp-up. We start on the first job and flex with your month, without the overhead of a full-time hire.</p></div>
+        <div class="card fx"><h3>Instead of a&nbsp;big agency</h3><p>Direct access. No account managers or junior pool, and even our creative director designs, with 30 years in the business.</p></div>
+        <div class="card fx"><h3>When your team is stretched</h3><p>Added creative capacity within your process. We handle the overflow while keeping everything on-brand.</p></div>
       </div></div>
       <!-- NEW COPY: "Good to know" (was "Before you sign"); the answers are shown open, no fold (Shane 2026-11-03) -->
       <details class="fg gtk"><summary class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Good to know<span class="gtk-b" aria-hidden="true"><span class="o">Show 5 answers</span><span class="c">Hide</span></span></summary>
