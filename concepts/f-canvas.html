@@ -9,12 +9,9 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" id="themeColor" content="#f4f2ed">
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
-<!-- the display face is self-hosted and preloaded (same origin, found in the first bytes), so the hero headline paints in it;
-     the fallback faces below are metric-matched to it, so even a late font causes no reflow -->
-<link rel="preload" href="../media/fonts/big-shoulders-display-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script>
   /* Before first paint: motion (saved choice, else the OS setting) and theme (Light, Dark or System). */
   (function () {
@@ -25,29 +22,11 @@
     d.className = 'js ' + (m ? 'motion' : 'still') + (cv ? ' cv' : '') + (m && cv ? ' reel-on' : '');
     d.setAttribute('data-theme', dark ? 'dark' : 'light'); d.setAttribute('data-pref', t);
   })();
-  /* Type comparison (review only): ?type=b|c|d swaps the type system; no param = the current one (a). */
-  (function () {
-    var F = { b: 'Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600;700', c: 'Oswald:wght@600;700', d: 'Anton&family=IBM+Plex+Sans:wght@400;600;700' };
-    var t = new URLSearchParams(location.search).get('type');
-    window.srType = function (k) {
-      if (F[k] && !document.getElementById('tf-' + k)) { var l = document.createElement('link'); l.id = 'tf-' + k; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + F[k] + '&display=swap'; document.head.appendChild(l); }
-      if (F[k]) document.documentElement.setAttribute('data-type', k); else document.documentElement.removeAttribute('data-type');
-    };
-    if (t) { window.srTypeOn = true; srType(t); }
-  })();
 </script>
 <!-- hold the first paint until the whole top bar is parsed (#bar-ready), so its links never paint half-built and slide over -->
 <link rel="expect" href="#bar-ready" blocking="render">
 <noscript><style>.reel, .tbar .tb-l { display: none !important; }</style></noscript>
 <style>
-  /* Big Shoulders Display (SIL Open Font License), latin subset, one variable file for 700 to 900 */
-  @font-face { font-family: "Big Shoulders Display"; font-style: normal; font-weight: 700 900; font-display: swap; src: url(../media/fonts/big-shoulders-display-latin.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  /* metric-matched stand-ins (widths, cap height and line box measured against it), so a swap moves nothing */
-  @font-face { font-family: "BSD Fallback"; font-weight: 900; src: local("Impact"), local("Impact Regular"); size-adjust: 96.7%; ascent-override: 101%; descent-override: 22%; line-gap-override: 0%; }
-  @font-face { font-family: "BSD Fallback"; font-weight: 700 800; src: local("Impact"), local("Impact Regular"); size-adjust: 90.4%; ascent-override: 108%; descent-override: 23%; line-gap-override: 0%; }
-  @font-face { font-family: "BSD Fallback N"; font-weight: 900; src: local("Arial Narrow Bold"), local("ArialNarrow-Bold"); size-adjust: 85.7%; ascent-override: 114%; descent-override: 25%; line-gap-override: 0%; }
-  @font-face { font-family: "BSD Fallback N"; font-weight: 700 800; src: local("Arial Narrow Bold"), local("ArialNarrow-Bold"); size-adjust: 77.5%; ascent-override: 122%; descent-override: 26%; line-gap-override: 0%; }
   /* Concept F: Canvas. The work laid out like a live design file. Light and dark themes, in the language of Figma's UI. */
   :root {
     color-scheme: light;
@@ -83,7 +62,7 @@
     --mini: #d9d4c9;
     --scrim: 244, 242, 237;
     --p-tom: #1c1c1c; --p-tom-t: #ffffff; --p-tom-s: #ffffff;
-    --display: "Big Shoulders Display", "BSD Fallback", "BSD Fallback N", "Arial Narrow", Impact, sans-serif;
+    --display: "Oswald", "Arial Narrow", Impact, sans-serif; /* Oswald (Shane 2026-11-03: the most legible of the condensed options; was Big Shoulders Display) */
     --body: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(.22, .8, .2, 1);
@@ -1565,24 +1544,9 @@
   @media (prefers-reduced-motion: reduce) { .switch .tr, .switch .tr::after, .hint, .toast { transition: none; } }
   .still *, .still *::before, .still *::after { scroll-behavior: auto !important; }
   .still .hint, .still .toast, .still .fr, .still .sec-big, .still .sec-t, .still .form { transition: none !important; }
-  /* ---- type comparison (review only; ?type=b|c|d). A = Big Shoulders Display caps + Source Sans 3 (the page as designed) ---- */
-  /* close cousins of A (Shane: the current type is the best; try similar faces). font-size-adjust sets each display face's
-     cap height to Big Shoulders' (adjust = BSD cap/em x the face's x/cap), so the headlines keep their size */
-  /* B, Barlow: Barlow Condensed ExtraBold caps, Barlow body (a little rounder and friendlier) */
-  :root[data-type="b"] { --display: "Barlow Condensed", "Arial Narrow", sans-serif; --body: "Barlow", "Helvetica Neue", Arial, sans-serif; }
-  :root[data-type="b"] h1, :root[data-type="b"] h2, :root[data-type="b"] h3, :root[data-type="b"] .sec-big b, :root[data-type="b"] .nj b, :root[data-type="b"] .nos-list b, :root[data-type="b"] .fl-steps .tx b, :root[data-type="b"] .fl-cap .ti, :root[data-type="b"] .ld-t b, :root[data-type="b"] .ld-next b, :root[data-type="b"] .ac-t, :root[data-type="b"] .tenure .ttl, :root[data-type="b"] .person b, :root[data-type="b"] .sh-next b { font-weight: 800; letter-spacing: .005em; font-size-adjust: .556; }
-  /* C, Oswald: Oswald Bold caps, the same Source Sans 3 body (a classic gothic, a touch taller and wider) */
-  :root[data-type="c"] { --display: "Oswald", "Arial Narrow", sans-serif; }
-  :root[data-type="c"] h1, :root[data-type="c"] h2, :root[data-type="c"] h3, :root[data-type="c"] .sec-big b, :root[data-type="c"] .nj b, :root[data-type="c"] .nos-list b, :root[data-type="c"] .fl-steps .tx b, :root[data-type="c"] .fl-cap .ti, :root[data-type="c"] .ld-t b, :root[data-type="c"] .ld-next b, :root[data-type="c"] .ac-t, :root[data-type="c"] .tenure .ttl, :root[data-type="c"] .person b, :root[data-type="c"] .sh-next b { font-weight: 700; letter-spacing: 0; font-size-adjust: .537; }
-  /* D, Anton: Anton caps, IBM Plex Sans body (heavier poster caps; Plex pairs with the mono labels already on the page) */
-  :root[data-type="d"] { --display: "Anton", Impact, sans-serif; --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; }
-  :root[data-type="d"] h1, :root[data-type="d"] h2, :root[data-type="d"] h3, :root[data-type="d"] .sec-big b, :root[data-type="d"] .nj b, :root[data-type="d"] .nos-list b, :root[data-type="d"] .fl-steps .tx b, :root[data-type="d"] .fl-cap .ti, :root[data-type="d"] .ld-t b, :root[data-type="d"] .ld-next b, :root[data-type="d"] .ac-t, :root[data-type="d"] .tenure .ttl, :root[data-type="d"] .person b, :root[data-type="d"] .sh-next b { font-weight: 400; letter-spacing: .01em; font-size-adjust: .683; }
-  :root[data-type="d"] body { font-size: 16.5px; }
-  /* the switcher (only with ?type=) */
-  .tsw { position: fixed; left: 50%; transform: translateX(-50%); top: 64px; z-index: 90; display: flex; align-items: center; gap: 4px; padding: 4px; background: var(--glass); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 8px 22px -12px rgba(0, 0, 0, .5); font: 500 11px var(--mono); letter-spacing: .05em; text-transform: uppercase; }
-  .tsw span { padding: 0 8px 0 10px; color: var(--muted); }
-  .tsw button { border: 0; background: none; color: var(--ink); padding: 8px 11px; border-radius: 999px; cursor: pointer; font: inherit; letter-spacing: inherit; }
-  .tsw button[aria-pressed="true"] { background: var(--cta); color: var(--cta-ink); }
+  /* Oswald on every display line: Bold, no extra tracking, and font-size-adjust .537 so its caps sit at the size the layout was
+     tuned for (Big Shoulders' cap height, a touch smaller since Oswald runs wider) */
+  h1, h2, h3, .sec-big b, .nj b, .nos-list b, .fl-steps .tx b, .fl-cap .ti, .ld-t b, .ld-next b, .ac-t, .tenure .ttl, .person b, .sh-next b { font-weight: 700; letter-spacing: 0; font-size-adjust: .537; }
 </style>
 </head>
 <body>
@@ -4585,19 +4549,6 @@
     reel: openReel, closeReel: closeReel, rp: rp, group: function () { return { inGroup: inGroup, views: views.length }; }, exitGroup: exitGroup, palette: openCmdk, setTheme: setTheme, pins: PINS, secRects: secRects, lvl: function () { return lvl; }, tiers: function () { return frames.map(function (f) { return f.tier; }); }, field: function () { return field && field.state(); },
     list: openList, closeList: closeList, flow: function (n) { fl.auto = false; flSet(n); }, flState: function () { return { step: fl.step, auto: fl.auto, run: flow.classList.contains('run'), inView: fl.inView, hidden: document.hidden, vid: !flVid.paused }; }, flPlay: function () { flStart(); } };
 })();
-</script>
-<script>
-  if (window.srTypeOn) (function () {
-    var N = { a: 'Big Shoulders', b: 'Barlow', c: 'Oswald', d: 'Anton' }, w = document.createElement('div'), cur = document.documentElement.getAttribute('data-type') || 'a';
-    w.className = 'tsw'; w.setAttribute('role', 'group'); w.setAttribute('aria-label', 'Type comparison');
-    w.innerHTML = '<span>Type</span>' + Object.keys(N).map(function (k) { return '<button type="button" data-k="' + k + '" aria-pressed="' + (k === cur) + '">' + k.toUpperCase() + ' · ' + N[k] + '</button>'; }).join('');
-    w.addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return; var k = b.getAttribute('data-k');
-      srType(k); w.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      history.replaceState(null, '', location.pathname + '?type=' + k + location.hash);
-    });
-    document.body.appendChild(w);
-  })();
 </script>
 </body>
 </html>
