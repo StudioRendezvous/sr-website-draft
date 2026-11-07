@@ -4268,7 +4268,7 @@
   var flow = $('flow'), flStepBtns = flow.querySelectorAll('.fl-steps button'), flPlay = $('flPlay'), flCap = $('flCap'), flLive = $('flLive'), flBoard = flow.querySelector('.bd');
   var fl = { step: 6, auto: false, inView: false, near: false };
   var ICON_REPLAY = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.3 6.4A3.8 3.8 0 1 0 3.6 3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M1.6 1v3.1h3.1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
-  /* The client side of the board. Stock portraits for now (anonymous, always just "Your team"); swap the URLs to change them.
+  /* The client side of the board. Licensed stock portraits (Shane 2026-11-07; anonymous, always just "Your team"); swap the URLs to change them.
      An empty or missing entry falls back to the board's plain person icon. */
   var CLIENT_AVATARS = ['../media/thumbs/client-1.jpg', '../media/thumbs/client-2.jpg', '../media/thumbs/client-3.jpg'];
   flow.querySelectorAll('[data-cav]').forEach(function (el) { var u = CLIENT_AVATARS[+el.dataset.cav]; if (u) { el.dataset.bg = u; el.classList.add('ph'); } });
