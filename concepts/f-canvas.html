@@ -271,10 +271,10 @@
   /* semantic zoom, level 1 (overview): the section names take over, poster size. They live in the band above each group
      (--lb-b tall, in world units, so they scale with the file and can never reach the work), two lines at most. */
   .world { --lb-b: 248px; --lb-t: 54px; --lb-s: 26px; } /* two lines and the small line leave clear air under the row above (rows are 248 apart: at 184 the zoomed-out names crowded it, Shane) */
-  .world.narrow { --lb-t: 80px; }
+  .world.narrow { --lb-t: 46px; --lb-s: 22px; } /* phones, one column (2026-11-07): the file shows at about twice the old scale */
   .sec-big { position: absolute; left: 0; bottom: calc(100% + 16px); width: 100%; max-height: calc(var(--lb-b) - 40px); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; color: var(--ink); background: none; border: 0; padding: 0; text-align: left; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity .06s linear, visibility 0s .06s; z-index: 2; }
   .sec-big small { display: block; font: 500 var(--lb-s)/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
-  .world.narrow .sec-big small { display: none; }
+  .world.narrow .sec-big small { margin-bottom: 6px; } /* the industry and count show again on phones */
   .sec-big b { display: block; font: 900 var(--lb-t)/.92 var(--display); text-transform: uppercase; text-wrap: balance; }
   .sec-big:hover b { color: var(--accent-text); }
   /* One threshold (farS), one quick hand-over: the outgoing labels are gone in 60ms, then the incoming ones fade up in 60ms.
@@ -2189,7 +2189,7 @@
         ['nexb-advisor.jpg', '', 1237, 1600, 'Brochure page', '#b6babb'],
         ['nexb-back.jpg', '', 1237, 1600, 'Brochure back', '#2f2d2c'],
         ['nexr-banner.jpg', '', 900, 2429, 'Event banner', '#f2f3f3'] ] }, /* NEW COPY: caption (Shane 2026-11-04, the blue Nov 11 C post) */
-    { id: 'brand', ind: 'Financial services', title: 'A new brand, carried into everything', cnt: '18 pieces',
+    { id: 'brand', ph: 2, ind: 'Financial services', title: 'A new brand, carried into everything', cnt: '18 pieces',
       lede: 'When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories, sales tools, business cards and co-branded billboards. Built in the client’s own guidelines and Figma libraries, through their creative team’s reviews.',
       cell: [0, 1], g: [[0,0,0,2,2],[1,2,0,2,2],[2,0,2,2,2],[3,2,2,2,2],[4,0,4,2,2],[7,2,4,2,2],[8,0,6,2,2],[9,2,6,1,2,'50% 0'],[10,3,6,1,2],[13,0,8,2,1],[14,2,8,2,1],[15,0,9,2,2],[17,2,9,2,2]], /* NEW COPY: lede adds business cards and billboards (Shane 2026-11-07: the HI print pieces live here) */
       items: [
@@ -2249,7 +2249,7 @@
         ['norton-4p-identity.jpg', 'norton-4p-identity.mp4', 960, 540, 'Identity film', '#54493f'],             /* NEW COPY: caption */
         ['norton-money-workplace-poster.jpg', 'norton-money-workplace.mp4', 720, 406, 'Benefits video', '#565559'], /* NEW COPY: caption */
         ['norton-kv-story.jpg', 'norton-kv-story.mp4', 540, 960, 'Vertical story', '#1b1b1c'] ] },              /* NEW COPY: caption */
-    { id: 'product', ind: 'Software', title: 'Product launches', cnt: '9 pieces', /* NEW COPY: industry, title, lede, the Satori Reader captions (Shane 2026-11-03: show Satori Reader here, the series tall) */
+    { id: 'product', ph: 1, ind: 'Software', title: 'Product launches', cnt: '9 pieces', /* NEW COPY: industry, title, lede, the Satori Reader captions (Shane 2026-11-03: show Satori Reader here, the series tall) */
       lede: 'Series art and screens for two Japanese learning apps, seen where learners meet them in the product, plus product and sales videos built from a product’s own UI, infographics and print ads.', /* NEW COPY (Shane 2026-11-03: Human Japanese added; 11-07 the infographic and print ad fold in here) */
       cell: [2, 1], g: [[0,0,0,2,4,'50% 0'],[1,2,0,2,2,'50% 0'],[2,2,2,2,2,'50% 0'],[5,0,4,2,2],[6,2,4,2,2]], /* the board shows a cropped preview (top of the series page, reader, dashboard); the sheet opens all five, videos too (Shane) */
       items: [
@@ -2321,7 +2321,7 @@
         ['booth-arch-2.jpg', '', 1600, 1600, 'Entrance arch, reverse', '#d4d7d9'],
         ['booth-backdrop.jpg', '', 2000, 1608, 'Stage backdrop', '#2d425d'],
         ['fresh-n-hrtech.jpg', '', 1000, 798, 'Booth graphics', '#e5e8de'] ] }, /* moved from Fresh off the board; NEW COPY: caption */
-    { id: 'mba', ind: 'Construction', title: 'A rebrand, from website to awards night', cnt: '14 pieces', /* NEW COPY: industry, title, lede, captions (Shane 2026-11-06) */
+    { id: 'mba', ph: 1, ind: 'Construction', title: 'A rebrand, from website to awards night', cnt: '14 pieces', /* NEW COPY: industry, title, lede, captions (Shane 2026-11-06) */
       lede: 'For a building industry association: a new website and web brand guidelines, the annual member publication, a housing policy toolkit, awards-night welcome signs and event ads.',
       cell: [5, 1], g: [[0,0,0,2,4,'50% 0'],[1,2,0,2,2],[5,2,2,1,2,'50% 0'],[10,3,2,1,2]],
       items: [
@@ -2461,12 +2461,32 @@
   })();
   /* where the groups sit: the 6-column grid, or (phones) two columns, each group dropping into the shorter one, in list order */
   var arranged = null;
+  /* Phones (Shane 2026-11-07, after the review: the two-column mosaics were too small to read): one column, and each group
+     shows a single large lead picture (job.ph, else the board's first frame) at full width; tapping it opens the whole sheet. */
+  function narrowFrames(narrow) {
+    JOBS.forEach(function (j) {
+      var lead = j.ph != null ? j.ph : j.g[0][0], sec = secEls[j.id], r = secRects[j.id];
+      if (r.h0 == null) r.h0 = r.h;
+      sec._frames.forEach(function (b) {
+        var f = b._f;
+        if (!f.o) f.o = { ox: f.ox, oy: f.oy, w: f.w, h: f.h, css: b.style.cssText, ti: b.tabIndex };
+        if (!narrow) { b.style.cssText = f.o.css; b.tabIndex = f.o.ti; f.ox = f.o.ox; f.oy = f.o.oy; f.w = f.o.w; f.h = f.o.h; f.off = false; return; }
+        if (f.idx !== lead) { b.style.display = 'none'; f.off = true; return; }
+        f.ox = PAD; f.oy = PAD; f.w = SEC_W - PAD * 2; f.h = 4 * (ROW + GUT) - GUT; f.off = false; b.tabIndex = 0;
+        b.style.left = f.ox + 'px'; b.style.top = f.oy + 'px'; b.style.width = f.w + 'px'; b.style.height = f.h + 'px';
+        b.style.setProperty('--fw', f.w); b.style.setProperty('--op', f.ar < 1 ? '50% 0' : f.op);
+      });
+      r.h = narrow ? secH(4) : r.h0;
+      sec.style.height = r.h + 'px'; sec.style.setProperty('--sh', r.h);
+    });
+  }
   function arrange(narrow) {
     if (arranged === narrow) return false; arranged = narrow;
     world.classList.toggle('narrow', narrow);
+    narrowFrames(narrow);
     var pos = {};
     if (!narrow) { JOBS.forEach(function (j) { pos[j.id] = { x: cellX(j.cell[0]), y: CELL_Y[j.cell[1]] }; }); pos.start = { x: cellX(4), y: CELL_Y[2] }; }
-    else { var colY = [0, 0]; ORDER.concat(['start']).forEach(function (id) { var c = colY[0] <= colY[1] ? 0 : 1; pos[id] = { x: c * (SEC_W + GAP), y: colY[c] }; colY[c] += secRects[id].h + GAP_Y + 56; }); } /* (phones: the stacked names are bigger, so 240 apart as before) */
+    else { var y = 0; ORDER.concat(['start']).forEach(function (id) { pos[id] = { x: 0, y: y }; y += secRects[id].h + GAP_Y; }); } /* phones: one column, in list order */
     for (var id in secEls) { var p = pos[id], r = secRects[id]; r.x = p.x; r.y = p.y; secEls[id].style.left = p.x + 'px'; secEls[id].style.top = p.y + 'px'; }
     frames.forEach(function (f) { var r = secRects[f.job]; f.x = r.x + f.ox; f.y = r.y + f.oy; });
     return true;
@@ -2478,7 +2498,7 @@
   /* comment pins: client words, each pinned to the top-right corner of what it is about */
   var PINS = [
     { ini: 'PI', name: 'Phil Iaccarino', role: 'Director, Product Marketing, Guidewire', q: '“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”',
-      at: function () { var f = frameOf('motion', 2); return { x: f.x + f.w, y: f.y }; } },
+      at: function () { var f = frameOf('motion', 2); return f.off ? null : { x: f.x + f.w, y: f.y }; } },
     { ini: 'MC', name: 'Marc Chouaniere', role: 'VP Marketing, MoxiWorks', q: '“I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”',
       at: function () { return briefIn ? { x: SEC_W, y: 0 } : null; } }
   ];
@@ -2559,7 +2579,7 @@
     var vr = vp.getBoundingClientRect(), pm = 240, sy0 = full ? 0 : Math.max(0, -vr.top - pm), sy1 = full ? vh : Math.min(vh, innerHeight - vr.top + pm);
     var m = (full || innerWidth >= 960 ? 160 : 16) / c.s, x0 = -c.x / c.s - m, y0 = (sy0 - c.y) / c.s - m, x1 = (vw - c.x) / c.s + m, y1 = (sy1 - c.y) / c.s + m;
     for (var i = 0; i < frames.length; i++) {
-      var f = frames[i]; if (f.tier === 2) continue;
+      var f = frames[i]; if (f.tier === 2 || f.off) continue;
       var sw = f.w * c.s; if (sw < 24) continue;
       if (!(f.x + f.w > x0 && f.x < x1 && f.y + f.h > y0 && f.y < y1)) continue;
       var need = sw * DPR > 380 ? 2 : 1;
