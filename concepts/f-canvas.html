@@ -1681,7 +1681,7 @@
     <section class="band" id="worklist" aria-labelledby="nosH"><div class="wrap">
       <h2 id="nosH">Selected work</h2>
       <ol class="nos-list">
-        <li><small>Cybersecurity · 8 pieces</small><b>Partner marketing</b><p>A lifecycle playbook with email journeys and Figma templates, app walkthrough films, sales flyers and a monthly social program.</p></li>
+        <li><small>Cybersecurity · 12 pieces</small><b>Partner marketing</b><p>A lifecycle playbook with email journeys and Figma templates, a co-marketing toolkit for a retail partner, app walkthrough films, sales flyers and a monthly social program.</p></li>
         <li><small>Financial services · 18 pieces</small><b>A new brand, carried into everything</b><p>When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories, sales tools, business cards and co-branded billboards.</p></li>
         <li><small>B2B software · 14 pieces</small><b>Events, end to end</b><p>One conference identity carried from the elevator doors to the keynote stage: signage, badges, event app, stage animation and the recap reel.</p></li>
         <li><small>Cybersecurity · 26 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, member brochure, event banner, animated banners, webinar social and the launch film for a new executive offering.</p></li>
@@ -2140,9 +2140,9 @@
   /* ------------------------------------------------------------------ data
      Each piece: [poster, video or '', width, height, caption, placeholder colour] */
   var JOBS = [
-    { id: 'partner', ind: 'Cybersecurity', title: 'Partner marketing', cnt: '8 pieces',
-      lede: 'A lifecycle playbook with email journeys and Figma templates, app walkthrough films, sales flyers and a monthly social program.', /* NEW COPY: "sales flyers" (Shane 2026-11-07) */
-      cell: [1, 0], g: [[0,0,0,2,2],[1,2,0,2,2],[2,0,2,2,2],[3,2,2,2,2],[4,0,4,2,2],[5,2,4,2,2]],
+    { id: 'partner', ind: 'Cybersecurity', title: 'Partner marketing', cnt: '12 pieces',
+      lede: 'A lifecycle playbook with email journeys and Figma templates, a co-marketing toolkit for a retail partner, app walkthrough films, sales flyers and a monthly social program.', /* NEW COPY: "sales flyers", "a co-marketing toolkit for a retail partner" (Shane 2026-11-07) */
+      cell: [1, 0], g: [[0,0,0,2,2],[1,2,0,2,2],[8,0,2,2,2],[3,2,2,2,2],[4,0,4,2,2],[5,2,4,2,2]], /* the toolkit cover takes the Onboarding slot on the board; the sheet has everything */
       items: [
         ['pb-00.jpg', '', 900, 507, 'Playbook', '#2934eb'],
         ['norton-social-mosaic.jpg', 'norton-social-mosaic.mp4', 1280, 720, 'Social program', '#e2e1d5'],
@@ -2151,7 +2151,11 @@
         ['pb-17.jpg', '', 900, 507, 'Email journeys', '#ececeb'],
         ['norton-currys.jpg', 'norton-currys.mp4', 960, 540, 'App walkthrough', '#dbe2e6'],
         ['print-flyer-money.jpg', '', 1237, 1600, 'Comparison flyer', '#e9e6e1'],
-        ['print-flyer-genie.jpg', '', 1237, 1600, 'Product flyer', '#e9e8e4'] ] },
+        ['print-flyer-genie.jpg', '', 1237, 1600, 'Product flyer', '#e9e8e4'],
+        ['bbyh-cover.jpg', '', 2000, 1125, 'Partner toolkit', '#d3cdbf'],     /* NEW COPY: toolkit captions (Shane 2026-11-07, Best Buy Health + Lively v12) */
+        ['bbyh-social.jpg', '', 2000, 1125, 'Toolkit social posts', '#e1e3e2'],
+        ['bbyh-banners.jpg', '', 2000, 1125, 'Toolkit web banners', '#e7e8e8'],
+        ['bbyh-identity.jpg', '', 2000, 1125, 'Toolkit image library', '#e6e6e6'] ] },
     { id: 'exec', ind: 'Cybersecurity', title: 'An executive program, launched', cnt: '26 pieces',
       lede: 'Key visual, sales proposal, pitch deck, member brochure, event banner, animated banners, webinar social and the launch film for a new executive offering.', /* NEW COPY: "webinar social", then "member brochure, event banner" (Shane 2026-11-07) added */
       cell: [1, 1], versions: [2, 3], g: [[0,0,0,3,4],[4,3,0,1,2],[5,3,2,1,2],[1,0,4,2,2],[6,2,4,1,2],[7,3,4,1,2],[8,0,6,2,2],[9,2,6,2,2],[11,0,8,2,2],[15,2,8,2,2],[12,0,10,1,2,'0% 50%'],[13,1,10,1,2],[14,2,10,1,2],[10,3,10,1,2,'50% 0'],[16,0,12,2,2],[21,2,12,1,2],[25,3,12,1,2,'50% 0']],
