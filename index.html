@@ -769,7 +769,7 @@
     <div class="hero-row">
       <div class="hero-copy">
         <p class="lede">At Studio Rendezvous, senior designers and motion artists work right alongside your marketing and design teams. Just add a job to the board, and we’ll get to work, delivering <span style="white-space:nowrap">on-brand</span>, <span style="white-space:nowrap">on-time</span> results. From a single project to a major campaign or a full year of marketing needs, we’ve got you covered.</p>
-        <p class="mono hero-proof"><span>Senior team</span> · <span>Current clients average 9 years</span></p>
+        <p class="mono hero-proof"><span>Senior team</span> · <span>Current clients average 8 years</span></p>
         <div class="hero-cta"><a class="cta" href="#contact" data-help="first">Start a job</a><a class="btn-ghost" href="#work">See the work</a></div>
       </div>
     </div>
@@ -1319,11 +1319,11 @@
   // value labelled at the end, and a bare axis with a tick per year.
   (function () {
     var el = document.getElementById('chTenure'); if (!el) return;
-    var clients = [20, 15, 12, 10, 9, 7.7, 4, 4, 3];   // estimated years working with us, current clients, sorted (Human Japanese 20 yrs; Content Matterz 15; Human Interest since Jan 2019; People First 3 yrs)
+    var clients = [15, 12, 10, 9, 7.7, 4, 4, 3];   // 20-year client removed (Shane 2026-11-08);   // estimated years working with us, current clients, sorted (Human Japanese 20 yrs; Content Matterz 15; Human Interest since Jan 2019; People First 3 yrs)
     function draw() {
     var narrow = el.clientWidth < 620;
     var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 6, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 18;
-    var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; };
+    var x = function (y) { return L + (W - L - R) * Math.min(y, 16) / 16; };
     var out = [];
     clients.forEach(function (y, i) {
       var cy = T + i * rowH + rowH / 2, xe = x(y);
@@ -1333,8 +1333,8 @@
       out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val">' + Math.round(y) + ' yrs' + '</text>');
     });
     // axis: range frame from 0 to 20, a tick every year
-    out.push('<line x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
-    for (var yr = 0; yr <= 20; yr++) {
+    out.push('<line x1="' + x(0) + '" x2="' + x(15) + '" y1="' + axisY + '" y2="' + axisY + '" stroke="var(--text)" stroke-width="1"/>');
+    for (var yr = 0; yr <= 15; yr++) {
       var major = yr % 5 === 0;
       out.push('<line x1="' + x(yr) + '" x2="' + x(yr) + '" y1="' + axisY + '" y2="' + (axisY + (major ? 8 : 4)) + '" stroke="var(--text)" stroke-width="1"/>');
       if (major) out.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + yr + '</text>');

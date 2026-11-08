@@ -1685,7 +1685,7 @@
   <!-- ================================================================ clients -->
   <section class="band cs" id="clients" aria-label="Clients">
     <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="Current">
-      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>Current clients average 9 years</span></p>
+      <p class="proofline"><span>Senior team</span><i aria-hidden="true"></i><span>Current clients average 8 years</span></p>
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Clients we’re helping every month</p>
       <div class="logos" role="list" aria-label="Current clients">
         <div role="listitem" class="fx"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
@@ -4209,11 +4209,11 @@
      and a bare axis with a tick per year. Colours come from the theme, so it follows light and dark. */
   (function () {
     var el = $('chTenure'); if (!el) return;
-    var clients = [20, 15, 12, 10, 9, 7.7, 4, 4, 3];
+    var clients = [15, 12, 10, 9, 7.7, 4, 4, 3]; /* the 20-year client removed (Shane 2026-11-08) */
     function draw() {
       var narrow = el.clientWidth < 560;
       var W = narrow ? 380 : 760, L = narrow ? 30 : 44, R = narrow ? 64 : 96, T = 6, rowH = narrow ? 30 : 26, n = clients.length, axisY = T + n * rowH + 18;
-      var x = function (y) { return L + (W - L - R) * Math.min(y, 21) / 21; }, out = [];
+      var x = function (y) { return L + (W - L - R) * Math.min(y, 16) / 16; }, out = [];
       clients.forEach(function (y, i) {
         var cy = T + i * rowH + rowH / 2, xe = x(y);
         out.push('<text x="' + (L - 12) + '" y="' + (cy + 4) + '" text-anchor="end" font-size="12">' + String(i + 1).padStart(2, '0') + '</text>');
@@ -4222,8 +4222,8 @@
         out.push('<rect class="mk" x="' + (xe - 5) + '" y="' + (cy - 5) + '" width="10" height="10"' + st + '/>');
         out.push('<text x="' + (xe + 12) + '" y="' + (cy + 4) + '" font-size="13" class="val e"' + st + '>' + Math.round(y) + ' yrs</text>');
       });
-      out.push('<line class="ln" x1="' + x(0) + '" x2="' + x(20) + '" y1="' + axisY + '" y2="' + axisY + '" stroke-width="1"/>');
-      for (var yr = 0; yr <= 20; yr++) {
+      out.push('<line class="ln" x1="' + x(0) + '" x2="' + x(15) + '" y1="' + axisY + '" y2="' + axisY + '" stroke-width="1"/>');
+      for (var yr = 0; yr <= 15; yr++) {
         var major = yr % 5 === 0;
         out.push('<line class="ln" x1="' + x(yr) + '" x2="' + x(yr) + '" y1="' + axisY + '" y2="' + (axisY + (major ? 8 : 4)) + '" stroke-width="1"/>');
         if (major) out.push('<text x="' + x(yr) + '" y="' + (axisY + 24) + '" text-anchor="middle" font-size="13" class="val">' + yr + '</text>');
