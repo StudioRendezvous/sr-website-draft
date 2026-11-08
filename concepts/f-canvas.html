@@ -1474,29 +1474,6 @@
   .mo.hl.was { outline-color: transparent; }
   .motion .mo.hl { transition: outline-color .9s ease, transform .2s var(--ease), box-shadow .2s var(--ease); }
   .mo.lent { visibility: hidden; } /* while its picture is up in the viewer, or travelling to and from it */
-  /* version history: drag to compare rounds */
-  .vh-wrap { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 14px; }
-  @media (max-width: 760px) { .vh-wrap { grid-template-columns: 1fr; } }
-  .vcmp { position: relative; margin: 0; aspect-ratio: 16 / 9; background: #2a2521; overflow: hidden; --p: 50%; touch-action: pan-y; }
-  .vcmp figcaption { position: absolute; left: 0; bottom: 100%; padding-bottom: 6px; font: 400 11px var(--mono); letter-spacing: .03em; color: var(--muted); }
-  .vcmp { overflow: visible; }
-  .vcmp .im { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .vcmp .im.a { clip-path: inset(0 calc(100% - var(--p)) 0 0); }
-  .vcmp .bar { position: absolute; top: 0; bottom: 0; left: var(--p); width: 2px; margin-left: -1px; background: var(--accent); pointer-events: none; }
-  .vcmp .bar::after { content: ""; position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; transform: translate(-50%, -50%); border-radius: 50%; background: var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 12'%3E%3Cpath d='M6 1L1 6l5 5M14 1l5 5-5 5' fill='none' stroke='%231c1c1c' stroke-width='1.8'/%3E%3C/svg%3E") center/18px no-repeat; box-shadow: 0 6px 18px -6px rgba(0,0,0,.6); }
-  .vcmp .tag { position: absolute; bottom: 12px; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px 4px; background: rgba(20,20,20,.82); color: #fff; pointer-events: none; }
-  .vcmp .tag.l { left: 12px; } .vcmp .tag.r { right: 12px; background: var(--accent); color: #1c1c1c; }
-  .vcmp input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
-  .vcmp input:focus-visible + .bar::after { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
-  .vlist { background: var(--surface); border: 1px solid var(--line); padding: 14px 6px 8px; align-self: stretch; }
-  .vlist .lh { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 0 10px 10px; }
-  .vlist button { width: 100%; display: grid; grid-template-columns: 12px 64px 1fr; align-items: center; gap: 2px 10px; text-align: left; border: 0; background: none; padding: 9px 10px; border-radius: 6px; cursor: pointer; color: var(--ink); }
-  .vlist button:hover { background: var(--hover); }
-  .vlist button i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--muted); grid-row: span 2; }
-  .vlist button em { grid-row: span 2; width: 64px; height: 36px; background: center/cover; border: 1px solid var(--line); }
-  .vlist .vn { padding: 12px 10px 4px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); margin: 10px 4px 0; }
-  .vlist button[aria-pressed="true"] i { background: var(--accent); border-color: var(--accent); }
-  .vlist button b { font-weight: 600; font-size: 15px; align-self: end; } .vlist button span { grid-column: 3; font-size: 13px; color: var(--muted); align-self: start; }
   .sh-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); }
   .sh-next { display: flex; flex-direction: column; gap: 6px; text-align: left; background: none; border: 0; cursor: pointer; padding: 0; color: var(--ink); }
   .sh-next span { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -1686,7 +1663,7 @@
         <li><small>Financial services · 16 pieces</small><b>A new brand, carried into everything</b><p>When a client relaunched their brand, we rolled it into more than 100 assets: the brand book, logo stings, video, data stories, sales tools, business cards and co-branded billboards.</p></li>
         <li><small>Construction · 13 pieces</small><b>A rebrand, from website to awards night</b><p>For a building industry association: a new website and web brand guidelines, the annual member publication, a housing policy toolkit, awards-night welcome signs and event ads.</p></li>
         <li><small>Trade shows · 6 pieces</small><b>Booths and backdrops</b><p>Trade show booths, entrance arches and stage backdrops, rendered in 3D so the space is signed off before anything goes to print.</p></li>
-        <li><small>Cybersecurity · 26 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, member brochure, event banner, animated banners, webinar social and the launch film for a new executive offering.</p></li>
+        <li><small>Cybersecurity · 24 pieces</small><b>An executive program, launched</b><p>Key visual, sales proposal, pitch deck, member brochure, event banner, animated banners, webinar social and the launch film for a new executive offering.</p></li>
         <li><small>Motion and video · 16 loops</small><b>Motion reel</b><p>Explainers, event loops, social, product and brand motion. Every piece is paced to its story and finished for release, with professional voice talent, music and a proper sound mix.</p></li>
         <li><small>UX and UI · 6 pieces</small><b>Websites and dashboards</b><p>Landing pages, pillar pages, partner wireframes and product dashboards, designed in Figma and handed off ready to build.</p></li>
         <li><small>Software · 7 pieces</small><b>Product launches</b><p>Series art and screens for two Japanese learning apps, seen where learners meet them in the product, plus product and sales videos built from a product’s own UI.</p></li>
@@ -2160,14 +2137,12 @@
         ['bbyh-social.jpg', '', 2000, 1125, 'Toolkit social posts', '#e1e3e2'],
         ['bbyh-banners.jpg', '', 2000, 1125, 'Toolkit web banners', '#e7e8e8'],
         ['bbyh-identity.jpg', '', 2000, 1125, 'Toolkit image library', '#e6e6e6'] ] },
-    { id: 'exec', ind: 'Cybersecurity', title: 'An executive program, launched', cnt: '26 pieces',
+    { id: 'exec', ind: 'Cybersecurity', title: 'An executive program, launched', cnt: '24 pieces',
       lede: 'Key visual, sales proposal, pitch deck, member brochure, event banner, animated banners, webinar social and the launch film for a new executive offering.', /* NEW COPY: "webinar social", then "member brochure, event banner" (Shane 2026-11-07) added */
-      cell: [1, 1], versions: [2, 3], g: [[0,0,0,3,4],[4,3,0,1,2],[5,3,2,1,2],[1,0,4,2,2],[6,2,4,1,2],[7,3,4,1,2],[8,0,6,2,2],[9,2,6,2,2],[11,0,8,2,2],[15,2,8,2,2],[12,0,10,1,2,'0% 50%'],[13,1,10,1,2],[14,2,10,1,2],[10,3,10,1,2,'50% 0'],[16,0,12,2,2],[21,2,12,1,2],[25,3,12,1,2,'50% 0']],
+      cell: [1, 1], g: [[0,0,0,3,4],[2,3,0,1,2],[3,3,2,1,2],[1,0,4,2,2],[4,2,4,1,2],[5,3,4,1,2],[6,0,6,2,2],[7,2,6,2,2],[9,0,8,2,2],[13,2,8,2,2],[10,0,10,1,2,'0% 50%'],[11,1,10,1,2],[12,2,10,1,2],[8,3,10,1,2,'50% 0'],[14,0,12,2,2],[19,2,12,1,2],[23,3,12,1,2,'50% 0']],
       items: [
         ['nkv-dark.jpg', '', 1100, 874, 'Key visual', '#1d1d1e'],
         ['norton-exec-program.jpg', 'norton-exec-program.mp4', 960, 540, 'Launch film', '#52514d'],
-        ['kv-round1.jpg', '', 1920, 1080, 'Key visual, round 1', '#f8f9f9'], /* NEW COPY: caption */
-        ['kv-final.jpg', '', 1920, 1080, 'Key visual, final', '#2a2521'],     /* NEW COPY: caption */
         ['nexp-01.jpg', '', 700, 906, 'Proposal cover', '#28282a'],
         ['nexp-02.jpg', '', 700, 906, 'Proposal spread', '#2b2d30'],
         ['nexp-04.jpg', '', 700, 906, 'Program pillars', '#2b2f33'],
@@ -3097,7 +3072,7 @@
     return cam;
   }
   function targetOf(m, frac) { /* the same picture's place in the sheet, if (enough of) it is on screen there */
-    var el = shMosaic.querySelector('[data-i="' + m.idx + '"]') || (m.idx === 0 ? shMosaic.querySelector('.mo') : null) || ((byId[m.job].versions || []).indexOf(m.idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
+    var el = shMosaic.querySelector('[data-i="' + m.idx + '"]') || (m.idx === 0 ? shMosaic.querySelector('.mo') : null);
     if (!el) return null;
     var r = boxR(el.getBoundingClientRect()), sr = boxR(shScroll.getBoundingClientRect()), v = inter(r, sr);
     if (!(v.h > r.h * (frac || .35) && v.w > 20)) return null;
@@ -3235,7 +3210,7 @@
     glideStop(); holdTop = shScroll.scrollTop;
     glideT = setTimeout(function () {
       glideT = 0; if (!sheet.open) return;
-      var j = byId[curJob], t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
+      var j = byId[curJob], t = shMosaic.querySelector('[data-i="' + idx + '"]');
       if (!t) return;
       var tr = t.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
       if (tr.top >= sr.top + 8 && tr.bottom <= sr.bottom - 8) return; /* already on screen */
@@ -3351,45 +3326,13 @@
     renderMosaic(j, idx);
     shScroll.scrollTop = 0; glideStop();
     if (idx > 0 && !top) {
-      var t = shMosaic.querySelector('[data-i="' + idx + '"]') || ((j.versions || []).indexOf(idx) >= 0 ? shMosaic.querySelector('.vcmp') : null);
+      var t = shMosaic.querySelector('[data-i="' + idx + '"]');
       if (t && still) { /* morphing: the picture lands in place, so put its place on screen first */
         var tr = t.getBoundingClientRect(), sr = shScroll.getBoundingClientRect();
         if (tr.bottom > sr.bottom - 24) shScroll.scrollTop = Math.max(0, tr.top - sr.top - Math.max(24, (sr.height - tr.height) / 2));
       } else if (t) setTimeout(function () { t.scrollIntoView({ block: 'nearest', behavior: MOTION ? 'smooth' : 'auto' }); }, MOTION ? 320 : 0);
     }
     $('shClose').focus({ preventScroll: true });
-  }
-  function versionBlock(j, hl) {
-    var a = j.items[j.versions[0]], b = j.items[j.versions[1]];
-    var w = document.createElement('div'); w.className = 'vh-wrap';
-    /* NEW COPY: version history labels */
-    w.innerHTML = '<figure class="vcmp' + (hl === j.versions[0] || hl === j.versions[1] ? ' hl' : '') + '" data-i="' + j.versions[1] + '" style="--p:50%">' +
-      '<img class="im" alt="' + esc(b[4]) + '" src="' + M + b[0] + '"><img class="im a" alt="' + esc(a[4]) + '" src="' + M + a[0] + '">' +
-      '<span class="tag l">Round 1</span><span class="tag r">Final</span>' +
-      '<input type="range" min="0" max="100" value="50" aria-label="Compare round 1 with the final. Left shows round 1, right shows the final."><span class="bar"></span>' +
-      '<figcaption>Version history · drag to compare</figcaption></figure>' +
-      '<div class="vlist" role="group" aria-label="Version history"><span class="lh">Version history</span>' +
-      '<button type="button" data-v="0" aria-pressed="false"><i></i><em style="background-image:url(' + T + b[0] + ')"></em><b>Final</b><span>Delivered</span></button>' +
-      '<button type="button" data-v="100" aria-pressed="false"><i></i><em style="background-image:url(' + T + a[0] + ')"></em><b>Round 1</b><span>First look</span></button>' +
-      '<p class="vn">Drag the handle, or pick a version.</p></div>';
-    var fig = w.firstChild, rng = fig.querySelector('input'), btns = w.querySelectorAll('.vlist button');
-    function setP(v, smooth) {
-      if (smooth && MOTION) {
-        var from = parseFloat(rng.value), t0 = performance.now();
-        (function st(now) { var t = Math.min(1, (now - t0) / 420), x = from + (v - from) * ease(t); fig.style.setProperty('--p', x + '%'); rng.value = x; if (t < 1) requestAnimationFrame(st); })(t0);
-      } else { fig.style.setProperty('--p', v + '%'); rng.value = v; }
-      btns[1].setAttribute('aria-pressed', String(v >= 99)); btns[0].setAttribute('aria-pressed', String(v <= 1));
-    }
-    rng.addEventListener('input', function () { setP(parseFloat(rng.value)); });
-    btns.forEach(function (bt) { bt.addEventListener('click', function () { setP(parseFloat(bt.dataset.v), true); }); });
-    /* arriving from the key visual's frame: it lands showing the final (the picture that travelled), then the handle
-       glides to the middle to show round 1 beside it, so the hand-over never snaps */
-    if (MOTION && (hl === j.versions[0] || hl === j.versions[1])) {
-      setP(hl === j.versions[0] ? 100 : 0); var shown = false;
-      fig._reveal = function () { if (shown) return; shown = true; setP(50, true); };
-      setTimeout(fig._reveal, 1400);
-    }
-    return w;
   }
   /* Sheet pictures load as soon as the sheet opens, never lazily: the small thumbnail first (usually already cached by the
      canvas, so there is never an empty block, however fast you scroll), then the full picture swaps in once it has decoded. */
@@ -3404,8 +3347,7 @@
     if (vidIO) vidIO.disconnect();
     shMosaic.innerHTML = '';
     var W = shMosaic.clientWidth || Math.max(280, Math.min(1240, innerWidth - 32) - 88), phone = W < 600;
-    var skip = j.versions || [];
-    var its = j.items.map(function (d, i) { return { d: d, i: i, ar: d[6] || d[2] / d[3] }; }) /* d[6]: a taller piece can show as a top crop here */.filter(function (it) { return skip.indexOf(it.i) < 0; });
+    var its = j.items.map(function (d, i) { return { d: d, i: i, ar: d[6] || d[2] / d[3] }; }) /* d[6]: a taller piece can show as a top crop here */;
     var rows = j.cols ? gridRows(its, W, 14, phone ? 2 : j.cols) : justify(its, W, 14, phone ? 240 : Math.min(520, W * .42), phone ? 170 : 240);
     vidIO = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
@@ -3441,7 +3383,6 @@
         row.appendChild(fig);
       });
       shMosaic.appendChild(row);
-      if (ri === 0 && j.versions) shMosaic.appendChild(versionBlock(j, hl));
     });
     shMosaic._w = W;
     var stop = shMosaic.querySelector('.mo.hl .mo-o') || shMosaic.querySelector('.mo-o'); if (stop) stop.tabIndex = 0;
@@ -4234,7 +4175,7 @@
       byInd[ind].forEach(function (j) {
         var li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.className = 'ld-row';
         var th = j.items.slice(0, 3).map(function (d) { return '<span style="--ph:' + d[5] + ';background-image:url(' + T + d[0] + ')"></span>'; }).join('');
-        var caps = []; j.items.forEach(function (d, i) { if ((j.versions || []).indexOf(i) < 0 && caps.indexOf(d[4]) < 0) caps.push(d[4]); });
+        var caps = []; j.items.forEach(function (d, i) { if (caps.indexOf(d[4]) < 0) caps.push(d[4]); });
         b.innerHTML = '<span class="ld-th" aria-hidden="true">' + th + '</span><span class="ld-t"><b></b><span></span></span><span class="ld-c"></span><span class="ld-go" aria-hidden="true">' + ICON_GO + '</span>';
         b.querySelector('.ld-t b').textContent = j.title;
         b.querySelector('.ld-t span').textContent = caps.slice(0, 5).join(', ');
