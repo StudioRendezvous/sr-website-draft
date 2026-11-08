@@ -783,10 +783,6 @@
   .logos div { background: var(--surface); box-shadow: 0 0 0 1px var(--line); display: grid; place-items: center; padding: 8px 16px; min-height: 72px; }
   .logos img { width: 100%; max-width: 150px; height: auto; filter: var(--logo-f); transform: scale(var(--ls, 1)); }
   :root[data-theme="dark"] .logos img { opacity: 1; filter: brightness(1.45); } /* readable on the dark tiles (were ~2:1) */
-  .proofline { font: 500 clamp(12px, 1.2vw, 14px)/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
-  .proofline i { display: inline-block; width: 5px; height: 5px; background: var(--accent); margin: 0 10px 2px; vertical-align: middle; }
-  .proofline span { white-space: nowrap; }
-  @media (max-width: 719px) { .proofline i:nth-of-type(2) { display: none; } .proofline span:last-child { display: block; } } /* phones: a clean break, no square left hanging */
   #clients .fg { margin-top: 40px; } /* the proof line (moved here from the hero, Shane), then the logos */
 
   /* ---------- How it works: one job on the shared board, start to finish ----------
@@ -1685,7 +1681,6 @@
   <!-- ================================================================ clients -->
   <section class="band cs" id="clients" aria-label="Clients">
     <div class="wrap"><div class="cs-in" data-cs="Clients" data-ind="Current">
-      <p class="proofline"><span>Senior team</span></p><!-- average-tenure line removed (Shane 2026-11-08) -->
       <div class="fg"><p class="fn"><svg aria-hidden="true"><use href="#i-sec"/></svg>Clients we’re helping every month</p>
       <div class="logos" role="list" aria-label="Current clients">
         <div role="listitem" class="fx"><img style="--ls:0.96" data-src="../media/logos/norton.png" alt="Norton" width="480" height="226"></div>
@@ -4349,7 +4344,7 @@
     var pgl = $('pgl'), pglOl = pgl.querySelector('ol'), rows = {};
     secs.forEach(function (sec) {
       var li = document.createElement('li'), a = document.createElement('a'); a.href = '#' + sec.id; a.innerHTML = SEC + '<span></span>'; a.lastChild.textContent = sec._name;
-      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .proofline, .fn'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
+      a.addEventListener('click', function (e) { e.preventDefault(); sec.scrollIntoView({ behavior: MOTION ? 'smooth' : 'auto', block: 'start' }); var f = sec.querySelector('h2, .fn'); if (f) { f.tabIndex = -1; f.focus({ preventScroll: true }); } });
       li.appendChild(a); pglOl.appendChild(li); rows[sec.id] = a;
     });
     var cur = null, inMid = new Set();
