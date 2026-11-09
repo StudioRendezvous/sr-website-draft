@@ -2053,13 +2053,14 @@
 
 <!-- The reel: the studio's motion and design reel, full screen. The file loads only when the player opens.
      To swap in a new cut, replace ../media/sr-reel.mp4 and ../media/sr-reel.jpg (poster) with the same names. Nothing else changes.
+     The current cut (60s stand-in, 2026-11-08) is silent, so data-silent on the video hides the Sound switch. Delete data-silent when a cut with sound goes in.
      NEW COPY: "Studio reel", "Studio Rendezvous, Inc. reel" (dialog name), "Play the reel", "Play", "Pause", "Seek", "Sound", "On", "Off",
      "Captions", "Full screen", "Exit full screen", "Close the reel", end card "That’s the reel." (the line under it and the three buttons reuse
      existing copy), "The reel didn’t load.", "Try again", and the screen reader lines in script. -->
 <dialog class="rp" id="rp" aria-label="Studio Rendezvous, Inc. reel">
  <div class="rp-in" id="rpIn">
   <div class="rp-stage" id="rpStage">
-    <video id="rpV" playsinline preload="none" data-src="../media/sr-reel.mp4" data-poster="../media/sr-reel.jpg" aria-label="Studio reel">
+    <video id="rpV" playsinline preload="none" data-silent data-src="../media/sr-reel.mp4" data-poster="../media/sr-reel.jpg" aria-label="Studio reel">
       <!-- Captions: when Gui delivers sr-reel.vtt, put it in ../media and uncomment this line. A Captions button then appears on its own.
       <track kind="captions" src="../media/sr-reel.vtt" srclang="en" label="English"> -->
     </video>
@@ -3440,6 +3441,7 @@
   var rpTrigger = null, rpIdleT = 0, rpRaf = 0, rpOverBar = false, rpScrub = null, rpBusy = 0, rpPT = 'mouse', rpLastT = '';
   var fsOK = !!(rpIn.requestFullscreen && document.fullscreenEnabled), fsIOS = !fsOK && typeof rpV.webkitEnterFullscreen === 'function';
   rpFs.hidden = !fsOK && !fsIOS; rpFs.innerHTML = ICON_FS;
+  if (rpV.hasAttribute('data-silent')) rpSnd.style.display = 'none'; /* silent cut: no Sound switch */
   function fmt(t) { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); }
   function rpDur() { var d = rpV.duration; return isFinite(d) && d > 0 ? d : 0; }
   function soundPref() { try { return sessionStorage.getItem('sr-reel-sound') === 'on'; } catch (e) { return false; } }
