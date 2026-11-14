@@ -30,5 +30,7 @@ PY
 cp robots.txt sitemap.xml favicon.ico dist/site/
 cp deploy/htaccess dist/site/.htaccess
 find dist/site -name '.DS_Store' -delete
+# the server only serves world-readable files (four team photos once shipped as 600 and came back 403)
+find dist/site -type f -exec chmod 644 {} + ; find dist/site -type d -exec chmod 755 {} +
 (cd dist/site && zip -qr ../sr-site.zip . -x '.DS_Store')
 echo "dist/sr-site.zip $(du -h dist/sr-site.zip | cut -f1)"
