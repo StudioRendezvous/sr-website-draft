@@ -27,7 +27,7 @@ for n in sorted(names):
 print('media files:', copied)
 if missing: print('NOT FOUND (check these):', ', '.join(missing))
 PY
-cp robots.txt sitemap.xml favicon.ico dist/site/
+cp robots.txt sitemap.xml favicon.ico google3b308ed5f8d117c3.html dist/site/
 cp deploy/htaccess dist/site/.htaccess
 find dist/site -name '.DS_Store' -delete
 # the server only serves world-readable files (four team photos once shipped as 600 and came back 403)

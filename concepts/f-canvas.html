@@ -1539,6 +1539,15 @@
      tuned for (Big Shoulders' cap height, a touch smaller since Oswald runs wider) */
   h1, h2, h3, .sec-big b, .nj b, .nos-list b, .fl-steps .tx b, .fl-cap .ti, .ld-t b, .ld-next b, .ac-t, .tenure .ttl, .person b, .sh-next b { font-weight: 700; letter-spacing: 0; font-size-adjust: .537; }
 </style>
+<!-- Google Analytics (GA4). Runs only on the live domain, so the draft and local previews don't count as visits. -->
+<script>
+if (location.hostname === 'studiorendezvous.net') {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', 'G-98CSWS5WCF');
+  var gs = document.createElement('script'); gs.async = true; gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-98CSWS5WCF'; document.head.appendChild(gs);
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -3487,6 +3496,7 @@
     if (!rpV.getAttribute('src')) { rpV.preload = 'metadata'; rpV.src = rpV.dataset.src; }
   }
   function rpPlay() {
+    if (window.gtag && !rpPlay.sent) { rpPlay.sent = 1; gtag('event', 'reel_play'); }
     rpLoad(); rpEnd.hidden = true; rp.classList.remove('end');
     if (rpV.ended) { try { rpV.currentTime = 0; } catch (_) {} }
     var pr = rpV.play();
@@ -4633,6 +4643,7 @@
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || r.status); }); })
         .then(function () {
           form.classList.add('sent'); drop.classList.add('sent'); btn.textContent = 'Sent';
+          if (window.gtag) gtag('event', 'generate_lead', { form: 'start_a_job' });   /* an inquiry sent = the conversion */
           var first = name.value.trim().split(' ')[0];
           note.textContent = 'Thanks, ' + first + '. We’ll get right back to you.';
           $('replyT').textContent = 'Thanks, ' + first + '. We’ll get right back to you.'; reply.classList.add('on');
