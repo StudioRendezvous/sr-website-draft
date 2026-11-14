@@ -1,9 +1,15 @@
 # Studio Rendezvous, Inc. static site (replaces the WordPress .htaccess)
-DirectoryIndex index.html
-Options -Indexes
+# This folder also holds other sites (capturelabs.com and subfolders), so every rule below is scoped
+# to studiorendezvous.net and the directory index still falls back to index.php for them.
+DirectoryIndex index.html index.php default.html
+AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
+
+# Only studiorendezvous.net: every other host skips the rules below
+RewriteCond %{HTTP_HOST} !^(www\.)?studiorendezvous\.net$ [NC]
+RewriteRule ^ - [L]
 
 # One address: https, no www
 RewriteCond %{HTTPS} off [OR]
@@ -38,4 +44,9 @@ ExpiresByType image/png "access plus 30 days"
 ExpiresByType image/webp "access plus 30 days"
 ExpiresByType image/svg+xml "access plus 30 days"
 ExpiresByType video/mp4 "access plus 30 days"
+</IfModule>
+
+# PHP handler carried over from the old .htaccess (other folders on this account use PHP)
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php80___lsphp .php .php8 .phtml
 </IfModule>
