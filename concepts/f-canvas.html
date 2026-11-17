@@ -790,7 +790,7 @@
   .nos-list p { margin-top: 6px; color: var(--ink2); max-width: 70ch; }
 
   /* logos */
-  /* logo walls: column counts that divide each wall evenly (10 clients: 5 or 2 across; 12 past clients: 6, 4 or 3 across),
+  /* logo walls: column counts that divide each wall evenly (10 clients: 5 or 2 across; past clients: see .logos.sm),
      and a per-logo --ls that evens out optical size (artboards share one size, the marks inside them do not) */
   .logos { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   @media (max-width: 699px) { .logos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -1269,9 +1269,11 @@
   @media (min-width: 901px) { .cmts .cmt.r { flex-direction: row-reverse; } .cmts .cmt.r .pin { border-radius: 50% 50% 0 50%; } }
   .cmts .cmt blockquote { font-size: clamp(18px, 1.6vw, 21px); }
   @media (max-width: 900px) { .cmts { grid-template-columns: 1fr; } .cmts .cmt.r { margin-left: 0; } }
-  .logos.sm { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
-  @media (max-width: 899px) { .logos.sm { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  @media (max-width: 559px) { .logos.sm { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  /* 13 past clients: 7 + 6 across, 5 + 5 + 3, or 3 across, with a short last row centred */
+  .logos.sm { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; --n: 7; }
+  .logos.sm > div { flex: 0 0 calc((100% - (var(--n) - 1) * 8px) / var(--n)); }
+  @media (max-width: 899px) { .logos.sm { --n: 5; } }
+  @media (max-width: 559px) { .logos.sm { --n: 3; } }
   .logos.sm div { min-height: 56px; padding: 8px 12px; }
   .logos.sm img { max-width: 120px; }
 
@@ -1948,6 +1950,7 @@ if (location.hostname === 'studiorendezvous.net') {
         <div role="listitem" class="fx"><img style="--ls:0.94" data-src="../media/logos/microsoft.png" alt="Microsoft" width="480" height="226"></div>
         <div role="listitem" class="fx"><img style="--ls:1.13" data-src="../media/logos/nike.png" alt="Nike" width="480" height="226"></div>
         <div role="listitem" class="fx"><img style="--ls:0.78" data-src="../media/logos/sap.png" alt="SAP" width="480" height="226"></div>
+        <div role="listitem" class="fx"><img style="--ls:1" data-src="../media/logos/f5.png" alt="F5" width="480" height="226"></div>
         <div role="listitem" class="fx"><img style="--ls:0.9" data-src="../media/logos/homestreet.png" alt="HomeStreet Bank" width="480" height="226"></div>
         <div role="listitem" class="fx"><img style="--ls:0.91" data-src="../media/logos/payscale.png" alt="Payscale" width="480" height="226"></div>
         <div role="listitem" class="fx"><img style="--ls:1.1" data-src="../media/logos/darigold.png" alt="Darigold" width="480" height="226"></div>
