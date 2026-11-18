@@ -1871,6 +1871,8 @@ if (location.hostname === 'studiorendezvous.net') {
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="8" y="10" width="40" height="26"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><rect pathLength="1" x="14" y="18" width="40" height="26"/></svg><svg class="ly" style="--z:2" viewBox="0 0 60 60"><polygon pathLength="1" points="30,48 38,56 22,56" class="o"/></svg></span></span><span class="cat">Sales</span><h3>Decks and proposals</h3><p>Standout sales materials, pitch decks, proposals and partner playbooks your sales team can edit.</p></li>
         <li class="fx"><span class="mw" aria-hidden="true"><span class="m3"><svg class="ly" style="--z:0" viewBox="0 0 60 60"><rect pathLength="1" x="13" y="16" width="34" height="36"/></svg><svg class="ly" style="--z:1" viewBox="0 0 60 60"><polygon pathLength="1" points="20,16 40,16 30,30" class="o"/></svg></span></span><span class="cat">Apparel</span><h3>Apparel and textiles</h3><p>Socks, hats, jackets and shirts, custom-designed to make your kickoffs and events stand out.</p></li>
       </ol>
+      <!-- Brittany Harris, Smart Communications (received 2026-11-18): about range of work, so it closes What we make -->
+      <figure class="cmt r"><span class="pin" aria-hidden="true">BH</span><div class="bub"><blockquote><span class="hq">“</span>Studio Rendezvous has been an amazing partner and truly feels like an extension of our creative team. From brand development and digital campaigns to events, presentations, and everything in between, they’ve supported us across all areas of design. They’re always willing to jump in, adapt to our needs, and help us through tight deadlines. Having that level of creative support and reliability has made such a difference for our team.”</blockquote><figcaption><b>Brittany Harris</b>, Creative Director, Smart Communications</figcaption></div></figure>
     </div></div>
   </section>
 
@@ -2522,6 +2524,8 @@ if (location.hostname === 'studiorendezvous.net') {
 
   /* comment pins: client words, each pinned to the top-right corner of what it is about */
   var PINS = [
+    { ini: 'BH', name: 'Brittany Harris', role: 'Creative Director, Smart Communications', q: '“Studio Rendezvous has been an amazing partner and truly feels like an extension of our creative team. From brand development and digital campaigns to events, presentations, and everything in between, they’ve supported us across all areas of design. They’re always willing to jump in, adapt to our needs, and help us through tight deadlines. Having that level of creative support and reliability has made such a difference for our team.”',
+      at: function () { var f = frameOf('events', 5); return !f || f.off ? null : { x: f.x + f.w, y: f.y }; } },
     { ini: 'PI', name: 'Phil Iaccarino', role: 'Director, Product Marketing, Guidewire', q: '“I have no idea how many clients they have, but it doesn’t matter because we always feel like we are important and their only focus. They are always extremely responsive to our needs and frequently go out of their way to accommodate tight deadlines.”',
       at: function () { var f = frameOf('motion', 2); return f.off ? null : { x: f.x + f.w, y: f.y }; } },
     { ini: 'MC', name: 'Marc Chouaniere', role: 'VP Marketing, MoxiWorks', q: '“I have worked with Studio Rendezvous while at four companies over seven years. It’s their collaborative nature that makes them stand out from other agencies.”',
